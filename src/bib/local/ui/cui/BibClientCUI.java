@@ -19,13 +19,13 @@ import bib.local.entities.ArtikelListe;
  */
 public class BibClientCUI {
 
-	private Shop bib;
+	private Shop eshop;
 	private BufferedReader in;
 	
 	public BibClientCUI(String datei) throws IOException {
 		// die Bib-Verwaltung erledigt die Aufgaben, 
 		// die nichts mit Ein-/Ausgabe zu tun haben
-		bib = new Shop(datei);
+		eshop = new Shop(datei);
 
 		// Stream-Objekt fuer Texteingabe ueber Konsolenfenster erzeugen
 		in = new BufferedReader(new InputStreamReader(System.in));
@@ -70,7 +70,7 @@ public class BibClientCUI {
 		// Eingabe bearbeiten:
 		switch (line) {
 		case "a":
-			ArtikelListe = bib.gibAlleArtikel();
+			ArtikelListe = eshop.gibAlleArtikel();
 			gibArtikellisteAus(ArtikelListe);
 			break;
 		case "d":
@@ -80,7 +80,7 @@ public class BibClientCUI {
 			nr = Integer.parseInt(nummer);
 			System.out.print("Artikeltitel  > ");
 			titel = liesEingabe();
-			bib.loescheArtikel(titel, nr);
+			eshop.loescheArtikel(titel, nr);
 			break;
 		case "e":
 			// lies die notwendigen Parameter, einzeln pro Zeile
@@ -91,7 +91,7 @@ public class BibClientCUI {
 			titel = liesEingabe();
 
 			try {
-				bib.fuegeArtikelEin(titel, nr);
+				eshop.fuegeArtikelEin(titel, nr);
 				System.out.println("Einfügen ok");
 			} catch (ArtikelExistiertBereitsException e) {
 				// Hier Fehlerbehandlung...
@@ -102,11 +102,11 @@ public class BibClientCUI {
 		case "f":
 			System.out.print("Artikeltitel  > ");
 			titel = liesEingabe();
-			ArtikelListe = bib.sucheNachTitel(titel);
+			ArtikelListe = eshop.sucheNachTitel(titel);
 			gibArtikellisteAus(ArtikelListe);
 			break;
 		case "s":
-			bib.schreibeArtikel();
+			eshop.schreibeArtikel();
 		}
 	}
 
