@@ -17,12 +17,12 @@ import bib.local.entities.ArtikelListe;
  * @author teschke
  * @version 1 (Verwaltung der Artikel in verketteter Liste)
  */
-public class BibClientCUI {
+public class EshopClientCUI {
 
 	private Shop eshop;
 	private BufferedReader in;
 	
-	public BibClientCUI(String datei) throws IOException {
+	public EshopClientCUI(String datei) throws IOException {
 		// die Bib-Verwaltung erledigt die Aufgaben, 
 		// die nichts mit Ein-/Ausgabe zu tun haben
 		eshop = new Shop(datei);
@@ -149,9 +149,9 @@ public class BibClientCUI {
 	 * Die main-Methode...
 	 */
 	public static void main(String[] args) {
-		BibClientCUI cui;
+		EshopClientCUI cui;
 		try {
-			cui = new BibClientCUI("BIB");
+			cui = new EshopClientCUI("BIB");
 			cui.run();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
