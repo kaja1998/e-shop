@@ -1,30 +1,30 @@
-Das OO-Buch fuer alle
-123
+Basilikum
+01
 t
-Java ist toll
-222
+Chilipulver
+02
 t
-Java ist auch eine Insel
-987
+Oregano
+03
 t
-Java - alles kalter Kaffee?
-951
+Pfeffer
+04
 t
-Java-Reiseführer
-647
+Kurkuma
+05
 t
-Java von Kopf bis Fuß
-333
+Koriander
+06
 f
-Mein Freund, der Baum
-815
+Paprika edelsüß
+07
 t
-Java für Dummies
-357
+Muskat
+08
 f
-Blackout
-987
+Kardamom
+09
 t
-PROG-2 leicht gemacht
-965
+Safran
+10
 t
