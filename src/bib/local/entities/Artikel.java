@@ -34,7 +34,7 @@ public class Artikel {
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		String verfuegbarkeit = verfuegbar ? "verfuegbar" : "ausgeliehen";
+		String verfuegbarkeit = verfuegbar ? "verfuegbar" : "ausverkauft";
 		return ("Nr: " + nummer + " / Titel: " + titel + " / " + verfuegbarkeit);
 	}
 
