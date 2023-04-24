@@ -113,7 +113,7 @@ public class ArtikelVerwaltung {
 		ArtikelListe aktArtikelListenElt = artikelBestand;
 		while (aktArtikelListenElt != null) {
 			Artikel aktArtikel = aktArtikelListenElt.gibErstenArtikel();
-			if (aktArtikel.getTitel().equals(titel)) {
+			if (aktArtikel.getArtikelbezeichnung().equals(titel)) {
 				// gefundenen Artikel in Suchergebnis eintragen
 				suchErg.einfuegen(aktArtikel);
 			}

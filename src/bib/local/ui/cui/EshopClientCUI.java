@@ -36,7 +36,7 @@ public class EshopClientCUI {
 	 * Interne (private) Methode zur Ausgabe des Menüs.
 	 */
 	private void gibMenueAus() {
-		System.out.print("Befehle: \n  Artikel ausgeben:  'a'");
+		System.out.print("Befehle: \n  Artikel ausgeben:  'a'");		// \n ist ein Absatz
 		System.out.print("         \n  Artikel löschen: 'd'");
 		System.out.print("         \n  Artikel einfügen: 'e'");
 		System.out.print("         \n  Artikel suchen:  'f'");
@@ -64,34 +64,34 @@ public class EshopClientCUI {
 	private void verarbeiteEingabe(String line) throws IOException {
 		String nummer;
 		int nr;
-		String titel;
-		ArtikelListe ArtikelListe;
+		String artikelbezeichnung;
+		ArtikelListe artikelListe;
 		
 		// Eingabe bearbeiten:
 		switch (line) {
 		case "a":
-			ArtikelListe = eshop.gibAlleArtikel();
-			gibArtikellisteAus(ArtikelListe);
+			artikelListe = eshop.gibAlleArtikel();		//eshop ist ein Objekt der Klasse Shop
+			gibArtikellisteAus(artikelListe);
 			break;
 		case "d":
 			// lies die notwendigen Parameter, einzeln pro Zeile
 			System.out.print("Artikelnummer > ");
 			nummer = liesEingabe();
 			nr = Integer.parseInt(nummer);
-			System.out.print("Artikeltitel  > ");
-			titel = liesEingabe();
-			eshop.loescheArtikel(titel, nr);
+			System.out.print("Artikelbezeichnung  > ");
+			artikelbezeichnung = liesEingabe();
+			eshop.loescheArtikel(artikelbezeichnung, nr);
 			break;
 		case "e":
 			// lies die notwendigen Parameter, einzeln pro Zeile
 			System.out.print("Artikelnummer > ");
 			nummer = liesEingabe();
 			nr = Integer.parseInt(nummer);
-			System.out.print("Artikeltitel  > ");
-			titel = liesEingabe();
+			System.out.print("Artikelbezeichnung  > ");
+			artikelbezeichnung = liesEingabe();
 
 			try {
-				eshop.fuegeArtikelEin(titel, nr);
+				eshop.fuegeArtikelEin(artikelbezeichnung, nr);
 				System.out.println("Einfügen ok");
 			} catch (ArtikelExistiertBereitsException e) {
 				// Hier Fehlerbehandlung...
@@ -100,10 +100,10 @@ public class EshopClientCUI {
 			}
 			break;
 		case "f":
-			System.out.print("Artikeltitel  > ");
-			titel = liesEingabe();
-			ArtikelListe = eshop.sucheNachTitel(titel);
-			gibArtikellisteAus(ArtikelListe);
+			System.out.print("Artikelbezeichnung  > ");
+			artikelbezeichnung = liesEingabe();
+			artikelListe = eshop.sucheNachArtikelbezeichnung(artikelbezeichnung);
+			gibArtikellisteAus(artikelListe);
 			break;
 		case "s":
 			eshop.schreibeArtikel();

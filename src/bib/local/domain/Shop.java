@@ -16,16 +16,16 @@ import bib.local.entities.ArtikelListe;
  * @version 1 (Verwaltung der Artikel in verketteter Liste)
  */
 public class Shop {
-	// Präfix für Namen der Dateien, in der die Bibliotheksdaten gespeichert sind
+	// Präfix für Namen der Dateien, in der die Shopdaten gespeichert sind
 	private String datei = "";
 	
-	private ArtikelVerwaltung ArtikelVW;
+	private ArtikelVerwaltung artikelVW;
 	// private KundenVerwaltung kundenVW;
 	// hier weitere Verwaltungsklassen, z.B. für Autoren oder Angestellte
 	
 	/**
 	 * Konstruktor, der die Basisdaten (Artikel, Kunden, Autoren) aus Dateien einliest
-	 * (Initialisierung der Bibliothek).
+	 * (Initialisierung des Shops).
 	 * 
 	 * Namensmuster für Dateien:
 	 *   datei+"_B.txt" ist die Datei der Artikel
@@ -38,8 +38,8 @@ public class Shop {
 		this.datei = datei;
 		
 		// Artikelbestand aus Datei einlesen
-		ArtikelVW = new ArtikelVerwaltung();
-		ArtikelVW.liesDaten(datei+"_B.txt");
+		artikelVW = new ArtikelVerwaltung();
+		artikelVW.liesDaten(datei+"_B.txt");
 
 //		// Kundenkartei aus Datei einlesen
 //		meineKunden = new KundenVerwaltung();
@@ -51,37 +51,37 @@ public class Shop {
 	/**
 	 * Methode, die eine Liste aller im Bestand befindlichen Artikel zurückgibt.
 	 * 
-	 * @return Liste aller Artikel im Bestand der Bibliothek
+	 * @return Liste aller Artikel im Bestand des Shops
 	 */
 	public ArtikelListe gibAlleArtikel() {
 		// einfach delegieren an meineBuecher
-		return ArtikelVW.getArtikelBestand();
+		return artikelVW.getArtikelBestand();		//mit "artikelVW"-Objekt wird get-Methode aufgerufen
 	}
 
 	/**
-	 * Methode zum Suchen von Artikeln anhand des Titels. Es wird eine Liste von Artikeln
-	 * zurückgegeben, die alle Artikel mit exakt übereinstimmendem Titel enthält.
+	 * Methode zum Suchen von Artikeln anhand der Artikelbezeichnung. Es wird eine Liste von Artikeln
+	 * zurückgegeben, die alle Artikel mit exakt übereinstimmender Artikelbezeichnung enthält.
 	 * 
-	 * @param titel Titel des gesuchten Artikels
+	 * @param artikelbezeichnung Artikelbezeichnung des gesuchten Artikels
 	 * @return Liste der gefundenen Artikel (evtl. leer)
 	 */
-	public ArtikelListe sucheNachTitel(String titel) {
+	public ArtikelListe sucheNachArtikelbezeichnung(String artikelbezeichnung) {
 		// einfach delegieren an meineBuecher
-		return ArtikelVW.sucheArtikel(titel);
+		return artikelVW.sucheArtikel(artikelbezeichnung);
 	}
 
 	/**
 	 * Methode zum Einfügen eines neuen Artikels in den Bestand.
 	 * Wenn der Artikel bereits im Bestand ist, wird der Bestand nicht geändert.
 	 * 
-	 * @param titel Titel des Artikels
+	 * @param artikelbezeichnung Artikelbezeichnung des Artikels
 	 * @param nummer Nummer des Artikels
 	 * @return Artikel-Objekt, das im Erfolgsfall eingefügt wurde
 	 * @throws ArtikelExistiertBereitsException wenn der Artikel bereits existiert
 	 */
-	public Artikel fuegeArtikelEin(String titel, int nummer) throws ArtikelExistiertBereitsException {
-		Artikel b = new Artikel(titel, nummer);
-		ArtikelVW.einfuegen(b);
+	public Artikel fuegeArtikelEin(String artikelbezeichnung, int nummer) throws ArtikelExistiertBereitsException {
+		Artikel b = new Artikel(artikelbezeichnung, nummer);
+		artikelVW.einfuegen(b);
 		return b;
 	}
 
@@ -89,12 +89,12 @@ public class Shop {
 	 * Methode zum Löschen eines Artikels aus dem Bestand.
 	 * Es wird nur das erste Vorkommen des Artikels gelöscht.
 	 * 
-	 * @param titel Titel des Artikels
+	 * @param artikelbezeichnung Artikelbezeichnung des Artikels
 	 * @param nummer Nummer des Artikels
 	 */
-	public void loescheArtikel(String titel, int nummer) {
-		Artikel b = new Artikel(titel, nummer);
-		ArtikelVW.loeschen(b);
+	public void loescheArtikel(String artikelbezeichnung, int nummer) {
+		Artikel b = new Artikel(artikelbezeichnung, nummer);
+		artikelVW.loeschen(b);
 	}
 	
 	/**
@@ -103,7 +103,7 @@ public class Shop {
 	 * @throws IOException z.B. wenn Datei nicht existiert
 	 */
 	public void schreibeArtikel() throws IOException {
-		ArtikelVW.schreibeDaten(datei+"_B.txt");
+		artikelVW.schreibeDaten(datei+"_B.txt");
 	}
 
 	// TODO: Weitere Funktionen der Bibliotheksverwaltung, z.B. ausleihen, zurückgeben etc.

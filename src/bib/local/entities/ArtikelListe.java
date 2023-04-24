@@ -32,7 +32,7 @@ public class ArtikelListe {
 	 * Wichtig: es wird nur das ArtikelListen-Objekt mit seinen Verweisen
 	 * kopiert; die enthaltenen Artikel-Objekte werden nicht kopiert.
 	 */
-	public ArtikelListe(ArtikelListe original) {
+	public ArtikelListe(ArtikelListe original) {		// wird hier ein Objekt erzeugt -> original?
 		while (original != null) {
 			Artikel artikel = original.gibErstenArtikel();
 			if (artikel != null) {
@@ -70,10 +70,10 @@ public class ArtikelListe {
 			// Sind wir am Listenende?
 			if (next == null) {
 				// Ja: dann neue Restliste mit Artikel als Element erzeugen
-				next = new ArtikelListe();
+				next = new ArtikelListe();			//Objekt Next wird erzeugt und ein Standard / leerer Konstruktor
 			}
 			// Artikel in existierende Restliste einfügen (rekursiver Aufruf!)
-			next.einfuegen(einArtikel);
+			next.einfuegen(einArtikel);				// Objekt next ruft Methode erneut auf und übergibt als Parameter "einArtikel"
 		}
 	}	
 
