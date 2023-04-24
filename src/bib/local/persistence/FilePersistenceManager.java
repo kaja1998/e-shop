@@ -49,11 +49,11 @@ public class FilePersistenceManager implements PersistenceManager {
 	}
 
 	/**
-	 * Methode zum Einlesen der Buchdaten aus einer externen Datenquelle.
+	 * Methode zum Einlesen der Artikeldaten aus einer externen Datenquelle.
 	 * Das Verfügbarkeitsattribut ist in der Datenquelle (Datei) als "t" oder "f"
 	 * codiert abgelegt.
 	 * 
-	 * @return Buch-Objekt, wenn Einlesen erfolgreich, false null
+	 * @return Artikel-Objekt, wenn Einlesen erfolgreich, false null
 	 */
 	public Artikel ladeArtikel() throws IOException {
 		// Titel einlesen
@@ -67,21 +67,21 @@ public class FilePersistenceManager implements PersistenceManager {
 		// ... und von String in int konvertieren
 		int nummer = Integer.parseInt(nummerString);
 		
-		// Buch ausgeliehen?
+		// Artikel kaufen?
 		String verfuegbarCode = liesZeile();
-		// Codierung des Ausleihstatus in boolean umwandeln
+		// Codierung des verkaufstatus in boolean umwandeln
 		boolean verfuegbar = verfuegbarCode.equals("t") ? true : false;
 		
-		// neues Buch-Objekt anlegen und zurückgeben
+		// neues Artikel-Objekt anlegen und zurückgeben
 		return new Artikel(titel, nummer, verfuegbar);
 	}
 
 	/**
-	 * Methode zum Schreiben der Buchdaten in eine externe Datenquelle.
+	 * Methode zum Schreiben Artikeldaten in eine externe Datenquelle.
 	 * Das Verfügbarkeitsattribut wird in der Datenquelle (Datei) als "t" oder "f"
 	 * codiert abgelegt.
 	 * 
-	 * @param b Buch-Objekt, das gespeichert werden soll
+	 * @param b Artikel-Objekt, das gespeichert werden soll
 	 * @return true, wenn Schreibvorgang erfolgreich, false sonst
 	 */
 	public boolean speichereArtikel(Artikel b) throws IOException {
