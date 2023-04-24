@@ -86,7 +86,7 @@ public class FilePersistenceManager implements PersistenceManager {
 	 */
 	public boolean speichereArtikel(Artikel b) throws IOException {
 		// Titel, Nummer und Verfügbarkeit schreiben
-		schreibeZeile(b.getTitel());
+		schreibeZeile(b.getArtikelbezeichnung());
 //		schreibeZeile(Integer.valueOf(b.getNummer()).toString());
 		schreibeZeile(b.getNummer() + "");
 		if (b.isVerfuegbar())

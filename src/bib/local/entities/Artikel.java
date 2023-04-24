@@ -9,18 +9,18 @@ package bib.local.entities;
 public class Artikel {
 
 	// Attribute zur Beschreibung eines Artikels:
-	private String titel;
+	private String artikelbezeichnung;
 	private int nummer;
 	private boolean verfuegbar; 
 	
 	
-	public Artikel(String titel, int nr) {
-		this(titel, nr, true);
+	public Artikel(String artikelbezeichnung, int nr) {
+		this(artikelbezeichnung, nr, true);
 	}
 
-	public Artikel(String titel, int nr, boolean verfuegbar) {
+	public Artikel(String artikelbezeichnung, int nr, boolean verfuegbar) {
 		nummer = nr;
-		this.titel = titel;
+		this.artikelbezeichnung = artikelbezeichnung;
 		this.verfuegbar = verfuegbar;
 	}
 	
@@ -34,21 +34,21 @@ public class Artikel {
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		String verfuegbarkeit = verfuegbar ? "verfuegbar" : "ausverkauft";
-		return ("Nr: " + nummer + " / Titel: " + titel + " / " + verfuegbarkeit);
+		String verfuegbarkeit = verfuegbar ? "verfuegbar" : "ausverkauft";		// Verkürzte If-else-Anweisung. Wenn verfügbar = true, dann wird "verfügbar" ausgegeben. Wenn false, dann "ausverkauft"
+		return ("Nr: " + nummer + " / Artikelbezeichnung: " + artikelbezeichnung + " / " + verfuegbarkeit);
 	}
 
 	/**
 	 * Standard-Methode von Object überschrieben.
 	 * Methode dient Vergleich von zwei Artikel-Objekten anhand ihrer Werte,
-	 * d.h. Titel und Nummer.
+	 * d.h. Artikelbezeichnung und Nummer.
 	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	public boolean equals(Object andererArtikel) {
 		if (andererArtikel instanceof Artikel)
 			return ((this.nummer == ((Artikel) andererArtikel).nummer)
-					&& (this.titel.equals(((Artikel) andererArtikel).titel)));
+					&& (this.artikelbezeichnung.equals(((Artikel) andererArtikel).artikelbezeichnung)));
 		else
 			return false;
 	}
@@ -62,8 +62,8 @@ public class Artikel {
 		return nummer;
 	}
 
-	public String getTitel() {
-		return titel;
+	public String getArtikelbezeichnung() {
+		return artikelbezeichnung;
 	}
 
 	public boolean isVerfuegbar() {
