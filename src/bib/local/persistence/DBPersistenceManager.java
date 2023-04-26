@@ -3,6 +3,7 @@ package bib.local.persistence;
 import java.io.IOException;
 
 import bib.local.entities.Artikel;
+import bib.local.entities.Kunde;
 
 public class DBPersistenceManager implements PersistenceManager {
 
@@ -36,9 +37,6 @@ public class DBPersistenceManager implements PersistenceManager {
 		return false;
 	}
 
-	/*
-	 *  Wenn später mal eine Kundenverwaltung ergänzt wird:
-
 	@Override
 	public Kunde ladeKunde() throws IOException {
 		// TODO Auto-generated method stub
@@ -50,6 +48,4 @@ public class DBPersistenceManager implements PersistenceManager {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-	*/
 }
