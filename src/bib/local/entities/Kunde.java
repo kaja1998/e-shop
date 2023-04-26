@@ -12,27 +12,45 @@ package bib.local.entities;
 public class Kunde {
 
 	private int kundenNr;
+	private String kName;
+	private String kNachname;
 
-	private String name;
+	private String kEmail;
+
+	private String kBenutzername;
+
+	private String kPasswort;
+
 	private float umsatz = 0.0f;
 	private String strasse = "";
-	private String plz = "";
+	private int plz;
 	private String wohnort = "";
 
-    public Kunde(int nr, String name) {
-		kundenNr = nr;
-		this.name = name;
+    public Kunde(String kName, String kNachname, String kEmail, String kBenutzername, String kPasswort) {
+		this.kName = kName;
+		this.kNachname = kNachname;
+		this.kEmail = kEmail;
+		this.kBenutzername = kBenutzername;
+		this.kPasswort = kPasswort;
 	}
     
 	// Methoden zum Setzen und Lesen der Kunden-Eigenschaften,
 	// z.B. getStrasse() und setStrasse()
-	
-	public String getName() {
-		return name;
+
+	public String getkName() {
+		return kName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setkName(String kName) {
+		this.kName = kName;
+	}
+
+	public String getkNachname() {
+		return kNachname;
+	}
+
+	public void setkNachname(String kNachname) {
+		this.kNachname = kNachname;
 	}
 
 	public float getUmsatz() {
@@ -43,11 +61,11 @@ public class Kunde {
 		this.umsatz = umsatz;
 	}
 
-	public String getPlz() {
+	public int getPlz() {
 		return plz;
 	}
 
-	public void setPlz(String plz) {
+	public void setPlz(int plz) {
 		this.plz = plz;
 	}
 
@@ -67,9 +85,24 @@ public class Kunde {
 		this.wohnort = wohnort;
 	}
 
-	public int getKundenNr() {
-		return kundenNr;
+	public int getKundenNr() { return kundenNr;	}
+
+	public void setKundenNr(int kundenNr) {
+		this.kundenNr = kundenNr;
 	}
+
+	public String getkEmail() { return kEmail;	}
+
+	public void setkEmail() { this.kEmail = kEmail; }
+
+	public String getkBenutzername() { return kBenutzername; }
+
+	public void setkBenutzername() { this.kBenutzername = kBenutzername; }
+
+	public String getkPasswort() { return kPasswort; }
+
+	public void setkPasswort() { this.kPasswort = kPasswort; }
+
 
 	// Weitere Dienste der Kunden-Objekte
 }
