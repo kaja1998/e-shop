@@ -62,9 +62,12 @@ public class EshopClientCUI {
 		if (registrierungDurchfuehren == "ja") {
 			// Erstelle Variable vom Typ Kunde und übergebe die Eingaben des Kunden an den Konstruktor
 			Kunde kunde = new Kunde(kName, kNachname, kEmail, kBenutzername, kPasswort);
-			// Prüfen, ob User schon existiert
-			// wenn ja, System.out.println("User mit gleichem Namen existiert bereits.");
-			// wenn nein, System.out.println("Registrierung erfolgreich. Für Login 'L': ");
+			//Prüfen, ob User schon existiert
+				//Als Erstes hole ich mir die Liste aller Kunden aus dem Shop
+				//Dann gehe ich mit einer for-Loop durch die Liste aller Kunden durch
+				//Im Body der For-Loop vergleiche ich die Kunden miteinander
+					// wenn es den Kunden schon gibt, System.out.println("User mit gleichem Namen existiert bereits.");
+					// wenn nein, System.out.println("Registrierung erfolgreich. Für Login 'L': ");
 		}
 	}
 

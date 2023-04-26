@@ -105,4 +105,11 @@ public class Kunde {
 
 
 	// Weitere Dienste der Kunden-Objekte
+
+
+	//Methode, um Kunden zu vergleichen
+	public
+
+
+
 }
