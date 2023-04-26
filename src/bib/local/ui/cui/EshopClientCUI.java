@@ -188,7 +188,7 @@ public class EshopClientCUI {
 	public static void main(String[] args) {
 		EshopClientCUI cui;
 		try {
-			cui = new EshopClientCUI("BIB");
+			cui = new EshopClientCUI("ESHOP");
 			cui.run();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
