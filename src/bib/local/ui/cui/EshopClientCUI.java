@@ -3,6 +3,7 @@ package bib.local.ui.cui;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import bib.local.domain.exceptions.ArtikelExistiertBereitsException;
@@ -30,11 +31,11 @@ public class EshopClientCUI {
 		// die nichts mit Ein-/Ausgabe zu tun haben
 		eshop = new Shop(datei);
 
-		// Stream-Objekt fuer Texteingabe ueber Konsolenfenster erzeugen
+		// Stream-Objekt für Texteingabe über Konsolenfenster erzeugen
 		in = new BufferedReader(new InputStreamReader(System.in));
 	}
 
-	private void abfrageKundeOderMitarbeiter() {				// Neu Kaja
+	private void abfrageKundeOderMitarbeiter() {
 		System.out.print("Sind Sie Kunde oder Mitarbeiter?");
 		System.out.print("         \n  Ich bin Kunde: 'k'");
 		System.out.print("         \n  Ich bin Mitarbeiter: 'm'");
@@ -44,7 +45,7 @@ public class EshopClientCUI {
 		System.out.flush(); // ohne NL ausgeben
 	}
 
-	private void registriereKunde() {								// Neu Kaja
+	private void registriereKunde() {
 		System.out.println("Ihr Vorname: ");
 		String kName = scanner.nextLine();
 		System.out.println("Ihr Nachname: ");
@@ -58,21 +59,27 @@ public class EshopClientCUI {
 		System.out.println("Jetzt registrieren 'ja' / 'nein': ");
 		String registrierungDurchfuehren = scanner.nextLine();
 
-		// Prüfe ob Registrierung durchführen will
-		if (registrierungDurchfuehren == "ja") {
-			// Erstelle Variable vom Typ Kunde und übergebe die Eingaben des Kunden an den Konstruktor
+		//Prüfe ob Registrierung durchführen will
+		if (registrierungDurchfuehren.equals("ja")) {		//Wenn man Strings auf Gleichheit überprüfen möchten, sollten man den Operator "==" nicht verwenden. Der Operator "==" prüft, ob die beiden Variablen dieselbe Referenz auf dasselbe Objekt haben, was bei Strings oft nicht der Fall ist. Stattdessen sollte man die equals()-Methode verwenden, um Strings auf Gleichheit zu prüfen.
+			//Erstelle Variable vom Typ Kunde und übergebe die Eingaben des Kunden an den Konstruktor
 			Kunde kunde = new Kunde(kName, kNachname, kEmail, kBenutzername, kPasswort);
-			//Prüfen, ob User schon existiert
-				//Als Erstes hole ich mir die Liste aller Kunden aus dem Shop
-				eshop.getKunden();
-				//Dann gehe ich mit einer for-Loop durch die Liste aller Kunden durch
-				//Im Body der For-Loop vergleiche ich die Kunden miteinander
-					// wenn es den Kunden schon gibt, System.out.println("User mit gleichem Namen existiert bereits.");
-			// wenn kein Kunde gefunden wird, dann kann der Kunde registriert werden
-			// Kunde wird zur Liste hinzugefügt, indem das Shop-Objekt die Methode in der Klasse K
-			eshop.fuegeKundeHinzu(kunde);
-			System.out.println("Registrierung erfolgreich. Für Login 'L': ");
-						//
+			//Prüfen, ob User schon existiert.
+				//Als Erstes hole ich mir die Liste aller Kunden aus dem Shop.
+				ArrayList<Kunde> kundenliste = eshop.getKunden();
+				//eshop.getKunden(); darüber richtig? ??? --------------------------------------------------------------
+				//Dann gehe ich mit einer for-Loop durch die Liste aller Kunden durch.
+				for (Kunde k : kundenliste) {
+					//Im Body der For-Loop vergleiche ich die Kunden miteinander.
+					if (kunde.equals(k)) {
+						// wenn es den Kunden schon gibt, System.out.println("User mit gleichem Namen existiert bereits.");
+						System.out.println("User mit gleichem Namen existiert bereits.");
+						return;
+					}
+				}
+				//Wenn kein Kunde gefunden wird, dann kann der Kunde registriert werden.
+				//Kunde wird zur Liste hinzugefügt, indem das Shop-Objekt die Methode in der Klasse KundenVerwaltung aufruft
+				eshop.fuegeKundeHinzu(kunde);
+				System.out.println("Registrierung erfolgreich. Für Login 'L': ");
 		}
 	}
 
@@ -194,12 +201,17 @@ public class EshopClientCUI {
 	 * Die main-Methode...
 	 */
 	public static void main(String[] args) {
+		//Variable vom Typ "EshopClientCUI" wird deklariert, aber noch nicht initialisiert!
 		EshopClientCUI cui;
 		try {
+			//Ein neues Objekt von "EshopClientCUI" wird erzeugt. Dabei wird die Datei und der String "ESHOP" als Parameter übergeben oder es wird nur die Datei namens "ESHOP" übergeben
 			cui = new EshopClientCUI("ESHOP");
+			//Die "run"-Methode wird mit dem "cui"-Objekt aufgerufen, um das Programm auszuführen
 			cui.run();
+		//Wenn währenddessen ein Fehler auftritt, wird eine "IOException" geworfen
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			//Fehlermeldung "e.printStackTrace()" wird ausgegeben
 			e.printStackTrace();
 		}
 	}
