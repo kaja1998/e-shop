@@ -5,6 +5,7 @@ import java.io.IOException;
 import bib.local.domain.exceptions.ArtikelExistiertBereitsException;
 import bib.local.entities.Artikel;
 import bib.local.entities.ArtikelListe;
+import bib.local.entities.Kunde;
 
 /**
  * Klasse zur Verwaltung einer (sehr einfachen) Bibliothek.
@@ -106,6 +107,10 @@ public class Shop {
 		artikelVW.schreibeDaten(datei+"_B.txt");
 	}
 
-	// TODO: Weitere Funktionen der Bibliotheksverwaltung, z.B. ausleihen, zurückgeben etc.
-	// ...
+	/**
+	 * Methode zum Hinzufügen eines Kunden zur Liste aller Kunden
+	 */
+	public void fuegeKundeHinzu(Kunde kunde) {
+		kundenVW.fuegeKundeHinzu(kunde);
+	}
 }
