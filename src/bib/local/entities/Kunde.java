@@ -108,8 +108,7 @@ public class Kunde {
 
 
 	//Methode, um Kunden zu vergleichen
-	public
+	public boolean equals() {
 
-
-
+	}
 }

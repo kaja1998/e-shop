@@ -1,6 +1,7 @@
 package bib.local.domain;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import bib.local.domain.exceptions.ArtikelExistiertBereitsException;
 import bib.local.entities.Artikel;
@@ -112,5 +113,15 @@ public class Shop {
 	 */
 	public void fuegeKundeHinzu(Kunde kunde) {
 		kundenVW.fuegeKundeHinzu(kunde);
+	}
+
+	// Getter und Setter, da Klasse in KundenVerwaltung privat ist
+	public void getKunden() {
+		kundenVW.getKunden();
+	}
+
+	//
+	public void setKunden(ArrayList<Kunde> kunden) {		//Methodenbezeichner
+		kundenVW.setKunden(kunden);							//Methodendefinition
 	}
 }
