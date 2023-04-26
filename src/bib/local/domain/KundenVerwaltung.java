@@ -14,4 +14,8 @@ public class KundenVerwaltung {
         public void setKunden(ArrayList<Kunde> kunden) {
                 this.kunden = kunden;
         }
+
+        public void fuegeKundeHinzu(Kunde kunde) {
+                this.kunden.add(kunde);
+        }
 }
