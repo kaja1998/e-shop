@@ -14,17 +14,13 @@ public class Kunde {
 	private int kundenNr;
 	private String kName;
 	private String kNachname;
-
 	private String kEmail;
-
 	private String kBenutzername;
-
 	private String kPasswort;
-
-	private float umsatz = 0.0f;
 	private String strasse = "";
 	private int plz;
 	private String wohnort = "";
+	private float umsatz = 0.0f;
 
     public Kunde(String kName, String kNachname, String kEmail, String kBenutzername, String kPasswort) {
 		this.kName = kName;

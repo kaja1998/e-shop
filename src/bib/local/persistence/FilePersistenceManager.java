@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import bib.local.entities.Artikel;
+import bib.local.entities.Kunde;
 
 /**
  * @author teschke
@@ -97,25 +98,62 @@ public class FilePersistenceManager implements PersistenceManager {
 		return true;
 	}
 
-	/*
-	 *  Wenn später mal eine Kundenverwaltung ergänzt wird:
-
 	public Kunde ladeKunde() throws IOException {
-		// TODO: Implementieren
-		return null;
+		// Kundennummer einlesen
+		String kundenNrString = liesZeile();
+		if (kundenNrString != null) {
+			int kundenNrInt = Integer.parseInt(kundenNrString);
+
+		} else {
+			// keine Daten mehr vorhanden
+			return null;
+		}
+		// Vornamen einlesen
+		String vorname = liesZeile();
+
+		// Nachnamen einlesen
+		String nachname = liesZeile();
+
+		// Email einlesen
+		String email = liesZeile();
+
+		// Benutzernamen einlesen
+		String benutzername = liesZeile();
+
+		// Passwort einlesen
+		String passwort = liesZeile();
+
+		// Straße einlesen
+		String strasse = liesZeile();
+
+		// Kundennummer einlesen
+		String plzString = liesZeile();
+		int plzInt = Integer.parseInt(plzString);
+
+		// Stadt einlesen
+		String stadt = liesZeile();
+
+		// neues Artikel-Objekt anlegen und zurückgeben
+		return new Kunde(vorname, nachname, email, benutzername, passwort);
 	}
 
 	public boolean speichereKunde(Kunde k) throws IOException {
-		// TODO: Implementieren
-		return false;
+		// Vorname, Nachname, Email, Benutzername, Passwort, Straße, PLZ, Wohnort
+		schreibeZeile(k.getkName());
+		schreibeZeile(k.getkNachname());
+		schreibeZeile(k.getkEmail());
+		schreibeZeile(k.getkBenutzername());
+		schreibeZeile(k.getkPasswort());
+		schreibeZeile(k.getStrasse());
+		schreibeZeile(k.getStrasse());
+		schreibeZeile(String.valueOf(k.getPlz()));
+		schreibeZeile(k.getWohnort());
+		return true;
 	}
-
-	*/
 	
 	/*
 	 * Private Hilfsmethoden
 	 */
-	
 	private String liesZeile() throws IOException {
 		if (reader != null)
 			return reader.readLine();

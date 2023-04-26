@@ -3,6 +3,7 @@ package bib.local.persistence;
 import java.io.IOException;
 
 import bib.local.entities.Artikel;
+import bib.local.entities.Kunde;
 
 /**
  * @author teschke
@@ -25,24 +26,31 @@ public interface PersistenceManager {
 	/**
 	 * Methode zum Einlesen der Buchdaten aus einer externen Datenquelle.
 	 * 
-	 * @return Buch-Objekt, wenn Einlesen erfolgreich, false null
+	 * @return Artikel-Objekt, wenn Einlesen erfolgreich, false null
 	 */
 	public Artikel ladeArtikel() throws IOException;
 
 	/**
-	 * Methode zum Schreiben der Buchdaten in eine externe Datenquelle.
+	 * Methode zum Schreiben der Artikeldaten in eine externe Datenquelle.
 	 * 
-	 * @param b Buch-Objekt, das gespeichert werden soll
+	 * @param a Artikel-Objekt, das gespeichert werden soll
 	 * @return true, wenn Schreibvorgang erfolgreich, false sonst
 	 */
-	public boolean speichereArtikel(Artikel b) throws IOException;
+	public boolean speichereArtikel(Artikel a) throws IOException;
 
-	/*
-	 *  Wenn später mal eine Kundenverwaltung ergänzt wird:
-
+	/**
+	 * Methode zum Einlesen der Kundendaten aus einer externen Datenquelle.
+	 *
+	 * @return Kunden-Objekt, wenn Einlesen erfolgreich, false null
+	 */
 	public Kunde ladeKunde() throws IOException;
 
+	/**
+	 * Methode zum Schreiben der Kundendaten in eine externe Datenquelle.
+	 *
+	 * @param k Kunden-Objekt, das gespeichert werden soll
+	 * @return true, wenn Schreibvorgang erfolgreich, false sonst
+	 */
 	public boolean speichereKunde(Kunde k) throws IOException;
-	
-	*/
+
 }

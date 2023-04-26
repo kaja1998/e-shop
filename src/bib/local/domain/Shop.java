@@ -43,8 +43,8 @@ public class Shop {
 		artikelVW.liesDaten(datei+"_B.txt");
 
 		// Kundenkartei aus Datei einlesen
-		//kundenVW = new KundenVerwaltung();
-		//kundenVW.liesDaten(datei+"_K.txt");
+		kundenVW = new KundenVerwaltung();
+		kundenVW.liesDaten(datei+"_K.txt");
 		//kundenVW.schreibeDaten(datei+"_K.txt");
 	}
 
