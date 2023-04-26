@@ -3,10 +3,12 @@ package bib.local.ui.cui;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Scanner;
 
 import bib.local.domain.exceptions.ArtikelExistiertBereitsException;
 import bib.local.domain.Shop;
 import bib.local.entities.ArtikelListe;
+import bib.local.entities.Kunde;
 
 
 /**
@@ -21,6 +23,7 @@ public class EshopClientCUI {
 
 	private Shop eshop;
 	private BufferedReader in;
+	Scanner scanner = new Scanner(System.in);							// Scanner Registrierung
 	
 	public EshopClientCUI(String datei) throws IOException {
 		// die Bib-Verwaltung erledigt die Aufgaben, 
@@ -29,6 +32,40 @@ public class EshopClientCUI {
 
 		// Stream-Objekt fuer Texteingabe ueber Konsolenfenster erzeugen
 		in = new BufferedReader(new InputStreamReader(System.in));
+	}
+
+	private void abfrageKundeOderMitarbeiter() {				// Neu Kaja
+		System.out.print("Sind Sie Kunde oder Mitarbeiter?");
+		System.out.print("         \n  Ich bin Kunde: 'k'");
+		System.out.print("         \n  Ich bin Mitarbeiter: 'm'");
+		System.out.print("         \n  ---------------------");
+		System.out.println("         \n  Beenden:        'q'");
+		System.out.print("> "); // Prompt
+		System.out.flush(); // ohne NL ausgeben
+	}
+
+	private void registriereKunde() {								// Neu Kaja
+		System.out.println("Ihr Vorname: ");
+		String kName = scanner.nextLine();
+		System.out.println("Ihr Nachname: ");
+		String kNachname = scanner.nextLine();
+		System.out.println("Ihre E-Mail: ");
+		String kEmail = scanner.nextLine();
+		System.out.println("Ihr Benutzername: ");
+		String kBenutzername = scanner.nextLine();
+		System.out.println("Ihr Passwort: ");
+		String kPasswort = scanner.nextLine();
+		System.out.println("Jetzt registrieren 'ja' / 'nein': ");
+		String registrierungDurchfuehren = scanner.nextLine();
+
+		// Prüfe ob Registrierung durchführen will
+		if (registrierungDurchfuehren == "ja") {
+			// Erstelle Variable vom Typ Kunde und übergebe die Eingaben des Kunden an den Konstruktor
+			Kunde kunde = new Kunde(kName, kNachname, kEmail, kBenutzername, kPasswort);
+			// Prüfen, ob User schon existiert
+			// wenn ja, System.out.println("User mit gleichem Namen existiert bereits.");
+			// wenn nein, System.out.println("Registrierung erfolgreich. Für Login 'L': ");
+		}
 	}
 
 	/* (non-Javadoc)

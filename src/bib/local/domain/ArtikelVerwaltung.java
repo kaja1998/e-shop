@@ -10,7 +10,7 @@ import bib.local.entities.ArtikelListe;
 
 
 /**
- * Klasse zur Verwaltung von Büchern.
+ * Klasse zur Verwaltung von Artikeln.
  * 
  * @author teschke
  * @version 1 (Verwaltung in verketteter Liste)
