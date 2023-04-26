@@ -20,7 +20,7 @@ public class Shop {
 	private String datei = "";
 	
 	private ArtikelVerwaltung artikelVW;
-	// private KundenVerwaltung kundenVW;
+	private KundenVerwaltung kundenVW;
 	// hier weitere Verwaltungsklassen, z.B. für Autoren oder Angestellte
 	
 	/**
@@ -41,10 +41,10 @@ public class Shop {
 		artikelVW = new ArtikelVerwaltung();
 		artikelVW.liesDaten(datei+"_B.txt");
 
-//		// Kundenkartei aus Datei einlesen
-//		meineKunden = new KundenVerwaltung();
-//		meineKunden.liesDaten(datei+"_K.txt");
-//		meineKunden.schreibeDaten(datei+"_K.txt");
+		// Kundenkartei aus Datei einlesen
+		//kundenVW = new KundenVerwaltung();
+		//kundenVW.liesDaten(datei+"_K.txt");
+		//kundenVW.schreibeDaten(datei+"_K.txt");
 	}
 
 
