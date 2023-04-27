@@ -107,22 +107,20 @@ public class Kunde {
 	//Die equals()-Methode erhält dieses Objekt als Parameter
 	@Override
 	public boolean equals(Object obj) {
-		//In der equals-Methode stellt der obj-Parameter das Objekt dar, das mit der aktuellen Instanz (this) verglichen wird.
-		//Mit anderen Worten, es ist das Objekt, das beim Aufrufen der equals-Methode als Argument übergeben wurde.
+		//In der equals-Methode stellt der obj-Parameter das Objekt dar, das beim Aufrufen der equals-Methode als Argument übergeben wurde (Kunde k in der Klasse EShopClientCUI).
 		//Innerhalb der Methode prüfen wir zunächst, ob das übergebene Objekt dasselbe Objekt ist, wie das aktuelle Objekt (mit == verglichen).
 		//Wenn ja, dann sind die beiden Objekte gleich, und wir geben true zurück.
 		if (obj == this) {
 			return true;
 		}
-		//Wir verwenden auch instanceof, um sicherzustellen, dass das übergebene Objekt auch tatsächlich eine Instanz von Kunde ist.
+		//Wir verwenden instanceof, um sicherzustellen, dass das übergebene Objekt (Kunde k) auch tatsächlich eine Instanz von Kunde ist.
 		if (!(obj instanceof Kunde)) {
 			return false;
 		}
-		//Die Variable onj ist hier ein Verweis auf den obj-Parameter, aber in die Kunde-Klasse umgewandelt.
-		//Dies ist notwendig, weil die equals-Methode auf die Attribute des Objekts zugreifen muss und der obj-Parameter vom Typ Object ist,
+		//Wenn das übergebene Objekt (k bzw. obj) eine Instanz der Kunde-Klasse ist, können wir es mit einem Casting-Operator ((Kunde) obj) in eine Kunde-Referenz konvertieren.
+		//Dies ist notwendig, weil die equals-Methode auf die Attribute des Objekts zugreifen muss, der obj-Parameter vor der Konvertierung aber vom Typ Object ist,
 		//der nicht die Attribute der Kunde-Klasse hat.
-		//Wenn das übergebene Objekt eine Instanz der Kunde-Klasse ist, können wir es in eine Kunde-Referenz konvertieren
-		//(mit einem Casting-Operator: (Kunde) obj). Diese Referenz verwenden wir, um das übergebene Objekt als other zu speichern.
+		//Anschließend speichern wir die Refernez des übergebenen Objekts (obj) als other.
 		Kunde other = (Kunde) obj;
 		//Die Objects.equals()-Methode wird verwendet, um die Gleichheit der Attribute zu prüfen.
 		//Wenn alle Attribute übereinstimmen = true. Wenn mindestens eines der Attribute nicht übereinstimmt = false

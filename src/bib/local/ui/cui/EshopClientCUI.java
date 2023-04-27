@@ -64,12 +64,14 @@ public class EshopClientCUI {
 			//Erstelle Variable vom Typ Kunde und übergebe die Eingaben des Kunden an den Konstruktor
 			Kunde kunde = new Kunde(kName, kNachname, kEmail, kBenutzername, kPasswort);
 			//Prüfen, ob User schon existiert.
-				//Als Erstes hole ich mir die Liste aller Kunden aus dem Shop.
+				//Als Erstes hole ich mir die Liste aller Kunden aus dem Shop und speichere sie in einer Instanzvariable namens Kundenliste vom Typ ArrayList<Kunde>, die ich frei in dieser (EshopClientCUI) benutzen kann.
 				ArrayList<Kunde> kundenliste = eshop.getKunden();
-				//eshop.getKunden(); darüber richtig? ??? --------------------------------------------------------------
 				//Dann gehe ich mit einer for-Loop durch die Liste aller Kunden durch.
+				//Die Schleife durchläuft jedes Element in der kundenliste und weist es der Variable k zu
 				for (Kunde k : kundenliste) {
-					//Im Body der For-Loop vergleiche ich die Kunden miteinander.
+					//In dem Body der Schleife wird dann jedes Kunde-Objekt k mit dem kunde-Objekt verglichen.
+					//Der Ausdruck kunde.equals(k) führt eine Gleichheitsprüfung zwischen kunde und k durch
+					//und gibt true zurück, wenn die beiden Objekte gleich sind.
 					if (kunde.equals(k)) {
 						// wenn es den Kunden schon gibt, System.out.println("User mit gleichem Namen existiert bereits.");
 						System.out.println("User mit gleichem Namen existiert bereits.");
