@@ -25,26 +25,28 @@ public class KundenVerwaltung {
         private PersistenceManager pm = new FilePersistenceManager();
 
         /**
-         * Methode zum Einlesen von Artikeldaten aus einer Datei.
+         * Die Methode liesDaten liest Kunden-Daten aus einer Datei mit dem angegebenen Dateinamen.
          *
          * @param datei Datei, die einzulesenden Artikelbestand enthält
          * @throws IOException
          */
         public void liesDaten(String datei) throws IOException {
-                // PersistenzManager für Lesevorgänge öffnen
+                //PersistenceManager-Objekt öffnet den PersistenzManager für lesevorgänge mit der Methode penForReading.
                 pm.openForReading(datei);
 
                 Kunde kunde;
                 do {
-                        // Kunden-Objekt einlesen
+                        //Kunden-Objekt einlesen
+                        //Ruft in einer Schleife die Methode ladeKunde des PersistenzManagers auf, um jeweils einen Kunden aus der Datei zu lesen
                         kunde = pm.ladeKunde();
                         if (kunde != null) {
-                                // Artikel in Liste einfügen
+                                //Falls ein Kunde erfolgreich eingelesen werden konnte, wird dieser mit der Methode fuegeKundeHinzu der Kunden-Liste hinzugefügt.
                                 fuegeKundeHinzu(kunde);
                         }
+                //Die Schleife läuft so lange, bis die Methode ladeKunde null zurückgibt, was darauf hinweist, dass keine weiteren Daten mehr in der Datei vorhanden sind.
                 } while (kunde != null);
 
-                // Persistenz-Schnittstelle wieder schließen
+                //Persistenz-Schnittstelle wird wieder geschlossen
                 pm.close();
         }
 
