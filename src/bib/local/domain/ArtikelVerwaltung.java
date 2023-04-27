@@ -79,7 +79,7 @@ public class ArtikelVerwaltung {
 	/**
 	 * Methode, die ein Artikel an das Ende der Artikelliste einfügt.
 	 * 
-	 * @param einArtikel den einzufügende Artikel
+	 * @param einArtikel den einzufügenden Artikel
 	 * @throws ArtikelExistiertBereitsException wenn der Artikel bereits existiert
 	 */
 	public void einfuegen(Artikel einArtikel) throws ArtikelExistiertBereitsException {
@@ -94,7 +94,7 @@ public class ArtikelVerwaltung {
 	/**
 	 * Methode zum Löschen eines Artikels aus dem Bestand.
 	 * 
-	 * @param einArtikel den löschende Artikel
+	 * @param einArtikel den zu löschenden Artikel
 	 */
 	public void loeschen(Artikel einArtikel) {
 		// das übernimmt die ArtikelListe:

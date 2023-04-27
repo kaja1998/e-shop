@@ -2,7 +2,7 @@ package bib.local.entities;
 
 /**
  * (Nicht ganz) abstrakter Datentyp zur Verwaltung von Artikeln in einer Liste.
- * Die Liste ist rekursiv aufgebaut: sie besteht aus einem Artikel (artikel) und einer
+ * Die Liste ist rekursiv aufgebaut: Sie besteht aus einem Artikel (artikel) und einer
  * (Rest-)Liste (next).
  * 
  * @author teschke
@@ -32,7 +32,7 @@ public class ArtikelListe {
 	 * Wichtig: es wird nur das ArtikelListen-Objekt mit seinen Verweisen
 	 * kopiert; die enthaltenen Artikel-Objekte werden nicht kopiert.
 	 */
-	public ArtikelListe(ArtikelListe original) {		// wird hier ein Objekt erzeugt -> original?
+	public ArtikelListe(ArtikelListe original) {		// wird hier ein Objekt erzeugt --> original?
 		while (original != null) {
 			Artikel artikel = original.gibErstenArtikel();
 			if (artikel != null) {

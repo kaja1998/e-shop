@@ -3,8 +3,8 @@ package bib.local.entities;
 /**
  * Klasse zur Repräsentation einzelner Mitarbeiter.
  *
- * Die Klasse wird derzeit noch nicht verwendet, weil die Bibliotheks-
- * Anwendung bisland nur Artikel verwaltet.
+ * Die Klasse wird derzeit noch nicht verwendet, weil die Shop-
+ * Anwendung bislang nur Artikel verwaltet.
  *
  * @author Sund
  */

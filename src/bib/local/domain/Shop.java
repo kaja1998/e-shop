@@ -1,6 +1,7 @@
 package bib.local.domain;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import bib.local.domain.exceptions.ArtikelExistiertBereitsException;
 import bib.local.entities.Artikel;
@@ -17,10 +18,13 @@ import bib.local.entities.Kunde;
  * @version 1 (Verwaltung der Artikel in verketteter Liste)
  */
 public class Shop {
-	// Präfix für Namen der Dateien, in der die Shopdaten gespeichert sind
+	// Präfix für Namen der Dateien, in der die Shop-Daten gespeichert sind
 	private String datei = "";
-	
+
+	//Variable von Artikelverwaltung wird deklariert. Kann später dazu verwendet werden, um ein Objekt dieser Klasse zu erstellen
 	private ArtikelVerwaltung artikelVW;
+
+	//Variable von Kundenverwaltung wird deklariert. Kann später dazu verwendet werden, um ein Objekt dieser Klasse zu erstellen
 	private KundenVerwaltung kundenVW;
 	// hier weitere Verwaltungsklassen, z.B. für Autoren oder Angestellte
 	
@@ -37,11 +41,13 @@ public class Shop {
 	 */
 	public Shop(String datei) throws IOException {
 		this.datei = datei;
-		
+
+		//Es wird eine neue Instanz der Klasse ArtikelVerwaltung erzeugt und der Variablen artikelVW zugewiesen
 		// Artikelbestand aus Datei einlesen
 		artikelVW = new ArtikelVerwaltung();
 		artikelVW.liesDaten(datei+"_B.txt");
 
+		//Es wird eine neue Instanz der Klasse KundenVerwaltung erzeugt und der Variablen kundenVW zugewiesen
 		// Kundenkartei aus Datei einlesen
 		kundenVW = new KundenVerwaltung();
 		kundenVW.liesDaten(datei+"_K.txt");
@@ -112,5 +118,19 @@ public class Shop {
 	 */
 	public void fuegeKundeHinzu(Kunde kunde) {
 		kundenVW.fuegeKundeHinzu(kunde);
+	}
+
+	// Getter und Setter, da Klasse in KundenVerwaltung privat ist
+	//public void getKunden() {
+	//	kundenVW.getKunden();
+	//}
+
+	public ArrayList<Kunde> getKunden() {
+		return kundenVW.getKunden();
+	}
+
+	//
+	public void setKunden(ArrayList<Kunde> kunden) {		//Methodenbezeichner
+		kundenVW.setKunden(kunden);							//Methodendefinition
 	}
 }
