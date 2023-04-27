@@ -99,15 +99,16 @@ public class FilePersistenceManager implements PersistenceManager {
 	}
 
 	public Kunde ladeKunde() throws IOException {
-		// Kundennummer einlesen
+		//Zunächst wird die Kundennummer als String eingelesen und in einen Integer umgewandelt.
 		String kundenNrString = liesZeile();
 		if (kundenNrString != null) {
 			int kundenNrInt = Integer.parseInt(kundenNrString);
 
 		} else {
-			// keine Daten mehr vorhanden
+			//Keine Daten mehr vorhanden ODER falls die Kundennummer in der Datei nicht mehr vorhanden ist, wird null zurückgegeben.
 			return null;
 		}
+		//Daten wie Vorname, Nachname, Email, Benutzername, Passwort, Straße, PLZ und Stadt werden nacheinander aus der Datei gelesen und in Variablen gespeichert.
 		// Vornamen einlesen
 		String vorname = liesZeile();
 
@@ -133,10 +134,13 @@ public class FilePersistenceManager implements PersistenceManager {
 		// Stadt einlesen
 		String stadt = liesZeile();
 
-		// neues Artikel-Objekt anlegen und zurückgeben
+		//Es wird ein neues Kunde-Objekt mit den ausgelesenen Daten erstellt und zurückgegeben.
 		return new Kunde(vorname, nachname, email, benutzername, passwort);
 	}
 
+	//Die Methode speichereKunde(Kunde k) schreibt die Daten eines Kunde-Objekts in eine Datei.
+	//Dabei werden nacheinander der Vorname, Nachname, Email, Benutzername, Passwort, Straße, PLZ und Stadt des Kunden geschrieben.
+	//Die Methode gibt true zurück, wenn das Schreiben erfolgreich war.
 	public boolean speichereKunde(Kunde k) throws IOException {
 		// Vorname, Nachname, Email, Benutzername, Passwort, Straße, PLZ, Wohnort
 		schreibeZeile(k.getkName());
@@ -153,6 +157,7 @@ public class FilePersistenceManager implements PersistenceManager {
 	
 	/*
 	 * Private Hilfsmethoden
+	 * die Methode liesZeile() liest eine Zeile aus einer Datei und gibt sie als String zurück.
 	 */
 	private String liesZeile() throws IOException {
 		if (reader != null)
@@ -160,7 +165,7 @@ public class FilePersistenceManager implements PersistenceManager {
 		else
 			return "";
 	}
-
+	//Die Methode schreibeZeile(String daten) schreibt einen String in eine Datei.
 	private void schreibeZeile(String daten) {
 		if (writer != null)
 			writer.println(daten);

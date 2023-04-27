@@ -24,7 +24,7 @@ public interface PersistenceManager {
 	public boolean close();
 
 	/**
-	 * Methode zum Einlesen der Buchdaten aus einer externen Datenquelle.
+	 * Methode zum Einlesen derArtikeldaten aus einer externen Datenquelle.
 	 * 
 	 * @return Artikel-Objekt, wenn Einlesen erfolgreich, false null
 	 */

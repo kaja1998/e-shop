@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import bib.local.domain.KundenVerwaltung;
 import bib.local.domain.exceptions.ArtikelExistiertBereitsException;
 import bib.local.domain.Shop;
 import bib.local.entities.ArtikelListe;
@@ -60,28 +61,41 @@ public class EshopClientCUI {
 		String registrierungDurchfuehren = scanner.nextLine();
 
 		//Prüfe ob Registrierung durchführen will
-		if (registrierungDurchfuehren.equals("ja")) {		//Wenn man Strings auf Gleichheit überprüfen möchten, sollten man den Operator "==" nicht verwenden. Der Operator "==" prüft, ob die beiden Variablen dieselbe Referenz auf dasselbe Objekt haben, was bei Strings oft nicht der Fall ist. Stattdessen sollte man die equals()-Methode verwenden, um Strings auf Gleichheit zu prüfen.
+		if (registrierungDurchfuehren.equals("ja")) {  //Wenn man Strings auf Gleichheit überprüfen möchten, sollten man den Operator "==" nicht verwenden. Der Operator "==" prüft, ob die beiden Variablen dieselbe Referenz auf dasselbe Objekt haben, was bei Strings oft nicht der Fall ist. Stattdessen sollte man die equals()-Methode verwenden, um Strings auf Gleichheit zu prüfen.
 			//Erstelle Variable vom Typ Kunde und übergebe die Eingaben des Kunden an den Konstruktor
 			Kunde kunde = new Kunde(kName, kNachname, kEmail, kBenutzername, kPasswort);
 			//Prüfen, ob User schon existiert.
-				//Als Erstes hole ich mir die Liste aller Kunden aus dem Shop und speichere sie in einer Instanzvariable namens Kundenliste vom Typ ArrayList<Kunde>, die ich frei in dieser (EshopClientCUI) benutzen kann.
-				ArrayList<Kunde> kundenliste = eshop.getKunden();
-				//Dann gehe ich mit einer for-Loop durch die Liste aller Kunden durch.
-				//Die Schleife durchläuft jedes Element in der kundenliste und weist es der Variable k zu
-				for (Kunde k : kundenliste) {
-					//In dem Body der Schleife wird dann jedes Kunde-Objekt k mit dem kunde-Objekt verglichen.
-					//Der Ausdruck kunde.equals(k) führt eine Gleichheitsprüfung zwischen kunde und k durch
-					//und gibt true zurück, wenn die beiden Objekte gleich sind.
-					if (kunde.equals(k)) {
-						// wenn es den Kunden schon gibt, System.out.println("User mit gleichem Namen existiert bereits.");
-						System.out.println("User mit gleichem Namen existiert bereits.");
-						return;
-					}
+			//Als Erstes hole ich mir die Liste aller Kunden aus dem Shop und speichere sie in einer Instanzvariable namens Kundenliste vom Typ ArrayList<Kunde>, die ich frei in dieser (EshopClientCUI) benutzen kann.
+			ArrayList<Kunde> kundenliste = eshop.getKunden();
+			//Dann gehe ich mit einer for-Loop durch die Liste aller Kunden durch.
+			//Die Schleife durchläuft jedes Element in der kundenliste und weist es der Variable k zu
+			for (Kunde k : kundenliste) {
+				//In dem Body der Schleife wird dann jedes Kunde-Objekt k mit dem kunde-Objekt verglichen.
+				//Der Ausdruck kunde.equals(k) führt eine Gleichheitsprüfung zwischen kunde und k durch
+				//und gibt true zurück, wenn die beiden Objekte gleich sind.
+				if (kunde.equals(k)) {
+					// wenn es den Kunden schon gibt, System.out.println("User mit gleichem Namen existiert bereits.");
+					System.out.println("User mit gleichem Namen existiert bereits.");
+					return;
 				}
-				//Wenn kein Kunde gefunden wird, dann kann der Kunde registriert werden.
-				//Kunde wird zur Liste hinzugefügt, indem das Shop-Objekt die Methode in der Klasse KundenVerwaltung aufruft
-				eshop.fuegeKundeHinzu(kunde);
-				System.out.println("Registrierung erfolgreich. Für Login 'L': ");
+			}
+			//Wenn kein Kunde gefunden wird, dann kann der Kunde registriert werden.
+			//Kunde wird zur Liste hinzugefügt, indem das Shop-Objekt die Methode in der Klasse KundenVerwaltung aufruft
+			eshop.fuegeKundeHinzu(kunde);
+			//eshop.liesDaten(kunde);
+			System.out.println("Registrierung erfolgreich.");
+			System.out.println("Für Login 'L'");
+			System.out.println("Für zurück: 'Z'");
+			System.out.println("> ");
+			String nextDo = scanner.nextLine();
+			/*switch (nextDo) {
+				case "L":
+					eshop.loginKunde();
+					break;
+				case "Z":
+					eshop.menue();
+					break;
+			}*/
 		}
 	}
 
@@ -91,6 +105,7 @@ public class EshopClientCUI {
 	 */
 	private void gibMenueAus() {
 		System.out.print("Befehle: \n  Artikel ausgeben:  'a'");		// \n ist ein Absatz
+		System.out.print("         \n  Kunden ausgeben:  'b'");  		//FALSCH - Kaja
 		System.out.print("         \n  Artikel löschen: 'd'");
 		System.out.print("         \n  Artikel einfügen: 'e'");
 		System.out.print("         \n  Artikel suchen:  'f'");
@@ -120,12 +135,17 @@ public class EshopClientCUI {
 		int nr;
 		String artikelbezeichnung;
 		ArtikelListe artikelListe;
+		ArrayList kundenliste;							//FALSCH - Kaja
 		
 		// Eingabe bearbeiten:
 		switch (line) {
 		case "a":
 			artikelListe = eshop.gibAlleArtikel();		//eshop ist ein Objekt der Klasse Shop
 			gibArtikellisteAus(artikelListe);
+			break;
+		case "b":										//FALSCH - Kaja
+			kundenliste = eshop.getKunden();
+			gibKundenlisteAus(kundenliste);
 			break;
 		case "d":
 			// lies die notwendigen Parameter, einzeln pro Zeile
@@ -174,6 +194,11 @@ public class EshopClientCUI {
 		System.out.print(liste);
 	}
 
+	private void gibKundenlisteAus(ArrayList kListe) {								//Neu Kaja
+		// Einfach nur Aufruf der toString()-Methode von ArrayListe
+		System.out.print(kListe);
+	}
+
 	/**
 	 * Methode zur Ausführung der Hauptschleife:
 	 * - Menü ausgeben
@@ -182,6 +207,7 @@ public class EshopClientCUI {
 	 * (EVA-Prinzip: Eingabe-Verarbeitung-Ausgabe)
 	 */
 	public void run() {
+		registriereKunde();
 		// Variable für Eingaben von der Konsole
 		String input = ""; 
 	
