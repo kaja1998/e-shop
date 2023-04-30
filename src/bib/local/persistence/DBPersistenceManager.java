@@ -26,6 +26,12 @@ public class DBPersistenceManager implements PersistenceManager {
 	}
 
 	@Override
+	public void openForReadingK(String datenquelle) throws IOException {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
 	public void openForWriting(String datenquelle) throws IOException {
 		// TODO Auto-generated method stub
 

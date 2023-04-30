@@ -47,10 +47,23 @@ public class EshopClientCUI {
 	}
 
 	private void registriereKunde() {
+		//Die Daten aus der Datei werden ausgelesen und in die ArrayList Kunden hinzugefügt
+		try {
+			eshop.liesDaten("ESHOP_K.txt");
+			}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
 		System.out.println("Ihr Vorname: ");
 		String kName = scanner.nextLine();
 		System.out.println("Ihr Nachname: ");
 		String kNachname = scanner.nextLine();
+		System.out.println("Ihre Straße: ");
+		String strasse = scanner.nextLine();
+		System.out.println("Ihre PLZ: ");
+		int plz = Integer.parseInt(scanner.nextLine());
+		System.out.println("Ihr Wohnort: ");
+		String wohnort = scanner.nextLine();
 		System.out.println("Ihre E-Mail: ");
 		String kEmail = scanner.nextLine();
 		System.out.println("Ihr Benutzername: ");
@@ -63,7 +76,7 @@ public class EshopClientCUI {
 		//Prüfe ob Registrierung durchführen will
 		if (registrierungDurchfuehren.equals("ja")) {  //Wenn man Strings auf Gleichheit überprüfen möchten, sollten man den Operator "==" nicht verwenden. Der Operator "==" prüft, ob die beiden Variablen dieselbe Referenz auf dasselbe Objekt haben, was bei Strings oft nicht der Fall ist. Stattdessen sollte man die equals()-Methode verwenden, um Strings auf Gleichheit zu prüfen.
 			//Erstelle Variable vom Typ Kunde und übergebe die Eingaben des Kunden an den Konstruktor
-			Kunde kunde = new Kunde(kName, kNachname, kEmail, kBenutzername, kPasswort);
+			Kunde kunde = new Kunde(kName, kNachname, strasse, plz, wohnort, kEmail, kBenutzername, kPasswort);
 			//Prüfen, ob User schon existiert.
 			//Als Erstes hole ich mir die Liste aller Kunden aus dem Shop und speichere sie in einer Instanzvariable namens Kundenliste vom Typ ArrayList<Kunde>, die ich frei in dieser (EshopClientCUI) benutzen kann.
 			ArrayList<Kunde> kundenliste = eshop.getKunden();
@@ -77,25 +90,33 @@ public class EshopClientCUI {
 					// wenn es den Kunden schon gibt, System.out.println("User mit gleichem Namen existiert bereits.");
 					System.out.println("User mit gleichem Namen existiert bereits.");
 					return;
-				}
-			}
-			//Wenn kein Kunde gefunden wird, dann kann der Kunde registriert werden.
-			//Kunde wird zur Liste hinzugefügt, indem das Shop-Objekt die Methode in der Klasse KundenVerwaltung aufruft
-			eshop.fuegeKundeHinzu(kunde);
-			//eshop.liesDaten(kunde);
-			System.out.println("Registrierung erfolgreich.");
-			System.out.println("Für Login 'L'");
-			System.out.println("Für zurück: 'Z'");
-			System.out.println("> ");
-			String nextDo = scanner.nextLine();
+				} else {
+					//Wenn kein Kunde gefunden wird, dann kann der Kunde registriert werden.
+					//Kunde wird zur Liste hinzugefügt, indem das Shop-Objekt die Methode in der Klasse KundenVerwaltung aufruft
+					eshop.fuegeKundeHinzu(kunde);
+					try {
+						eshop.schreibeDaten("ESHOP_K.txt", kunde);
+					}
+					catch (IOException e) {
+						e.printStackTrace();
+					}
+					System.out.println("Registrierung erfolgreich.");
+					System.out.println("Für Login 'L'");
+					System.out.println("Für zurück: 'Z'");
+					System.out.println("> ");
+					String nextDo = scanner.nextLine();
 			/*switch (nextDo) {
 				case "L":
 					eshop.loginKunde();
 					break;
 				case "Z":
-					eshop.menue();
+					gibMenueAus();
 					break;
 			}*/
+				}
+			}
+		} else {
+			gibMenueAus();
 		}
 	}
 

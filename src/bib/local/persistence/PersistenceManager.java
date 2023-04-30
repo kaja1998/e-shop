@@ -18,7 +18,9 @@ import bib.local.entities.Kunde;
 public interface PersistenceManager {
 
 	public void openForReading(String datenquelle) throws IOException;
-	
+
+	public void openForReadingK(String datenquelle) throws IOException;
+
 	public void openForWriting(String datenquelle) throws IOException;
 	
 	public boolean close();
@@ -38,6 +40,8 @@ public interface PersistenceManager {
 	 */
 	public boolean speichereArtikel(Artikel a) throws IOException;
 
+	public boolean speichereKunde(Kunde kunde) throws IOException;
+
 	/**
 	 * Methode zum Einlesen der Kundendaten aus einer externen Datenquelle.
 	 *
@@ -51,6 +55,5 @@ public interface PersistenceManager {
 	 * @param k Kunden-Objekt, das gespeichert werden soll
 	 * @return true, wenn Schreibvorgang erfolgreich, false sonst
 	 */
-	public boolean speichereKunde(Kunde k) throws IOException;
 
 }

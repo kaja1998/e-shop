@@ -113,6 +113,10 @@ public class Shop {
 		artikelVW.schreibeDaten(datei+"_B.txt");
 	}
 
+	public void schreibeDaten(String datei, Kunde kunde) throws IOException {
+		kundenVW.schreibeDaten(datei, kunde);
+	}
+
 	/**
 	 * Methode zum Hinzufügen eines Kunden zur Liste aller Kunden
 	 */
@@ -122,7 +126,7 @@ public class Shop {
 
 	// Getter und Setter, da Klasse in KundenVerwaltung privat ist
 	//public void getKunden() {
-	//	kundenVW.getKunden();
+	//kundenVW.getKunden();
 	//}
 
 	public ArrayList<Kunde> getKunden() {
@@ -132,5 +136,9 @@ public class Shop {
 	//
 	public void setKunden(ArrayList<Kunde> kunden) {		//Methodenbezeichner
 		kundenVW.setKunden(kunden);							//Methodendefinition
+	}
+
+	public void liesDaten(String datei) throws IOException {
+		kundenVW.liesDaten(datei);
 	}
 }
