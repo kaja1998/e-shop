@@ -24,9 +24,12 @@ public class Kunde {
 	private String wohnort = "";
 	private float umsatz = 0.0f;
 
-    public Kunde(String kName, String kNachname, String kEmail, String kBenutzername, String kPasswort) {
+    public Kunde(String kName, String kNachname, String strasse, int plz, String wohnort, String kEmail, String kBenutzername, String kPasswort) {
 		this.kName = kName;
 		this.kNachname = kNachname;
+		this.strasse = strasse;
+		this.plz = plz;
+		this.wohnort = wohnort;
 		this.kEmail = kEmail;
 		this.kBenutzername = kBenutzername;
 		this.kPasswort = kPasswort;
@@ -35,57 +38,33 @@ public class Kunde {
 	// Methoden zum Setzen und Lesen der Kunden-Eigenschaften,
 	// z.B. getStrasse() und setStrasse()
 
-	public String getkName() {
-		return kName;
-	}
+	public String getkName() {	return kName;	}
 
-	public void setkName(String kName) {
-		this.kName = kName;
-	}
+	public void setkName(String kName) { this.kName = kName; }
 
-	public String getkNachname() {
-		return kNachname;
-	}
+	public String getkNachname() {	return kNachname; }
 
-	public void setkNachname(String kNachname) {
-		this.kNachname = kNachname;
-	}
+	public void setkNachname(String kNachname) { this.kNachname = kNachname; }
 
-	public float getUmsatz() {
-		return umsatz;
-	}
+	public float getUmsatz() {	return umsatz;	}
 
-	public void setUmsatz(float umsatz) {
-		this.umsatz = umsatz;
-	}
+	public void setUmsatz(float umsatz) { this.umsatz = umsatz;	}
 
 	public int getPlz() { return plz; }
 
-	public void setPlz(int plz) {
-		this.plz = plz;
-	}
+	public void setPlz(int plz) { this.plz = plz; }
 
-	public String getStrasse() {
-		return strasse;
-	}
+	public String getStrasse() { return strasse; }
 
-	public void setStrasse(String strasse) {
-		this.strasse = strasse;
-	}
+	public void setStrasse(String strasse) { this.strasse = strasse; }
 
-	public String getWohnort() {
-		return wohnort;
-	}
+	public String getWohnort() { return wohnort; }
 
-	public void setWohnort(String wohnort) {
-		this.wohnort = wohnort;
-	}
+	public void setWohnort(String wohnort) { this.wohnort = wohnort; }
 
 	public int getKundenNr() { return kundenNr;	}
 
-	public void setKundenNr(int kundenNr) {
-		this.kundenNr = kundenNr;
-	}
+	public void setKundenNr(int kundenNr) {	this.kundenNr = kundenNr; }
 
 	public String getkEmail() { return kEmail;	}
 
@@ -98,6 +77,10 @@ public class Kunde {
 	public String getkPasswort() { return kPasswort; }
 
 	public void setkPasswort(String kPasswort) { this.kPasswort = kPasswort; }
+
+	public String getkStrasse() { return strasse; }
+
+	public void setkStrasse(String strasse) { this.strasse = strasse; }
 
 	// Weitere Dienste der Kunden-Objekte
 

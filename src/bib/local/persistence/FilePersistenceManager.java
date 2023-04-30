@@ -20,10 +20,21 @@ import bib.local.entities.Kunde;
  */
 public class FilePersistenceManager implements PersistenceManager {
 
+	//Die Variable "reader" ist vom Typ "BufferedReader" und kann verwendet werden, um Zeichen aus einer Datei zu lesen.
 	private BufferedReader reader = null;
+	//Die Variable "writer" ist vom Typ "PrintWriter" und kann Zeichen in eine Datei schreiben.
+	// Null bedeutet nur, dass die Variable auf keinen bestimmten Speicherbereich im Computer zeigt
 	private PrintWriter writer = null;
-	
+
+	//Die erste Methode openForReading(String datei) öffnet eine Datei zum Lesen.
+	//Der Parameter datei ist der Name der Datei, die geöffnet werden soll.
+	//Die Methode erstellt einen BufferedReader, der den Inhalt der Datei lesen kann.
+	//Wenn die angegebene Datei nicht gefunden wird, wird eine FileNotFoundException ausgelöst.
 	public void openForReading(String datei) throws FileNotFoundException {
+		reader = new BufferedReader(new FileReader(datei));
+	}
+
+	public void openForReadingK(String datei) throws FileNotFoundException {
 		reader = new BufferedReader(new FileReader(datei));
 	}
 
@@ -31,6 +42,7 @@ public class FilePersistenceManager implements PersistenceManager {
 		writer = new PrintWriter(new BufferedWriter(new FileWriter(datei)));
 	}
 
+	//Die Methode close() scheint eine Methode zum Schließen eines Writer- und/oder Reader-Objekts zu sein, die in einem Feld writer bzw. reader gespeichert werden.
 	public boolean close() {
 		if (writer != null)
 			writer.close();
@@ -115,15 +127,6 @@ public class FilePersistenceManager implements PersistenceManager {
 		// Nachnamen einlesen
 		String nachname = liesZeile();
 
-		// Email einlesen
-		String email = liesZeile();
-
-		// Benutzernamen einlesen
-		String benutzername = liesZeile();
-
-		// Passwort einlesen
-		String passwort = liesZeile();
-
 		// Straße einlesen
 		String strasse = liesZeile();
 
@@ -134,8 +137,17 @@ public class FilePersistenceManager implements PersistenceManager {
 		// Stadt einlesen
 		String stadt = liesZeile();
 
+		// Email einlesen
+		String email = liesZeile();
+
+		// Benutzernamen einlesen
+		String benutzername = liesZeile();
+
+		// Passwort einlesen
+		String passwort = liesZeile();
+
 		//Es wird ein neues Kunde-Objekt mit den ausgelesenen Daten erstellt und zurückgegeben.
-		return new Kunde(vorname, nachname, email, benutzername, passwort);
+		return new Kunde(vorname, nachname, strasse, plzInt, stadt, email, benutzername, passwort);
 	}
 
 	//Die Methode speichereKunde(Kunde k) schreibt die Daten eines Kunde-Objekts in eine Datei.
@@ -145,13 +157,12 @@ public class FilePersistenceManager implements PersistenceManager {
 		// Vorname, Nachname, Email, Benutzername, Passwort, Straße, PLZ, Wohnort
 		schreibeZeile(k.getkName());
 		schreibeZeile(k.getkNachname());
-		schreibeZeile(k.getkEmail());
-		schreibeZeile(k.getkBenutzername());
-		schreibeZeile(k.getkPasswort());
-		schreibeZeile(k.getStrasse());
 		schreibeZeile(k.getStrasse());
 		schreibeZeile(String.valueOf(k.getPlz()));
 		schreibeZeile(k.getWohnort());
+		schreibeZeile(k.getkEmail());
+		schreibeZeile(k.getkBenutzername());
+		schreibeZeile(k.getkPasswort());
 		return true;
 	}
 	
@@ -165,6 +176,7 @@ public class FilePersistenceManager implements PersistenceManager {
 		else
 			return "";
 	}
+
 	//Die Methode schreibeZeile(String daten) schreibt einen String in eine Datei.
 	private void schreibeZeile(String daten) {
 		if (writer != null)

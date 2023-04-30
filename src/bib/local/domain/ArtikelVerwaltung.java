@@ -61,7 +61,7 @@ public class ArtikelVerwaltung {
 	public void schreibeDaten(String datei) throws IOException  {
 		// PersistenzManager für Schreibvorgänge öffnen
 		pm.openForWriting(datei);
-
+		//Durchlaufe die ArtikelListe und rufe speichereArtikel() auf, um jeden Artikel in der Liste in die Datei zu schreiben.
 		ArtikelListe liste = artikelBestand;
 		while (liste != null) {
 			Artikel artikel = liste.gibErstenArtikel();

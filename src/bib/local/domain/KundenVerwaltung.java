@@ -5,6 +5,8 @@ package bib.local.domain;
 //Dieses Code-Snippet importiert die Klasse Kunde aus dem Package bib.local.entities.
 //Nachdem der Import erfolgt ist, kann man Objekte der Klasse Kunde in der aktuellen Klasse erzeugen und auf deren Methoden und Eigenschaften zugreifen.
 //Ohne den Import müsste man jedes Mal den vollständigen Klassennamen angeben, um die Klasse zu verwenden.
+import bib.local.entities.Artikel;
+import bib.local.entities.ArtikelListe;
 import bib.local.entities.Kunde;
 import bib.local.persistence.FilePersistenceManager;
 import bib.local.persistence.PersistenceManager;
@@ -31,16 +33,17 @@ public class KundenVerwaltung {
          * @throws IOException
          */
         public void liesDaten(String datei) throws IOException {
-                //PersistenceManager-Objekt öffnet den PersistenzManager für lesevorgänge mit der Methode penForReading.
-                pm.openForReading(datei);
+                //PersistenceManager-Objekt öffnet den PersistenzManager für lesevorgänge mit der Methode openForReading.
+                pm.openForReadingK(datei);
 
                 Kunde kunde;
                 do {
-                        //Kunden-Objekt einlesen
+                        //Kunden-Objekt einlesen.
                         //Ruft in einer Schleife die Methode ladeKunde des PersistenzManagers auf, um jeweils einen Kunden aus der Datei zu lesen
                         kunde = pm.ladeKunde();
                         if (kunde != null) {
                                 //Falls ein Kunde erfolgreich eingelesen werden konnte, wird dieser mit der Methode fuegeKundeHinzu der Kunden-Liste hinzugefügt.
+                                //kunden.add(kunde);
                                 fuegeKundeHinzu(kunde);
                         }
                 //Die Schleife läuft so lange, bis die Methode ladeKunde null zurückgibt, was darauf hinweist, dass keine weiteren Daten mehr in der Datei vorhanden sind.
@@ -50,7 +53,15 @@ public class KundenVerwaltung {
                 pm.close();
         }
 
-        // Fügt Kundenobjekt zur Liste hinzu
+        public void schreibeDaten(String datei, Kunde kunde) throws IOException  {
+                // PersistenzManager für Schreibvorgänge öffnen
+                pm.openForWriting(datei);
+                pm.speichereKunde(kunde);
+                // Persistenz-Schnittstelle wieder schließen
+                pm.close();
+        }
+
+        //Fügt Kundenobjekte aus der Datei zur (Array)Liste hinzu
         public void fuegeKundeHinzu(Kunde kunde) {
                 this.kunden.add(kunde);
         }
