@@ -6,11 +6,11 @@ import bib.local.entities.Artikel;
 import bib.local.entities.Kunde;
 
 /**
- * @author teschke
+ * @author Sund
  *
  * Allgemeine Schnittstelle für den Zugriff auf ein Speichermedium
  * (z.B. Datei oder Datenbank) zum Ablegen von beispielsweise
- * Bücher- oder Kundendaten.
+ * Artikel- oder Kundendaten.
  * 
  * Das Interface muss von Klassen implementiert werden, die eine
  * Persistenz-Schnittstelle realisieren wollen.

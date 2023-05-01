@@ -4,7 +4,7 @@ package bib.local.entities;
 /**
  * Klasse zur Repräsentation einzelner Artikel.
  * 
- * @author teschke
+ * @author Sund
  */
 public class Artikel {
 

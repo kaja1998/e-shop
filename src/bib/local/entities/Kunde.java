@@ -7,9 +7,9 @@ import java.util.Objects;
  * Klasse zur Repräsentation einzelner Kunden.
  * 
  * Die Klasse wird derzeit noch nicht verwendet, weil die Shop-
- * Anwendung bisland nur Artikel verwaltet.
+ * Anwendung bislang nur Artikel verwaltet.
  * 
- * @author teschke
+ * @author Sund
  */
 public class Kunde {
 
