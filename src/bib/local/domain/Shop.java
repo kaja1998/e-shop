@@ -14,7 +14,7 @@ import bib.local.entities.Kunde;
  * zur Suche nach Artikeln, zum Einfügen neuer Artikel
  * und zum Speichern des Bestands.
  * 
- * @author teschke
+ * @author Sund
  * @version 1 (Verwaltung der Artikel in verketteter Liste)
  */
 public class Shop {
@@ -61,7 +61,7 @@ public class Shop {
 	 * @return Liste aller Artikel im Bestand des Shops
 	 */
 	public ArtikelListe gibAlleArtikel() {
-		// einfach delegieren an meineBuecher
+		// einfach delegieren an meineArtikel
 		return artikelVW.getArtikelBestand();		//mit "artikelVW"-Objekt wird get-Methode aufgerufen
 	}
 
@@ -73,7 +73,7 @@ public class Shop {
 	 * @return Liste der gefundenen Artikel (evtl. leer)
 	 */
 	public ArtikelListe sucheNachArtikelbezeichnung(String artikelbezeichnung) {
-		// einfach delegieren an meineBuecher
+		// einfach delegieren an meineArtikel
 		return artikelVW.sucheArtikel(artikelbezeichnung);
 	}
 

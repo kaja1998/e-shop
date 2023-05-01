@@ -12,7 +12,7 @@ import bib.local.entities.Artikel;
 import bib.local.entities.Kunde;
 
 /**
- * @author teschke
+ * @author Sund
  *
  * Realisierung einer Schnittstelle zur persistenten Speicherung von
  * Daten in Dateien.

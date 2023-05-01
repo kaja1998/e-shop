@@ -18,7 +18,7 @@ import bib.local.entities.Kunde;
  * Die Benutzungsschnittstelle basiert auf Ein- und Ausgaben auf der Kommandozeile,
  * daher der Name CUI (Command line User Interface).
  * 
- * @author teschke
+ * @author Sund
  * @version 1 (Verwaltung der Artikel in verketteter Liste)
  */
 public class EshopClientCUI {

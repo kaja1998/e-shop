@@ -5,7 +5,7 @@ package bib.local.entities;
  * Die Liste ist rekursiv aufgebaut: Sie besteht aus einem Artikel (artikel) und einer
  * (Rest-)Liste (next).
  * 
- * @author teschke
+ * @author Sund
  * @version 1 (verkettete Liste)
  */
 public class ArtikelListe {
