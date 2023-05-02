@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import bib.local.entities.Artikel;
 import bib.local.entities.Kunde;
@@ -111,10 +112,13 @@ public class FilePersistenceManager implements PersistenceManager {
 	}
 
 	public Kunde ladeKunde() throws IOException {
+		// Variablen
+		int kundenNrInt;
+
 		//Zunächst wird die Kundennummer als String eingelesen und in einen Integer umgewandelt.
 		String kundenNrString = liesZeile();
 		if (kundenNrString != null) {
-			int kundenNrInt = Integer.parseInt(kundenNrString);
+			kundenNrInt = Integer.parseInt(kundenNrString);
 
 		} else {
 			//Keine Daten mehr vorhanden ODER falls die Kundennummer in der Datei nicht mehr vorhanden ist, wird null zurückgegeben.
@@ -147,23 +151,37 @@ public class FilePersistenceManager implements PersistenceManager {
 		String passwort = liesZeile();
 
 		//Es wird ein neues Kunde-Objekt mit den ausgelesenen Daten erstellt und zurückgegeben.
-		return new Kunde(vorname, nachname, strasse, plzInt, stadt, email, benutzername, passwort);
+		Kunde kunde = new Kunde(vorname, nachname, strasse, plzInt, stadt, email, benutzername, passwort);
+		kunde.setKundenNr(kundenNrInt);
+		return kunde;
 	}
 
 	//Die Methode speichereKunde(Kunde k) schreibt die Daten eines Kunde-Objekts in eine Datei.
 	//Dabei werden nacheinander der Vorname, Nachname, Email, Benutzername, Passwort, Straße, PLZ und Stadt des Kunden geschrieben.
 	//Die Methode gibt true zurück, wenn das Schreiben erfolgreich war.
-	public boolean speichereKunde(Kunde k) throws IOException {
-		// Vorname, Nachname, Email, Benutzername, Passwort, Straße, PLZ, Wohnort
-		schreibeZeile(k.getkName());
-		schreibeZeile(k.getkNachname());
-		schreibeZeile(k.getStrasse());
-		schreibeZeile(String.valueOf(k.getPlz()));
-		schreibeZeile(k.getWohnort());
-		schreibeZeile(k.getkEmail());
-		schreibeZeile(k.getkBenutzername());
-		schreibeZeile(k.getkPasswort());
+	public boolean speichereKunde(Kunde neuerKunde, List<Kunde> bestehendeKunden) throws IOException {
+		// Schreibe alle bestehenden Kunden in die Datei
+		for (Kunde kunde : bestehendeKunden) {
+			this.schreibeKundeInDatei(kunde);
+		}
+
+		// Schreibe neuen Kunden in die Datei
+		this.schreibeKundeInDatei(neuerKunde);
+
+		// gebe true zurück, wenn alles geklappt hat
 		return true;
+	}
+
+	public void schreibeKundeInDatei(Kunde kunde) throws IOException {
+		schreibeZeile(String.valueOf(kunde.getKundenNr()));
+		schreibeZeile(kunde.getkName());
+		schreibeZeile(kunde.getkNachname());
+		schreibeZeile(kunde.getStrasse());
+		schreibeZeile(String.valueOf(kunde.getPlz()));
+		schreibeZeile(kunde.getWohnort());
+		schreibeZeile(kunde.getkEmail());
+		schreibeZeile(kunde.getkBenutzername());
+		schreibeZeile(kunde.getkPasswort());
 	}
 	
 	/*

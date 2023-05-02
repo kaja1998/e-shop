@@ -1,6 +1,7 @@
 package bib.local.persistence;
 
 import java.io.IOException;
+import java.util.List;
 
 import bib.local.entities.Artikel;
 import bib.local.entities.Kunde;
@@ -44,14 +45,13 @@ public class DBPersistenceManager implements PersistenceManager {
 	}
 
 	@Override
-	public Kunde ladeKunde() throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean speichereKunde(Kunde kunde, List<Kunde> bestehendeKunden) throws IOException {
+		return false;
 	}
 
 	@Override
-	public boolean speichereKunde(Kunde k) throws IOException {
+	public Kunde ladeKunde() throws IOException {
 		// TODO Auto-generated method stub
-		return false;
+		return null;
 	}
 }

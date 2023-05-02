@@ -5,8 +5,6 @@ package bib.local.domain;
 //Dieses Code-Snippet importiert die Klasse Kunde aus dem Package bib.local.entities.
 //Nachdem der Import erfolgt ist, kann man Objekte der Klasse Kunde in der aktuellen Klasse erzeugen und auf deren Methoden und Eigenschaften zugreifen.
 //Ohne den Import müsste man jedes Mal den vollständigen Klassennamen angeben, um die Klasse zu verwenden.
-import bib.local.entities.Artikel;
-import bib.local.entities.ArtikelListe;
 import bib.local.entities.Kunde;
 import bib.local.persistence.FilePersistenceManager;
 import bib.local.persistence.PersistenceManager;
@@ -56,7 +54,7 @@ public class KundenVerwaltung {
         public void schreibeDaten(String datei, Kunde kunde) throws IOException  {
                 // PersistenzManager für Schreibvorgänge öffnen
                 pm.openForWriting(datei);
-                pm.speichereKunde(kunde);
+                pm.speichereKunde(kunde, this.kunden);
                 // Persistenz-Schnittstelle wieder schließen
                 pm.close();
         }

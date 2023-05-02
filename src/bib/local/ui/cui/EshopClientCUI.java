@@ -77,6 +77,14 @@ public class EshopClientCUI {
 		if (registrierungDurchfuehren.equals("ja")) {  //Wenn man Strings auf Gleichheit überprüfen möchten, sollten man den Operator "==" nicht verwenden. Der Operator "==" prüft, ob die beiden Variablen dieselbe Referenz auf dasselbe Objekt haben, was bei Strings oft nicht der Fall ist. Stattdessen sollte man die equals()-Methode verwenden, um Strings auf Gleichheit zu prüfen.
 			//Erstelle Variable vom Typ Kunde und übergebe die Eingaben des Kunden an den Konstruktor
 			Kunde kunde = new Kunde(kName, kNachname, strasse, plz, wohnort, kEmail, kBenutzername, kPasswort);
+			int neueKundennummer;
+			boolean kundeExistiertBereits = false;
+
+			if (eshop.getKunden().size() > 0) {
+				neueKundennummer = eshop.getKunden().get(eshop.getKunden().size()-1).getKundenNr();
+				kunde.setKundenNr(neueKundennummer);
+			}
+
 			//Prüfen, ob User schon existiert.
 			//Als Erstes hole ich mir die Liste aller Kunden aus dem Shop und speichere sie in einer Instanzvariable namens Kundenliste vom Typ ArrayList<Kunde>, die ich frei in dieser (EshopClientCUI) benutzen kann.
 			ArrayList<Kunde> kundenliste = eshop.getKunden();
@@ -89,31 +97,32 @@ public class EshopClientCUI {
 				if (kunde.equals(k)) {
 					// wenn es den Kunden schon gibt, System.out.println("User mit gleichem Namen existiert bereits.");
 					System.out.println("User mit gleichem Namen existiert bereits.");
-					return;
-				} else {
-					//Wenn kein Kunde gefunden wird, dann kann der Kunde registriert werden.
-					//Kunde wird zur Liste hinzugefügt, indem das Shop-Objekt die Methode in der Klasse KundenVerwaltung aufruft
-					eshop.fuegeKundeHinzu(kunde);
-					try {
-						eshop.schreibeDaten("ESHOP_K.txt", kunde);
-					}
-					catch (IOException e) {
-						e.printStackTrace();
-					}
-					System.out.println("Registrierung erfolgreich.");
-					System.out.println("Für Login 'L'");
-					System.out.println("Für zurück: 'Z'");
-					System.out.println("> ");
-					String nextDo = scanner.nextLine();
-			/*switch (nextDo) {
-				case "L":
-					eshop.loginKunde();
-					break;
-				case "Z":
-					gibMenueAus();
-					break;
-			}*/
+					kundeExistiertBereits = true;
 				}
+			}
+			if(!kundeExistiertBereits) {
+				//Wenn kein Kunde gefunden wird, dann kann der Kunde registriert werden.
+				//Kunde wird zur Liste hinzugefügt, indem das Shop-Objekt die Methode in der Klasse KundenVerwaltung aufruft
+				try {
+					eshop.schreibeDaten("ESHOP_K.txt", kunde);
+				}
+				catch (IOException e) {
+					e.printStackTrace();
+				}
+				eshop.fuegeKundeHinzu(kunde);
+				System.out.println("Registrierung erfolgreich.");
+				System.out.println("Für Login 'L'");
+				System.out.println("Für zurück: 'Z'");
+				System.out.println("> ");
+				String nextDo = scanner.nextLine();
+				/*switch (nextDo) {
+					case "L":
+						eshop.loginKunde();
+						break;
+					case "Z":
+						gibMenueAus();
+						break;
+				}*/
 			}
 		} else {
 			gibMenueAus();
@@ -160,48 +169,48 @@ public class EshopClientCUI {
 		
 		// Eingabe bearbeiten:
 		switch (line) {
-		case "a":
-			artikelListe = eshop.gibAlleArtikel();		//eshop ist ein Objekt der Klasse Shop
-			gibArtikellisteAus(artikelListe);
-			break;
-		case "b":										//FALSCH - Kaja
-			kundenliste = eshop.getKunden();
-			gibKundenlisteAus(kundenliste);
-			break;
-		case "d":
-			// lies die notwendigen Parameter, einzeln pro Zeile
-			System.out.print("Artikelnummer > ");
-			nummer = liesEingabe();
-			nr = Integer.parseInt(nummer);
-			System.out.print("Artikelbezeichnung  > ");
-			artikelbezeichnung = liesEingabe();
-			eshop.loescheArtikel(artikelbezeichnung, nr);
-			break;
-		case "e":
-			// lies die notwendigen Parameter, einzeln pro Zeile
-			System.out.print("Artikelnummer > ");
-			nummer = liesEingabe();
-			nr = Integer.parseInt(nummer);
-			System.out.print("Artikelbezeichnung  > ");
-			artikelbezeichnung = liesEingabe();
+			case "a":
+				artikelListe = eshop.gibAlleArtikel();		//eshop ist ein Objekt der Klasse Shop
+				gibArtikellisteAus(artikelListe);
+				break;
+			case "b":										//FALSCH - Kaja
+				kundenliste = eshop.getKunden();
+				gibKundenlisteAus(kundenliste);
+				break;
+			case "d":
+				// lies die notwendigen Parameter, einzeln pro Zeile
+				System.out.print("Artikelnummer > ");
+				nummer = liesEingabe();
+				nr = Integer.parseInt(nummer);
+				System.out.print("Artikelbezeichnung  > ");
+				artikelbezeichnung = liesEingabe();
+				eshop.loescheArtikel(artikelbezeichnung, nr);
+				break;
+			case "e":
+				// lies die notwendigen Parameter, einzeln pro Zeile
+				System.out.print("Artikelnummer > ");
+				nummer = liesEingabe();
+				nr = Integer.parseInt(nummer);
+				System.out.print("Artikelbezeichnung  > ");
+				artikelbezeichnung = liesEingabe();
 
-			try {
-				eshop.fuegeArtikelEin(artikelbezeichnung, nr);
-				System.out.println("Einfügen ok");
-			} catch (ArtikelExistiertBereitsException e) {
-				// Hier Fehlerbehandlung...
-				System.out.println("Fehler beim Einfügen");
-				e.printStackTrace();
-			}
-			break;
-		case "f":
-			System.out.print("Artikelbezeichnung  > ");
-			artikelbezeichnung = liesEingabe();
-			artikelListe = eshop.sucheNachArtikelbezeichnung(artikelbezeichnung);
-			gibArtikellisteAus(artikelListe);
-			break;
-		case "s":
-			eshop.schreibeArtikel();
+				try {
+					eshop.fuegeArtikelEin(artikelbezeichnung, nr);
+					System.out.println("Einfügen ok");
+				} catch (ArtikelExistiertBereitsException e) {
+					// Hier Fehlerbehandlung...
+					System.out.println("Fehler beim Einfügen");
+					e.printStackTrace();
+				}
+				break;
+			case "f":
+				System.out.print("Artikelbezeichnung  > ");
+				artikelbezeichnung = liesEingabe();
+				artikelListe = eshop.sucheNachArtikelbezeichnung(artikelbezeichnung);
+				gibArtikellisteAus(artikelListe);
+				break;
+			case "s":
+				eshop.schreibeArtikel();
 		}
 	}
 
