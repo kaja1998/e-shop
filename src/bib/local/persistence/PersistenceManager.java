@@ -1,6 +1,7 @@
 package bib.local.persistence;
 
 import java.io.IOException;
+import java.util.List;
 
 import bib.local.entities.Artikel;
 import bib.local.entities.Kunde;
@@ -40,7 +41,7 @@ public interface PersistenceManager {
 	 */
 	public boolean speichereArtikel(Artikel a) throws IOException;
 
-	public boolean speichereKunde(Kunde kunde) throws IOException;
+	public boolean speichereKunde(Kunde kunde, List<Kunde> bestehendeKunden) throws IOException;
 
 	/**
 	 * Methode zum Einlesen der Kundendaten aus einer externen Datenquelle.
