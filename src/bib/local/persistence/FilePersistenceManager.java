@@ -115,7 +115,7 @@ public class FilePersistenceManager implements PersistenceManager {
 		// Variablen
 		int kundenNrInt;
 
-		//Zunächst wird die Kundennummer als String eingelesen und in einen Integer umgewandelt.
+		// Zunächst wird die Kundennummer als String eingelesen und in einen Integer umgewandelt.
 		String kundenNrString = liesZeile();
 		if (kundenNrString != null) {
 			kundenNrInt = Integer.parseInt(kundenNrString);
@@ -124,7 +124,7 @@ public class FilePersistenceManager implements PersistenceManager {
 			//Keine Daten mehr vorhanden ODER falls die Kundennummer in der Datei nicht mehr vorhanden ist, wird null zurückgegeben.
 			return null;
 		}
-		//Daten wie Vorname, Nachname, Email, Benutzername, Passwort, Straße, PLZ und Stadt werden nacheinander aus der Datei gelesen und in Variablen gespeichert.
+		// Daten wie Vorname, Nachname, Email, Benutzername, Passwort, Straße, PLZ und Stadt werden nacheinander aus der Datei gelesen und in Variablen gespeichert.
 		// Vornamen einlesen
 		String vorname = liesZeile();
 
