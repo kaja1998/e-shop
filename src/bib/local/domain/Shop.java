@@ -7,6 +7,7 @@ import bib.local.domain.exceptions.ArtikelExistiertBereitsException;
 import bib.local.entities.Artikel;
 import bib.local.entities.ArtikelListe;
 import bib.local.entities.Kunde;
+import bib.local.entities.User;
 
 /**
  * Klasse zur Verwaltung einer (sehr einfachen) Bibliothek.
@@ -20,6 +21,9 @@ import bib.local.entities.Kunde;
 public class Shop {
 	// Präfix für Namen der Dateien, in der die Shop-Daten gespeichert sind
 	private String datei = "";
+
+	// Eingeloggter User
+	User user;
 
 	//Variable von Artikelverwaltung wird deklariert. Kann später dazu verwendet werden, um ein Objekt dieser Klasse zu erstellen
 	private ArtikelVerwaltung artikelVW;
@@ -140,5 +144,13 @@ public class Shop {
 
 	public void liesDaten(String datei) throws IOException {
 		kundenVW.liesDaten(datei);
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 }

@@ -152,7 +152,7 @@ public class FilePersistenceManager implements PersistenceManager {
 
 		//Es wird ein neues Kunde-Objekt mit den ausgelesenen Daten erstellt und zurückgegeben.
 		Kunde kunde = new Kunde(vorname, nachname, strasse, plzInt, stadt, email, benutzername, passwort);
-		kunde.setKundenNr(kundenNrInt);
+		kunde.setId(kundenNrInt);
 		return kunde;
 	}
 
@@ -173,15 +173,15 @@ public class FilePersistenceManager implements PersistenceManager {
 	}
 
 	public void schreibeKundeInDatei(Kunde kunde) throws IOException {
-		schreibeZeile(String.valueOf(kunde.getKundenNr()));
-		schreibeZeile(kunde.getkName());
-		schreibeZeile(kunde.getkNachname());
+		schreibeZeile(String.valueOf(kunde.getId()));
+		schreibeZeile(kunde.getName());
+		schreibeZeile(kunde.getNachname());
 		schreibeZeile(kunde.getStrasse());
 		schreibeZeile(String.valueOf(kunde.getPlz()));
 		schreibeZeile(kunde.getWohnort());
-		schreibeZeile(kunde.getkEmail());
-		schreibeZeile(kunde.getkBenutzername());
-		schreibeZeile(kunde.getkPasswort());
+		schreibeZeile(kunde.getEmail());
+		schreibeZeile(kunde.getBenutzername());
+		schreibeZeile(kunde.getPasswort());
 	}
 	
 	/*
