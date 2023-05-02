@@ -1,6 +1,7 @@
 package bib.local.entities;
 
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -11,40 +12,40 @@ import java.util.Objects;
  * 
  * @author Sund
  */
-public class Kunde {
+public class Kunde implements User {
 
-	private int kundenNr;
-	private String kName;
-	private String kNachname;
-	private String kEmail;
-	private String kBenutzername;
-	private String kPasswort;
+	private int id;
+	private String name;
+	private String nachname;
+	private String email;
+	private String benutzername;
+	private String passwort;
 	private String strasse = "";
 	private int plz;
 	private String wohnort = "";
 	private float umsatz = 0.0f;
 
-    public Kunde(String kName, String kNachname, String strasse, int plz, String wohnort, String kEmail, String kBenutzername, String kPasswort) {
-		this.kName = kName;
-		this.kNachname = kNachname;
+    	public Kunde(String kName, String kNachname, String strasse, int plz, String wohnort, String kEmail, String kBenutzername, String kPasswort) {
+		this.name = kName;
+		this.nachname = kNachname;
 		this.strasse = strasse;
 		this.plz = plz;
 		this.wohnort = wohnort;
-		this.kEmail = kEmail;
-		this.kBenutzername = kBenutzername;
-		this.kPasswort = kPasswort;
+		this.email = kEmail;
+		this.benutzername = kBenutzername;
+		this.passwort = kPasswort;
 	}
     
 	// Methoden zum Setzen und Lesen der Kunden-Eigenschaften,
 	// z.B. getStrasse() und setStrasse()
 
-	public String getkName() {	return kName;	}
+	public String getName() {	return name;	}
 
-	public void setkName(String kName) { this.kName = kName; }
+	public void setName(String name) { this.name = name; }
 
-	public String getkNachname() {	return kNachname; }
+	public String getNachname() {	return nachname; }
 
-	public void setkNachname(String kNachname) { this.kNachname = kNachname; }
+	public void setNachname(String nachname) { this.nachname = nachname; }
 
 	public float getUmsatz() {	return umsatz;	}
 
@@ -62,27 +63,35 @@ public class Kunde {
 
 	public void setWohnort(String wohnort) { this.wohnort = wohnort; }
 
-	public int getKundenNr() { return kundenNr;	}
+	public int getId() { return id;	}
 
-	public void setKundenNr(int kundenNr) {	this.kundenNr = kundenNr; }
+	public void setId(int id) {	this.id = id; }
 
-	public String getkEmail() { return kEmail;	}
+	public String getEmail() { return email;	}
 
-	public void setkEmail(String kEmail) { this.kEmail = kEmail; }
+	public void setEmail(String email) { this.email = email; }
 
-	public String getkBenutzername() { return kBenutzername; }
+	public String getBenutzername() { return benutzername; }
 
-	public void setkBenutzername(String kBenutzername) { this.kBenutzername = kBenutzername; }
+	public void setBenutzername(String benutzername) { this.benutzername = benutzername; }
 
-	public String getkPasswort() { return kPasswort; }
+	public String getPasswort() { return passwort; }
 
-	public void setkPasswort(String kPasswort) { this.kPasswort = kPasswort; }
-
-	public String getkStrasse() { return strasse; }
-
-	public void setkStrasse(String strasse) { this.strasse = strasse; }
+	public void setPasswort(String passwort) { this.passwort = passwort; }
 
 	// Weitere Dienste der Kunden-Objekte
+	public static User login(List<Kunde> bestandsKunden, String benutzername, String passwort) {
+		//Die Schleife durchläuft jedes Element in der Userliste useres und weist es der Variable user zu
+		for (User user : bestandsKunden) {
+			// Überprüfen, ob Benutzername und Passwort korrekt sind
+			if (user.getBenutzername().equals(benutzername) && user.getPasswort().equals(passwort)) {
+				System.out.print("Sie wurden eingeloggt");
+				return user;
+			}
+		}
+		System.out.print("Benutzername oder Passwort falsch.");
+		return null;
+	}
 
 
 	//Diese Methode prüft, ob zwei Instanzen der Klasse Kunde gleich sind, indem sie ihre Attribute vergleicht
@@ -107,10 +116,10 @@ public class Kunde {
 		Kunde other = (Kunde) obj;
 		//Die Objects.equals()-Methode wird verwendet, um die Gleichheit der Attribute zu prüfen.
 		//Wenn alle Attribute übereinstimmen = true. Wenn mindestens eines der Attribute nicht übereinstimmt = false
-		return Objects.equals(this.kName, other.kName)
-				&& Objects.equals(this.kNachname, other.kNachname)
-				&& Objects.equals(this.kEmail, other.kEmail)
-				&& Objects.equals(this.kBenutzername, other.kBenutzername);
+		return Objects.equals(this.name, other.name)
+				&& Objects.equals(this.nachname, other.nachname)
+				&& Objects.equals(this.email, other.email)
+				&& Objects.equals(this.benutzername, other.benutzername);
 	}
 
 	/*
@@ -125,6 +134,6 @@ public class Kunde {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(kundenNr, kName, kNachname, kEmail, kBenutzername, kPasswort, strasse, plz, wohnort);
+		return Objects.hash(id, name, nachname, email, benutzername, passwort, strasse, plz, wohnort);
 	}
 }

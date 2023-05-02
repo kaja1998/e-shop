@@ -9,31 +9,31 @@ package bib.local.entities;
  * @author Sund
  */
 
-    public class Mitarbeiter {
+    public class Mitarbeiter implements User {
 
-    private int mitarbeiterNr;
-    private String mName;
-    private String mNachname;
+    private int id;
+    private String name;
+    private String nachname;
 
     public Mitarbeiter(int mNr, String mName, String mNachname) {
-        mitarbeiterNr = mNr;
-        this.mName = mName;
-        this.mNachname = mNachname;
+        id = mNr;
+        this.name = mName;
+        this.nachname = mNachname;
     }
 
     // Methoden zum Setzen und Lesen der Kunden-Eigenschaften,
     // z.B. getStrasse() und setStrasse()
 
-    public int getmitarbeiterNr() { return mitarbeiterNr; }
+    public int getmitarbeiterNr() { return id; }
 
     public String getMitarbeiterName() {
-        return mName;
+        return name;
     }
 
-    public void setMitarbeiterName(String mName) { this.mName = mName; }
+    public void setMitarbeiterName(String mName) { this.name = mName; }
 
-    public String getMitarbeiterNachname() { return mNachname; }
+    public String getMitarbeiterNachname() { return nachname; }
 
-    public void setMitarbeiterNachname(String mNachname) { this.mNachname = mNachname; }
+    public void setMitarbeiterNachname(String mNachname) { this.nachname = mNachname; }
 
 }

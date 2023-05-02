@@ -11,6 +11,9 @@ import bib.local.domain.exceptions.ArtikelExistiertBereitsException;
 import bib.local.domain.Shop;
 import bib.local.entities.ArtikelListe;
 import bib.local.entities.Kunde;
+import bib.local.entities.User;
+
+import static bib.local.entities.Kunde.login;
 
 
 /**
@@ -74,7 +77,7 @@ public class EshopClientCUI {
 			Random random = new Random(System.currentTimeMillis());
 			int kundennummer = random.nextInt(1, 10000);
 			Kunde kunde = new Kunde(kName, kNachname, strasse, plz, wohnort, kEmail, kBenutzername, kPasswort);
-			kunde.setKundenNr(kundennummer);
+			kunde.setId(kundennummer);
 			boolean kundeExistiertBereits = false;
 
 			//Prüfen, ob User schon existiert.
@@ -105,6 +108,16 @@ public class EshopClientCUI {
 				System.out.println("Registrierung erfolgreich.");
 				}
 			}
+	}
+
+	private void kundenLogin() {
+		System.out.print("Bitte geben Sie Ihre Zugangsdaten ein:");
+		System.out.println("Benutzername: ");
+		String benutzername = scanner.nextLine();
+		System.out.println("Passwort: ");
+		String passwort = scanner.nextLine();
+		User user = login(eshop.getKunden(), benutzername, passwort);
+		eshop.setUser(user);
 	}
 
 	/* (non-Javadoc)
@@ -148,7 +161,7 @@ public class EshopClientCUI {
 				registriereKunde();
 				break;
 			case "kl":
-				System.out.println("Wird noch implementiert.");
+				kundenLogin();
 				break;
 			case "m":
 				System.out.println("Wird noch implementiert.");
