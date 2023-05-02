@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 import bib.local.domain.KundenVerwaltung;
@@ -48,12 +49,6 @@ public class EshopClientCUI {
 
 	private void registriereKunde() {
 		//Die Daten aus der Datei werden ausgelesen und in die ArrayList Kunden hinzugefügt
-		try {
-			eshop.liesDaten("ESHOP_K.txt");
-			}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
 		System.out.println("Ihr Vorname: ");
 		String kName = scanner.nextLine();
 		System.out.println("Ihr Nachname: ");
@@ -76,14 +71,11 @@ public class EshopClientCUI {
 		//Prüfe ob Registrierung durchführen will
 		if (registrierungDurchfuehren.equals("ja")) {  //Wenn man Strings auf Gleichheit überprüfen möchten, sollten man den Operator "==" nicht verwenden. Der Operator "==" prüft, ob die beiden Variablen dieselbe Referenz auf dasselbe Objekt haben, was bei Strings oft nicht der Fall ist. Stattdessen sollte man die equals()-Methode verwenden, um Strings auf Gleichheit zu prüfen.
 			//Erstelle Variable vom Typ Kunde und übergebe die Eingaben des Kunden an den Konstruktor
+			Random random = new Random(System.currentTimeMillis());
+			int kundennummer = random.nextInt(1, 10000);
 			Kunde kunde = new Kunde(kName, kNachname, strasse, plz, wohnort, kEmail, kBenutzername, kPasswort);
-			int neueKundennummer;
+			kunde.setKundenNr(kundennummer);
 			boolean kundeExistiertBereits = false;
-
-			if (eshop.getKunden().size() > 0) {
-				neueKundennummer = eshop.getKunden().get(eshop.getKunden().size()-1).getKundenNr();
-				kunde.setKundenNr(neueKundennummer);
-			}
 
 			//Prüfen, ob User schon existiert.
 			//Als Erstes hole ich mir die Liste aller Kunden aus dem Shop und speichere sie in einer Instanzvariable namens Kundenliste vom Typ ArrayList<Kunde>, die ich frei in dieser (EshopClientCUI) benutzen kann.
