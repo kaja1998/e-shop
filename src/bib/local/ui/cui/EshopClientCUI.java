@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
-import bib.local.domain.KundenVerwaltung;
 import bib.local.domain.exceptions.ArtikelExistiertBereitsException;
 import bib.local.domain.Shop;
 import bib.local.entities.ArtikelListe;
@@ -38,9 +37,10 @@ public class EshopClientCUI {
 	}
 
 	private void abfrageKundeOderMitarbeiter() {
-		System.out.print("Sind Sie Kunde oder Mitarbeiter?");
-		System.out.print("         \n  Ich bin Kunde: 'k'");
-		System.out.print("         \n  Ich bin Mitarbeiter: 'm'");
+		System.out.print("Was möchtest du tun?");
+		System.out.print("         \n  Ich möchte mich als Kunde einloggen: 'kl'");
+		System.out.print("         \n  Ich möchte mich als Kunde registrieren: 'kr'");
+		System.out.print("         \n  Ich möchte mich als Mitarbeiter einloggen: 'm'");
 		System.out.print("         \n  ---------------------");
 		System.out.println("         \n  Beenden:        'q'");
 		System.out.print("> "); // Prompt
@@ -112,12 +112,12 @@ public class EshopClientCUI {
 						eshop.loginKunde();
 						break;
 					case "Z":
-						gibMenueAus();
+						gibMitarbeiterMenueAus();
 						break;
 				}*/
 			}
 		} else {
-			gibMenueAus();
+			gibMitarbeiterMenueAus();
 		}
 	}
 
@@ -125,7 +125,7 @@ public class EshopClientCUI {
 	 * 
 	 * Interne (private) Methode zur Ausgabe des Menüs.
 	 */
-	private void gibMenueAus() {
+	private void gibMitarbeiterMenueAus() {
 		System.out.print("Befehle: \n  Artikel ausgeben:  'a'");		// \n ist ein Absatz
 		System.out.print("         \n  Kunden ausgeben:  'b'");  		//FALSCH - Kaja
 		System.out.print("         \n  Artikel löschen: 'd'");
@@ -148,11 +148,37 @@ public class EshopClientCUI {
 	}
 
 	/* (non-Javadoc)
+	 *
+	 * Interne (private) Methode zur Verarbeitung von Eingaben
+	 * und Ausgabe von Ergebnissen.
+	 */
+	private void verarbeiteEingabeEinstiegsMenue(String line) throws IOException {
+		String nummer;
+		int nr;
+
+		// Eingabe bearbeiten:
+		switch (line) {
+			case "kr":
+				registriereKunde();
+				break;
+			case "kl":
+				System.out.println("Wird noch implementiert.");
+				break;
+			case "m":
+				System.out.println("Wird noch implementiert.");
+				break;
+			// TODO implementieren
+			case "q":
+				eshop.schreibeArtikel();
+		}
+	}
+
+	/* (non-Javadoc)
 	 * 
 	 * Interne (private) Methode zur Verarbeitung von Eingaben
 	 * und Ausgabe von Ergebnissen.
 	 */
-	private void verarbeiteEingabe(String line) throws IOException {
+	private void verarbeiteEingabeMitarbeiterMenue(String line) throws IOException {
 		String nummer;
 		int nr;
 		String artikelbezeichnung;
@@ -228,17 +254,21 @@ public class EshopClientCUI {
 	 * - Eingabe verarbeiten und Ergebnis ausgeben
 	 * (EVA-Prinzip: Eingabe-Verarbeitung-Ausgabe)
 	 */
-	public void run() {
-		registriereKunde();
+	public void run() throws IOException {
 		// Variable für Eingaben von der Konsole
-		String input = ""; 
+		String input = "";
+
+		// Abfrage, ob Kunde oder Mitarbeiter
+		abfrageKundeOderMitarbeiter();
+		input = liesEingabe();
+		verarbeiteEingabeEinstiegsMenue(input);
 	
 		// Hauptschleife der Benutzungsschnittstelle
 		do {
-			gibMenueAus();
+			gibMitarbeiterMenueAus();
 			try {
 				input = liesEingabe();
-				verarbeiteEingabe(input);
+				verarbeiteEingabeMitarbeiterMenue(input);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
