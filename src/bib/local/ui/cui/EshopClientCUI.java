@@ -103,22 +103,8 @@ public class EshopClientCUI {
 				}
 				eshop.fuegeKundeHinzu(kunde);
 				System.out.println("Registrierung erfolgreich.");
-				System.out.println("Für Login 'L'");
-				System.out.println("Für zurück: 'Z'");
-				System.out.println("> ");
-				String nextDo = scanner.nextLine();
-				/*switch (nextDo) {
-					case "L":
-						eshop.loginKunde();
-						break;
-					case "Z":
-						gibMitarbeiterMenueAus();
-						break;
-				}*/
+				}
 			}
-		} else {
-			gibMitarbeiterMenueAus();
-		}
 	}
 
 	/* (non-Javadoc)
@@ -183,17 +169,12 @@ public class EshopClientCUI {
 		int nr;
 		String artikelbezeichnung;
 		ArtikelListe artikelListe;
-		ArrayList kundenliste;							//FALSCH - Kaja
 		
 		// Eingabe bearbeiten:
 		switch (line) {
 			case "a":
 				artikelListe = eshop.gibAlleArtikel();		//eshop ist ein Objekt der Klasse Shop
 				gibArtikellisteAus(artikelListe);
-				break;
-			case "b":										//FALSCH - Kaja
-				kundenliste = eshop.getKunden();
-				gibKundenlisteAus(kundenliste);
 				break;
 			case "d":
 				// lies die notwendigen Parameter, einzeln pro Zeile
@@ -242,11 +223,6 @@ public class EshopClientCUI {
 		System.out.print(liste);
 	}
 
-	private void gibKundenlisteAus(ArrayList kListe) {								//Neu Kaja
-		// Einfach nur Aufruf der toString()-Methode von ArrayListe
-		System.out.print(kListe);
-	}
-
 	/**
 	 * Methode zur Ausführung der Hauptschleife:
 	 * - Menü ausgeben
@@ -259,10 +235,22 @@ public class EshopClientCUI {
 		String input = "";
 
 		// Abfrage, ob Kunde oder Mitarbeiter
-		abfrageKundeOderMitarbeiter();
+		/* abfrageKundeOderMitarbeiter();
 		input = liesEingabe();
 		verarbeiteEingabeEinstiegsMenue(input);
-	
+		*/
+		do {
+			abfrageKundeOderMitarbeiter();
+			try {
+				input = liesEingabe();
+				verarbeiteEingabeEinstiegsMenue(input);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} while (!input.equals("q"));
+
+		/*
 		// Hauptschleife der Benutzungsschnittstelle
 		do {
 			gibMitarbeiterMenueAus();
@@ -274,6 +262,7 @@ public class EshopClientCUI {
 				e.printStackTrace();
 			}
 		} while (!input.equals("q"));
+		*/
 	}
 
 	

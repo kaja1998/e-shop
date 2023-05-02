@@ -50,11 +50,4 @@ public interface PersistenceManager {
 	 */
 	public Kunde ladeKunde() throws IOException;
 
-	/**
-	 * Methode zum Schreiben der Kundendaten in eine externe Datenquelle.
-	 *
-	 * @param k Kunden-Objekt, das gespeichert werden soll
-	 * @return true, wenn Schreibvorgang erfolgreich, false sonst
-	 */
-
 }
