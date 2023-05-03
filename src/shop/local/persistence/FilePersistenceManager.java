@@ -212,9 +212,7 @@ public class FilePersistenceManager implements PersistenceManager {
 		String password = readRow();
 
 		//A new employee object is created with the read data and returned.
-		Employee employee = new Employee(name, lastName, username, password);
-		employee.setId(employeeId);
-		return employee;
+		return new Employee(employeeId, name, lastName, username, password);
 	}
 
 	@Override

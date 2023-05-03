@@ -13,6 +13,7 @@ import java.io.IOException;
 //Durch das Importieren dieser Klasse können Instanzen von ArrayList erstellt und alle Methoden und Eigenschaften dieser Klasse verwendet werden,
 //ohne den vollständigen Klassennamen jedes Mal schreiben zu müssen.
 import java.util.ArrayList;
+import java.util.List;
 
 public class CustomerAdministration {
 
@@ -60,13 +61,23 @@ public class CustomerAdministration {
                 pm.close();
         }
 
+        public Customer login (String userName, String password) {
+                for (Customer user : customers) {
+                        if (user.getUsername().equals(userName) && user.getPassword().equals(password)) {
+                                return user;
+                        }
+                }
+                // TODO: Exception werfen
+                return null;
+        }
+
         // Adds customer objects from file to ArrayList
         public void addCustomer(Customer customer) {
                 this.customers.add(customer);
         }
 
         // Getter und Setter
-        public ArrayList<Customer> getCustomers() {
+        public List<Customer> getCustomers() {
                 return customers;
         }
 

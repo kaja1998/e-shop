@@ -3,7 +3,7 @@ package shop.local.ui.cui;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -27,6 +27,7 @@ public class EshopClientCUI {
 
 	private Shop eshop;
 	private BufferedReader in;
+	private User loggedinUser = null;
 	private Scanner scanner = new Scanner(System.in);							// Scanner registration
 
 	public EshopClientCUI(String file) throws IOException {
@@ -80,7 +81,7 @@ public class EshopClientCUI {
 
 			//Check if user already exists.
 			//First I get the list of all customers from the shop and save it in an instance variable called customer list of type ArrayList<Customer>, which I can freely use in this (EshopClientCUI).
-			ArrayList<Customer> customerList = eshop.getCustomers();
+			List<Customer> customerList = eshop.getCustomers();
 
 			//Dann gehe ich mit einer for-Loop durch die Liste aller Kunden durch.
 			//Die Schleife durchläuft jedes Element in der customerList und weist es der Variable k zu
@@ -115,9 +116,14 @@ public class EshopClientCUI {
 		String username = scanner.nextLine();
 		System.out.println("Password: ");
 		String password = scanner.nextLine();
-		User user = Customer.login(eshop.getCustomers(), username, password);
-		eshop.setUser(user);
-		return user != null;
+		loggedinUser = eshop.loginCustomer(username, password);
+		if (loggedinUser != null) {
+			System.out.println("You´re successfully logged in. Hello, Mr. / Mrs. " + loggedinUser.getLastName());
+			return true;
+		} else {
+			System.out.println("Incorrect Username oder password.");
+			return false;
+		}
 	}
 
 	private boolean employeeLogin() {
@@ -126,9 +132,15 @@ public class EshopClientCUI {
 		String username = scanner.nextLine();
 		System.out.println("Password: ");
 		String password = scanner.nextLine();
-		User user = Employee.login(eshop.getEmployees(), username, password);
-		eshop.setUser(user);
-		return user != null;
+
+		loggedinUser = eshop.loginEmployee(username, password);
+		if (loggedinUser != null) {
+			System.out.println("You´re successfully logged in. Hello, Mr. / Mrs. " + loggedinUser.getLastName());
+			return true;
+		} else {
+			System.out.println("Incorrect Username oder password.");
+			return false;
+		}
 	}
 
 	/* (non-Javadoc)
@@ -279,7 +291,7 @@ public class EshopClientCUI {
 		} while (entryMenu);
 
 		// print menu for employees
-		if(eshop.getUser() instanceof Employee) {
+		if(this.loggedinUser instanceof Employee) {
 			do {
 				printEmployeeMenue();
 				try {
@@ -294,7 +306,7 @@ public class EshopClientCUI {
 
 		// TODO
 		// print menu for customers
-		if(eshop.getUser() instanceof Customer) {
+		if(this.loggedinUser instanceof Customer) {
 			do {
 				printCustomerMenue();
 				try {
