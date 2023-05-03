@@ -5,6 +5,7 @@ import java.util.List;
 
 import shop.local.entities.Article;
 import shop.local.entities.Customer;
+import shop.local.entities.Employee;
 
 public class DBPersistenceManager implements PersistenceManager {
 
@@ -47,5 +48,15 @@ public class DBPersistenceManager implements PersistenceManager {
 	public Customer loadCustomer() throws IOException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Employee loadEmployee() throws IOException {
+		return null;
+	}
+
+	@Override
+	public boolean saveEmployee(Employee employee, List<Employee> existingEmployees) throws IOException {
+		return false;
 	}
 }

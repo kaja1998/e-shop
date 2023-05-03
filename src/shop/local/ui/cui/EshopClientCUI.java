@@ -11,6 +11,7 @@ import shop.local.domain.exceptions.ArticleAlreadyExistsException;
 import shop.local.domain.Shop;
 import shop.local.entities.ArticleList;
 import shop.local.entities.Customer;
+import shop.local.entities.Employee;
 import shop.local.entities.User;
 
 
@@ -108,7 +109,7 @@ public class EshopClientCUI {
 			}
 	}
 
-	private void customerLogin() {
+	private boolean customerLogin() {
 		System.out.println("Please enter your login data:");
 		System.out.println("Username: ");
 		String username = scanner.nextLine();
@@ -116,6 +117,18 @@ public class EshopClientCUI {
 		String password = scanner.nextLine();
 		User user = Customer.login(eshop.getCustomers(), username, password);
 		eshop.setUser(user);
+		return user != null;
+	}
+
+	private boolean employeeLogin() {
+		System.out.println("Please enter your login data:");
+		System.out.println("Username: ");
+		String username = scanner.nextLine();
+		System.out.println("Password: ");
+		String password = scanner.nextLine();
+		User user = Employee.login(eshop.getEmployees(), username, password);
+		eshop.setUser(user);
+		return user != null;
 	}
 
 	/* (non-Javadoc)
@@ -123,14 +136,27 @@ public class EshopClientCUI {
 	 * Interne (private) Methode zur Ausgabe des Menüs.
 	 */
 	private void printEmployeeMenue() {
-		System.out.print("Befehle: \n  Output articles:  'a'");		// \n ist ein Absatz
-		System.out.print("         \n  Output customers:  'b'");
-		System.out.print("         \n  Delete article: 'd'");
-		System.out.print("         \n  Insert article: 'e'");
-		System.out.print("         \n  Search article:  'f'");
-		System.out.print("         \n  Save data:  's'");
-		System.out.print("         \n  ---------------------");
-		System.out.println("         \n  Quit:        'q'");
+		System.out.print("Commands: \n  Output articles:  'a'");		// \n ist ein Absatz
+		System.out.print("          \n  Output customers:  'b'");
+		System.out.print("          \n  Delete article: 'd'");
+		System.out.print("          \n  Insert article: 'e'");
+		System.out.print("          \n  Search article:  'f'");
+		System.out.print("          \n  Save data:  's'");
+		System.out.print("          \n  ---------------------");
+		System.out.println("        \n  Quit:        'q'");
+		System.out.print("> "); // Prompt
+		System.out.flush(); // ohne NL ausgeben
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * Interne (private) Methode zur Ausgabe des Menüs.
+	 */
+	private void printCustomerMenue() {
+		System.out.print("Commands: \n  Command 1:  'a'");		// \n ist ein Absatz
+		System.out.print("          \n  Command 2:  'b'");
+		System.out.print("          \n  ---------------------");
+		System.out.println("        \n  Quit:        'q'");
 		System.out.print("> "); // Prompt
 		System.out.flush(); // ohne NL ausgeben
 	}
@@ -149,22 +175,20 @@ public class EshopClientCUI {
 	 * Interne (private) Methode zur Verarbeitung von Eingaben
 	 * und Ausgabe von Ergebnissen.
 	 */
-	private void processInputFromEntryMenu(String line) throws IOException {
+	private boolean processInputFromEntryMenu(String line) throws IOException {
 		switch (line) {
 			case "cr":
 				registerCustomer();
-				break;
+				return true;
 			case "cl":
-				customerLogin();
-				break;
+				return !customerLogin();
 			case "e":
-				// TODO implement
-				System.out.println("To be implemented");
-				break;
+				return !employeeLogin();
 			case "q":
 				// TODO implement
-				eshop.writeArticle();
+				return false;
 		}
+		return false;
 	}
 
 	/* (non-Javadoc)
@@ -240,36 +264,50 @@ public class EshopClientCUI {
 	public void run() throws IOException {
 		// Variables for console input
 		String input = "";
+		boolean entryMenu = true;
 
-		// Abfrage, ob Kunde oder Mitarbeiter
-		/* printEntryMenu();
-		input = readInput();
-		processInputFromEntryMenu(input);
-		*/
+		// Print general menu
 		do {
 			printEntryMenu();
 			try {
 				input = readInput();
-				processInputFromEntryMenu(input);
+				entryMenu = processInputFromEntryMenu(input);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		} while (!input.equals("q"));
+		} while (entryMenu);
 
-		/*
-		// Main loop of the user interface
-		do {
-			printEmployeeMenue();
-			try {
-				input = readInput();
-				processInputForEmployeeMenu(input);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} while (!input.equals("q"));
-		*/
+		// print menu for employees
+		if(eshop.getUser() instanceof Employee) {
+			do {
+				printEmployeeMenue();
+				try {
+					input = readInput();
+					processInputForEmployeeMenu(input);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} while (!input.equals("q"));
+		}
+
+		// TODO
+		// print menu for customers
+		if(eshop.getUser() instanceof Customer) {
+			do {
+				printCustomerMenue();
+				try {
+					input = readInput();
+					//processInputForCustomerMenu(input);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} while (!input.equals("q"));
+		}
+
+		System.out.println("Finished");
 	}
 
 	

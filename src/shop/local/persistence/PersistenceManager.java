@@ -5,12 +5,14 @@ import java.util.List;
 
 import shop.local.entities.Article;
 import shop.local.entities.Customer;
+import shop.local.entities.Employee;
 
 /**
  * @author Sund
  *
  * General interface for accessing a storage medium
- * (e.g. file or database) to store e.g article or customer data.
+ * (e.g. file or database) to store e.g
+ * Article or customer data.
  *
  * The interface must be implemented by classes that have a
  * Want to implement persistence interface.
@@ -46,5 +48,14 @@ public interface PersistenceManager {
 	 * @return customer object, if successful, false null
 	 */
 	public Customer loadCustomer() throws IOException;
+
+	/**
+	 * Method for reading in the customer data from an external data source.
+	 *
+	 * @return customer object, if successful, false null
+	 */
+	public Employee loadEmployee() throws IOException;
+
+	public boolean saveEmployee(Employee employee, List<Employee> existingEmployees) throws IOException;
 
 }

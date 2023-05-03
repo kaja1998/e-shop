@@ -4,10 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import shop.local.domain.exceptions.ArticleAlreadyExistsException;
-import shop.local.entities.Article;
-import shop.local.entities.ArticleList;
-import shop.local.entities.Customer;
-import shop.local.entities.User;
+import shop.local.entities.*;
 
 /**
  * Class for managing a (very simple) library.
@@ -28,8 +25,11 @@ public class Shop {
 	//Variable from parts management is declared. Can later be used to create an object of this class
 	private ArticleAdministration administration;
 
-	//Customer management variable is declared. Can later be used to create an object of this class
+	//Customer administration variable is declared. Can later be used to create an object of this class
 	private CustomerAdministration customerAdministration;
+
+	//Employee administration variable is declared. Can later be used to create an object of this class
+	private EmployeeAdministration employeeAdministration;
 
 	/**
 	 * Constructor that reads the basic data (articles, customers etc.) from files
@@ -55,6 +55,11 @@ public class Shop {
 		customerAdministration = new CustomerAdministration();
 		customerAdministration.readData(file+"_K.txt");
 		//customerAdministration.writeData(file+"_K.txt");
+
+		// A new instance of the EmployeeAdministration class is created and assigned to the employeeAdministration variable
+		// Read customer profile from file
+		employeeAdministration = new EmployeeAdministration();
+		employeeAdministration.readData(file+"_E.txt");
 	}
 
 
@@ -131,6 +136,14 @@ public class Shop {
 
 	public void setCustomers(ArrayList<Customer> kunden) {
 		customerAdministration.setCustomers(kunden);
+	}
+
+	public ArrayList<Employee> getEmployees() {
+		return employeeAdministration.getEmployees();
+	}
+
+	public void setEmployees(ArrayList<Employee> employees) {
+		employeeAdministration.setEmployees(employees);
 	}
 
 	public void readData(String file) throws IOException {
