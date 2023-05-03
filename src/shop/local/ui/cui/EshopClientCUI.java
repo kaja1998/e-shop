@@ -26,7 +26,7 @@ public class EshopClientCUI {
 
 	private Shop eshop;
 	private BufferedReader in;
-	Scanner scanner = new Scanner(System.in);							// Scanner registration
+	private Scanner scanner = new Scanner(System.in);							// Scanner registration
 
 	public EshopClientCUI(String file) throws IOException {
 		// the shop administration handles the tasks that have nothing to do with input/output
@@ -109,7 +109,7 @@ public class EshopClientCUI {
 	}
 
 	private void customerLogin() {
-		System.out.print("Please enter your login data:");
+		System.out.println("Please enter your login data:");
 		System.out.println("Username: ");
 		String username = scanner.nextLine();
 		System.out.println("Password: ");
@@ -179,39 +179,39 @@ public class EshopClientCUI {
 		ArticleList articleList;
 		
 		// Get input
-		switch (line) {
+		switch(line) {
 			case "a":
 				articleList = eshop.getAllArticles();		//eshop ist ein Objekt der Klasse Shop
 				printArticleList(articleList);
 				break;
 			case "d":
 				// lies die notwendigen Parameter, einzeln pro Zeile
-				System.out.print("Artikelnummer > ");
+				System.out.print("Article number > ");
 				numberString = readInput();
 				number = Integer.parseInt(numberString);
-				System.out.print("Artikelbezeichnung  > ");
+				System.out.print("Article title  > ");
 				articleTitle = readInput();
 				eshop.deleteArticle(articleTitle, number);
 				break;
 			case "e":
 				// lies die notwendigen Parameter, einzeln pro Zeile
-				System.out.print("Artikelnummer > ");
+				System.out.print("Article number > ");
 				numberString = readInput();
 				number = Integer.parseInt(numberString);
-				System.out.print("Artikelbezeichnung  > ");
+				System.out.print("Artikel title  > ");
 				articleTitle = readInput();
 
 				try {
 					eshop.insertArticle(articleTitle, number);
-					System.out.println("Einfügen ok");
+					System.out.println("Article saved successfully");
 				} catch (ArticleAlreadyExistsException e) {
 					// Hier Fehlerbehandlung...
-					System.out.println("Fehler beim Einfügen");
+					System.out.println("Error saving article");
 					e.printStackTrace();
 				}
 				break;
 			case "f":
-				System.out.print("Artikelbezeichnung  > ");
+				System.out.print("Article title > ");
 				articleTitle = readInput();
 				articleList = eshop.searchByArticleTitle(articleTitle);
 				printArticleList(articleList);
