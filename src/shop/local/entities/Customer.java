@@ -76,9 +76,9 @@ public class Customer implements User {
 
 	public void setPassword(String password) { this.password = password; }
 
-	public static User login(List<Customer> existingCustomers, String username, String password) {
+	public static Customer login(List<Customer> existingCustomers, String username, String password) {
 		//The loop iterates through each item in the useres user list and assigns it to the user variable
-		for (User user : existingCustomers) {
+		for (Customer user : existingCustomers) {
 			// Check if username and password are correct
 			if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
 				System.out.print("You've been logged in.");

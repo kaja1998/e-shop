@@ -1,5 +1,7 @@
 package shop.local.entities;
 
+import java.util.List;
+
 /**
  * Class to represent individual employees.
  *
@@ -17,10 +19,11 @@ package shop.local.entities;
     private String username;
     private String password;
 
-    public Employee(int employeeNumber, String name, String lastName) {
-        this.id = employeeNumber;
+    public Employee(String name, String lastName,String username, String password) {
         this.name = name;
         this.lastName = lastName;
+        this.username = username;
+        this.password = password;
     }
 
     // Methods for setting and reading customer properties,
@@ -62,5 +65,18 @@ package shop.local.entities;
     @Override
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public static Employee login(List<Employee> existingEmployees, String username, String password) {
+        //The loop iterates through each item in the user list and assigns it to the user variable
+        for (Employee user : existingEmployees) {
+            // Check if username and password are correct
+            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+                System.out.print("You've been logged in.");
+                return user;
+            }
+        }
+        System.out.print("Invalid username or password.");
+        return null;
     }
 }

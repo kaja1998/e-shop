@@ -11,6 +11,7 @@ import java.util.List;
 
 import shop.local.entities.Article;
 import shop.local.entities.Customer;
+import shop.local.entities.Employee;
 
 /**
  * @author Sund
@@ -183,6 +184,61 @@ public class FilePersistenceManager implements PersistenceManager {
 		writeLine(customer.getPassword());
 	}
 
+	@Override
+	public Employee loadEmployee() throws IOException {
+		// Variables
+		int employeeId;
+
+		// First, the employee number is read in as a string and converted into an integer
+		String employeeIdString = readRow();
+		if (employeeIdString != null) {
+			employeeId = Integer.parseInt(employeeIdString);
+
+		} else {
+			//No more data OR if the employee number is no longer in the file, returns null.
+			return null;
+		}
+		// Date like name, lastname, email, username, street, postal code and city are being read from the file and saved into variables
+		// Read name
+		String name = readRow();
+
+		// Read lastname
+		String lastName = readRow();
+
+		// Read username
+		String username = readRow();
+
+		// Read password
+		String password = readRow();
+
+		//A new employee object is created with the read data and returned.
+		Employee employee = new Employee(name, lastName, username, password);
+		employee.setId(employeeId);
+		return employee;
+	}
+
+	@Override
+	public boolean saveEmployee(Employee newEmployee, List<Employee> existingEmployees) throws IOException {
+		// Write all existing employees to the file
+		for (Employee employee : existingEmployees) {
+			this.writeEmployeeToFile(employee);
+		}
+
+		// Write new employee to file
+		this.writeEmployeeToFile(newEmployee);
+
+		// return true, if everything worked
+		return true;
+	}
+
+	public void writeEmployeeToFile(Employee employee) {
+		writeLine(String.valueOf(employee.getId()));
+		writeLine(employee.getName());
+		writeLine(employee.getLastName());
+		writeLine(employee.getUsername());
+		writeLine(employee.getPassword());
+	}
+
 	/*
 	 * Private helper methods
 	 * the readRow() method reads a line from a file and returns it as a string.
@@ -199,4 +255,6 @@ public class FilePersistenceManager implements PersistenceManager {
 		if (writer != null)
 			writer.println(data);
 	}
+
+
 }
