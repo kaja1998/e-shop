@@ -1,67 +1,64 @@
-package bib.local.entities;
+package shop.local.entities;
 
 
 import java.util.List;
 import java.util.Objects;
 
 /**
- * Klasse zur Repräsentation einzelner Kunden.
- * 
- * Die Klasse wird derzeit noch nicht verwendet, weil die Shop-
- * Anwendung bislang nur Artikel verwaltet.
- * 
+ * Class to represent individual customers.
+ *
+ * The class is currently not used because the shop
+ * Application so far only manages articles.
+ *
  * @author Sund
  */
-public class Kunde implements User {
+public class Customer implements User {
 
 	private int id;
 	private String name;
-	private String nachname;
+	private String lastName;
 	private String email;
-	private String benutzername;
-	private String passwort;
-	private String strasse = "";
-	private int plz;
-	private String wohnort = "";
-	private float umsatz = 0.0f;
+	private String username;
+	private String password;
+	private String street = "";
+	private int postalCode;
+	private String city = "";
+	private float revenue = 0.0f;
 
-    	public Kunde(String kName, String kNachname, String strasse, int plz, String wohnort, String kEmail, String kBenutzername, String kPasswort) {
-		this.name = kName;
-		this.nachname = kNachname;
-		this.strasse = strasse;
-		this.plz = plz;
-		this.wohnort = wohnort;
-		this.email = kEmail;
-		this.benutzername = kBenutzername;
-		this.passwort = kPasswort;
+    	public Customer(String name, String lastName, String street, int postalCode, String city, String email, String username, String password) {
+		this.name = name;
+		this.lastName = lastName;
+		this.street = street;
+		this.postalCode = postalCode;
+		this.city = city;
+		this.email = email;
+		this.username = username;
+		this.password = password;
 	}
-    
-	// Methoden zum Setzen und Lesen der Kunden-Eigenschaften,
-	// z.B. getStrasse() und setStrasse()
 
 	public String getName() {	return name;	}
 
 	public void setName(String name) { this.name = name; }
 
-	public String getNachname() {	return nachname; }
+	public String getLastName() {	return lastName; }
 
-	public void setNachname(String nachname) { this.nachname = nachname; }
+	public void setLastName(String lastName) { this.lastName = lastName; }
 
-	public float getUmsatz() {	return umsatz;	}
+	public float getRevenue() {	return revenue;	}
 
-	public void setUmsatz(float umsatz) { this.umsatz = umsatz;	}
+	public void setRevenue(float revenue) { this.revenue = revenue;	}
 
-	public int getPlz() { return plz; }
+	public int getPostalCode() { return postalCode; }
 
-	public void setPlz(int plz) { this.plz = plz; }
+	public void setPostalCode(int postalCode) { this.postalCode = postalCode; }
 
-	public String getStrasse() { return strasse; }
+	public String getStreet() { return street; }
 
-	public void setStrasse(String strasse) { this.strasse = strasse; }
+	public void setStreet(String street) { this.street = street; }
 
-	public String getWohnort() { return wohnort; }
+	public String getCity() { return city; }
 
-	public void setWohnort(String wohnort) { this.wohnort = wohnort; }
+	public void setCity(String city) { this.city = city; }
 
 	public int getId() { return id;	}
 
@@ -71,25 +68,24 @@ public class Kunde implements User {
 
 	public void setEmail(String email) { this.email = email; }
 
-	public String getBenutzername() { return benutzername; }
+	public String getUsername() { return username; }
 
-	public void setBenutzername(String benutzername) { this.benutzername = benutzername; }
+	public void setUsername(String username) { this.username = username; }
 
-	public String getPasswort() { return passwort; }
+	public String getPassword() { return password; }
 
-	public void setPasswort(String passwort) { this.passwort = passwort; }
+	public void setPassword(String password) { this.password = password; }
 
-	// Weitere Dienste der Kunden-Objekte
-	public static User login(List<Kunde> bestandsKunden, String benutzername, String passwort) {
-		//Die Schleife durchläuft jedes Element in der Userliste useres und weist es der Variable user zu
-		for (User user : bestandsKunden) {
-			// Überprüfen, ob Benutzername und Passwort korrekt sind
-			if (user.getBenutzername().equals(benutzername) && user.getPasswort().equals(passwort)) {
-				System.out.print("Sie wurden eingeloggt");
+	public static User login(List<Customer> existingCustomers, String username, String password) {
+		//The loop iterates through each item in the useres user list and assigns it to the user variable
+		for (User user : existingCustomers) {
+			// Check if username and password are correct
+			if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+				System.out.print("You've been logged in.");
 				return user;
 			}
 		}
-		System.out.print("Benutzername oder Passwort falsch.");
+		System.out.print("Invalid username or password.");
 		return null;
 	}
 
@@ -106,20 +102,20 @@ public class Kunde implements User {
 			return true;
 		}
 		//Wir verwenden instanceof, um sicherzustellen, dass das übergebene Objekt (Kunde k) auch tatsächlich eine Instanz von Kunde ist.
-		if (!(obj instanceof Kunde)) {
+		if (!(obj instanceof Customer)) {
 			return false;
 		}
 		//Wenn das übergebene Objekt (k bzw. obj) eine Instanz der Kunde-Klasse ist, können wir es mit einem Casting-Operator ((Kunde) obj) in eine Kunde-Referenz konvertieren.
 		//Dies ist notwendig, weil die equals-Methode auf die Attribute des Objekts zugreifen muss, der obj-Parameter vor der Konvertierung aber vom Typ Object ist,
 		//der nicht die Attribute der Kunde-Klasse hat.
 		//Anschließend speichern wir die Refernez des übergebenen Objekts (obj) als other.
-		Kunde other = (Kunde) obj;
+		Customer other = (Customer) obj;
 		//Die Objects.equals()-Methode wird verwendet, um die Gleichheit der Attribute zu prüfen.
 		//Wenn alle Attribute übereinstimmen = true. Wenn mindestens eines der Attribute nicht übereinstimmt = false
 		return Objects.equals(this.name, other.name)
-				&& Objects.equals(this.nachname, other.nachname)
+				&& Objects.equals(this.lastName, other.lastName)
 				&& Objects.equals(this.email, other.email)
-				&& Objects.equals(this.benutzername, other.benutzername);
+				&& Objects.equals(this.username, other.username);
 	}
 
 	/*
@@ -134,6 +130,6 @@ public class Kunde implements User {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, name, nachname, email, benutzername, passwort, strasse, plz, wohnort);
+		return Objects.hash(id, name, lastName, email, username, password, street, postalCode, city);
 	}
 }
