@@ -1,26 +1,48 @@
 package shop.local.entities;
 
-public interface User {
+public abstract class User {
 
-        String name = null;
-        String lastName = null;
-        String username = null;
-        String password = null;
+        private String name = null;
+        private String lastName = null;
+        private String userName = null;
+        private String password = null;
 
-        default String getName() {	return name;	}
+        public User (String name, String lastName, String userName, String password) {
+                this.name = name;
+                this.lastName = lastName;
+                this.userName = userName;
+                this.password = password;
+        }
 
-        void setName(String name);
+        public String getName() {
+                return name;
+        }
 
-        default String getLastName() {	return lastName; }
+        public void setName(String name) {
+                this.name = name;
+        }
 
-        void setLastName(String lastName);
+        public String getLastName() {
+                return lastName;
+        }
 
-        default String getUsername() { return username; }
+        public void setLastName(String lastName) {
+                this.lastName = lastName;
+        }
 
-        void setUsername(String username);
+        public String getUsername() {
+                return userName;
+        }
 
-        default String getPassword() { return password; }
+        public void setUsername(String userName) {
+                this.userName = userName;
+        }
 
-        void setPassword(String password);
+        public String getPassword() {
+                return password;
+        }
 
+        public void setPassword(String password) {
+                this.password = password;
+        }
 }

@@ -2,6 +2,7 @@ package shop.local.domain;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import shop.local.domain.exceptions.ArticleAlreadyExistsException;
 import shop.local.entities.*;
@@ -19,9 +20,6 @@ public class Shop {
 	// Prefix for names of files in which shop data is stored
 	private String file = "";
 
-	// Logged in user
-	User user;
-
 	//Variable from parts management is declared. Can later be used to create an object of this class
 	private ArticleAdministration administration;
 
@@ -34,7 +32,7 @@ public class Shop {
 	/**
 	 * Constructor that reads the basic data (articles, customers etc.) from files
 	 * (Initialization of the shop).
-	 *
+	 * <p>
 	 * File naming pattern:
 	 * file+"_B.txt" is the file of the articles
 	 * file+"_K.txt" is the file of the customers
@@ -48,12 +46,12 @@ public class Shop {
 		// A new instance of the ArticleAdministration class is created and assigned to the articleAdministration variable
 		// Read item inventory from file
 		administration = new ArticleAdministration();
-		administration.readData(file+"_B.txt");
+		administration.readData(file + "_B.txt");
 
 		// A new instance of the CustomerAdministration class is created and assigned to the customerAdministration variable
 		// Read customer profile from file
 		customerAdministration = new CustomerAdministration();
-		customerAdministration.readData(file+"_K.txt");
+		customerAdministration.readData(file + "_K.txt");
 		//customerAdministration.writeData(file+"_K.txt");
 
 		// A new instance of the EmployeeAdministration class is created and assigned to the employeeAdministration variable
@@ -62,6 +60,13 @@ public class Shop {
 		employeeAdministration.readData(file+"_E.txt");
 	}
 
+	public Customer loginCustomer(String username, String password) {
+		return customerAdministration.login(username, password);
+	}
+
+	public Employee loginEmployee(String username, String password) {
+		return employeeAdministration.login(username, password);
+	}
 
 	/**
 	 * Method that returns a list of all items in inventory.
@@ -88,7 +93,7 @@ public class Shop {
 	 * If the item is already in stock, the stock will not be changed.
 	 *
 	 * @param articleTitle Title of the article
-	 * @param number Article number
+	 * @param number       Article number
 	 * @return article object inserted in case of success
 	 * @throws ArticleAlreadyExistsException if the article already exists
 	 */
@@ -103,7 +108,7 @@ public class Shop {
 	 * Only the first occurrence of the article will be deleted.
 	 *
 	 * @param articleTitle Title of the article
-	 * @param number Article number
+	 * @param number       Article number
 	 */
 	public void deleteArticle(String articleTitle, int number) {
 		Article b = new Article(articleTitle, number);
@@ -116,7 +121,7 @@ public class Shop {
 	 * @throws IOException e.g. if file does not exist
 	 */
 	public void writeArticle() throws IOException {
-		administration.writeData(file +"_B.txt");
+		administration.writeData(file + "_B.txt");
 	}
 
 	public void writeData(String file, Customer customer) throws IOException {
@@ -130,7 +135,7 @@ public class Shop {
 		customerAdministration.addCustomer(customer);
 	}
 
-	public ArrayList<Customer> getCustomers() {
+	public List<Customer> getCustomers() {
 		return customerAdministration.getCustomers();
 	}
 
@@ -148,13 +153,5 @@ public class Shop {
 
 	public void readData(String file) throws IOException {
 		customerAdministration.readData(file);
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
 	}
 }
