@@ -21,7 +21,7 @@ public class Shop {
 	private String file = "";
 
 	//Variable from parts management is declared. Can later be used to create an object of this class
-	private ArticleAdministration administration;
+	private ArticleAdministration articleAdministration;
 
 	//Customer administration variable is declared. Can later be used to create an object of this class
 	private CustomerAdministration customerAdministration;
@@ -45,14 +45,14 @@ public class Shop {
 
 		// A new instance of the ArticleAdministration class is created and assigned to the articleAdministration variable
 		// Read item inventory from file
-		administration = new ArticleAdministration();
-		administration.readData(file + "_B.txt");
+		articleAdministration = new ArticleAdministration();
+		articleAdministration.readData(file + "_B.txt");
 
 		// A new instance of the CustomerAdministration class is created and assigned to the customerAdministration variable
 		// Read customer profile from file
 		customerAdministration = new CustomerAdministration();
 		customerAdministration.readData(file + "_K.txt");
-		//customerAdministration.writeData(file+"_K.txt");
+		//customerAdministration.writeCustomerData(file+"_K.txt");
 
 		// A new instance of the EmployeeAdministration class is created and assigned to the employeeAdministration variable
 		// Read customer profile from file
@@ -74,7 +74,7 @@ public class Shop {
 	 * @return List of all items in the shop stock
 	 */
 	public ArticleList getAllArticles() {
-		return administration.getArticleStock();
+		return articleAdministration.getArticleStock();
 	}
 
 	/**
@@ -85,7 +85,7 @@ public class Shop {
 	 * @return list of items found (may be empty)
 	 */
 	public ArticleList searchByArticleTitle(String articleTitle) {
-		return administration.searchArticle(articleTitle);
+		return articleAdministration.searchArticle(articleTitle);
 	}
 
 	/**
@@ -99,7 +99,7 @@ public class Shop {
 	 */
 	public Article insertArticle(String articleTitle, int number) throws ArticleAlreadyExistsException {
 		Article b = new Article(articleTitle, number);
-		administration.insert(b);
+		articleAdministration.insert(b);
 		return b;
 	}
 
@@ -112,7 +112,11 @@ public class Shop {
 	 */
 	public void deleteArticle(String articleTitle, int number) {
 		Article b = new Article(articleTitle, number);
-		administration.delete(b);
+		articleAdministration.delete(b);
+	}
+
+	public void addEmployee(Employee employee) {
+		employeeAdministration.addEmployee(employee);
 	}
 
 	/**
@@ -121,11 +125,15 @@ public class Shop {
 	 * @throws IOException e.g. if file does not exist
 	 */
 	public void writeArticle() throws IOException {
-		administration.writeData(file + "_B.txt");
+		articleAdministration.writeData(file + "_B.txt");
 	}
 
-	public void writeData(String file, Customer customer) throws IOException {
+	public void writeCustomerData(String file, Customer customer) throws IOException {
 		customerAdministration.writeData(file, customer);
+	}
+
+	public void writeEmployeeData(String file, Employee employee) throws IOException {
+		employeeAdministration.writeData(file, employee);
 	}
 
 	/**

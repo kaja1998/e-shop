@@ -99,7 +99,7 @@ public class EshopClientCUI {
 				//Wenn kein Kunde gefunden wird, dann kann der Kunde registriert werden.
 				//Kunde wird zur Liste hinzugefügt, indem das Shop-Objekt die Methode in der Klasse KundenVerwaltung aufruft
 				try {
-					eshop.writeData("ESHOP_K.txt", customer);
+					eshop.writeCustomerData("ESHOP_K.txt", customer);
 				}
 				catch (IOException e) {
 					e.printStackTrace();
@@ -108,6 +108,49 @@ public class EshopClientCUI {
 				System.out.println("Registration successful.");
 				}
 			}
+	}
+
+	private void registerEmployee() throws IOException {
+		// Lese Daten für Name, Nachname, Benutzername und Passwort
+		System.out.print("Name > ");
+		String name = readInput();
+		System.out.print("Lastname > ");
+		String lastname = readInput();
+		System.out.print("Username > ");
+		String username = readInput();
+		System.out.print("Password > ");
+		String password = readInput();
+
+		//Erstelle Variable vom Typ Employee und übergebe die Eingaben des Employee an den Konstruktor
+		Random random = new Random(System.currentTimeMillis());
+		int employeeId = random.nextInt(1, 10000);
+		Employee employee = new Employee(employeeId, name, lastname, username, password);
+
+		// Prüfe, ob Employee bereits existiert
+		//Gehe ich mit einer for-Loop durch die Liste aller Employees durch.
+		//Die Schleife durchläuft jedes Element in der employeeList und weist es der Variable currentEmployee zu
+		List<Employee> employees = eshop.getEmployees();
+		boolean employeeAlreadyExists = false;
+		for (Employee currentEmployee : employees) {
+			//In dem Body der Schleife wird dann jedes Employee-Objekt currentEmployee mit dem employee-Objekt verglichen.
+			if (employee.equals(currentEmployee)) {
+				System.out.println("User with this name already exists");
+				employeeAlreadyExists = true;
+			}
+		}
+
+		if(!employeeAlreadyExists) {
+			//Wenn kein Employee gefunden wird, dann kann der Employee registriert werden.
+			//Employee wird zur Liste hinzugefügt, indem das Shop-Objekt die Methode in der Klasse EmployeeAdministration aufruft
+			try {
+				eshop.writeEmployeeData("ESHOP_E.txt", employee);
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+			}
+			eshop.addEmployee(employee);
+			System.out.println("Registration successful.");
+		}
 	}
 
 	private boolean customerLogin() {
@@ -153,6 +196,7 @@ public class EshopClientCUI {
 		System.out.print("          \n  Delete article: 'd'");
 		System.out.print("          \n  Insert article: 'e'");
 		System.out.print("          \n  Search article:  'f'");
+		System.out.print("          \n  Create new employee:  'n'");
 		System.out.print("          \n  Save data:  's'");
 		System.out.print("          \n  ---------------------");
 		System.out.println("        \n  Quit:        'q'");
@@ -251,6 +295,9 @@ public class EshopClientCUI {
 				articleTitle = readInput();
 				articleList = eshop.searchByArticleTitle(articleTitle);
 				printArticleList(articleList);
+				break;
+			case "n":
+				registerEmployee();
 				break;
 			case "s":
 				eshop.writeArticle();
