@@ -318,6 +318,33 @@ public class EshopClientCUI {
 		}
 	}
 
+	private void processInputForCustomerMenu(String line) throws IOException {
+		ArticleList aList;
+		// Get input
+		switch(line) {
+			//Output articles
+			case "a":
+				aList = eshop.getAllArticles();
+				printArticleList(aList);
+				break;
+			//Add to SC
+			case "b":
+				//eshop.addArticle();
+				break;
+			//Remov from SC
+			case "c":
+				break;
+			//View SC
+			case "d":
+				break;
+			//Buy all in SC
+			case "e":
+				//Logout
+			case "f":
+				break;
+		}
+	}
+
 	/* (non-Javadoc)
 	 * 
 	 * Interne (private) Methode zum Ausgeben von Artikellisten.
@@ -410,7 +437,7 @@ public class EshopClientCUI {
 				printCustomerMenu();
 				try {
 					input = readInput();
-					//processInputForCustomerMenu(input);
+					processInputForCustomerMenu(input);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
