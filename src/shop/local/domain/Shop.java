@@ -29,6 +29,7 @@ public class Shop {
 	//Employee administration variable is declared. Can later be used to create an object of this class
 	private EmployeeAdministration employeeAdministration;
 
+
 	/**
 	 * Constructor that reads the basic data (articles, customers etc.) from files
 	 * (Initialization of the shop).
@@ -190,4 +191,10 @@ public class Shop {
 	public void readData(String file) throws IOException {
 		customerAdministration.readData(file);
 	}
+
+	public void addArticle(Article article, int quantity) {
+		customerAdministration.addArticle(article, quantity);
+	}
+
+
 }

@@ -1,5 +1,7 @@
 package shop.local.entities;
 
+import shop.local.domain.ShoppingCart;
+
 import java.util.Objects;
 
 /**
@@ -18,6 +20,8 @@ public class Customer extends User {
 	private int postalCode;
 	private String city = "";
 	private float revenue = 0.0f;
+
+	private ShoppingCart cart = new ShoppingCart();
 
     	public Customer(String name, String lastName, String street, int postalCode, String city, String email, String username, String password) {
 		super(name, lastName, username, password);
