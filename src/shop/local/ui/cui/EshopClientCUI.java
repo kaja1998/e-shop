@@ -9,10 +9,7 @@ import java.util.Scanner;
 
 import shop.local.domain.exceptions.ArticleAlreadyExistsException;
 import shop.local.domain.Shop;
-import shop.local.entities.ArticleList;
-import shop.local.entities.Customer;
-import shop.local.entities.Employee;
-import shop.local.entities.User;
+import shop.local.entities.*;
 
 
 /**
@@ -99,7 +96,7 @@ public class EshopClientCUI {
 				//Wenn kein Kunde gefunden wird, dann kann der Kunde registriert werden.
 				//Kunde wird zur Liste hinzugefügt, indem das Shop-Objekt die Methode in der Klasse KundenVerwaltung aufruft
 				try {
-					eshop.writeCustomerData("ESHOP_K.txt", customer);
+					eshop.writeCustomerData("ESHOP_C.txt", customer);
 				}
 				catch (IOException e) {
 					e.printStackTrace();
@@ -190,12 +187,13 @@ public class EshopClientCUI {
 	 * 
 	 * Interne (private) Methode zur Ausgabe des Menüs.
 	 */
-	private void printEmployeeMenue() {
+	private void printEmployeeMenu() {
 		System.out.print("Commands: \n  Output articles:  'a'");		// \n ist ein Absatz
 		System.out.print("          \n  Output customers:  'b'");
 		System.out.print("          \n  Delete article: 'd'");
 		System.out.print("          \n  Insert article: 'e'");
 		System.out.print("          \n  Search article:  'f'");
+		System.out.print("          \n  Manage an article's inventory:  'g'");
 		System.out.print("          \n  Create new employee:  'n'");
 		System.out.print("          \n  Save data:  's'");
 		System.out.print("          \n  ---------------------");
@@ -208,7 +206,7 @@ public class EshopClientCUI {
 	 *
 	 * Interne (private) Methode zur Ausgabe des Menüs.
 	 */
-	private void printCustomerMenue() {
+	private void printCustomerMenu() {
 		System.out.print("Commands: \n  Command 1:  'a'");		// \n ist ein Absatz
 		System.out.print("          \n  Command 2:  'b'");
 		System.out.print("          \n  ---------------------");
@@ -241,7 +239,6 @@ public class EshopClientCUI {
 			case "e":
 				return !employeeLogin();
 			case "q":
-				// TODO implement
 				return false;
 		}
 		return false;
@@ -257,6 +254,7 @@ public class EshopClientCUI {
 		int number;
 		String articleTitle;
 		ArticleList articleList;
+		Article article;
 		
 		// Get input
 		switch(line) {
@@ -296,11 +294,16 @@ public class EshopClientCUI {
 				articleList = eshop.searchByArticleTitle(articleTitle);
 				printArticleList(articleList);
 				break;
+			case "g":
+				System.out.print("Article number > ");
+				number = Integer.parseInt(readInput());
+				manageInventory(number);
+				break;
 			case "n":
 				registerEmployee();
 				break;
 			case "s":
-				eshop.writeArticle();
+				//eshop.writeArticleData();
 		}
 	}
 
@@ -312,6 +315,44 @@ public class EshopClientCUI {
 	private void printArticleList(ArticleList liste) {
 		// Einfach nur Aufruf der toString()-Methode von ArtikelListe
 		System.out.print(liste);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * Interne (private) Methode zum Ändern des Artikelbestandes
+	 *
+	 */
+	private void manageInventory(int number) throws IOException {
+		// Try to find article by number
+		Article article = eshop.searchByArticleNumber(number);
+
+		// Check if article was found
+		if(article != null) {
+			System.out.println("Found article \n" + article.toString());
+		} else {
+			System.out.println("Article not found");
+			return;
+		}
+
+		// Get quantity change
+		System.out.println("Please enter how many items you'd like to add (positve number) or to retrieve from stock (negative number)");
+		String stockChangeString = readInput();
+		int stockChange = Integer.parseInt(stockChangeString);
+
+		// Try to change inventory
+		if(stockChange < 0) {
+			boolean success = eshop.decreaseArticleStock(article, (-1)*stockChange);
+			if(success) {
+				eshop.writeArticleData("ESHOP_A.txt", article);
+				System.out.println("Successfully decreased article's stock.");
+			} else {
+				System.out.println("Could not decrease stock. Maybe you tried to retrieve more items than there are available?");
+			}
+		} else {
+			eshop.increaseArticleStock(article, stockChange);
+			eshop.writeArticleData("ESHOP_A.txt", article);
+			System.out.println("Successfully increased article's stock.");
+		}
 	}
 
 	/**
@@ -340,7 +381,7 @@ public class EshopClientCUI {
 		// print menu for employees
 		if(this.loggedinUser instanceof Employee) {
 			do {
-				printEmployeeMenue();
+				printEmployeeMenu();
 				try {
 					input = readInput();
 					processInputForEmployeeMenu(input);
@@ -355,7 +396,7 @@ public class EshopClientCUI {
 		// print menu for customers
 		if(this.loggedinUser instanceof Customer) {
 			do {
-				printCustomerMenue();
+				printCustomerMenu();
 				try {
 					input = readInput();
 					//processInputForCustomerMenu(input);

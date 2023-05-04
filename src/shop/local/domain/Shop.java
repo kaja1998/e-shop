@@ -34,8 +34,8 @@ public class Shop {
 	 * (Initialization of the shop).
 	 * <p>
 	 * File naming pattern:
-	 * file+"_B.txt" is the file of the articles
-	 * file+"_K.txt" is the file of the customers
+	 * file+"_A.txt" is the file of the articles
+	 * file+"_C.txt" is the file of the customers
 	 *
 	 * @param file prefix for files with basic data (articles, customers, authors)
 	 * @throws IOException e.g. if one of the files does not exist.
@@ -46,18 +46,19 @@ public class Shop {
 		// A new instance of the ArticleAdministration class is created and assigned to the articleAdministration variable
 		// Read item inventory from file
 		articleAdministration = new ArticleAdministration();
-		articleAdministration.readData(file + "_B.txt");
+		articleAdministration.readData(file + "_A.txt");
 
 		// A new instance of the CustomerAdministration class is created and assigned to the customerAdministration variable
 		// Read customer profile from file
 		customerAdministration = new CustomerAdministration();
-		customerAdministration.readData(file + "_K.txt");
-		//customerAdministration.writeCustomerData(file+"_K.txt");
+		customerAdministration.readData(file + "_C.txt");
+		//customerAdministration.writeCustomerData(file+"_C.txt");
 
 		// A new instance of the EmployeeAdministration class is created and assigned to the employeeAdministration variable
 		// Read customer profile from file
 		employeeAdministration = new EmployeeAdministration();
 		employeeAdministration.readData(file+"_E.txt");
+		//employeeAdministration.writeData(file+"_e.txt");
 	}
 
 	public Customer loginCustomer(String username, String password) {
@@ -89,6 +90,16 @@ public class Shop {
 	}
 
 	/**
+	 * Method to search articles by article number. There will be one or none article returned.
+	 *
+	 * @param articleNumber Article number of the searched article
+	 * @return list of items found (may be empty)
+	 */
+	public Article searchByArticleNumber(int articleNumber) {
+		return articleAdministration.searchByArticleNumber(articleNumber);
+	}
+
+	/**
 	 * Method of adding a new item to stock.
 	 * If the item is already in stock, the stock will not be changed.
 	 *
@@ -115,17 +126,34 @@ public class Shop {
 		articleAdministration.delete(b);
 	}
 
+	/**
+	 * Method that increases an articles' stock
+	 *
+	 * @param article the article whose stock should be increased
+	 * @param quantityToAdd number of articles that are to be added to stock
+	 * @return Article with searched articleNumber (may be empty)
+	 */
+	public void increaseArticleStock(Article article, int quantityToAdd) throws IOException {
+		articleAdministration.increaseArticleStock(article, quantityToAdd);
+	}
+
+	/**
+	 * Method that decreases an articles' stock
+	 *
+	 * @param article the article whose stock should be decreased
+	 * @param quantityToRetrieve number of articles that are to be retrieved from stock
+	 * @return Article with searched articleNumber (may be empty)
+	 */
+	public boolean decreaseArticleStock(Article article, int quantityToRetrieve) throws IOException {
+		return articleAdministration.decreaseArticleStock(article, quantityToRetrieve);
+	}
+
 	public void addEmployee(Employee employee) {
 		employeeAdministration.addEmployee(employee);
 	}
 
-	/**
-	 * Method to save item inventory to a file.
-	 *
-	 * @throws IOException e.g. if file does not exist
-	 */
-	public void writeArticle() throws IOException {
-		articleAdministration.writeData(file + "_B.txt");
+	public void writeArticleData(String file, Article article) throws IOException {
+		articleAdministration.writeData(file, article);
 	}
 
 	public void writeCustomerData(String file, Customer customer) throws IOException {
