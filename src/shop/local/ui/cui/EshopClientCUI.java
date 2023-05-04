@@ -254,7 +254,6 @@ public class EshopClientCUI {
 		int number;
 		String articleTitle;
 		ArticleList articleList;
-		Article article;
 		
 		// Get input
 		switch(line) {
@@ -272,15 +271,23 @@ public class EshopClientCUI {
 				eshop.deleteArticle(articleTitle, number);
 				break;
 			case "e":
-				// lies die notwendigen Parameter, einzeln pro Zeile
-				System.out.print("Article number > ");
-				numberString = readInput();
-				number = Integer.parseInt(numberString);
-				System.out.print("Artikel title  > ");
+				// Generiere zufällige Artikelnummer
+				Random random = new Random(System.currentTimeMillis());
+				int articleNumber = random.nextInt(1, 10000);
+
+				// Lese Artikelbezeichnung
+				System.out.print("Article title  > ");
 				articleTitle = readInput();
 
+				// Lese Wert für initialen Artikelbestand
+				System.out.print("Initial quantity / stock > ");
+				String initialQuantityString = readInput();
+				int initialQuantity = Integer.parseInt(initialQuantityString);
+
+				// Speichere Artikel
 				try {
-					eshop.insertArticle(articleTitle, number);
+					Article article = eshop.insertArticle(articleNumber, articleTitle, initialQuantity);
+					eshop.writeArticleData("ESHOP_A.txt", article);
 					System.out.println("Article saved successfully");
 				} catch (ArticleAlreadyExistsException e) {
 					// Hier Fehlerbehandlung...
