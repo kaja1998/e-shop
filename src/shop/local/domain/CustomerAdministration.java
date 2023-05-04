@@ -23,7 +23,7 @@ public class CustomerAdministration {
         private ArrayList<Customer> customers = new ArrayList<>();
 
         // Persistence interface responsible for file access details
-        private PersistenceManager pm = new FilePersistenceManager();
+        private PersistenceManager persistenceManager = new FilePersistenceManager();
 
         /**
          * The readData method reads customer data from a file with the specified file name.
@@ -33,13 +33,13 @@ public class CustomerAdministration {
          */
         public void readData(String file) throws IOException {
                 //PersistenceManager object opens the PersistenceManager for reading using the openForReading method.
-                pm.openForReading(file);
+                persistenceManager.openForReading(file);
 
                 Customer customer;
                 do {
                         //Read customer object
                         //Calls the loadCustomer method of the PersistenceManager in a loop to read one customer at a time from the file
-                        customer = pm.loadCustomer();
+                        customer = persistenceManager.loadCustomer();
                         if (customer != null) {
                                 //If a customer could be read in successfully, this is added to the customer list with the addKundeZunzu method.
                                 //customers.add(customer);
@@ -49,16 +49,16 @@ public class CustomerAdministration {
                 } while (customer != null);
 
                 //Persistence interface is closed again
-                pm.close();
+                persistenceManager.close();
         }
 
         public void writeData(String file, Customer customer) throws IOException  {
                 // Open persistence manager for writes
-                pm.openForWriting(file);
-                pm.saveCustomer(customer, this.customers);
+                persistenceManager.openForWriting(file);
+                persistenceManager.saveCustomer(customer, this.customers);
 
                 // Close the persistence interface again
-                pm.close();
+                persistenceManager.close();
         }
 
         public Customer login (String userName, String password) {

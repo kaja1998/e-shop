@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import java.util.List;
 
 import shop.local.entities.Article;
+import shop.local.entities.ArticleList;
 import shop.local.entities.Customer;
 import shop.local.entities.Employee;
 
@@ -68,24 +69,36 @@ public class FilePersistenceManager implements PersistenceManager {
 	 * @return article object, if fetch successful, false null
 	 */
 	public Article readArticle() throws IOException {
+		// Read number convert from String to int
+		String numberString = readRow();
+
+		// Check if end of file is reached
+		if(numberString == null) {
+			return null;
+		}
+		int number = Integer.parseInt(numberString);
+
 		// Read title
 		String title = readRow();
 		if (title == null) {
 			// No data to read anymore
 			return null;
 		}
-		// Read number
-		String numberString = readRow();
+
+		// Read quantity in stock
+		String quantityInStockString = readRow();
 		// convert from String to int
-		int nummer = Integer.parseInt(numberString);
+		int quantityInStockNumber = Integer.parseInt(quantityInStockString);
 		
-		// Buy article?
+		// Is article out of stock (o) or in stock (i)?
 		String availabilityCode = readRow();
 		// Convert availability encoding to boolean
 		boolean inStock = availabilityCode.equals("i") ? true : false;
 
 		// create and return a new article object
-		return new Article(title, nummer, inStock);
+		Article article = new Article(title, quantityInStockNumber, inStock);
+		article.setNumber(number);
+		return article;
 	}
 
 	/**
@@ -93,19 +106,41 @@ public class FilePersistenceManager implements PersistenceManager {
 	 * The availability attribute is shown as "t" or "f" in the data source (file)
 	 * stored encoded.
 	 *
-	 * @param article Item object to save
+	 * @param newArticle Article to save
 	 * @return true if write is successful, false otherwise
 	 */
-	public boolean saveArticle(Article article) {
-		// Write title, number and availability
+	public boolean saveArticle(Article newArticle, ArticleList existingArticles) {
+		// Write all existing articles to the file
+		while (existingArticles != null) {
+			Article currentArticle = existingArticles.getFirstArticle();
+
+			// only write the articles that have not been edited to file
+			if(currentArticle.getNumber() != newArticle.getNumber()) {
+				this.writeArticleToFile(currentArticle);
+			} else {
+				// Write the new article to file
+				this.writeArticleToFile(newArticle);
+			}
+			existingArticles = existingArticles.getRemainingArticles();
+		}
+		// return true, if everything worked
+		return true;
+	}
+
+	public boolean writeArticleToFile(Article article) {
+		// Write number
+		writeLine(String.valueOf(article.getNumber()));
+
+		// Write title
 		writeLine(article.getArticleTitle());
 
-		// writeLine(Integer.valueOf(b.getNummer()).toString());
-		writeLine(article.getNumber() + "");
+		// Write quantity in stock
+		writeLine(String.valueOf(article.getQuantityInStock()));
+
+		// Write "i" if in stock and "o" if out of stock
 		if (article.isInStock()) {
 			writeLine("i");
-		}
-		else {
+		} else {
 			writeLine("o");
 		}
 		return true;
@@ -165,7 +200,7 @@ public class FilePersistenceManager implements PersistenceManager {
 			this.writeCustomerToFile(customer);
 		}
 
-		// Write all new customers to file
+		// Write the new customers to file
 		this.writeCustomerToFile(newCustomer);
 
 		// return true, if everything worked
@@ -216,7 +251,7 @@ public class FilePersistenceManager implements PersistenceManager {
 	}
 
 	@Override
-	public boolean saveEmployee(Employee newEmployee, List<Employee> existingEmployees) throws IOException {
+	public boolean saveEmployee(Employee newEmployee, List<Employee> existingEmployees) {
 		// Write all existing employees to the file
 		for (Employee employee : existingEmployees) {
 			this.writeEmployeeToFile(employee);
@@ -250,8 +285,9 @@ public class FilePersistenceManager implements PersistenceManager {
 
 	//The writeLine(String data) method writes a string to a file.
 	private void writeLine(String data) {
-		if (writer != null)
+		if (writer != null) {
 			writer.println(data);
+		}
 	}
 
 

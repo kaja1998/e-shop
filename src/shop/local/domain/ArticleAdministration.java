@@ -57,20 +57,10 @@ public class ArticleAdministration {
 	 * @param file File to write item inventory to
 	 * @throws IOException
 	 */
-	public void writeData(String file) throws IOException  {
+	public void writeData(String file, Article article) throws IOException  {
 		// Open persistence manager for writes
 		persistenceManager.openForWriting(file);
-
-		//Iterate through the ItemList and call saveItem() to write each item in the list to the file.
-		ArticleList liste = articleStock;
-		while (liste != null) {
-			Article article = liste.getFirstArticle();
-			if (article != null) {
-				// Save
-				persistenceManager.saveArticle(article);
-			}
-			liste = liste.getRemainingArticles();
-		}
+		persistenceManager.saveArticle(article, this.articleStock);
 
 		// Close the persistence interface again
 		persistenceManager.close();
@@ -117,6 +107,49 @@ public class ArticleAdministration {
 			currentArticleList = currentArticleList.getRemainingArticles();
 		}
 		return searchResult;
+	}
+
+	/**
+	 * Method that searches for articles by articleNumber. There will be one or none article returned.
+	 *
+	 * @param articleNumber Number of the article we're looking for
+	 * @return Article with searched articleNumber (may be empty)
+	 */
+	public Article searchByArticleNumber(int articleNumber) {
+		Article searchResult = null;
+		ArticleList currentArticleList = articleStock;
+		while (articleStock != null) {
+			Article currentArticle = currentArticleList.getFirstArticle();
+			if (currentArticle.getNumber() == articleNumber) {
+				// Enter found item in search result
+				searchResult = currentArticle;
+				break;
+			}
+			currentArticleList = currentArticleList.getRemainingArticles();
+		}
+		return searchResult;
+	}
+
+	/**
+	 * Method that increases an articles' stock
+	 *
+	 * @param article the article whose stock should be increased
+	 * @param quantityToAdd number of articles that are to be added to stock
+	 * @return Article with searched articleNumber (may be empty)
+	 */
+	public void increaseArticleStock(Article article, int quantityToAdd) throws IOException {
+		article.increaseStock(quantityToAdd);
+	}
+
+	/**
+	 * Method that decreases an articles' stock
+	 *
+	 * @param article the article whose stock should be decreased
+	 * @param quantityToRetrieve number of articles that are to be retrieved from stock
+	 * @return Article with searched articleNumber (may be empty)
+	 */
+	public boolean decreaseArticleStock(Article article, int quantityToRetrieve) throws IOException {
+		return article.decreaseStock(quantityToRetrieve);
 	}
 
 	/**

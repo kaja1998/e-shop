@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import shop.local.entities.Article;
+import shop.local.entities.ArticleList;
 import shop.local.entities.Customer;
 import shop.local.entities.Employee;
 
@@ -38,7 +39,7 @@ public interface PersistenceManager {
 	 * @param article Article object to be saved
 	 * @return true if write is successful, false otherwise
 	 */
-	public boolean saveArticle(Article article) throws IOException;
+	public boolean saveArticle(Article article, ArticleList existingArticles) throws IOException;
 
 	public boolean saveCustomer(Customer customer, List<Customer> existingCustomers) throws IOException;
 

@@ -1,6 +1,8 @@
 package shop.local.entities;
 
 
+import java.util.Random;
+
 /**
  * Class for representing individual articles.
  * 
@@ -11,16 +13,17 @@ public class Article {
 	// Attributes describing an item
 	private String articleTitle;
 	private int number;
+	private int quantityInStock;
 	private boolean inStock;
 	
 	
 	public Article(String articleTitle, int number) {
-		this(articleTitle, number, true);
+		this(articleTitle, number, number > 0);
 	}
 
-	public Article(String articleTitle, int number, boolean inStock) {
-		this.number = number;
+	public Article(String articleTitle, int quantityInStock, boolean inStock) {
 		this.articleTitle = articleTitle;
+		this.quantityInStock = quantityInStock;
 		this.inStock = inStock;
 	}
 	
@@ -35,7 +38,7 @@ public class Article {
 	 */
 	public String toString() {
 		String availability = inStock ? "inStock" : "soldOut";
-		return ("Number: " + number + " / Article title: " + articleTitle + " / " + availability);
+		return ("Number: " + number + " / Article title: " + articleTitle + " / Quantity " + quantityInStock + " (" + availability + ")");
 	}
 
 	/**
@@ -67,5 +70,45 @@ public class Article {
 
 	public boolean isInStock() {
 		return inStock;
+	}
+
+	public int getQuantityInStock() {
+		return quantityInStock;
+	}
+
+	public void setQuantityInStock(int quantityInStock) {
+		this.quantityInStock = quantityInStock;
+	}
+
+	public void increaseStock(int quantityToAdd) {
+		// stock up
+		this.quantityInStock += quantityToAdd;
+
+		// check if article is inStock now
+		if(this.quantityInStock > 0) {
+			this.inStock = true;
+		}
+	}
+
+	public boolean decreaseStock(int quantityToRetrieve) {
+		// check if quantity can be retrieved
+		if(quantityToRetrieve > this.quantityInStock) {
+			return false;
+		}
+
+		// retrieve stock
+		this.quantityInStock -= quantityToRetrieve;
+
+		// check if article is out of stock now
+		if(this.quantityInStock == 0) {
+			this.inStock = false;
+		}
+
+		// if we came until here, stock was decreased successfully
+		return true;
+	}
+
+	public void setNumber(int number) {
+		this.number = number;
 	}
 }

@@ -1,8 +1,6 @@
 package shop.local.domain;
 
-import shop.local.entities.Customer;
 import shop.local.entities.Employee;
-import shop.local.entities.User;
 import shop.local.persistence.FilePersistenceManager;
 import shop.local.persistence.PersistenceManager;
 
