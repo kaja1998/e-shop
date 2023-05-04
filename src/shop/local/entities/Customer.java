@@ -14,7 +14,6 @@ import java.util.Objects;
  */
 public class Customer extends User {
 
-	private int id;
 	private String email;
 	private String street = "";
 	private int postalCode;
@@ -45,10 +44,6 @@ public class Customer extends User {
 	public String getCity() { return city; }
 
 	public void setCity(String city) { this.city = city; }
-
-	public int getId() { return id;	}
-
-	public void setId(int id) {	this.id = id; }
 
 	public String getEmail() { return email;	}
 

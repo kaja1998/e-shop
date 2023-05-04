@@ -12,18 +12,23 @@ public class Article {
 
 	// Attributes describing an item
 	private String articleTitle;
-	private int number;
+	private int number;					//id?
 	private int quantityInStock;
 	private boolean inStock;
 
+	private static int idCounter = 0;
+
 	public Article(int number, String articleTitle, int quantityInStock) {
 		this.number = number;
+		this.idCounter = number;
 		this.articleTitle = articleTitle;
 		this.quantityInStock = quantityInStock;
 		this.inStock = quantityInStock > 0;
 	}
 
 	public Article(String articleTitle, int quantityInStock) {
+		this.idCounter = this.idCounter++;
+		this.number = idCounter;
 		this.articleTitle = articleTitle;
 		this.quantityInStock = quantityInStock;
 		this.inStock = quantityInStock > 0;

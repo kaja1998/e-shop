@@ -73,7 +73,6 @@ public class EshopClientCUI {
 			Random random = new Random(System.currentTimeMillis());
 			int customerId = random.nextInt(1, 10000);
 			Customer customer = new Customer(name, lastName, street, postalCode, city, mail, username, password);
-			customer.setId(customerId);
 			boolean customerAlreadyExists = false;
 
 			//Check if user already exists.
@@ -119,9 +118,9 @@ public class EshopClientCUI {
 		String password = readInput();
 
 		//Erstelle Variable vom Typ Employee und übergebe die Eingaben des Employee an den Konstruktor
-		Random random = new Random(System.currentTimeMillis());
-		int employeeId = random.nextInt(1, 10000);
-		Employee employee = new Employee(employeeId, name, lastname, username, password);
+		//Random random = new Random(System.currentTimeMillis());
+		//int employeeId = random.nextInt(1, 10000);
+		Employee employee = new Employee(name, lastname, username, password);
 
 		// Prüfe, ob Employee bereits existiert
 		//Gehe ich mit einer for-Loop durch die Liste aller Employees durch.
@@ -361,7 +360,7 @@ public class EshopClientCUI {
 	 *
 	 */
 	private void manageInventory(int number) throws IOException {
-		// Try to find article by number
+		// Try to find article by number and gives it to the variable article
 		Article article = eshop.searchByArticleNumber(number);
 
 		// Check if article was found
@@ -373,7 +372,7 @@ public class EshopClientCUI {
 		}
 
 		// Get quantity change
-		System.out.println("Please enter how many items you'd like to add (positve number) or to retrieve from stock (negative number)");
+		System.out.println("Please enter how many items you'd like to add (positive number) or to retrieve from stock (negative number)");
 		String stockChangeString = readInput();
 		int stockChange = Integer.parseInt(stockChangeString);
 

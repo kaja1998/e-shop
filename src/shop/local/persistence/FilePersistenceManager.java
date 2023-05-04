@@ -180,7 +180,6 @@ public class FilePersistenceManager implements PersistenceManager {
 
 		//A new customer object is created with the read data and returned.
 		Customer customer = new Customer(name, lastName, street, postalCodeInt, city, email, username, password);
-		customer.setId(customerId);
 		return customer;
 	}
 
@@ -215,7 +214,7 @@ public class FilePersistenceManager implements PersistenceManager {
 	@Override
 	public Employee loadEmployee() throws IOException {
 		// Variables
-		int employeeId;
+		int employeeId;						//Greta
 
 		// First, the employee number is read in as a string and converted into an integer
 		String employeeIdString = readRow();
@@ -240,7 +239,7 @@ public class FilePersistenceManager implements PersistenceManager {
 		String password = readRow();
 
 		//A new employee object is created with the read data and returned.
-		return new Employee(employeeId, name, lastName, username, password);
+		return new Employee(name, lastName, username, password);
 	}
 
 	@Override
