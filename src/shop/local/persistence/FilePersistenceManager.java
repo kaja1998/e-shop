@@ -89,16 +89,9 @@ public class FilePersistenceManager implements PersistenceManager {
 		String quantityInStockString = readRow();
 		// convert from String to int
 		int quantityInStockNumber = Integer.parseInt(quantityInStockString);
-		
-		// Is article out of stock (o) or in stock (i)?
-		String availabilityCode = readRow();
-		// Convert availability encoding to boolean
-		boolean inStock = availabilityCode.equals("i") ? true : false;
 
 		// create and return a new article object
-		Article article = new Article(title, quantityInStockNumber, inStock);
-		article.setNumber(number);
-		return article;
+		return new Article(number, title, quantityInStockNumber);
 	}
 
 	/**

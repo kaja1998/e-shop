@@ -15,16 +15,18 @@ public class Article {
 	private int number;
 	private int quantityInStock;
 	private boolean inStock;
-	
-	
-	public Article(String articleTitle, int number) {
-		this(articleTitle, number, number > 0);
-	}
 
-	public Article(String articleTitle, int quantityInStock, boolean inStock) {
+	public Article(int number, String articleTitle, int quantityInStock) {
+		this.number = number;
 		this.articleTitle = articleTitle;
 		this.quantityInStock = quantityInStock;
-		this.inStock = inStock;
+		this.inStock = quantityInStock > 0;
+	}
+
+	public Article(String articleTitle, int quantityInStock) {
+		this.articleTitle = articleTitle;
+		this.quantityInStock = quantityInStock;
+		this.inStock = quantityInStock > 0;
 	}
 	
 	// --- Dienste der Artikel-Objekte ---
