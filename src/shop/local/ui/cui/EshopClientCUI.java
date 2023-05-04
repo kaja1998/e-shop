@@ -207,8 +207,12 @@ public class EshopClientCUI {
 	 * Interne (private) Methode zur Ausgabe des Menüs.
 	 */
 	private void printCustomerMenu() {
-		System.out.print("Commands: \n  Command 1:  'a'");		// \n ist ein Absatz
-		System.out.print("          \n  Command 2:  'b'");
+		System.out.print("Commands: \n  Output articles:  'a'");		// \n ist ein Absatz
+		System.out.print("          \n  Add article into shopping cart:  'b'");
+		System.out.print("          \n  Remove article from shopping cart:  'c'");
+		System.out.print("          \n  View shopping cart:  'd'");
+		System.out.print("          \n  Buy articles:  'e'");
+		System.out.print("          \n  Logout:  'f'");
 		System.out.print("          \n  ---------------------");
 		System.out.println("        \n  Quit:        'q'");
 		System.out.print("> "); // Prompt
