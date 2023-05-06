@@ -105,7 +105,7 @@ public class Shop {
 	 * If the item is already in stock, the stock will not be changed.
 	 *
 	 * @param articleTitle Title of the article
-	 * @param number       Article number
+	 * @param quantityInStock Stock Quantity
 	 * @return article object inserted in case of success
 	 * @throws ArticleAlreadyExistsException if the article already exists
 	 */
