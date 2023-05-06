@@ -1,7 +1,9 @@
 1
-Basilikum
-11
+Basil
+13
 2
-Koreander
+curcuma
 15
-
+3
+Mint
+15

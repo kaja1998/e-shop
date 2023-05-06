@@ -109,8 +109,8 @@ public class Shop {
 	 * @return article object inserted in case of success
 	 * @throws ArticleAlreadyExistsException if the article already exists
 	 */
-	public Article insertArticle(int number, String articleTitle, int quantityInStock) throws ArticleAlreadyExistsException {
-		Article b = new Article(number, articleTitle, quantityInStock);
+	public Article insertArticle(String articleTitle, int quantityInStock) throws ArticleAlreadyExistsException {
+		Article b = new Article(articleTitle, quantityInStock);
 		articleAdministration.insert(b);
 		return b;
 	}

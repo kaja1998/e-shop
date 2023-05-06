@@ -27,7 +27,7 @@ public class Article {
 	}
 
 	public Article(String articleTitle, int quantityInStock) {
-		this.idCounter = this.idCounter++;
+		this.idCounter = ++idCounter;
 		this.number = idCounter;
 		this.articleTitle = articleTitle;
 		this.quantityInStock = quantityInStock;

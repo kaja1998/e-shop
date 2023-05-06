@@ -7,12 +7,7 @@ public abstract class User {
         private String userName = null;
         private String password = null;
 
-        private final int id;
-        private static int idCounter = 0;
-
         public User (String name, String lastName, String userName, String password) {
-                this.idCounter = idCounter++;
-                this.id = idCounter;
                 this.name = name;
                 this.lastName = lastName;
                 this.userName = userName;
@@ -50,9 +45,4 @@ public abstract class User {
         public void setPassword(String password) {
                 this.password = password;
         }
-
-        public int getId() {
-                return id;
-        }
-
 }

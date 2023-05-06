@@ -19,11 +19,15 @@ public class Customer extends User {
 	private int postalCode;
 	private String city = "";
 	private float revenue = 0.0f;
+	private final int id;
+	private static int idCounter = 0;
 
 	private ShoppingCart cart = new ShoppingCart();
 
     	public Customer(String name, String lastName, String street, int postalCode, String city, String email, String username, String password) {
 		super(name, lastName, username, password);
+		this.idCounter = ++idCounter;
+		this.id = idCounter;
 		this.street = street;
 		this.postalCode = postalCode;
 		this.city = city;
@@ -48,6 +52,10 @@ public class Customer extends User {
 	public String getEmail() { return email;	}
 
 	public void setEmail(String email) { this.email = email; }
+
+	public int getId() {
+		return id;
+	}
 
 
 	//Diese Methode prüft, ob zwei Instanzen der Klasse Kunde gleich sind, indem sie ihre Attribute vergleicht

@@ -131,11 +131,11 @@ public class FilePersistenceManager implements PersistenceManager {
 		writeLine(String.valueOf(article.getQuantityInStock()));
 
 		// Write "i" if in stock and "o" if out of stock
-		if (article.isInStock()) {
-			writeLine("i");
-		} else {
-			writeLine("o");
-		}
+		//if (article.isInStock()) {
+		//	writeLine("i");
+		//} else {
+		//	writeLine("o");
+		//}
 		return true;
 	}
 

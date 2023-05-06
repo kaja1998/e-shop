@@ -70,8 +70,6 @@ public class EshopClientCUI {
 		//Check if registration wants to do
 		if (registerNow.equals("yes")) {  //Wenn man Strings auf Gleichheit überprüfen möchten, sollten man den Operator "==" nicht verwenden. Der Operator "==" prüft, ob die beiden Variablen dieselbe Referenz auf dasselbe Objekt haben, was bei Strings oft nicht der Fall ist. Stattdessen sollte man die equals()-Methode verwenden, um Strings auf Gleichheit zu prüfen.
 			//Erstelle Variable vom Typ Kunde und übergebe die Eingaben des Kunden an den Konstruktor
-			Random random = new Random(System.currentTimeMillis());
-			int customerId = random.nextInt(1, 10000);
 			Customer customer = new Customer(name, lastName, street, postalCode, city, mail, username, password);
 			boolean customerAlreadyExists = false;
 
@@ -118,8 +116,6 @@ public class EshopClientCUI {
 		String password = readInput();
 
 		//Erstelle Variable vom Typ Employee und übergebe die Eingaben des Employee an den Konstruktor
-		//Random random = new Random(System.currentTimeMillis());
-		//int employeeId = random.nextInt(1, 10000);
 		Employee employee = new Employee(name, lastname, username, password);
 
 		// Prüfe, ob Employee bereits existiert
@@ -274,10 +270,6 @@ public class EshopClientCUI {
 				eshop.deleteArticle(articleTitle, number);
 				break;
 			case "e":
-				// Generiere zufällige Artikelnummer
-				Random random = new Random(System.currentTimeMillis());
-				int articleNumber = random.nextInt(1, 10000);
-
 				// Lese Artikelbezeichnung
 				System.out.print("Article title  > ");
 				articleTitle = readInput();
@@ -289,7 +281,7 @@ public class EshopClientCUI {
 
 				// Speichere Artikel
 				try {
-					Article article = eshop.insertArticle(articleNumber, articleTitle, initialQuantity);
+					Article article = eshop.insertArticle(articleTitle, initialQuantity);
 					eshop.writeArticleData("ESHOP_A.txt", article);
 					System.out.println("Article saved successfully");
 				} catch (ArticleAlreadyExistsException e) {
