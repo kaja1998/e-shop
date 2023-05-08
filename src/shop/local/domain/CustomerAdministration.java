@@ -86,8 +86,4 @@ public class CustomerAdministration {
                 this.customers = customers;
         }
 
-        public void addArticle(Article article, int quantity) {
-                addArticle(article, quantity);
-        }
-
 }

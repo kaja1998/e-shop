@@ -192,9 +192,5 @@ public class Shop {
 		customerAdministration.readData(file);
 	}
 
-	public void addArticle(Article article, int quantity) {
-		customerAdministration.addArticle(article, quantity);
-	}
-
 
 }

@@ -7,29 +7,64 @@ import java.util.ArrayList;
 
 public class ShoppingCart {
 
-        private ArrayList<Article> items;
+        //privates Attribut vom Typ ArrayList, heißt, dass es eine Liste von Article-Objekten speichert
+        private ArrayList<ShoppingCartItem> cart;
 
-        public ShoppingCart() {
-                items = new ArrayList<>();
+
+        public ShoppingCart(){
+                this.cart = new ArrayList<>();
         }
+
+        public ShoppingCart(ArrayList<ShoppingCartItem> cart){
+                this.cart = cart;
+        }
+
 
         public void addArticle(Article article, int quantity) {
-                items.add(article, quantity);
+                ShoppingCartItem object = new ShoppingCartItem(article, quantity);
+                cart.add(object);
         }
 
-        public void removeArticle(Article Article) {
-            System.out.println("");
+        public void read(){
+                cart.toString();
         }
 
-        public void changequantity(Article Article, int newQuantity) {
+        public void update(Article article, int newQuantity){
+                if(article != null) {
+                        if (cart.contains(article)) {
+                                if (newQuantity == 0){
+                                        deleteSingle(article);
+                                } else {
+                                        for (int i = 0; i < cart.size(); i++){
+                                                if (cart.get(i).getArticle() == article){
+                                                        cart.get(i).setQuantity(newQuantity);
+                                                        return;
+                                                }
+                                        }
+                                }
+                        } else {
+                                System.out.println("Article doesn't exist in your cart yet.");;
+                        }
+                }
         }
 
-        public void clear() {
-                items.clear();
+        public void deleteAll() {
+                cart.clear();
         }
 
-        public ArrayList<Article> getItems() {
-                return items;
+        public void deleteSingle(Article article) {
+                if(article != null){
+                        if (cart.contains(article)) {
+                                for (int i = 0; i < cart.size(); i++){
+                                        if (cart.get(i).getArticle() == article){
+                                                cart.remove(i);
+                                                return;
+                                        }
+                                }
+                        } else {
+                                System.out.println("Article doesn't exist in your cart yet.");;
+                        }
+                }
         }
 
 }

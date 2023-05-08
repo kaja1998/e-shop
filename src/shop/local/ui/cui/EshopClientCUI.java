@@ -310,17 +310,42 @@ public class EshopClientCUI {
 	}
 
 	private void processInputForCustomerMenu(String line) throws IOException {
-		ArticleList aList;
+		ArticleList articleList;
+		Article article
 		// Get input
 		switch(line) {
 			//Output articles
 			case "a":
-				aList = eshop.getAllArticles();
-				printArticleList(aList);
+				articleList = eshop.getAllArticles();
+				printArticleList(articleList);
 				break;
 			//Add to SC
 			case "b":
-				//eshop.addArticle();
+				System.out.println("Which article you want to add to your shopping Chart (Name)?");
+				String articleTitle = readInput();
+				articleList = eshop.searchByArticleTitle(articleTitle);
+				if(articleList != null) {
+					System.out.println("Found article \n");
+				} else {
+					System.out.println("Article not found");
+					return;
+				}
+				System.out.println("Please enter how many items you'd like to add (positive number) to cart");
+				String quantityString = readInput();
+				int quantity = Integer.parseInt(quantityString);
+				if(quantity >= 1) {
+					//gucken, ob der Artikel noch vorrätig ist
+					//boolean success = eshop.decreaseArticleStock(articleList, (-1)*stockChange);
+					if(success) {
+						//Wenn ja, der ArrayList für deb Warenkorb hinzufügen
+						//addArticle(articleTitle, quantity);
+						System.out.println("Article/s were added successfully into the cart.");
+					} else { //Wenn nein, dann ausgeben, dass der Artikel out of stock ist
+						System.out.println("Could not put article into the Cart, because it must be out of stock.");
+					}
+				} else {
+					System.out.println("Please input a positive number.");
+				}
 				break;
 			//Remov from SC
 			case "c":
