@@ -96,8 +96,6 @@ public class FilePersistenceManager implements PersistenceManager {
 
 	/**
 	 * Method for writing item data to an external data source.
-	 * The availability attribute is shown as "t" or "f" in the data source (file)
-	 * stored encoded.
 	 *
 	 * @param newArticle Article to save
 	 * @return true if write is successful, false otherwise

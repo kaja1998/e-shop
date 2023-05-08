@@ -2,14 +2,19 @@ package shop.local.domain;
 
 import shop.local.entities.Article;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class ShoppingCart {
 
-        private shop.local.domain.ShoppingCart cart;
+        private ArrayList<Article> items;
 
         public ShoppingCart() {
+                items = new ArrayList<>();
         }
 
-        public void addArticle(Article Article, int quantity) {
+        public void addArticle(Article article, int quantity) {
+                items.add(article, quantity);
         }
 
         public void removeArticle(Article Article) {
@@ -20,6 +25,11 @@ public class ShoppingCart {
         }
 
         public void clear() {
+                items.clear();
+        }
+
+        public ArrayList<Article> getItems() {
+                return items;
         }
 
 }
