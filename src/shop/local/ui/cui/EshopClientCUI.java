@@ -8,6 +8,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 import shop.local.domain.ShoppingCart;
+import shop.local.domain.ShoppingCartItem;
 import shop.local.domain.exceptions.ArticleAlreadyExistsException;
 import shop.local.domain.Shop;
 import shop.local.entities.*;
@@ -203,10 +204,11 @@ public class EshopClientCUI {
 	private void printCustomerMenu() {
 		System.out.print("Commands: \n  Output articles:  'a'");        // \n ist ein Absatz
 		System.out.print("          \n  Add article into shopping cart:  'b'");
-		System.out.print("          \n  Remove article from shopping cart:  'c'");
-		System.out.print("          \n  View shopping cart:  'd'");
-		System.out.print("          \n  Buy articles:  'e'");
-		System.out.print("          \n  Logout:  'f'");
+		System.out.print("          \n  Edit quantity of an article in shopping cart:  'c'");
+		System.out.print("          \n  Remove article from shopping cart:  'd'");
+		System.out.print("          \n  View shopping cart:  'e'");
+		System.out.print("          \n  Buy articles:  'f'");
+		System.out.print("          \n  Logout:  'g'");
 		System.out.print("          \n  ---------------------");
 		System.out.println("        \n  Quit:        'q'");
 		System.out.print("> "); // Prompt
@@ -321,17 +323,24 @@ public class EshopClientCUI {
 			case "b":
 				addArticleToCart();
 				break;
-			//Remov from SC
+			//Edit quantity of ShoppingCartItem
 			case "c":
-				System.out.println("Which article you want to remove from your shopping Chart (Name)?");
+				editArticleInCart();
+				break;
+			//Remove from SC
+			case "d":
+				System.out.println("Which article do you want to remove from your shopping Chart (Name)?");
 				break;
 			//View SC
-			case "d":
+			case "e":
+				if(loggedinUser instanceof Customer) {
+					((Customer) loggedinUser).getShoppingCart().read();
+				}
 				break;
 			//Buy all in SC
-			case "e":
-				//Logout
 			case "f":
+				//Logout
+			case "g":
 				break;
 		}
 	}
@@ -347,7 +356,6 @@ public class EshopClientCUI {
 	}
 
 	private void addArticleToCart() throws IOException {
-		ArticleList articleList;
 		int articleNumber;
 		int quantity;
 
@@ -387,6 +395,35 @@ public class EshopClientCUI {
 			}
 		} else {
 			System.out.println("User is not a customer. Cannot add article to shopping cart.");
+		}
+	}
+
+	private void editArticleInCart() throws IOException {
+		int articleNumber;
+		int quantity;
+
+		if (loggedinUser instanceof Customer) {
+			Customer customer = (Customer) loggedinUser;
+
+			//Output shopping cart
+			customer.getShoppingCart().read();
+
+			//Input vom User entgegennehmen
+			System.out.println("Which article number would you like to edit? ");
+			String articleNumberString = readInput();
+			articleNumber = Integer.parseInt((articleNumberString));
+			System.out.print("Enter new quantity: ");
+			String quantityString = readInput();
+			quantity = Integer.parseInt(quantityString);
+
+			//checken, ob es den Artikel wirklich gibt im Bestand
+			Article article = eshop.searchByArticleNumber(articleNumber);
+
+			//Update quantity
+			customer.getShoppingCart().update(article, quantity);
+
+		} else {
+			System.out.println("User is not a customer. Cannot edit articles in shopping cart.");
 		}
 	}
 
