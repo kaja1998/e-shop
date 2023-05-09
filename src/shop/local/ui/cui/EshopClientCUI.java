@@ -4,11 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
-import java.util.Random;
 import java.util.Scanner;
 
 import shop.local.domain.ShoppingCart;
-import shop.local.domain.ShoppingCartItem;
 import shop.local.domain.exceptions.ArticleAlreadyExistsException;
 import shop.local.domain.Shop;
 import shop.local.entities.*;
