@@ -25,6 +25,7 @@ public class Customer extends User {
 
 	public Customer(String name, String lastName, String street, int postalCode, String city, String email, String username, String password) {
 		super(name, lastName, username, password);
+		this.shoppingCart = new ShoppingCart();
 		this.idCounter = ++idCounter;
 		this.id = idCounter;
 		this.street = street;

@@ -104,6 +104,7 @@ public class Article {
 		}
 
 		// retrieve stock
+		//Wenn die angegebene Menge kleiner oder gleich dem Lagerbestand ist, wird die Menge vom Lagerbestand abgezogen, um die Entnahme zu simulieren.
 		this.quantityInStock -= quantityToRetrieve;
 
 		// check if article is out of stock now

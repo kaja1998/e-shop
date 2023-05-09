@@ -32,8 +32,10 @@ public class ShoppingCart {
         }
 
         public void read(){
-                cart.toString();
-                //Um den Inhalt des Warenkorbs zu lesen, kannst du System.out.println(cart.toString()) verwenden, um die Liste in der Konsole auszugeben
+                System.out.println("In your shopping cart are the following items: ");
+                for (ShoppingCartItem item : cart) {
+                        System.out.println(item.getQuantity() + "x " + item.getArticle().getNumber() + " " + item.getArticle().getArticleTitle());
+                }
         }
 
         public void update(Article article, int newQuantity){

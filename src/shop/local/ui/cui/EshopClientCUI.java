@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
+import shop.local.domain.ShoppingCart;
 import shop.local.domain.exceptions.ArticleAlreadyExistsException;
 import shop.local.domain.Shop;
 import shop.local.entities.*;
@@ -309,7 +310,6 @@ public class EshopClientCUI {
 
 	private void processInputForCustomerMenu(String line) throws IOException {
 		ArticleList articleList;
-		int quantity;
 		// Get input
 		switch(line) {
 			//Output articles
@@ -319,38 +319,7 @@ public class EshopClientCUI {
 				break;
 			//Add to SC
 			case "b":
-				System.out.println("Enter article name: ");
-				String articleTitle = readInput();
-				System.out.print("Enter quantity: ");
-				String quantityString = readInput();
-				quantity = Integer.parseInt(quantityString);
-				//checken, ob es den Artikel wirklich gibt im Bestand
-				articleList = eshop.searchByArticleTitle(articleTitle);
-				if(articleList != null) {
-					System.out.println("Found article \n");
-					//Überprüfen, ob die eingegebene Menge gültig ist
-					if(quantity >= 1) {
-						//gucken, ob der Artikel noch vorrätig ist + Artikelbestand um die Eingabe des Kunden verringern
-						Article article = new Article(articleTitle, quantity);
-						boolean success = eshop.decreaseArticleStock(article, (-1)*quantity);
-						if(success) {
-							//Wenn ja, der ArrayList für den Warenkorb hinzufügen
-							if (loggedinUser instanceof Customer) {
-								Customer customer = (Customer) loggedinUser;
-								customer.getShoppingCart().addArticle(article, quantity);
-								System.out.println("Article/s were added successfully into the cart.");
-							} else {
-							System.out.println("User is not a customer. Cannot add article to shopping cart.");
-							}
-						} else { //Wenn nein, dann ausgeben, dass der Artikel out of stock ist
-							System.out.println("Could not put article into the Cart, because it must be out of stock.");
-						}
-					} else {
-						System.out.println("Please input a positive number for quantity.");
-					}
-				} else {
-					System.out.println("Article not found.");
-				}
+				addArticleToCart();
 				break;
 			//Remov from SC
 			case "c":
@@ -375,6 +344,50 @@ public class EshopClientCUI {
 	private void printArticleList(ArticleList liste) {
 		// Einfach nur Aufruf der toString()-Methode von ArtikelListe
 		System.out.print(liste);
+	}
+
+	private void addArticleToCart() throws IOException {
+		ArticleList articleList;
+		int articleNumber;
+		int quantity;
+
+		if (loggedinUser instanceof Customer) {
+			Customer customer = (Customer) loggedinUser;
+
+			//Input vom User entgegennehmen
+			System.out.println("Enter article number: ");
+			String articleNumberString = readInput();
+			articleNumber = Integer.parseInt((articleNumberString));
+			System.out.print("Enter quantity: ");
+			String quantityString = readInput();
+			quantity = Integer.parseInt(quantityString);
+
+			//checken, ob es den Artikel wirklich gibt im Bestand
+			Article article = eshop.searchByArticleNumber(articleNumber);
+			if (article != null) {
+				System.out.println("Found article \n");
+
+				//Überprüfen, ob die eingegebene Menge gültig ist
+				if (quantity >= 1) {
+					//gucken, ob der Artikel noch vorrätig ist
+					if (article.getQuantityInStock() >= quantity) {
+						//Wenn Artikel noch Bestand hat, der ArrayList (Warenkorb) hinzufügen
+						ShoppingCart shoppingCart = customer.getShoppingCart();
+						shoppingCart.addArticle(article, quantity);
+						System.out.println("Article/s were added successfully into the cart.");
+						shoppingCart.read();
+					} else { //Wenn nein, dann ausgeben, dass der Artikel out of stock ist
+						System.out.println("Could not put article into the Cart, because it must be out of stock.");
+					}
+				} else {
+					System.out.println("Please input a positive number for quantity.");
+				}
+			} else {
+				System.out.println("Article not found.");
+			}
+		} else {
+			System.out.println("User is not a customer. Cannot add article to shopping cart.");
+		}
 	}
 
 	/* (non-Javadoc)
