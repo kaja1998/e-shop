@@ -21,10 +21,9 @@ public class Customer extends User {
 	private float revenue = 0.0f;
 	private final int id;
 	private static int idCounter = 0;
+	private ShoppingCart shoppingCart;
 
-	private ShoppingCart cart = new ShoppingCart();
-
-    	public Customer(String name, String lastName, String street, int postalCode, String city, String email, String username, String password) {
+	public Customer(String name, String lastName, String street, int postalCode, String city, String email, String username, String password) {
 		super(name, lastName, username, password);
 		this.idCounter = ++idCounter;
 		this.id = idCounter;
@@ -33,6 +32,19 @@ public class Customer extends User {
 		this.city = city;
 		this.email = email;
 	}
+
+	// Second constructor with attribute ShoppingCart
+	public Customer(String name, String lastName, String street, int postalCode, String city, String email, String username, String password, ShoppingCart shoppingCart) {
+		super(name, lastName, username, password);
+		this.shoppingCart = shoppingCart;
+		this.idCounter = ++idCounter;
+		this.id = idCounter;
+		this.street = street;
+		this.postalCode = postalCode;
+		this.city = city;
+		this.email = email;
+	}
+
 	public float getRevenue() {	return revenue;	}
 
 	public void setRevenue(float revenue) { this.revenue = revenue;	}
@@ -56,6 +68,10 @@ public class Customer extends User {
 	public int getId() {
 		return id;
 	}
+
+	public ShoppingCart getShoppingCart() {	return shoppingCart; }
+
+	public void setShoppingCart(ShoppingCart shoppingCart) { this.shoppingCart = shoppingCart;	}
 
 
 	//Diese Methode prüft, ob zwei Instanzen der Klasse Kunde gleich sind, indem sie ihre Attribute vergleicht

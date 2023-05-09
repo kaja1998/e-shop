@@ -25,7 +25,7 @@ public class EshopClientCUI {
 	private Shop eshop;
 	private BufferedReader in;
 	private User loggedinUser = null;
-	private Scanner scanner = new Scanner(System.in);							// Scanner registration
+	private Scanner scanner = new Scanner(System.in);                            // Scanner registration
 
 	public EshopClientCUI(String file) throws IOException {
 		// the shop administration handles the tasks that have nothing to do with input/output
@@ -94,14 +94,13 @@ public class EshopClientCUI {
 				//Kunde wird zur Liste hinzugefügt, indem das Shop-Objekt die Methode in der Klasse KundenVerwaltung aufruft
 				try {
 					eshop.writeCustomerData("ESHOP_C.txt", customer);
-				}
-				catch (IOException e) {
+				} catch (IOException e) {
 					e.printStackTrace();
 				}
 				eshop.addCustomer(customer);
 				System.out.println("Registration successful.");
-				}
 			}
+		}
 	}
 
 	private void registerEmployee() throws IOException {
@@ -136,8 +135,7 @@ public class EshopClientCUI {
 			//Employee wird zur Liste hinzugefügt, indem das Shop-Objekt die Methode in der Klasse EmployeeAdministration aufruft
 			try {
 				eshop.writeEmployeeData("ESHOP_E.txt", employee);
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			eshop.addEmployee(employee);
@@ -183,7 +181,7 @@ public class EshopClientCUI {
 	 * Interne (private) Methode zur Ausgabe des Menüs.
 	 */
 	private void printEmployeeMenu() {
-		System.out.print("Commands: \n  Output articles:  'a'");		// \n ist ein Absatz
+		System.out.print("Commands: \n  Output articles:  'a'");        // \n ist ein Absatz
 		System.out.print("          \n  Output customers:  'b'");
 		System.out.print("          \n  Delete article: 'd'");
 		System.out.print("          \n  Insert article: 'e'");
@@ -202,7 +200,7 @@ public class EshopClientCUI {
 	 * Interne (private) Methode zur Ausgabe des Menüs.
 	 */
 	private void printCustomerMenu() {
-		System.out.print("Commands: \n  Output articles:  'a'");		// \n ist ein Absatz
+		System.out.print("Commands: \n  Output articles:  'a'");        // \n ist ein Absatz
 		System.out.print("          \n  Add article into shopping cart:  'b'");
 		System.out.print("          \n  Remove article from shopping cart:  'c'");
 		System.out.print("          \n  View shopping cart:  'd'");
@@ -253,11 +251,11 @@ public class EshopClientCUI {
 		int number;
 		String articleTitle;
 		ArticleList articleList;
-		
+
 		// Get input
 		switch(line) {
 			case "a":
-				articleList = eshop.getAllArticles();		//eshop ist ein Objekt der Klasse Shop
+				articleList = eshop.getAllArticles();        //eshop ist ein Objekt der Klasse Shop
 				printArticleList(articleList);
 				break;
 			case "d":
@@ -311,7 +309,7 @@ public class EshopClientCUI {
 
 	private void processInputForCustomerMenu(String line) throws IOException {
 		ArticleList articleList;
-		Article article
+		int quantity;
 		// Get input
 		switch(line) {
 			//Output articles
@@ -321,34 +319,42 @@ public class EshopClientCUI {
 				break;
 			//Add to SC
 			case "b":
-				System.out.println("Which article you want to add to your shopping Chart (Name)?");
+				System.out.println("Enter article name: ");
 				String articleTitle = readInput();
+				System.out.print("Enter quantity: ");
+				String quantityString = readInput();
+				quantity = Integer.parseInt(quantityString);
+				//checken, ob es den Artikel wirklich gibt im Bestand
 				articleList = eshop.searchByArticleTitle(articleTitle);
 				if(articleList != null) {
 					System.out.println("Found article \n");
-				} else {
-					System.out.println("Article not found");
-					return;
-				}
-				System.out.println("Please enter how many items you'd like to add (positive number) to cart");
-				String quantityString = readInput();
-				int quantity = Integer.parseInt(quantityString);
-				if(quantity >= 1) {
-					//gucken, ob der Artikel noch vorrätig ist
-					//boolean success = eshop.decreaseArticleStock(articleList, (-1)*stockChange);
-					if(success) {
-						//Wenn ja, der ArrayList für deb Warenkorb hinzufügen
-						//addArticle(articleTitle, quantity);
-						System.out.println("Article/s were added successfully into the cart.");
-					} else { //Wenn nein, dann ausgeben, dass der Artikel out of stock ist
-						System.out.println("Could not put article into the Cart, because it must be out of stock.");
+					//Überprüfen, ob die eingegebene Menge gültig ist
+					if(quantity >= 1) {
+						//gucken, ob der Artikel noch vorrätig ist + Artikelbestand um die Eingabe des Kunden verringern
+						Article article = new Article(articleTitle, quantity);
+						boolean success = eshop.decreaseArticleStock(article, (-1)*quantity);
+						if(success) {
+							//Wenn ja, der ArrayList für den Warenkorb hinzufügen
+							if (loggedinUser instanceof Customer) {
+								Customer customer = (Customer) loggedinUser;
+								customer.getShoppingCart().addArticle(article, quantity);
+								System.out.println("Article/s were added successfully into the cart.");
+							} else {
+							System.out.println("User is not a customer. Cannot add article to shopping cart.");
+							}
+						} else { //Wenn nein, dann ausgeben, dass der Artikel out of stock ist
+							System.out.println("Could not put article into the Cart, because it must be out of stock.");
+						}
+					} else {
+						System.out.println("Please input a positive number for quantity.");
 					}
 				} else {
-					System.out.println("Please input a positive number.");
+					System.out.println("Article not found.");
 				}
 				break;
 			//Remov from SC
 			case "c":
+				System.out.println("Which article you want to remove from your shopping Chart (Name)?");
 				break;
 			//View SC
 			case "d":
@@ -464,7 +470,7 @@ public class EshopClientCUI {
 		System.out.println("Finished");
 	}
 
-	
+
 	/**
 	 * The main-method...
 	 */
@@ -476,7 +482,7 @@ public class EshopClientCUI {
 			cui = new EshopClientCUI("ESHOP");
 			//Die "run"-Methode wird mit dem "cui"-Objekt aufgerufen, um das Programm auszuführen
 			cui.run();
-		//Wenn währenddessen ein Fehler auftritt, wird eine "IOException" geworfen
+			//Wenn währenddessen ein Fehler auftritt, wird eine "IOException" geworfen
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			//Fehlermeldung "e.printStackTrace()" wird ausgegeben
