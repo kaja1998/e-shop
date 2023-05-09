@@ -116,17 +116,24 @@ public class ArticleAdministration {
 	 * @return Article with searched articleNumber (may be empty)
 	 */
 	public Article searchByArticleNumber(int articleNumber) {
+		//Es gibt einen Variable "searchResult" vom Typ Article, welche zunächst auf "null" gesetzt ist
 		Article searchResult = null;
+		//Artikelliste in Variable speichern
 		ArticleList currentArticleList = articleStock;
+		//Dann wird eine Schleife ausgeführt, um durch die Artikel in der Liste zu iterieren
 		while (articleStock != null) {
 			Article currentArticle = currentArticleList.getFirstArticle();
+			//In jeder Iteration wird der erste Artikel in der aktuellen Artikel-Liste "currentArticleList" ermittelt und mit der gesuchten Artikelnummer verglichen
 			if (currentArticle.getNumber() == articleNumber) {
 				// Enter found item in search result
+				//Wenn die Nummer übereinstimmt, wird der Artikel in die Variable "searchResult" gespeichert und die Schleife wird mit break beendet
 				searchResult = currentArticle;
 				break;
 			}
+			//Andernfalls wird der nächste Artikel in der Liste durch Festlegen der Variable "currentArticleList" auf die Restliste erhalten und die Schleife wird fortgesetzt
 			currentArticleList = currentArticleList.getRemainingArticles();
 		}
+		//Wenn die Schleife beendet wird, gibt die Methode "searchResult" zurück, die entweder null ist, wenn kein Artikel gefunden wurde, oder den Artikel
 		return searchResult;
 	}
 

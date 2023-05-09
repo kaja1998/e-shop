@@ -96,8 +96,6 @@ public class FilePersistenceManager implements PersistenceManager {
 
 	/**
 	 * Method for writing item data to an external data source.
-	 * The availability attribute is shown as "t" or "f" in the data source (file)
-	 * stored encoded.
 	 *
 	 * @param newArticle Article to save
 	 * @return true if write is successful, false otherwise
@@ -131,11 +129,11 @@ public class FilePersistenceManager implements PersistenceManager {
 		writeLine(String.valueOf(article.getQuantityInStock()));
 
 		// Write "i" if in stock and "o" if out of stock
-		if (article.isInStock()) {
-			writeLine("i");
-		} else {
-			writeLine("o");
-		}
+		//if (article.isInStock()) {
+		//	writeLine("i");
+		//} else {
+		//	writeLine("o");
+		//}
 		return true;
 	}
 
@@ -180,7 +178,6 @@ public class FilePersistenceManager implements PersistenceManager {
 
 		//A new customer object is created with the read data and returned.
 		Customer customer = new Customer(name, lastName, street, postalCodeInt, city, email, username, password);
-		customer.setId(customerId);
 		return customer;
 	}
 
@@ -215,7 +212,7 @@ public class FilePersistenceManager implements PersistenceManager {
 	@Override
 	public Employee loadEmployee() throws IOException {
 		// Variables
-		int employeeId;
+		int employeeId;						//Greta
 
 		// First, the employee number is read in as a string and converted into an integer
 		String employeeIdString = readRow();
@@ -240,7 +237,7 @@ public class FilePersistenceManager implements PersistenceManager {
 		String password = readRow();
 
 		//A new employee object is created with the read data and returned.
-		return new Employee(employeeId, name, lastName, username, password);
+		return new Employee(name, lastName, username, password);
 	}
 
 	@Override

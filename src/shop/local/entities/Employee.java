@@ -11,20 +11,20 @@ package shop.local.entities;
 
 public class Employee extends User {
 
-    private int id;
+    private final int id;
+    private static int idCounter = 0;
 
-    public Employee(int employeeNumber, String name, String lastName, String username, String password) {
+    public Employee(String name, String lastName, String username, String password) {
         super(name, lastName, username, password);
-        this.id = employeeNumber;
+        this.idCounter = ++idCounter;
+        this.id = idCounter;
     }
 
     // Methods for setting and reading customer properties,
     // e.g. getStreet() and setStreet()
 
-    public int getId() { return id; }
-
-    public void setId(int id) {
-        this.id = id;
+    public int getId() {
+        return id;
     }
 
 }

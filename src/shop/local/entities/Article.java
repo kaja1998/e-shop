@@ -12,18 +12,23 @@ public class Article {
 
 	// Attributes describing an item
 	private String articleTitle;
-	private int number;
+	private int number;					//id?
 	private int quantityInStock;
 	private boolean inStock;
 
+	private static int idCounter = 0;
+
 	public Article(int number, String articleTitle, int quantityInStock) {
 		this.number = number;
+		this.idCounter = number;
 		this.articleTitle = articleTitle;
 		this.quantityInStock = quantityInStock;
 		this.inStock = quantityInStock > 0;
 	}
 
 	public Article(String articleTitle, int quantityInStock) {
+		this.idCounter = ++idCounter;
+		this.number = idCounter;
 		this.articleTitle = articleTitle;
 		this.quantityInStock = quantityInStock;
 		this.inStock = quantityInStock > 0;
@@ -99,6 +104,7 @@ public class Article {
 		}
 
 		// retrieve stock
+		//Wenn die angegebene Menge kleiner oder gleich dem Lagerbestand ist, wird die Menge vom Lagerbestand abgezogen, um die Entnahme zu simulieren.
 		this.quantityInStock -= quantityToRetrieve;
 
 		// check if article is out of stock now

@@ -29,6 +29,7 @@ public class Shop {
 	//Employee administration variable is declared. Can later be used to create an object of this class
 	private EmployeeAdministration employeeAdministration;
 
+
 	/**
 	 * Constructor that reads the basic data (articles, customers etc.) from files
 	 * (Initialization of the shop).
@@ -104,12 +105,12 @@ public class Shop {
 	 * If the item is already in stock, the stock will not be changed.
 	 *
 	 * @param articleTitle Title of the article
-	 * @param number       Article number
+	 * @param quantityInStock Stock Quantity
 	 * @return article object inserted in case of success
 	 * @throws ArticleAlreadyExistsException if the article already exists
 	 */
-	public Article insertArticle(int number, String articleTitle, int quantityInStock) throws ArticleAlreadyExistsException {
-		Article b = new Article(number, articleTitle, quantityInStock);
+	public Article insertArticle(String articleTitle, int quantityInStock) throws ArticleAlreadyExistsException {
+		Article b = new Article(articleTitle, quantityInStock);
 		articleAdministration.insert(b);
 		return b;
 	}
@@ -190,4 +191,5 @@ public class Shop {
 	public void readData(String file) throws IOException {
 		customerAdministration.readData(file);
 	}
+
 }
