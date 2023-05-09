@@ -207,8 +207,9 @@ public class EshopClientCUI {
 		System.out.print("          \n  Edit quantity of an article in shopping cart:  'c'");
 		System.out.print("          \n  Remove article from shopping cart:  'd'");
 		System.out.print("          \n  View shopping cart:  'e'");
-		System.out.print("          \n  Buy articles:  'f'");
-		System.out.print("          \n  Logout:  'g'");
+		System.out.print("          \n  Empty shopping cart:  'f'");
+		System.out.print("          \n  Buy articles:  'g'");
+		System.out.print("          \n  Logout:  'h'");
 		System.out.print("          \n  ---------------------");
 		System.out.println("        \n  Quit:        'q'");
 		System.out.print("> "); // Prompt
@@ -329,7 +330,7 @@ public class EshopClientCUI {
 				break;
 			//Remove from SC
 			case "d":
-				System.out.println("Which article do you want to remove from your shopping Chart (Name)?");
+				System.out.println("Which article do you want to remove from your shopping cart (Name)?");
 				break;
 			//View SC
 			case "e":
@@ -339,8 +340,13 @@ public class EshopClientCUI {
 				break;
 			//Buy all in SC
 			case "f":
-				//Logout
+				if(loggedinUser instanceof Customer) {
+					((Customer) loggedinUser).getShoppingCart().deleteAll();
+				}
+			//Buy all in SC
 			case "g":
+				//Logout
+			case "h":
 				break;
 		}
 	}

@@ -28,4 +28,5 @@ public class ShoppingCartItem {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
 }
