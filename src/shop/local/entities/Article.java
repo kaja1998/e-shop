@@ -117,7 +117,7 @@ public class Article {
 		this.quantityInStock -= quantityToRetrieve;
 
 		// check if article is out of stock now
-		if(this.quantityInStock == 0) {
+		if(this.quantityInStock < 0) {
 			this.inStock = false;
 		}
 

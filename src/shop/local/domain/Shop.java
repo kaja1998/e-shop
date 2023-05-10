@@ -142,7 +142,7 @@ public class Shop {
 	 * @param shoppingCart ShoppingCart of the customer
 	 * @return Invoice with a list of successfully purchased articles, a list of unavailable articles, date and total of purchase
 	 */
-	public Invoice buyArticles(ShoppingCart shoppingCart) {
+	public Invoice buyArticles(ShoppingCart shoppingCart) throws IOException {
 		return articleAdministration.buyArticles(shoppingCart);
 	}
 
@@ -153,8 +153,8 @@ public class Shop {
 	 * @param quantityToAdd number of articles that are to be added to stock
 	 * @return Article with searched articleNumber (may be empty)
 	 */
-	public void increaseArticleStock(Article article, int quantityToAdd) throws IOException {
-		articleAdministration.increaseArticleStock(article, quantityToAdd);
+	public void increaseArticleStock(Article article, int quantityToAdd, String file) throws IOException {
+		articleAdministration.increaseArticleStock(article, quantityToAdd, file);
 	}
 
 	/**
@@ -164,8 +164,8 @@ public class Shop {
 	 * @param quantityToRetrieve number of articles that are to be retrieved from stock
 	 * @return Article with searched articleNumber (may be empty)
 	 */
-	public boolean decreaseArticleStock(Article article, int quantityToRetrieve) throws IOException {
-		return articleAdministration.decreaseArticleStock(article, quantityToRetrieve);
+	public boolean decreaseArticleStock(Article article, int quantityToRetrieve, String file) throws IOException {
+		return articleAdministration.decreaseArticleStock(article, quantityToRetrieve, file);
 	}
 
 	public void addEmployee(Employee employee) {

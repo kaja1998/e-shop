@@ -144,8 +144,9 @@ public class ArticleAdministration {
 	 * @param quantityToAdd number of articles that are to be added to stock
 	 * @return Article with searched articleNumber (may be empty)
 	 */
-	public void increaseArticleStock(Article article, int quantityToAdd) throws IOException {
+	public void increaseArticleStock(Article article, int quantityToAdd, String file) throws IOException {
 		article.increaseStock(quantityToAdd);
+		writeData(file, article);
 	}
 
 	/**
@@ -155,8 +156,13 @@ public class ArticleAdministration {
 	 * @param quantityToRetrieve number of articles that are to be retrieved from stock
 	 * @return Article with searched articleNumber (may be empty)
 	 */
-	public boolean decreaseArticleStock(Article article, int quantityToRetrieve) {
-		return article.decreaseStock(quantityToRetrieve);
+	public boolean decreaseArticleStock(Article article, int quantityToRetrieve, String file) throws IOException {
+		boolean success = article.decreaseStock(quantityToRetrieve);
+		if(success) {
+			writeData(file, article);
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -176,7 +182,7 @@ public class ArticleAdministration {
 		return new ArticleList(articleStock);
 	}
 
-	public Invoice buyArticles(ShoppingCart shoppingCart) {
+	public Invoice buyArticles(ShoppingCart shoppingCart) throws IOException {
 		// Object for the invoice
 		Invoice invoice =  new Invoice();
 
@@ -187,7 +193,7 @@ public class ArticleAdministration {
 			int quantity = item.getQuantity();
 
 			// try to take articles stock and check if successful
-			boolean success =this.decreaseArticleStock(article, quantity);
+			boolean success = decreaseArticleStock(article, quantity, "ESHOP_A.txt");
 
 			// add item to invoice
 			if(success) {

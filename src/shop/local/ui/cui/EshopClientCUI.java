@@ -354,16 +354,14 @@ public class EshopClientCUI {
 
 		// Try to change inventory
 		if(stockChange < 0) {
-			boolean success = eshop.decreaseArticleStock(article, (-1)*stockChange);
+			boolean success = eshop.decreaseArticleStock(article, (-1)*stockChange,"ESHOP_A.txt");
 			if(success) {
-				eshop.writeArticleData("ESHOP_A.txt", article);
 				System.out.println("Successfully decreased article's stock.");
 			} else {
 				System.out.println("Could not decrease stock. Maybe you tried to retrieve more items than there are available?");
 			}
 		} else {
-			eshop.increaseArticleStock(article, stockChange);
-			eshop.writeArticleData("ESHOP_A.txt", article);
+			eshop.increaseArticleStock(article, stockChange, "ESHOP_A.txt");
 			System.out.println("Successfully increased article's stock.");
 		}
 	}
@@ -439,7 +437,7 @@ public class EshopClientCUI {
 		}
 	}
 
-	private void buyArticlesInCart() {
+	private void buyArticlesInCart() throws IOException {
 		if (loggedinUser instanceof Customer) {
 			Customer customer = (Customer) loggedinUser;
 			ShoppingCart shoppingCart = customer.getShoppingCart();
