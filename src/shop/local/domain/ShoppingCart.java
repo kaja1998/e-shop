@@ -1,12 +1,7 @@
 package shop.local.domain;
 
-import shop.local.domain.exceptions.ArticleAlreadyExistsException;
 import shop.local.entities.Article;
-import shop.local.entities.Customer;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ShoppingCart {
 

@@ -1,9 +1,5 @@
 package shop.local.entities;
 
-import shop.local.domain.ArticleAdministration;
-
-import java.io.IOException;
-
 /**
  * (Not quite) abstract data type for managing items in a list.
  * The list is recursive: It consists of an item (item) and a

@@ -1,8 +1,6 @@
 package shop.local.entities;
 
 import shop.local.domain.ShoppingCart;
-
-import java.io.IOException;
 import java.util.Objects;
 
 /**

@@ -1,8 +1,5 @@
 package shop.local.entities;
 
-
-import java.util.Random;
-
 /**
  * Class for representing individual articles.
  * 

@@ -416,11 +416,11 @@ public class EshopClientCUI {
 		}
 	}
 
-	private void changeArticleQuantityInCart() throws IOException {
+	private void changeArticleQuantityInCart() {
 		// TODO
 	}
 
-	private void removeArticleFromCart() throws IOException {
+	private void removeArticleFromCart() {
 		// TODO
 	}
 
