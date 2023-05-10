@@ -69,10 +69,11 @@ public class EshopClientCUI {
 	private void printCustomerMenu() {
 		System.out.print("Commands: \n  Output articles:  'a'");        // \n ist ein Absatz
 		System.out.print("          \n  Add article into shopping cart:  'b'");
-		System.out.print("          \n  Remove article from shopping cart:  'c'");
-		System.out.print("          \n  View shopping cart:  'd'");
-		System.out.print("          \n  Buy articles:  'e'");
-		System.out.print("          \n  Logout:  'f'");
+		System.out.print("          \n  Change quantity of an item in the shopping cart:  'c'");
+		System.out.print("          \n  Remove article from shopping cart:  'd'");
+		System.out.print("          \n  View shopping cart:  'e'");
+		System.out.print("          \n  Buy articles:  'f'");
+		System.out.print("          \n  Logout:  'g'");
 		System.out.print("          \n  ---------------------");
 		System.out.println("        \n  Quit:        'q'");
 		System.out.print("> "); // Prompt
@@ -171,19 +172,24 @@ public class EshopClientCUI {
 			case "b":
 				addArticleToCart();
 				break;
-			//Remove from SC
+			//Change quantity in cart
 			case "c":
+				// TODO implementieren
+				changeArticleQuantityInCart();
+				break;
+			//Remove from SC
+			case "d":
 				// TODO implementieren
 				removeArticleFromCart();
 				break;
 			//View SC
-			case "d":
+			case "e":
 				viewArticlesInCart();
 				break;
 			//Buy all in SC
-			case "e":
-				buyArticlesInCart();
 			case "f":
+				buyArticlesInCart();
+			case "g":
 				break;
 		}
 	}
@@ -410,6 +416,10 @@ public class EshopClientCUI {
 		} else {
 			System.out.println("User is not a customer. Cannot add article to shopping cart.");
 		}
+	}
+
+	private void changeArticleQuantityInCart() throws IOException {
+		// TODO
 	}
 
 	private void removeArticleFromCart() throws IOException {
