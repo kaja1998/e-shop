@@ -4,10 +4,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
-import java.util.Random;
 import java.util.Scanner;
 
+import shop.local.domain.Invoice;
 import shop.local.domain.ShoppingCart;
+import shop.local.domain.ShoppingCartItem;
 import shop.local.domain.exceptions.ArticleAlreadyExistsException;
 import shop.local.domain.Shop;
 import shop.local.entities.*;
@@ -36,6 +37,9 @@ public class EshopClientCUI {
 		in = new BufferedReader(new InputStreamReader(System.in));
 	}
 
+	/*
+	 * Methoden zur Ausgabe der Menüs.
+	 */
 	private void printEntryMenu() {
 		System.out.print("What would you like to do?");
 		System.out.print("         \n  Login as a customer: 'cl'");
@@ -47,6 +51,151 @@ public class EshopClientCUI {
 		System.out.flush(); // output without nl
 	}
 
+	private void printEmployeeMenu() {
+		System.out.print("Commands: \n  Output articles:  'a'");        // \n ist ein Absatz
+		System.out.print("          \n  Output customers:  'b'");
+		System.out.print("          \n  Delete article: 'd'");
+		System.out.print("          \n  Insert article: 'e'");
+		System.out.print("          \n  Search article:  'f'");
+		System.out.print("          \n  Manage an article's inventory:  'g'");
+		System.out.print("          \n  Create new employee:  'n'");
+		System.out.print("          \n  Save data:  's'");
+		System.out.print("          \n  ---------------------");
+		System.out.println("        \n  Quit:        'q'");
+		System.out.print("> "); // Prompt
+		System.out.flush(); // ohne NL ausgeben
+	}
+
+	private void printCustomerMenu() {
+		System.out.print("Commands: \n  Output articles:  'a'");        // \n ist ein Absatz
+		System.out.print("          \n  Add article into shopping cart:  'b'");
+		System.out.print("          \n  Remove article from shopping cart:  'c'");
+		System.out.print("          \n  View shopping cart:  'd'");
+		System.out.print("          \n  Buy articles:  'e'");
+		System.out.print("          \n  Logout:  'f'");
+		System.out.print("          \n  ---------------------");
+		System.out.println("        \n  Quit:        'q'");
+		System.out.print("> "); // Prompt
+		System.out.flush(); // ohne NL ausgeben
+	}
+
+	/*
+	 * Methoden zur Verarbeitung der Menüauswahlen
+	 */
+	private boolean processInputFromEntryMenu(String line) throws IOException {
+		switch (line) {
+			case "cr":
+				registerCustomer();
+				return true;
+			case "cl":
+				return !customerLogin();
+			case "e":
+				return !employeeLogin();
+			case "q":
+				return false;
+		}
+		return false;
+	}
+
+	private void processInputForEmployeeMenu(String line) throws IOException {
+		String numberString;
+		int number;
+		String articleTitle;
+		ArticleList articleList;
+
+		// Get input
+		switch(line) {
+			case "a":
+				articleList = eshop.getAllArticles();        //eshop ist ein Objekt der Klasse Shop
+				printArticleList(articleList);
+				break;
+			case "d":
+				// lies die notwendigen Parameter, einzeln pro Zeile
+				System.out.print("Article number > ");
+				numberString = readInput();
+				number = Integer.parseInt(numberString);
+				System.out.print("Article title  > ");
+				articleTitle = readInput();
+				eshop.deleteArticle(articleTitle, number);
+				break;
+			case "e":
+				// Lese Artikelbezeichnung
+				System.out.print("Article title  > ");
+				articleTitle = readInput();
+
+				// Lese Wert für initialen Artikelbestand
+				System.out.print("Initial quantity / stock > ");
+				String initialQuantityString = readInput();
+				int initialQuantity = Integer.parseInt(initialQuantityString);
+
+				// Speichere Artikel
+				try {
+					Article article = eshop.insertArticle(articleTitle, initialQuantity);
+					eshop.writeArticleData("ESHOP_A.txt", article);
+					System.out.println("Article saved successfully");
+				} catch (ArticleAlreadyExistsException e) {
+					// Hier Fehlerbehandlung...
+					System.out.println("Error saving article");
+					e.printStackTrace();
+				}
+				break;
+			case "f":
+				System.out.print("Article title > ");
+				articleTitle = readInput();
+				articleList = eshop.searchByArticleTitle(articleTitle);
+				printArticleList(articleList);
+				break;
+			case "g":
+				System.out.print("Article number > ");
+				number = Integer.parseInt(readInput());
+				manageInventory(number);
+				break;
+			case "n":
+				registerEmployee();
+				break;
+			case "s":
+				//eshop.writeArticleData();
+		}
+	}
+
+	private void processInputForCustomerMenu(String line) throws IOException {
+		ArticleList articleList;
+		// Get input
+		switch(line) {
+			//Output articles
+			case "a":
+				articleList = eshop.getAllArticles();
+				printArticleList(articleList);
+				break;
+			//Add to SC
+			case "b":
+				addArticleToCart();
+				break;
+			//Remove from SC
+			case "c":
+				// TODO implementieren
+				removeArticleFromCart();
+				break;
+			//View SC
+			case "d":
+				viewArticlesInCart();
+				break;
+			//Buy all in SC
+			case "e":
+				buyArticlesInCart();
+			case "f":
+				break;
+		}
+	}
+
+	private String readInput() throws IOException {
+		// einlesen von Konsole
+		return in.readLine();
+	}
+
+	/*
+	 * Methoden zum Registrieren und Einloggen von Mitarbeitern / Kunden
+	 */
 	private void registerCustomer() {
 		//The data from the file is read and added to the ArrayList of customers
 		System.out.println("Your name: ");
@@ -177,177 +326,50 @@ public class EshopClientCUI {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * 
-	 * Interne (private) Methode zur Ausgabe des Menüs.
+	/*
+	 * Methoden für den Mitarbeiter
 	 */
-	private void printEmployeeMenu() {
-		System.out.print("Commands: \n  Output articles:  'a'");        // \n ist ein Absatz
-		System.out.print("          \n  Output customers:  'b'");
-		System.out.print("          \n  Delete article: 'd'");
-		System.out.print("          \n  Insert article: 'e'");
-		System.out.print("          \n  Search article:  'f'");
-		System.out.print("          \n  Manage an article's inventory:  'g'");
-		System.out.print("          \n  Create new employee:  'n'");
-		System.out.print("          \n  Save data:  's'");
-		System.out.print("          \n  ---------------------");
-		System.out.println("        \n  Quit:        'q'");
-		System.out.print("> "); // Prompt
-		System.out.flush(); // ohne NL ausgeben
-	}
+	private void manageInventory(int number) throws IOException {
+		// Try to find article by number and gives it to the variable article
+		Article article = eshop.searchByArticleNumber(number);
 
-	/* (non-Javadoc)
-	 *
-	 * Interne (private) Methode zur Ausgabe des Menüs.
-	 */
-	private void printCustomerMenu() {
-		System.out.print("Commands: \n  Output articles:  'a'");        // \n ist ein Absatz
-		System.out.print("          \n  Add article into shopping cart:  'b'");
-		System.out.print("          \n  Remove article from shopping cart:  'c'");
-		System.out.print("          \n  View shopping cart:  'd'");
-		System.out.print("          \n  Buy articles:  'e'");
-		System.out.print("          \n  Logout:  'f'");
-		System.out.print("          \n  ---------------------");
-		System.out.println("        \n  Quit:        'q'");
-		System.out.print("> "); // Prompt
-		System.out.flush(); // ohne NL ausgeben
-	}
-
-	/* (non-Javadoc)
-	 * 
-	 * Interne (private) Methode zum Einlesen von Benutzereingaben.
-	 */
-	private String readInput() throws IOException {
-		// einlesen von Konsole
-		return in.readLine();
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * Interne (private) Methode zur Verarbeitung von Eingaben
-	 * und Ausgabe von Ergebnissen.
-	 */
-	private boolean processInputFromEntryMenu(String line) throws IOException {
-		switch (line) {
-			case "cr":
-				registerCustomer();
-				return true;
-			case "cl":
-				return !customerLogin();
-			case "e":
-				return !employeeLogin();
-			case "q":
-				return false;
+		// Check if article was found
+		if(article != null) {
+			System.out.println("Found article \n" + article.toString());
+		} else {
+			System.out.println("Article not found");
+			return;
 		}
-		return false;
-	}
 
-	/* (non-Javadoc)
-	 * 
-	 * Interne (private) Methode zur Verarbeitung von Eingaben
-	 * und Ausgabe von Ergebnissen.
-	 */
-	private void processInputForEmployeeMenu(String line) throws IOException {
-		String numberString;
-		int number;
-		String articleTitle;
-		ArticleList articleList;
+		// Get quantity change
+		System.out.println("Please enter how many items you'd like to add (positive number) or to retrieve from stock (negative number)");
+		String stockChangeString = readInput();
+		int stockChange = Integer.parseInt(stockChangeString);
 
-		// Get input
-		switch(line) {
-			case "a":
-				articleList = eshop.getAllArticles();        //eshop ist ein Objekt der Klasse Shop
-				printArticleList(articleList);
-				break;
-			case "d":
-				// lies die notwendigen Parameter, einzeln pro Zeile
-				System.out.print("Article number > ");
-				numberString = readInput();
-				number = Integer.parseInt(numberString);
-				System.out.print("Article title  > ");
-				articleTitle = readInput();
-				eshop.deleteArticle(articleTitle, number);
-				break;
-			case "e":
-				// Lese Artikelbezeichnung
-				System.out.print("Article title  > ");
-				articleTitle = readInput();
-
-				// Lese Wert für initialen Artikelbestand
-				System.out.print("Initial quantity / stock > ");
-				String initialQuantityString = readInput();
-				int initialQuantity = Integer.parseInt(initialQuantityString);
-
-				// Speichere Artikel
-				try {
-					Article article = eshop.insertArticle(articleTitle, initialQuantity);
-					eshop.writeArticleData("ESHOP_A.txt", article);
-					System.out.println("Article saved successfully");
-				} catch (ArticleAlreadyExistsException e) {
-					// Hier Fehlerbehandlung...
-					System.out.println("Error saving article");
-					e.printStackTrace();
-				}
-				break;
-			case "f":
-				System.out.print("Article title > ");
-				articleTitle = readInput();
-				articleList = eshop.searchByArticleTitle(articleTitle);
-				printArticleList(articleList);
-				break;
-			case "g":
-				System.out.print("Article number > ");
-				number = Integer.parseInt(readInput());
-				manageInventory(number);
-				break;
-			case "n":
-				registerEmployee();
-				break;
-			case "s":
-				//eshop.writeArticleData();
+		// Try to change inventory
+		if(stockChange < 0) {
+			boolean success = eshop.decreaseArticleStock(article, (-1)*stockChange);
+			if(success) {
+				eshop.writeArticleData("ESHOP_A.txt", article);
+				System.out.println("Successfully decreased article's stock.");
+			} else {
+				System.out.println("Could not decrease stock. Maybe you tried to retrieve more items than there are available?");
+			}
+		} else {
+			eshop.increaseArticleStock(article, stockChange);
+			eshop.writeArticleData("ESHOP_A.txt", article);
+			System.out.println("Successfully increased article's stock.");
 		}
 	}
 
-	private void processInputForCustomerMenu(String line) throws IOException {
-		ArticleList articleList;
-		// Get input
-		switch(line) {
-			//Output articles
-			case "a":
-				articleList = eshop.getAllArticles();
-				printArticleList(articleList);
-				break;
-			//Add to SC
-			case "b":
-				addArticleToCart();
-				break;
-			//Remov from SC
-			case "c":
-				System.out.println("Which article you want to remove from your shopping Chart (Name)?");
-				break;
-			//View SC
-			case "d":
-				break;
-			//Buy all in SC
-			case "e":
-				//Logout
-			case "f":
-				break;
-		}
-	}
-
-	/* (non-Javadoc)
-	 * 
-	 * Interne (private) Methode zum Ausgeben von Artikellisten.
-	 *
+	/*
+	 * Methoden für den Kunden
 	 */
 	private void printArticleList(ArticleList liste) {
-		// Einfach nur Aufruf der toString()-Methode von ArtikelListe
 		System.out.print(liste);
 	}
 
 	private void addArticleToCart() throws IOException {
-		ArticleList articleList;
 		int articleNumber;
 		int quantity;
 
@@ -390,49 +412,53 @@ public class EshopClientCUI {
 		}
 	}
 
-	/* (non-Javadoc)
-	 *
-	 * Interne (private) Methode zum Ändern des Artikelbestandes
-	 *
-	 */
-	private void manageInventory(int number) throws IOException {
-		// Try to find article by number and gives it to the variable article
-		Article article = eshop.searchByArticleNumber(number);
+	private void removeArticleFromCart() throws IOException {
+		// TODO
+	}
 
-		// Check if article was found
-		if(article != null) {
-			System.out.println("Found article \n" + article.toString());
-		} else {
-			System.out.println("Article not found");
-			return;
-		}
-
-		// Get quantity change
-		System.out.println("Please enter how many items you'd like to add (positive number) or to retrieve from stock (negative number)");
-		String stockChangeString = readInput();
-		int stockChange = Integer.parseInt(stockChangeString);
-
-		// Try to change inventory
-		if(stockChange < 0) {
-			boolean success = eshop.decreaseArticleStock(article, (-1)*stockChange);
-			if(success) {
-				eshop.writeArticleData("ESHOP_A.txt", article);
-				System.out.println("Successfully decreased article's stock.");
+	private void viewArticlesInCart() {
+		if (loggedinUser instanceof Customer) {
+			List<ShoppingCartItem> shoppingCartItems = eshop.getUsersShoppingCart((Customer) loggedinUser);
+			if(shoppingCartItems != null && shoppingCartItems.size() > 0) {
+				for (ShoppingCartItem item : shoppingCartItems) {
+					System.out.println(item.toString());
+				}
 			} else {
-				System.out.println("Could not decrease stock. Maybe you tried to retrieve more items than there are available?");
+				System.out.println("There are no items in your cart yet.");
 			}
-		} else {
-			eshop.increaseArticleStock(article, stockChange);
-			eshop.writeArticleData("ESHOP_A.txt", article);
-			System.out.println("Successfully increased article's stock.");
 		}
 	}
 
-	/**
-	 * Method of executing the main loop:
-	 * - Print menu
-	 * - Read the user's input
-	 * - Process input and output result
+	private void buyArticlesInCart() {
+		if (loggedinUser instanceof Customer) {
+			Customer customer = (Customer) loggedinUser;
+			ShoppingCart shoppingCart = customer.getShoppingCart();
+			Invoice invoice = eshop.buyArticles(shoppingCart);
+
+			// print which articles couldn't be purchased
+			if(invoice.getUnavailableItems() != null && invoice.getUnavailableItems().size() > 0) {
+				System.out.println("Unfortunately some of the items you wished to purchase became unavailable:");
+				for (ShoppingCartItem item : invoice.getUnavailableItems()) {
+					System.out.println(item.toString());
+				}
+			}
+
+			// print which articles were purchased successfully
+			if(invoice.getPositions() != null && invoice.getPositions().size() > 0) {
+				System.out.println("You successfully purchased:");
+				for (ShoppingCartItem item : invoice.getPositions()) {
+					System.out.println(item.toString());
+				}
+			}
+
+			// print date and total
+			System.out.println("Date: " + invoice.getDate());
+			System.out.println("Total: " + invoice.getTotal());
+		}
+	}
+
+	/*
+	 * Methoden zur Ausführung des Programms
 	 */
 	public void run() throws IOException {
 		// Variables for console input
@@ -483,10 +509,6 @@ public class EshopClientCUI {
 		System.out.println("Finished");
 	}
 
-
-	/**
-	 * The main-method...
-	 */
 	public static void main(String[] args) {
 		//Variable vom Typ "EshopClientCUI" wird deklariert, aber noch nicht initialisiert!
 		EshopClientCUI cui;

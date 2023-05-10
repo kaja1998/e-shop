@@ -128,6 +128,25 @@ public class Shop {
 	}
 
 	/**
+	 * Method for getting all items in the logged in user's shopping cart
+	 *
+	 * @return List of all items in the logged in user's shopping cart
+	 */
+	public List<ShoppingCartItem> getUsersShoppingCart(Customer customer) {
+		return customerAdministration.getUsersShoppingCart(customer);
+	}
+
+	/**
+	 * Method for purchasing articles in the shopping cart
+	 *
+	 * @param shoppingCart ShoppingCart of the customer
+	 * @return Invoice with a list of successfully purchased articles, a list of unavailable articles, date and total of purchase
+	 */
+	public Invoice buyArticles(ShoppingCart shoppingCart) {
+		return articleAdministration.buyArticles(shoppingCart);
+	}
+
+	/**
 	 * Method that increases an articles' stock
 	 *
 	 * @param article the article whose stock should be increased

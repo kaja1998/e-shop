@@ -77,6 +77,10 @@ public class CustomerAdministration {
                 this.customers.add(customer);
         }
 
+        public List<ShoppingCartItem> getUsersShoppingCart(Customer customer) {
+                return customer.getShoppingCart().getCart();
+        }
+
         // Getter und Setter
         public List<Customer> getCustomers() {
                 return customers;

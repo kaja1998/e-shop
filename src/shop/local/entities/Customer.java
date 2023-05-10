@@ -2,6 +2,7 @@ package shop.local.entities;
 
 import shop.local.domain.ShoppingCart;
 
+import java.io.IOException;
 import java.util.Objects;
 
 /**
@@ -103,18 +104,4 @@ public class Customer extends User {
 				&& Objects.equals(getUsername(), other.getUsername());
 	}
 
-	/*
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		Kunde kunde = (Kunde) o;
-		return kundenNr == kunde.kundenNr && plz == kunde.plz && Objects.equals(kName, kunde.kName) && Objects.equals(kNachname, kunde.kNachname) && Objects.equals(kEmail, kunde.kEmail) && Objects.equals(kBenutzername, kunde.kBenutzername) && Objects.equals(kPasswort, kunde.kPasswort) && Objects.equals(strasse, kunde.strasse) && Objects.equals(wohnort, kunde.wohnort);
-	}
-	*/
-
-	//@Override
-	//public int hashCode() {
-		//return Objects.hash(id, name, lastName, email, username, password, street, postalCode, city);
-	//}
 }

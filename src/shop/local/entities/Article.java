@@ -15,6 +15,7 @@ public class Article {
 	private int number;					//id?
 	private int quantityInStock;
 	private boolean inStock;
+	private double price;
 
 	private static int idCounter = 0;
 
@@ -85,6 +86,14 @@ public class Article {
 
 	public void setQuantityInStock(int quantityInStock) {
 		this.quantityInStock = quantityInStock;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
 	}
 
 	public void increaseStock(int quantityToAdd) {

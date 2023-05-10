@@ -155,7 +155,7 @@ public class ArticleAdministration {
 	 * @param quantityToRetrieve number of articles that are to be retrieved from stock
 	 * @return Article with searched articleNumber (may be empty)
 	 */
-	public boolean decreaseArticleStock(Article article, int quantityToRetrieve) throws IOException {
+	public boolean decreaseArticleStock(Article article, int quantityToRetrieve) {
 		return article.decreaseStock(quantityToRetrieve);
 	}
 
@@ -174,6 +174,33 @@ public class ArticleAdministration {
 	 */
 	public ArticleList getArticleStock() {
 		return new ArticleList(articleStock);
+	}
+
+	public Invoice buyArticles(ShoppingCart shoppingCart) {
+		// Object for the invoice
+		Invoice invoice =  new Invoice();
+
+		// Go through all items in the cart
+		for (ShoppingCartItem item : shoppingCart.getCart()) {
+			// check which article is in the cart and what quantity should be purchased
+			Article article = item.getArticle();
+			int quantity = item.getQuantity();
+
+			// try to take articles stock and check if successful
+			boolean success =this.decreaseArticleStock(article, quantity);
+
+			// add item to invoice
+			if(success) {
+				invoice.addPosition(item);
+			} else {
+				invoice.addUnavailableItems(item);
+			}
+		}
+
+		// empty cart
+		shoppingCart.deleteAll();
+
+		return invoice;
 	}
 
 	// TODO: More methods, e.g. for reading and removing items

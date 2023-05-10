@@ -2,14 +2,19 @@ package shop.local.domain;
 
 import shop.local.domain.exceptions.ArticleAlreadyExistsException;
 import shop.local.entities.Article;
+import shop.local.entities.Customer;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ShoppingCart {
 
         //privates Attribut vom Typ ArrayList, heißt, dass es eine Liste von Article-Objekten speichert
         private ArrayList<ShoppingCartItem> cart;
+
+        //privates Attribut vom Typ Invoice
+        private Invoice invoice;
 
 
         //Der erste Konstruktor public ShoppingCart() ist ein Standardkonstruktor ohne Parameter.
@@ -25,6 +30,21 @@ public class ShoppingCart {
                 this.cart = cart;
         }
 
+        public ArrayList<ShoppingCartItem> getCart() {
+                return cart;
+        }
+
+        public void setCart(ArrayList<ShoppingCartItem> cart) {
+                this.cart = cart;
+        }
+
+        public Invoice getInvoice() {
+                return invoice;
+        }
+
+        public void setInvoice(Invoice invoice) {
+                this.invoice = invoice;
+        }
 
         public void addArticle(Article article, int quantity) {
                 ShoppingCartItem object = new ShoppingCartItem(article, quantity);

@@ -28,4 +28,9 @@ public class ShoppingCartItem {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
+    public String toString() {
+        return (quantity + "x " + article.getNumber() + " (" + article.getArticleTitle() + ")");
+    }
+
 }
