@@ -420,8 +420,26 @@ public class EshopClientCUI {
 		// TODO
 	}
 
-	private void removeArticleFromCart() {
+	private void removeArticleFromCart() throws IOException {
 		// TODO
+		int articleNumber;
+
+		if (loggedinUser instanceof Customer) {
+			Customer customer = (Customer) loggedinUser;
+			System.out.println("Enter article number you would like to delete from your cart: ");
+			String articleNumberString = readInput();
+			articleNumber = Integer.parseInt((articleNumberString));
+			//checken, ob es den Artikel wirklich gibt im Shop
+			Article article = eshop.searchByArticleNumber(articleNumber);
+			if (article != null) {
+				System.out.println("Found article \n");
+				ShoppingCart shoppingCart = customer.getShoppingCart();
+				//Artikel aus dem Warenkorb löschen
+				shoppingCart.deleteSingle(article);
+			} else {
+				System.out.println("Article not found.");
+			}
+		}
 	}
 
 	private void viewArticlesInCart() {
