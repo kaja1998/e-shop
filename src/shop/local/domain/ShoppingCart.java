@@ -59,7 +59,7 @@ public class ShoppingCart {
 
 
         /*//Funktioniert nicht mit contains
-        public void ArticleQuantity(Article article, int newQuantity) {
+        public void UpdateArticleQuantity(Article article, int newQuantity) {
                 //Wenn der übergebene Artikel Sinn macht / wirklich existiert
                 if (article != null) {
                         //Befindet sich der Artikel im Warenkorb?
@@ -147,7 +147,7 @@ public class ShoppingCart {
                 }
         }
 
-        /*//AI Lösung
+        /*//AI Lösung - cart.removeIf(item ->) - was soll das Letzte mit dem Pfeil?
         public void deleteSingleArticle(Article article) {
                 if (article != null) {
                         if (cart.contains(article)) {
