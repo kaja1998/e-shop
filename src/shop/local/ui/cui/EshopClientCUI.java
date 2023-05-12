@@ -419,8 +419,38 @@ public class EshopClientCUI {
 		}
 	}
 
-	private void changeArticleQuantityInCart() {
+	private void changeArticleQuantityInCart() throws IOException {
 		// TODO
+		int articleNumber;
+		int newQuantity;
+
+		if (loggedinUser instanceof Customer) {
+			Customer customer = (Customer) loggedinUser;
+
+			//Input vom User entgegennehmen
+			System.out.println("Enter article number: ");
+			String articleNumberString = readInput();
+			articleNumber = Integer.parseInt((articleNumberString));
+			System.out.print("Enter new quantity: ");
+			String quantityString = readInput();
+			newQuantity = Integer.parseInt(quantityString);
+
+			//checken, ob es den Artikel wirklich gibt im Shop
+			Article article = eshop.searchByArticleNumber(articleNumber);
+			if (article != null) {
+				System.out.println("Found article \n");
+				// Variable vom Typ shoppingCart wird deklariert. Mit dem Customer-Objekt wird die Methode getShoppingCart aufgerufen in welcher der Warenkorb des Kunden zurückgegeben wird
+				ShoppingCart shoppingCart = customer.getShoppingCart();
+				//Methode addArticle wird aufgerufen und akzeptiert angegebenen Parameter
+				shoppingCart.updateArticleQuantity(article, newQuantity);
+				//Warenkorb wird ausgegeben
+				shoppingCart.read();
+			} else {
+				System.out.println("Article not found.");
+			}
+		} else {
+			System.out.println("User is not a customer. Cannot add article to shopping cart.");
+		}
 	}
 
 	private void removeArticleFromCart() throws IOException {
@@ -429,7 +459,7 @@ public class EshopClientCUI {
 
 		if (loggedinUser instanceof Customer) {
 			Customer customer = (Customer) loggedinUser;
-			System.out.println("Enter article number you would like to delete from your cart: ");
+			System.out.println("Enter article number: ");
 			String articleNumberString = readInput();
 			articleNumber = Integer.parseInt((articleNumberString));
 			//checken, ob es den Artikel wirklich gibt im Shop
@@ -438,7 +468,7 @@ public class EshopClientCUI {
 				System.out.println("Found article \n");
 				ShoppingCart shoppingCart = customer.getShoppingCart();
 				//Artikel aus dem Warenkorb löschen
-				shoppingCart.deleteSingle(article);
+				shoppingCart.deleteSingleArticle(article);
 			} else {
 				System.out.println("Article not found.");
 			}

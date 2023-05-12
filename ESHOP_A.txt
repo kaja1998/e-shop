@@ -1,9 +1,9 @@
 1
 Basil
-13
+20
 2
 curcuma
-15
+20
 3
 Mint
-15
+20
