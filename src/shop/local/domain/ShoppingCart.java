@@ -42,13 +42,17 @@ public class ShoppingCart {
         }
 
         public void addArticle(Article article, int quantity) {
+                //neues Objekt ShoppingCartItem wird erstellt und mit den übergebenen Parametern article und quantity initialisiert
                 ShoppingCartItem object = new ShoppingCartItem(article, quantity);
+                //ShoppingCartItem-Objekt object wird zur ArrayListe cart hinzugefügt
                 cart.add(object);
         }
 
         public void read() {
                 System.out.println("In your shopping cart are the following items: ");
+                //Mit einer Schleife wird durch die ArrayList cart iteriert. item ist dabei die aktuelle Iteration
                 for (ShoppingCartItem item : cart) {
+                        //Für jedes ShoppingCartItem wird die Menge, die Artikelnummer und der Name abgerufen und auf der Konsole ausgegeben
                         System.out.println(item.getQuantity() + "x " + item.getArticle().getNumber() + " " + item.getArticle().getArticleTitle());
                 }
         }

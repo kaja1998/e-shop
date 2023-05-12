@@ -398,9 +398,12 @@ public class EshopClientCUI {
 					//gucken, ob der Artikel noch vorrätig ist
 					if (article.getQuantityInStock() >= quantity) {
 						//Wenn Artikel noch Bestand hat, der ArrayList (Warenkorb) hinzufügen
+						// Variable vom Typ shoppingCart wird deklariert. Mit dem Customer-Objekt wird die Methode getShoppingCart aufgerufen in welcher der Warenkorb des Kunden zurückgegeben wird
 						ShoppingCart shoppingCart = customer.getShoppingCart();
+						//Methode addArticle wird aufgerufen und akzeptiert angegebenen Parameter
 						shoppingCart.addArticle(article, quantity);
 						System.out.println("Article/s were added successfully into the cart.");
+						//Warenkorb wird ausgegeben
 						shoppingCart.read();
 					} else { //Wenn nein, dann ausgeben, dass der Artikel out of stock ist
 						System.out.println("Could not put article into the Cart, because it must be out of stock.");
@@ -443,10 +446,16 @@ public class EshopClientCUI {
 	}
 
 	private void viewArticlesInCart() {
+		//sicherstellen, dass der eingeloggte Benutzer ein Customer ist
 		if (loggedinUser instanceof Customer) {
+			//Warenkorb des Kunden wird abgerufen und in lokaler Variable shoppingCartItems gespeichert.
+			//Der Rückgabewert ist eine Liste von ShoppingCartItem-Objekten, die in der Variablen shoppingCartItems gespeichert wird.
 			List<ShoppingCartItem> shoppingCartItems = eshop.getUsersShoppingCart((Customer) loggedinUser);
+			//Danach wird überprüft, ob shoppingCartItems nicht null ist und mindestens ein Element enthält.
 			if(shoppingCartItems != null && shoppingCartItems.size() > 0) {
+				//Wenn beides der Fall ist, wird eine Schleife verwendet, um über jedes ShoppingCartItem in der Liste zu iterieren.
 				for (ShoppingCartItem item : shoppingCartItems) {
+					//Artikel wird/werden auf der Konsole ausgegeben.
 					System.out.println(item.toString());
 				}
 			} else {
@@ -456,23 +465,34 @@ public class EshopClientCUI {
 	}
 
 	private void buyArticlesInCart() throws IOException {
+		////sicherstellen, dass der eingeloggte Benutzer ein Customer ist.
 		if (loggedinUser instanceof Customer) {
+			//Wenn erfüllt, dann wird loggedinUser-Objekt in eine Variable customer vom Typ Customer umgewandelt.
 			Customer customer = (Customer) loggedinUser;
+			//Warenkorb des Kunden wird abgerufen. Der zurückgegebene Wert wird in der Variable shoppingCart gespeichert.
 			ShoppingCart shoppingCart = customer.getShoppingCart();
+			//Methode buyArticles(shoppingCart) wird aufgerufen, um den Kauf der Artikel im Warenkorb durchzuführen.
+			//Das Ergebnis ist eine Rechnung (Invoice), die in der Variable invoice gespeichert wird.
 			Invoice invoice = eshop.buyArticles(shoppingCart);
 
 			// print which articles couldn't be purchased
+			//Es wird überprüft, ob es Artikel gibt, die nicht gekauft werden konnten, indem überprüft wird, ob invoice.getUnavailableItems() nicht null ist und mindestens ein Element enthält.
 			if(invoice.getUnavailableItems() != null && invoice.getUnavailableItems().size() > 0) {
 				System.out.println("Unfortunately some of the items you wished to purchase became unavailable:");
+				//Wenn dies der Fall ist, wird eine Schleife verwendet, um über jeden nicht verfügbaren Artikel in der Liste invoice.getUnavailableItems() zu iterieren
 				for (ShoppingCartItem item : invoice.getUnavailableItems()) {
+					//Die nicht verfügbaren Artikeln werden auf der Konsole ausgegeben
 					System.out.println(item.toString());
 				}
 			}
 
 			// print which articles were purchased successfully
+			//Dann wird überprüft, ob es Artikel gibt, die erfolgreich gekauft wurden, indem überprüft wird, ob invoice.getPositions() nicht null ist und mindestens ein Element enthält.
 			if(invoice.getPositions() != null && invoice.getPositions().size() > 0) {
 				System.out.println("You successfully purchased:");
+				//Mit Schleife wird über jeden erfolgreich gekauften Artikel iteriert.
 				for (ShoppingCartItem item : invoice.getPositions()) {
+					//Artikeln werden auf der Konsole ausgegeben
 					System.out.println(item.toString());
 				}
 			}

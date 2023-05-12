@@ -1,5 +1,6 @@
 package shop.local.domain;
 
+//importiert die Klasse Article.
 import shop.local.entities.Article;
 
 public class ShoppingCartItem {
@@ -8,6 +9,7 @@ public class ShoppingCartItem {
 
     private int quantity;
 
+    //Der Konstruktor initialisiert ein ShoppingCartItem-Objekt mit einem Article-Objekt und der entsprechenden Menge.
     public ShoppingCartItem(Article article, int quantity) {
         this.article = article;
         this.quantity = quantity;
