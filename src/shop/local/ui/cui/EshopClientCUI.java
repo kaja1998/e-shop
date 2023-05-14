@@ -131,12 +131,10 @@ public class EshopClientCUI {
 				System.out.print("Article price  > ");
 				String priceString = readInput();
 				double price = Double.parseDouble(priceString);
-
-
+				
 				// Speichere Artikel
 				try {
-					Article article = eshop.insertArticle(articleTitle, initialQuantity, price);
-					eshop.writeArticleData("ESHOP_A.txt", article);
+					eshop.insertArticle(articleTitle, initialQuantity, price);
 					System.out.println("Article saved successfully");
 				} catch (ArticleAlreadyExistsException e) {
 					// Hier Fehlerbehandlung...
@@ -159,7 +157,7 @@ public class EshopClientCUI {
 				registerEmployee();
 				break;
 			case "s":
-				//eshop.writeArticleData();
+				//eshop.writeArticleDataToAddArticle();
 		}
 	}
 

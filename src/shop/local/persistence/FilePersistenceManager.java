@@ -91,7 +91,7 @@ public class FilePersistenceManager implements PersistenceManager {
 	 * @param newArticle Article to save
 	 * @return true if write is successful, false otherwise
 	 */
-	public boolean saveArticle(Article newArticle, ArticleList existingArticles) {
+	public boolean addArticle(Article newArticle, ArticleList existingArticles) {
 		// Write all existing articles to the file
 		while (existingArticles != null) {
 			Article currentArticle = existingArticles.getFirstArticle();
@@ -102,6 +102,26 @@ public class FilePersistenceManager implements PersistenceManager {
 			} else {
 				// Write the new article to file
 				this.writeArticleToFile(newArticle);
+			}
+			existingArticles = existingArticles.getRemainingArticles();
+		}
+		// return true, if everything worked
+		return true;
+	}
+
+	/**
+	 * Method for writing item data to an external data source.
+	 *
+	 * @return true if write is successful, false otherwise
+	 */
+	public boolean deleteArticle(Article articleToDelete, ArticleList existingArticles) {
+		// Write all existing articles to the file
+		while (existingArticles != null) {
+			// only write the articles that should be kept to file
+			// do not write the article that should be deleted to file
+			Article currentArticle = existingArticles.getFirstArticle();
+			if(currentArticle.getNumber() != articleToDelete.getNumber()) {
+				this.writeArticleToFile(currentArticle);
 			}
 			existingArticles = existingArticles.getRemainingArticles();
 		}

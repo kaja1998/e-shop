@@ -1,5 +1,6 @@
 package shop.local.persistence;
 
+import java.io.IOException;
 import java.util.List;
 
 import shop.local.entities.Article;
@@ -22,6 +23,11 @@ public class DBPersistenceManager implements PersistenceManager {
 	}
 
 	@Override
+	public boolean addArticle(Article articleToAdd, ArticleList existingArticles) throws IOException {
+		return false;
+	}
+
+	@Override
 	public void openForReading(String dataSource) {
 		// TODO Auto-generated method stub
 
@@ -34,7 +40,12 @@ public class DBPersistenceManager implements PersistenceManager {
 	}
 
 	@Override
-	public boolean saveArticle(Article article, ArticleList existingArticles) {
+	public boolean deleteArticle(Article article, ArticleList existingArticles) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean deleteArticle(ArticleList existingArticles) throws IOException {
 		// TODO Auto-generated method stub
 		return false;
 	}

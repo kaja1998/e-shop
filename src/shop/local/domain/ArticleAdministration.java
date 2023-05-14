@@ -60,7 +60,22 @@ public class ArticleAdministration {
 	public void writeData(String file, Article article) throws IOException  {
 		// Open persistence manager for writes
 		persistenceManager.openForWriting(file);
-		persistenceManager.saveArticle(article, this.articleStock);
+		persistenceManager.addArticle(article, this.articleStock);
+
+		// Close the persistence interface again
+		persistenceManager.close();
+	}
+
+	/**
+	 * Method to write the item data to a file.
+	 *
+	 * @param file File to write item inventory to
+	 * @throws IOException
+	 */
+	public void writeDataToRemoveArticle(String file, Article article) throws IOException  {
+		// Open persistence manager for writes
+		persistenceManager.openForWriting(file);
+		persistenceManager.deleteArticle(article, this.articleStock);
 
 		// Close the persistence interface again
 		persistenceManager.close();
@@ -82,10 +97,10 @@ public class ArticleAdministration {
 	/**
 	 * Method of deleting an item from inventory.
 	 * 
-	 * @param number the item to be deleted
+	 * @param article the item to be deleted
 	 */
-	public void delete(int number) {
-		articleStock = articleStock.delete(number);
+	public void delete(Article article) {
+		articleStock = articleStock.delete(article);
 	}
 
 	/**

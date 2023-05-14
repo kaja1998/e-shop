@@ -33,13 +33,9 @@ public interface PersistenceManager {
 	 */
 	public Article readArticle() throws IOException;
 
-	/**
-	 * Method to write the article data to an external data source.
-	 *
-	 * @param article Article object to be saved
-	 * @return true if write is successful, false otherwise
-	 */
-	public boolean saveArticle(Article article, ArticleList existingArticles) throws IOException;
+	public boolean addArticle(Article articleToAdd, ArticleList existingArticles) throws IOException;
+
+	public boolean deleteArticle(Article articleToDelete, ArticleList existingArticles) throws IOException;
 
 	public boolean saveCustomer(Customer customer, List<Customer> existingCustomers) throws IOException;
 

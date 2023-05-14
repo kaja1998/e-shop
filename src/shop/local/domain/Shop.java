@@ -109,10 +109,11 @@ public class Shop {
 	 * @return article object inserted in case of success
 	 * @throws ArticleAlreadyExistsException if the article already exists
 	 */
-	public Article insertArticle(String articleTitle, int quantityInStock, double price) throws ArticleAlreadyExistsException {
-		Article b = new Article(articleTitle, quantityInStock, price);
-		articleAdministration.insert(b);
-		return b;
+	public Article insertArticle(String articleTitle, int quantityInStock, double price) throws ArticleAlreadyExistsException, IOException {
+		Article article = new Article(articleTitle, quantityInStock, price);
+		articleAdministration.insert(article);
+		writeArticleDataToAddArticle("ESHOP_A.txt", article);
+		return article;
 	}
 
 	/**
@@ -121,8 +122,10 @@ public class Shop {
 	 *
 	 * @param number of the Article which should be deleted
 	 */
-	public void deleteArticle(int number) {
-		articleAdministration.delete(number);
+	public void deleteArticle(int number) throws IOException {
+		Article article = articleAdministration.searchByArticleNumber(number);
+		articleAdministration.delete(article);
+		writeArticleDataToRemoveArticle("ESHOP_A.txt", article);
 	}
 
 	/**
@@ -170,8 +173,12 @@ public class Shop {
 		employeeAdministration.addEmployee(employee);
 	}
 
-	public void writeArticleData(String file, Article article) throws IOException {
-		articleAdministration.writeData(file, article);
+	public void writeArticleDataToAddArticle(String file, Article articleToAdd) throws IOException {
+		articleAdministration.writeData(file, articleToAdd);
+	}
+
+	public void writeArticleDataToRemoveArticle(String file, Article articleToRemove) throws IOException {
+		articleAdministration.writeDataToRemoveArticle(file, articleToRemove);
 	}
 
 	public void writeCustomerData(String file, Customer customer) throws IOException {

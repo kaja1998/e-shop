@@ -96,19 +96,18 @@ public class ArticleList {
 	/**
 	 * Method that returns an ArticleList without the passed item.
 	 *
-	 * @param number the article to delete
+	 * @param articleToDelete the article to delete
 	 */
-	public ArticleList delete(int number) {
-		Article article = new Article(number, "Titel", 1);
+	public ArticleList delete(Article articleToDelete) {
 		if (this.article == null) {
 			return this;
 		}
 
-		if (this.article.equals(article)) {
+		if (this.article.equals(articleToDelete)) {
 			return next;
 		} else {
 			if (next != null) {
-				next = next.delete(number);
+				next = next.delete(articleToDelete);
 			}
 			return this;
 		}
