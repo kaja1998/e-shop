@@ -119,8 +119,7 @@ public class Shop {
 	 * Method of deleting an item from inventory.
 	 * Only the first occurrence of the article will be deleted.
 	 *
-	 * @param articleTitle Title of the article
-	 * @param number       Article number
+	 * @param number of the Article which should be deleted
 	 */
 	public void deleteArticle(int number) {
 		articleAdministration.delete(number);
