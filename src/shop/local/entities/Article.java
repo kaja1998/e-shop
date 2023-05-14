@@ -13,7 +13,6 @@ public class Article {
 	private int quantityInStock;
 	private boolean inStock;
 	private double price;
-
 	private static int idCounter = 0;
 
 	public Article(int number, String articleTitle, int quantityInStock) {
@@ -24,14 +23,15 @@ public class Article {
 		this.inStock = quantityInStock > 0;
 	}
 
-	public Article(String articleTitle, int quantityInStock) {
+	public Article(String articleTitle, int quantityInStock, double price) {
 		this.idCounter = ++idCounter;
 		this.number = idCounter;
 		this.articleTitle = articleTitle;
 		this.quantityInStock = quantityInStock;
 		this.inStock = quantityInStock > 0;
+		this.price = price;
 	}
-	
+
 	// --- Dienste der Artikel-Objekte ---
 
 	/**
@@ -53,15 +53,42 @@ public class Article {
 	 *
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public boolean equals(Object otherArticle) {
 		if (otherArticle instanceof Article)
-			return ((this.number == ((Article) otherArticle).number)
-					&& (this.articleTitle.equals(((Article) otherArticle).articleTitle)));
+			return ((this.number == ((Article) otherArticle).number));
 		else
 			return false;
 	}
 
-	
+
+	/*	@Override
+	public boolean equals(Object otherArticle) {
+*//*		if (otherArticle instanceof ShoppingCartItem && ((ShoppingCartItem) otherArticle).getArticle().number == ((Article) otherArticle).number) {
+			return true;
+		} else {
+			if (otherArticle instanceof Article)
+				return ((this.number == ((Article) otherArticle).number)
+						&& (this.articleTitle.equals(((Article) otherArticle).articleTitle)));
+			else
+				return false;
+		}*//*
+		try {
+			if (otherArticle instanceof ShoppingCartItem && ((ShoppingCartItem) otherArticle).getArticle().number == ((Article) otherArticle).number) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception e) {
+			if (otherArticle instanceof Article)
+				return ((this.number == ((Article) otherArticle).number)
+						&& (this.articleTitle.equals(((Article) otherArticle).articleTitle)));
+			else
+				return false;
+		}
+	}*/
+
+
 	/*
 	 * From here Accessor-Methoden
 	 */

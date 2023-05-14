@@ -115,9 +115,7 @@ public class EshopClientCUI {
 				System.out.print("Article number > ");
 				numberString = readInput();
 				number = Integer.parseInt(numberString);
-				System.out.print("Article title  > ");
-				articleTitle = readInput();
-				eshop.deleteArticle(articleTitle, number);
+				eshop.deleteArticle(number);
 				break;
 			case "e":
 				// Lese Artikelbezeichnung
@@ -129,9 +127,15 @@ public class EshopClientCUI {
 				String initialQuantityString = readInput();
 				int initialQuantity = Integer.parseInt(initialQuantityString);
 
+				// Lese Preis
+				System.out.print("Article price  > ");
+				String priceString = readInput();
+				double price = Double.parseDouble(priceString);
+
+
 				// Speichere Artikel
 				try {
-					Article article = eshop.insertArticle(articleTitle, initialQuantity);
+					Article article = eshop.insertArticle(articleTitle, initialQuantity, price);
 					eshop.writeArticleData("ESHOP_A.txt", article);
 					System.out.println("Article saved successfully");
 				} catch (ArticleAlreadyExistsException e) {

@@ -58,15 +58,15 @@ public class ShoppingCart {
         }
 
 
-        /*//Funktioniert nicht mit contains
-        public void UpdateArticleQuantity(Article article, int newQuantity) {
+        //Funktioniert nicht mit contains
+/*        public void updateArticleQuantity(Article article, int newQuantity) {
                 //Wenn der übergebene Artikel Sinn macht / wirklich existiert
                 if (article != null) {
                         //Befindet sich der Artikel im Warenkorb?
                         if (cart.contains(article)) {
                                 //Wenn übergebene Menge gleich null soll der Artikel gelöscht werden
                                 if (newQuantity == 0) {
-                                        deleteSingle(article);
+                                        deleteSingleArticle(article);
                                         //Wenn übergebene Menge > 0, dann gehe mit einer for-Schleife durch den Warenkorb Array
                                 } else {
                                         for (int i = 0; i < cart.size(); i++) {
@@ -90,6 +90,7 @@ public class ShoppingCart {
         public void updateArticleQuantity(Article article, int newQuantity) {
                 //Schleife durchläuft den Warenkorb (cart) und sucht nach dem entsprechenden Artikel
                 for (ShoppingCartItem item : cart) {
+                        //Wenn übergebene Menge > 0, dann gehe mit einer for-Schleife durch den Warenkorb Array
                         if (newQuantity > 0) {
                                 //Artikel werden verglichen
                                 if (item.getArticle().equals(article)) {
@@ -97,15 +98,14 @@ public class ShoppingCart {
                                         item.setQuantity(newQuantity);
                                         System.out.println("Article quantity updated successfully.");
                                         return;
-                                }/*else {
-                                        System.out.println("Article not found in the cart.");
-                                }*/
-                        }
-                        if (newQuantity == 0) {
-                                deleteSingleArticle(article);
-                                //Wenn übergebene Menge > 0, dann gehe mit einer for-Schleife durch den Warenkorb Array
+                                }
                         }
                 }
+                if (newQuantity == 0) {
+                        deleteSingleArticle(article);
+                        return;
+                }
+                System.out.println("Article not found in the cart.");
         }
 
 
@@ -141,23 +141,10 @@ public class ShoppingCart {
                                 cart.remove(item);
                                 System.out.println("Article removed from the cart.");
                                 return;
-                        } /*else {
-                                System.out.println("Article not found in the cart.");
-                        }*/
-                }
-        }
-
-        /*//AI Lösung - cart.removeIf(item ->) - was soll das Letzte mit dem Pfeil?
-        public void deleteSingleArticle(Article article) {
-                if (article != null) {
-                        if (cart.contains(article)) {
-                                cart.removeIf(item -> item.getArticle().equals(article));
-                                System.out.println("Article removed from the cart.");
-                        } else {
-                                System.out.println("Article not found in the cart.");
                         }
                 }
-        }*/
+                System.out.println("Article not found in the cart.");
+        }
 
         public void deleteAll() {
                 cart.clear();

@@ -71,27 +71,17 @@ public class FilePersistenceManager implements PersistenceManager {
 	public Article readArticle() throws IOException {
 		// Read number convert from String to int
 		String numberString = readRow();
-
-		// Check if end of file is reached
-		if(numberString == null) {
+		if (numberString == null) {
 			return null;
+		} else {
+			String[] splitted = numberString.split(";");
+			int id = Integer.parseInt(splitted[0]);
+			String title = splitted[1];
+			int quantityInStockNumber = Integer.parseInt(splitted[2]);
+
+			// create and return a new article object
+			return new Article(id, title, quantityInStockNumber);
 		}
-		int number = Integer.parseInt(numberString);
-
-		// Read title
-		String title = readRow();
-		if (title == null) {
-			// No data to read anymore
-			return null;
-		}
-
-		// Read quantity in stock
-		String quantityInStockString = readRow();
-		// convert from String to int
-		int quantityInStockNumber = Integer.parseInt(quantityInStockString);
-
-		// create and return a new article object
-		return new Article(number, title, quantityInStockNumber);
 	}
 
 	/**
@@ -119,21 +109,10 @@ public class FilePersistenceManager implements PersistenceManager {
 	}
 
 	public boolean writeArticleToFile(Article article) {
+		String articleString = article.getNumber() + ";" + article.getArticleTitle() + ";" + article.getQuantityInStock() + ";" + article.getPrice();
+
 		// Write number
-		writeLine(String.valueOf(article.getNumber()));
-
-		// Write title
-		writeLine(article.getArticleTitle());
-
-		// Write quantity in stock
-		writeLine(String.valueOf(article.getQuantityInStock()));
-
-		// Write "i" if in stock and "o" if out of stock
-		//if (article.isInStock()) {
-		//	writeLine("i");
-		//} else {
-		//	writeLine("o");
-		//}
+		writeLine(articleString);
 		return true;
 	}
 

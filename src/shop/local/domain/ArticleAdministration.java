@@ -82,10 +82,10 @@ public class ArticleAdministration {
 	/**
 	 * Method of deleting an item from inventory.
 	 * 
-	 * @param article the item to be deleted
+	 * @param number the item to be deleted
 	 */
-	public void delete(Article article) {
-		articleStock = articleStock.delete(article);
+	public void delete(int number) {
+		articleStock = articleStock.delete(number);
 	}
 
 	/**

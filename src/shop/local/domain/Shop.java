@@ -109,8 +109,8 @@ public class Shop {
 	 * @return article object inserted in case of success
 	 * @throws ArticleAlreadyExistsException if the article already exists
 	 */
-	public Article insertArticle(String articleTitle, int quantityInStock) throws ArticleAlreadyExistsException {
-		Article b = new Article(articleTitle, quantityInStock);
+	public Article insertArticle(String articleTitle, int quantityInStock, double price) throws ArticleAlreadyExistsException {
+		Article b = new Article(articleTitle, quantityInStock, price);
 		articleAdministration.insert(b);
 		return b;
 	}
@@ -122,9 +122,8 @@ public class Shop {
 	 * @param articleTitle Title of the article
 	 * @param number       Article number
 	 */
-	public void deleteArticle(String articleTitle, int number) {
-		Article b = new Article(articleTitle, number);
-		articleAdministration.delete(b);
+	public void deleteArticle(int number) {
+		articleAdministration.delete(number);
 	}
 
 	/**
