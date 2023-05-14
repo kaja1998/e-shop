@@ -30,7 +30,7 @@ public class EshopClientCUI {
 	private Scanner scanner = new Scanner(System.in);                            // Scanner registration
 
 	public EshopClientCUI(String file) throws IOException {
-		// the shop administration handles the tasks that have nothing to do with input/output
+		//the shop administration handles the tasks that have nothing to do with input/output
 		eshop = new Shop(file);
 
 		// Create Stream object for text input via console window
@@ -176,12 +176,10 @@ public class EshopClientCUI {
 				break;
 			//Change quantity in cart
 			case "c":
-				// TODO implementieren
 				changeArticleQuantityInCart();
 				break;
 			//Remove from SC
 			case "d":
-				// TODO implementieren
 				removeArticleFromCart();
 				break;
 			//View SC
@@ -422,7 +420,6 @@ public class EshopClientCUI {
 	}
 
 	private void changeArticleQuantityInCart() throws IOException {
-		// TODO
 		int articleNumber;
 		int newQuantity;
 
@@ -456,7 +453,6 @@ public class EshopClientCUI {
 	}
 
 	private void removeArticleFromCart() throws IOException {
-		// TODO
 		int articleNumber;
 
 		if (loggedinUser instanceof Customer) {
@@ -569,7 +565,6 @@ public class EshopClientCUI {
 			} while (!input.equals("q"));
 		}
 
-		// TODO
 		// print menu for customers
 		if(this.loggedinUser instanceof Customer) {
 			do {

@@ -212,7 +212,7 @@ public class FilePersistenceManager implements PersistenceManager {
 	@Override
 	public Employee loadEmployee() throws IOException {
 		// Variables
-		int employeeId;						//Greta
+		int employeeId;
 
 		// First, the employee number is read in as a string and converted into an integer
 		String employeeIdString = readRow();

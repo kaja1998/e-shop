@@ -15,14 +15,7 @@ public class Article {
 	private double price;
 	private static int idCounter = 0;
 
-	public Article(int number, String articleTitle, int quantityInStock) {
-		this.number = number;
-		this.idCounter = number;
-		this.articleTitle = articleTitle;
-		this.quantityInStock = quantityInStock;
-		this.inStock = quantityInStock > 0;
-	}
-
+	//Konstruktor, wenn ich den Artikel anlege
 	public Article(String articleTitle, int quantityInStock, double price) {
 		this.idCounter = ++idCounter;
 		this.number = idCounter;
@@ -32,6 +25,7 @@ public class Article {
 		this.price = price;
 	}
 
+	//Konstruktor, wenn Artikel aus Datei auslesen wird
 	public Article(int number, String articleTitle, int quantityInStock, double price) {
 		this.idCounter = number;
 		this.number = idCounter;
