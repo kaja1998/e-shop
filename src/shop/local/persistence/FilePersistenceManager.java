@@ -78,9 +78,10 @@ public class FilePersistenceManager implements PersistenceManager {
 			int id = Integer.parseInt(splitted[0]);
 			String title = splitted[1];
 			int quantityInStockNumber = Integer.parseInt(splitted[2]);
+			double price = Double.parseDouble(splitted[3]);
 
 			// create and return a new article object
-			return new Article(id, title, quantityInStockNumber);
+			return new Article(id, title, quantityInStockNumber, price);
 		}
 	}
 

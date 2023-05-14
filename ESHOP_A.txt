@@ -1,3 +1,6 @@
-1;Basil;20;9.99
-2;Curcuma;20;10.99
-3;Mint;25;15.99
+1;Basil;20;1.5
+2;Curcuma;20;2.0
+3;Mint;25;4.0
+4;Test;3;1.0
+5;Pizzagewürz;100;1.99
+6;Chili;10;3.99

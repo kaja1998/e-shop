@@ -32,6 +32,15 @@ public class Article {
 		this.price = price;
 	}
 
+	public Article(int number, String articleTitle, int quantityInStock, double price) {
+		this.idCounter = number;
+		this.number = idCounter;
+		this.articleTitle = articleTitle;
+		this.quantityInStock = quantityInStock;
+		this.inStock = quantityInStock > 0;
+		this.price = price;
+	}
+
 	// --- Dienste der Artikel-Objekte ---
 
 	/**
@@ -43,7 +52,7 @@ public class Article {
 	 */
 	public String toString() {
 		String availability = inStock ? "inStock" : "soldOut";
-		return ("Number: " + number + " / Article title: " + articleTitle + " / Quantity " + quantityInStock + " (" + availability + ")");
+		return ("Number: " + number + " / Price EUR " + price + " / Article title: " + articleTitle + " / Quantity " + quantityInStock + " (" + availability + ")");
 	}
 
 	/**
