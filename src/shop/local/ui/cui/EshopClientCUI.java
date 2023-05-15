@@ -274,10 +274,10 @@ public class EshopClientCUI {
 		Employee employee = new Employee(name, lastname, username, password);
 
 		// Prüfe, ob Employee bereits existiert
-		//Gehe ich mit einer for-Loop durch die Liste aller Employees durch.
-		//Die Schleife durchläuft jedes Element in der employeeList und weist es der Variable currentEmployee zu
 		List<Employee> employees = eshop.getEmployees();
 		boolean employeeAlreadyExists = false;
+		//Gehe ich mit einer for-Loop durch die Liste aller Employees durch.
+		//Die Schleife durchläuft jedes Element in der employeeList und weist es der Variable currentEmployee zu
 		for (Employee currentEmployee : employees) {
 			//In dem Body der Schleife wird dann jedes Employee-Objekt currentEmployee mit dem employee-Objekt verglichen.
 			if (employee.equals(currentEmployee)) {
