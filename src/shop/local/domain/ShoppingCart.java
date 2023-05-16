@@ -109,8 +109,8 @@ public class ShoppingCart {
         }
 
 
-        /*//Funktioniert nicht mit contains
-        public void deleteSingleArticle(Article article) {
+        //Funktioniert nicht mit contains
+        /*public void deleteSingleArticle(Article article) {
                 //Es wird überprüft, ob der Artikel eine gültige Referenz enthält und nicht den Wert null hat.
                 if (article != null) {
                         //enthält der Warenkorb den Artikel?
@@ -149,5 +149,4 @@ public class ShoppingCart {
         public void deleteAll() {
                 cart.clear();
         }
-
 }

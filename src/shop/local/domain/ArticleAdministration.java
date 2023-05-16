@@ -87,10 +87,16 @@ public class ArticleAdministration {
 	 * @param article the item to be inserted
 	 * @throws ArticleAlreadyExistsException if article already exists
 	 */
+
+	//Die Methode überprüft, ob der Artikel bereits im Artikelbestand vorhanden ist,
+	//indem sie die contains-Methode auf dem articleStock-Objekt aufruft.
+	//articleStock ist dabei eine Liste, die die Artikel enthält.
 	public void insert(Article article) throws ArticleAlreadyExistsException {
 		if (articleStock.contains(article)) {
+			//Wenn der Artikel bereits existiert, wird eine ArticleAlreadyExistsException ausgelöst
 			throw new ArticleAlreadyExistsException(article, " - in 'insert()'");
 		}
+		//Wenn der Artikel nicht im Artikelbestand vorhanden ist, wird er mithilfe der insert-Methode dem Artikelbestand hinzugefügt
 		articleStock.insert(article);
 	}
 

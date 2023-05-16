@@ -53,13 +53,12 @@ public class EshopClientCUI {
 
 	private void printEmployeeMenu() {
 		System.out.print("Commands: \n  Output articles:  'a'");        // \n ist ein Absatz
-		System.out.print("          \n  Output customers:  'b'");
 		System.out.print("          \n  Delete article: 'd'");
 		System.out.print("          \n  Insert article: 'e'");
 		System.out.print("          \n  Search article:  'f'");
 		System.out.print("          \n  Manage an article's inventory:  'g'");
 		System.out.print("          \n  Create new employee:  'n'");
-		System.out.print("          \n  Save data:  's'");
+		//System.out.print("          \n  Save data:  's'");
 		System.out.print("          \n  ---------------------");
 		System.out.println("        \n  Quit:        'q'");
 		System.out.print("> "); // Prompt
@@ -73,7 +72,8 @@ public class EshopClientCUI {
 		System.out.print("          \n  Remove article from shopping cart:  'd'");
 		System.out.print("          \n  View shopping cart:  'e'");
 		System.out.print("          \n  Buy articles:  'f'");
-		System.out.print("          \n  Logout:  'g'");
+		System.out.print("          \n  clear complete cart:  'g'");
+		//System.out.print("          \n  Logout:  'h'");
 		System.out.print("          \n  ---------------------");
 		System.out.println("        \n  Quit:        'q'");
 		System.out.print("> "); // Prompt
@@ -106,10 +106,12 @@ public class EshopClientCUI {
 
 		// Get input
 		switch(line) {
+			//Output articles
 			case "a":
 				articleList = eshop.getAllArticles();        //eshop ist ein Objekt der Klasse Shop
 				printArticleList(articleList);
 				break;
+			//Delete article:
 			case "d":
 				// lies die notwendigen Parameter, einzeln pro Zeile
 				System.out.print("Article number > ");
@@ -117,6 +119,7 @@ public class EshopClientCUI {
 				number = Integer.parseInt(numberString);
 				eshop.deleteArticle(number);
 				break;
+			//Insert article
 			case "e":
 				// Lese Artikelbezeichnung
 				System.out.print("Article title  > ");
@@ -131,7 +134,7 @@ public class EshopClientCUI {
 				System.out.print("Article price  > ");
 				String priceString = readInput();
 				double price = Double.parseDouble(priceString);
-				
+
 				// Speichere Artikel
 				try {
 					eshop.insertArticle(articleTitle, initialQuantity, price);
@@ -142,20 +145,24 @@ public class EshopClientCUI {
 					e.printStackTrace();
 				}
 				break;
+			//Search article
 			case "f":
 				System.out.print("Article title > ");
 				articleTitle = readInput();
 				articleList = eshop.searchByArticleTitle(articleTitle);
 				printArticleList(articleList);
 				break;
+			//Manage an article's inventory
 			case "g":
 				System.out.print("Article number > ");
 				number = Integer.parseInt(readInput());
 				manageInventory(number);
 				break;
+			//create new employee
 			case "n":
 				registerEmployee();
 				break;
+			//Save data
 			case "s":
 				//eshop.writeArticleDataToAddArticle();
 		}
@@ -189,7 +196,12 @@ public class EshopClientCUI {
 			//Buy all in SC
 			case "f":
 				buyArticlesInCart();
+			//clear cart
 			case "g":
+				deleteAllArticlesInCart();
+				break;
+			//Logout
+			case "h":
 				break;
 		}
 	}
@@ -414,8 +426,6 @@ public class EshopClientCUI {
 			} else {
 				System.out.println("Article not found.");
 			}
-		} else {
-			System.out.println("User is not a customer. Cannot add article to shopping cart.");
 		}
 	}
 
@@ -447,8 +457,6 @@ public class EshopClientCUI {
 			} else {
 				System.out.println("Article not found.");
 			}
-		} else {
-			System.out.println("User is not a customer. Cannot add article to shopping cart.");
 		}
 	}
 
@@ -482,6 +490,7 @@ public class EshopClientCUI {
 			//Danach wird überprüft, ob shoppingCartItems nicht null ist und mindestens ein Element enthält.
 			if(shoppingCartItems != null && shoppingCartItems.size() > 0) {
 				//Wenn beides der Fall ist, wird eine Schleife verwendet, um über jedes ShoppingCartItem in der Liste zu iterieren.
+				System.out.println("In your shopping cart are the following items:");
 				for (ShoppingCartItem item : shoppingCartItems) {
 					//Artikel wird/werden auf der Konsole ausgegeben.
 					System.out.println(item.toString());
@@ -528,6 +537,20 @@ public class EshopClientCUI {
 			// print date and total
 			System.out.println("Date: " + invoice.getDate());
 			System.out.println("Total: " + invoice.getTotal());
+		}
+	}
+
+	private void deleteAllArticlesInCart() throws IOException {
+		////sicherstellen, dass der eingeloggte Benutzer ein Customer ist.
+		if (loggedinUser instanceof Customer) {
+			//Wenn erfüllt, dann wird loggedinUser-Objekt in eine Variable customer vom Typ Customer umgewandelt.
+			Customer customer = (Customer) loggedinUser;
+			//Warenkorb des Kunden wird abgerufen. Der zurückgegebene Wert wird in der Variable shoppingCart gespeichert.
+			ShoppingCart shoppingCart = customer.getShoppingCart();
+			//Methode buyArticles(shoppingCart) wird aufgerufen, um den Kauf der Artikel im Warenkorb durchzuführen.
+			//Das Ergebnis ist eine Rechnung (Invoice), die in der Variable invoice gespeichert wird.
+			shoppingCart.deleteAll();
+			System.out.println("All Articles were removed successfully from the cart.");
 		}
 	}
 
