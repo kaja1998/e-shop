@@ -63,6 +63,9 @@ public class CustomerAdministration {
         }
 
         public Customer login (String userName, String password) {
+                //Die Methode durchläuft eine Schleife über eine Liste von Kundenobjekten.
+                //In jeder Iteration wird überprüft, ob der Benutzername (userName) und das Passwort (password)
+                //mit den entsprechenden Werten des aktuellen Kundenobjekts übereinstimmen.
                 for (Customer user : customers) {
                         if (user.getUsername().equals(userName) && user.getPassword().equals(password)) {
                                 return user;
