@@ -39,10 +39,14 @@ public class FilePersistenceManager implements PersistenceManager {
 	}
 
 	public void openForWriting(String dataSource) throws IOException {
+		//Das PrintWriter-Objekt wird der Variablen writer zugewiesen
+		//new PrintWriter(new BufferedWriter(new FileWriter(dataSource))): Ein PrintWriter wird erstellt und erhält den BufferedWriter als Argument. Der PrintWriter stellt Methoden zum Schreiben von formatierten Daten bereit.
+		//new BufferedWriter(new FileWriter(dataSource)): Ein BufferedWriter wird erstellt und erhält den FileWriter als Argument. Der BufferedWriter ermöglicht das effiziente Schreiben von Daten in den Speicher.
+		//FileWriter wird erstellt, der die Datei für den Schreibvorgang öffnet. Der dataSource-Parameter gibt den Pfad oder Namen der Datei an, in die geschrieben werden soll.
 		writer = new PrintWriter(new BufferedWriter(new FileWriter(dataSource)));
 	}
 
-	//Die Methode close() scheint eine Methode zum Schließen eines Writer- und/oder Reader-Objekts zu sein, die in einem Feld writer bzw. reader gespeichert werden.
+	//Die Methode close() ist eine Methode zum Schließen eines Writer- und/oder Reader-Objekts, die in einem Feld writer bzw. reader gespeichert werden.
 	public boolean close() {
 		if (writer != null)
 			writer.close();
