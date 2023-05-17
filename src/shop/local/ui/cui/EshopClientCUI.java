@@ -512,7 +512,7 @@ public class EshopClientCUI {
 			//Das Ergebnis ist eine Rechnung (Invoice), die in der Variable invoice gespeichert wird.
 			Invoice invoice = eshop.buyArticles(shoppingCart);
 
-			// print which articles couldn't be purchased
+			//print which articles couldn't be purchased
 			//Es wird überprüft, ob es Artikel gibt, die nicht gekauft werden konnten, indem überprüft wird, ob invoice.getUnavailableItems() nicht null ist und mindestens ein Element enthält.
 			if(invoice.getUnavailableItems() != null && invoice.getUnavailableItems().size() > 0) {
 				System.out.println("Unfortunately some of the items you wished to purchase became unavailable:");
@@ -602,7 +602,7 @@ public class EshopClientCUI {
 			} while (!input.equals("q"));
 		}
 
-		System.out.println("Finished");
+		System.out.println("Thank you for visiting our shop!");
 	}
 
 	public static void main(String[] args) {
