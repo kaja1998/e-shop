@@ -403,27 +403,47 @@ public class EshopClientCUI {
 			//checken, ob es den Artikel wirklich gibt im Bestand
 			Article article = eshop.searchByArticleNumber(articleNumber);
 			if (article != null) {
-				System.out.println("Found article \n");
-			//checken, ob Artikel schon im Warenkorb ist
-			//wenn ja, dann Methode changeArticleQuantityInCart aufrufen
-			//wenn nein, dann weiterlaufen
-				//Überprüfen, ob die eingegebene Menge gültig ist
-				if (quantity >= 1) {
-					//gucken, ob der Artikel noch vorrätig ist
-					if (article.getQuantityInStock() >= quantity) {
-						//Wenn Artikel noch Bestand hat, der ArrayList (Warenkorb) hinzufügen
-						// Variable vom Typ shoppingCart wird deklariert. Mit dem Customer-Objekt wird die Methode getShoppingCart aufgerufen in welcher der Warenkorb des Kunden zurückgegeben wird
-						ShoppingCart shoppingCart = customer.getShoppingCart();
-						//Methode addArticle wird aufgerufen und akzeptiert angegebenen Parameter
-						shoppingCart.addArticle(article, quantity);
-						System.out.println("Article/s were added successfully into the cart.");
-						//Warenkorb wird ausgegeben
-						shoppingCart.read();
-					} else { //Wenn nein, dann ausgeben, dass der Artikel out of stock ist
-						System.out.println("Could not put article into the Cart, because it must be out of stock.");
-					}
+				//Variable vom Typ shoppingCart wird deklariert.
+				//Mit dem Customer-Objekt wird die Methode getShoppingCart aufgerufen in welcher der Warenkorb des Kunden zurückgegeben wird
+				ShoppingCart shoppingCart = customer.getShoppingCart();
+				//Methode in ShoppingCart wird aufgerufen, mit der geprüft wird, ob der Artikel bereits im Warenkorb existiert
+				if (shoppingCart.cartContainsArticle(article)) {
+					//Überprüfen, ob die eingegebene Menge gültig ist
+					if (quantity >= 1) {
+						for (ShoppingCartItem item : shoppingCart.getCartItems()) {
+							if (item.getArticle().equals(article)) {
+								//gucken, ob der Artikel noch vorrätig ist
+								int availableQuantity = article.getQuantityInStock() - item.getQuantity();
+								if (availableQuantity >= quantity) {
+									shoppingCart.addUpArticleQuantity(article, quantity);
+									System.out.println("Article quantity was updated successfully in the cart.");
+									//Warenkorb ausgeben
+									shoppingCart.read();
+								} else { //Wenn nein, dann ausgeben, dass der Artikel out of stock ist
+									System.out.println("Could not put article into the Cart, because it must be out of stock or desired quantity is not available.");
+								}
+							}
+						}
+					} else {
+						System.out.println("Please input a positive number for quantity.");
+						}
+				//wenn Artikel nicht im Warenkorb liegt
 				} else {
-					System.out.println("Please input a positive number for quantity.");
+					//Überprüfen, ob die eingegebene Menge gültig ist
+					if (quantity >= 1) {
+						//gucken, ob der Artikel noch vorrätig ist
+						if (article.getQuantityInStock() >= quantity) {
+							//Methode addArticle wird aufgerufen und akzeptiert angegebenen Parameter
+							shoppingCart.addArticle(article, quantity);
+							System.out.println("Article/s were added successfully into the cart.");
+							//Warenkorb wird ausgegeben
+							shoppingCart.read();
+						} else { //Wenn nein, dann ausgeben, dass der Artikel out of stock ist
+							System.out.println("Could not put article into the Cart, because it must be out of stock.");
+						}
+					} else {
+						System.out.println("Please input a positive number for quantity.");
+					}
 				}
 			} else {
 				System.out.println("Article not found.");

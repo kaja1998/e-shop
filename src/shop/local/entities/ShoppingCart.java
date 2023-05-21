@@ -46,6 +46,25 @@ public class ShoppingCart {
                 cartItems.add(object);
         }
 
+        public boolean cartContainsArticle(Article article) {
+                if (cartItems.contains(article)) {
+                        return true;
+                } else {
+                        return false;
+                }
+        }
+
+        //Wenn Artikel in den Warenkorb hinzugefügt werden, der Artikel aber schon im Warenkorb existiert, wird die quantity einfach nur auf den
+        //schon bestehenden gleichen Artikel aufaddiert und dieser nicht ein zweites Mal hinzugefügt
+        public void addUpArticleQuantity(Article article, int quantity){
+                for (ShoppingCartItem item : cartItems) {
+                        if (item.getArticle().equals(article)) {
+                                item.setQuantity(item.getQuantity() + quantity);
+                                return;
+                        }
+                }
+        }
+
         public void read() {
                 System.out.println("In your shopping cart are the following items: ");
                 //Mit einer Schleife wird durch die ArrayList cart iteriert. item ist dabei die aktuelle Iteration
