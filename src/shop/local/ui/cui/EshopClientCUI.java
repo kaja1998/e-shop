@@ -404,7 +404,9 @@ public class EshopClientCUI {
 			Article article = eshop.searchByArticleNumber(articleNumber);
 			if (article != null) {
 				System.out.println("Found article \n");
-
+			//checken, ob Artikel schon im Warenkorb ist
+			//wenn ja, dann Methode changeArticleQuantityInCart aufrufen
+			//wenn nein, dann weiterlaufen
 				//Überprüfen, ob die eingegebene Menge gültig ist
 				if (quantity >= 1) {
 					//gucken, ob der Artikel noch vorrätig ist
