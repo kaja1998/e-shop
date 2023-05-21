@@ -60,36 +60,11 @@ public class Article {
 	public boolean equals(Object otherArticle) {
 		if (otherArticle instanceof Article)
 			return ((this.number == ((Article) otherArticle).number));
+		else if (otherArticle instanceof ShoppingCartItem)
+			return ((this.number == ((ShoppingCartItem) otherArticle).getArticle().getNumber()));
 		else
 			return false;
 	}
-
-
-	/*	@Override
-	public boolean equals(Object otherArticle) {
-*//*		if (otherArticle instanceof ShoppingCartItem && ((ShoppingCartItem) otherArticle).getArticle().number == ((Article) otherArticle).number) {
-			return true;
-		} else {
-			if (otherArticle instanceof Article)
-				return ((this.number == ((Article) otherArticle).number)
-						&& (this.articleTitle.equals(((Article) otherArticle).articleTitle)));
-			else
-				return false;
-		}*//*
-		try {
-			if (otherArticle instanceof ShoppingCartItem && ((ShoppingCartItem) otherArticle).getArticle().number == ((Article) otherArticle).number) {
-				return true;
-			} else {
-				return false;
-			}
-		} catch (Exception e) {
-			if (otherArticle instanceof Article)
-				return ((this.number == ((Article) otherArticle).number)
-						&& (this.articleTitle.equals(((Article) otherArticle).articleTitle)));
-			else
-				return false;
-		}
-	}*/
 
 
 	/*

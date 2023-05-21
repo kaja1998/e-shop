@@ -6,9 +6,9 @@ import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Scanner;
 
-import shop.local.domain.Invoice;
-import shop.local.domain.ShoppingCart;
-import shop.local.domain.ShoppingCartItem;
+import shop.local.entities.Invoice;
+import shop.local.entities.ShoppingCart;
+import shop.local.entities.ShoppingCartItem;
 import shop.local.domain.exceptions.ArticleAlreadyExistsException;
 import shop.local.domain.Shop;
 import shop.local.entities.*;
@@ -196,7 +196,7 @@ public class EshopClientCUI {
 			//Buy all in SC
 			case "f":
 				buyArticlesInCart();
-			//clear cart
+				//clear cart
 			case "g":
 				deleteAllArticlesInCart();
 				break;
@@ -535,8 +535,11 @@ public class EshopClientCUI {
 			}
 
 			// print date and total
-			System.out.println("Date: " + invoice.getDate());
-			System.out.println("Total: " + invoice.getTotal());
+			System.out.println("Total: " + invoice.getTotal() + "\n");
+			System.out.println("Date: " + invoice.getFormattedDate() + " Uhr"+ "\n");
+			invoice.setCustomer((Customer) loggedinUser);
+			System.out.println("Your delivery address: \n" + invoice.getCustomerAddress() + "\n");
+			System.out.println("Please transfer the full amount to the following bank account: \nSpice Shop \nDE35 1511 0000 1998 1997 29 \nBIC: SCFBDE33 \n");
 		}
 	}
 

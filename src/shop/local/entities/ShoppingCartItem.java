@@ -1,4 +1,4 @@
-package shop.local.domain;
+package shop.local.entities;
 
 //importiert die Klasse Article.
 import shop.local.entities.Article;
@@ -12,7 +12,7 @@ public class ShoppingCartItem {
     //Der Konstruktor initialisiert ein ShoppingCartItem-Objekt mit einem Article-Objekt und der entsprechenden Menge.
     public ShoppingCartItem(Article article, int quantity) {
         this.article = article;
-        this.quantity = quantity;
+        this.quantity = quantity;;
     }
 
     public Article getArticle() {
@@ -32,7 +32,7 @@ public class ShoppingCartItem {
     }
 
     public String toString() {
-        return (quantity + "x " + article.getNumber() + " (" + article.getArticleTitle() + ")");
+        return (quantity + "x " + article.getNumber() + " (" + article.getArticleTitle() + ")" + article.getPrice() + " €");
     }
 
 }

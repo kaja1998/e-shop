@@ -3,10 +3,9 @@ package shop.local.domain;
 import java.io.IOException;
 
 import shop.local.domain.exceptions.ArticleAlreadyExistsException;
+import shop.local.entities.*;
 import shop.local.persistence.FilePersistenceManager;
 import shop.local.persistence.PersistenceManager;
-import shop.local.entities.Article;
-import shop.local.entities.ArticleList;
 
 
 /**
@@ -208,7 +207,7 @@ public class ArticleAdministration {
 		Invoice invoice =  new Invoice();
 
 		// Go through all items in the cart
-		for (ShoppingCartItem item : shoppingCart.getCart()) {
+		for (ShoppingCartItem item : shoppingCart.getCartItems()) {
 			// check which article is in the cart and what quantity should be purchased
 			Article article = item.getArticle();
 			int quantity = item.getQuantity();

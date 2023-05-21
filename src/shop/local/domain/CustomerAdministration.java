@@ -5,8 +5,8 @@ package shop.local.domain;
 //Dieses Code-Snippet importiert die Klasse Kunde aus dem Package bib.local.entities.
 //Nachdem der Import erfolgt ist, kann man Objekte der Klasse Kunde in der aktuellen Klasse erzeugen und auf deren Methoden und Eigenschaften zugreifen.
 //Ohne den Import müsste man jedes Mal den vollständigen Klassennamen angeben, um die Klasse zu verwenden.
-import shop.local.entities.Article;
 import shop.local.entities.Customer;
+import shop.local.entities.ShoppingCartItem;
 import shop.local.persistence.FilePersistenceManager;
 import shop.local.persistence.PersistenceManager;
 import java.io.IOException;
@@ -81,7 +81,7 @@ public class CustomerAdministration {
         }
 
         public List<ShoppingCartItem> getUsersShoppingCart(Customer customer) {
-                return customer.getShoppingCart().getCart();
+                return customer.getShoppingCart().getCartItems();
         }
 
         // Getter und Setter
