@@ -84,13 +84,14 @@ public class ShoppingCart {
                                 //Wenn übergebene Menge gleich null soll der Artikel gelöscht werden
                                 if (newQuantity == 0) {
                                         deleteSingleArticle(article);
-                                        //Wenn übergebene Menge > 0, dann gehe mit einer for-Schleife durch den Warenkorb Array
+                                //Wenn übergebene Menge > 0, dann gehe mit einer for-Schleife durch den Warenkorb Array
                                 } else {
-                                        for (int i = 0; i < cartItems.size(); i++) {
-                                                //Vergleicht die Artikel i im Warenkorb mit dem übergebenen Artikel
-                                                if (cartItems.get(i).getArticle() == article) {                       //lieber equals? cart.get(i).getArticle().equals(article)
-                                                        //Wenn im Warenkorb ein Artikel gefunden wird, der wie der übergebene Artikel ist, dann nehmen den Artikel i und setzte seine Menge auf die, die der Nutzer übergeben hat
-                                                        cartItems.get(i).setQuantity(newQuantity);
+                                        for (ShoppingCartItem item : cartItems) {
+                                                //Vergleicht die Artikel im Warenkorb mit dem übergebenen Artikel
+                                                if (item.getArticle().equals(article)) {
+                                                        //Wenn im Warenkorb ein Artikel gefunden wird, der wie der übergebene Artikel ist
+                                                        // dann nehmen den Artikel item und setzte seine Menge auf die, die der Nutzer übergeben hat
+                                                        item.setQuantity(newQuantity);
                                                         //Gehe raus aus der Methode
                                                         return;
                                                 }

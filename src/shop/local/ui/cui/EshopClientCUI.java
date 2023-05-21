@@ -420,7 +420,7 @@ public class EshopClientCUI {
 									//Warenkorb ausgeben
 									shoppingCart.read();
 								} else { //Wenn nein, dann ausgeben, dass der Artikel out of stock ist
-									System.out.println("Could not put article into the Cart, because it must be out of stock or desired quantity is not available.");
+									System.out.println("Could not put article into the Cart, because desired quantity must be not available.");
 								}
 							}
 						}
