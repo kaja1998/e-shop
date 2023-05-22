@@ -351,9 +351,10 @@ public class EshopClientCUI {
 		}
 	}
 
-	private void logout() {
+	private void logout() throws IOException {
 		loggedinUser = null;
-		System.out.println("Logged out successfully.");
+		System.out.println("\nYou got logged out successfully.\n");
+		run();
 	}
 
 	/*
@@ -591,6 +592,7 @@ public class EshopClientCUI {
 		}
 	}
 
+
 	/*
 	 * Methoden zur Ausführung des Programms
 	 */
@@ -622,7 +624,7 @@ public class EshopClientCUI {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			} while (!input.equals("q"));
+			} while (loggedinUser != null && !input.equals("q"));
 		}
 
 		// print menu for customers
@@ -636,10 +638,60 @@ public class EshopClientCUI {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			} while (!input.equals("q"));
+			} while (loggedinUser != null && !input.equals("q"));
 		}
-		System.out.println("Thank you for visiting our shop!");
 	}
+
+
+	/*
+	 * Methoden zur Ausführung des Programms
+	 */
+//	public void run() throws IOException {
+//		// Variables for console input
+//		String input = "";
+//		boolean entryMenu = true;
+//
+//		// Print general menu
+//		do {
+//			printEntryMenu();
+//			try {
+//				input = readInput();
+//				entryMenu = processInputFromEntryMenu(input);
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		} while (entryMenu);
+//
+//		// print menu for employees
+//		if(this.loggedinUser instanceof Employee) {
+//			do {
+//				printEmployeeMenu();
+//				try {
+//					input = readInput();
+//					processInputForEmployeeMenu(input);
+//				} catch (IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			} while (!input.equals("q"));
+//		}
+//
+//		// print menu for customers
+//		if(this.loggedinUser instanceof Customer) {
+//			do {
+//				printCustomerMenu();
+//				try {
+//					input = readInput();
+//					processInputForCustomerMenu(input);
+//				} catch (IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			} while (!input.equals("q"));
+//		}
+//		System.out.println("Thank you for visiting our shop!");
+//	}
 
 	public static void main(String[] args) {
 		//Variable vom Typ "EshopClientCUI" wird deklariert, aber noch nicht initialisiert!
