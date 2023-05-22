@@ -1,5 +1,4 @@
 package shop.local.entities;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.text.SimpleDateFormat;

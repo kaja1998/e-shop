@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Scanner;
 
+import shop.local.domain.EventAdministration;
 import shop.local.entities.Invoice;
 import shop.local.entities.ShoppingCart;
 import shop.local.entities.ShoppingCartItem;
