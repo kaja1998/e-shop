@@ -59,6 +59,7 @@ public class EshopClientCUI {
 		System.out.print("          \n  Manage an article's inventory:  'g'");
 		System.out.print("          \n  Create new employee:  'n'");
 		//System.out.print("          \n  Save data:  's'");
+		System.out.print("          \n  Logout:  'l'");
 		System.out.print("          \n  ---------------------");
 		System.out.println("        \n  Quit:        'q'");
 		System.out.print("> "); // Prompt
@@ -73,7 +74,7 @@ public class EshopClientCUI {
 		System.out.print("          \n  View shopping cart:  'e'");
 		System.out.print("          \n  Buy articles:  'f'");
 		System.out.print("          \n  clear complete cart:  'g'");
-		//System.out.print("          \n  Logout:  'h'");
+		System.out.print("          \n  Logout:  'l'");
 		System.out.print("          \n  ---------------------");
 		System.out.println("        \n  Quit:        'q'");
 		System.out.print("> "); // Prompt
@@ -165,6 +166,11 @@ public class EshopClientCUI {
 			//Save data
 			case "s":
 				//eshop.writeArticleDataToAddArticle();
+				break;
+			//logout
+			case "l":
+				logout();
+				break;
 		}
 	}
 
@@ -201,7 +207,8 @@ public class EshopClientCUI {
 				deleteAllArticlesInCart();
 				break;
 			//Logout
-			case "h":
+			case "l":
+				logout();
 				break;
 		}
 	}
@@ -342,6 +349,11 @@ public class EshopClientCUI {
 			System.out.println("Incorrect Username oder password.");
 			return false;
 		}
+	}
+
+	private void logout() {
+		loggedinUser = null;
+		System.out.println("Logged out successfully.");
 	}
 
 	/*
@@ -626,7 +638,6 @@ public class EshopClientCUI {
 				}
 			} while (!input.equals("q"));
 		}
-
 		System.out.println("Thank you for visiting our shop!");
 	}
 
