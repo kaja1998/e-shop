@@ -142,47 +142,66 @@ public class FilePersistenceManager implements PersistenceManager {
 	}
 
 	public Customer loadCustomer() throws IOException {
-		// Variables
-		int customerId;
-
-		// First, the customer number is read in as a string and converted into an integer
-		String customerIdString = readRow();
-		if (customerIdString != null) {
-			customerId = Integer.parseInt(customerIdString);
-
-		} else {
-			//No more data OR if the customer number is no longer in the file, returns null.
+		// Read number convert from String to int
+		String numberString = readRow();
+		if (numberString == null) {
 			return null;
+		} else {
+			String[] splitted = numberString.split(";");
+			int id = Integer.parseInt(splitted[0]);
+			String name = splitted[1];
+			String lastName = splitted[2];
+			String street = splitted[3];
+			int postalCode = Integer.parseInt(splitted[4]);
+			String city = splitted[5];
+			String email = splitted[6];
+			String username = splitted[7];
+			String password = splitted[8];
+
+			// create and return a new article object
+			return new Customer(id, name, lastName, street, postalCode, city, email, username, password);
 		}
-		// Date like name, lastname, email, username, street, postal code and city are being read from the file and saved into variables
-		// Read name
-		String name = readRow();
-
-		// Read lastname
-		String lastName = readRow();
-
-		// Read street
-		String street = readRow();
-
-		// Read postalCode
-		String postalCodeString = readRow();
-		int postalCodeInt = Integer.parseInt(postalCodeString);
-
-		// Read city
-		String city = readRow();
-
-		// Read email
-		String email = readRow();
-
-		// Read username
-		String username = readRow();
-
-		// Read password
-		String password = readRow();
-
-		//A new customer object is created with the read data and returned.
-		Customer customer = new Customer(name, lastName, street, postalCodeInt, city, email, username, password);
-		return customer;
+		//		// Variables
+//		int customerId;
+//
+//		// First, the customer number is read in as a string and converted into an integer
+//		String customerIdString = readRow();
+//		if (customerIdString != null) {
+//			customerId = Integer.parseInt(customerIdString);
+//
+//		} else {
+//			//No more data OR if the customer number is no longer in the file, returns null.
+//			return null;
+//		}
+//		// Date like name, lastname, email, username, street, postal code and city are being read from the file and saved into variables
+//		// Read name
+//		String name = readRow();
+//
+//		// Read lastname
+//		String lastName = readRow();
+//
+//		// Read street
+//		String street = readRow();
+//
+//		// Read postalCode
+//		String postalCodeString = readRow();
+//		int postalCodeInt = Integer.parseInt(postalCodeString);
+//
+//		// Read city
+//		String city = readRow();
+//
+//		// Read email
+//		String email = readRow();
+//
+//		// Read username
+//		String username = readRow();
+//
+//		// Read password
+//		String password = readRow();
+//
+//		//A new customer object is created with the read data and returned.
+//		Customer customer = new Customer(name, lastName, street, postalCodeInt, city, email, username, password);
+//		return customer;
 	}
 
 	//The saveCustomer(customer k) method writes the data of a customer object to a file.
@@ -201,16 +220,22 @@ public class FilePersistenceManager implements PersistenceManager {
 		return true;
 	}
 
-	public void writeCustomerToFile(Customer customer) throws IOException {
-		writeLine(String.valueOf(customer.getId()));
-		writeLine(customer.getName());
-		writeLine(customer.getLastName());
-		writeLine(customer.getStreet());
-		writeLine(String.valueOf(customer.getPostalCode()));
-		writeLine(customer.getCity());
-		writeLine(customer.getEmail());
-		writeLine(customer.getUsername());
-		writeLine(customer.getPassword());
+	public boolean writeCustomerToFile(Customer customer) throws IOException {
+
+		String customerString = customer.getId() + ";" + customer.getName() + ";" + customer.getLastName() + ";" + customer.getStreet() + ";" + customer.getPostalCode() + ";" + customer.getCity() + ";" + customer.getEmail() + ";" + customer.getUsername() + ";" + customer.getPassword();
+		// Write number
+		writeLine(customerString);
+		return true;
+
+//		writeLine(String.valueOf(customer.getId()));
+//		writeLine(customer.getName());
+//		writeLine(customer.getLastName());
+//		writeLine(customer.getStreet());
+//		writeLine(String.valueOf(customer.getPostalCode()));
+//		writeLine(customer.getCity());
+//		writeLine(customer.getEmail());
+//		writeLine(customer.getUsername());
+//		writeLine(customer.getPassword());
 	}
 
 	@Override

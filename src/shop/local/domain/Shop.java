@@ -109,10 +109,12 @@ public class Shop {
 	 * @return article object inserted in case of success
 	 * @throws ArticleAlreadyExistsException if the article already exists
 	 */
-	public Article insertArticle(String articleTitle, int quantityInStock, double price) throws ArticleAlreadyExistsException, IOException {
+	public Article insertArticle(String articleTitle, int quantityInStock, double price, User user) throws ArticleAlreadyExistsException, IOException {
 		Article article = new Article(articleTitle, quantityInStock, price);
 		articleAdministration.insert(article);
 		writeArticleDataToAddArticle("ESHOP_A.txt", article);
+		//Ereignis für die Einlagerung in ArrayList schreiben
+		EventAdministration InsertEvent = new EventAdministration(article, "Einlagerung", quantityInStock, user);
 		return article;
 	}
 
@@ -122,10 +124,12 @@ public class Shop {
 	 *
 	 * @param number of the Article which should be deleted
 	 */
-	public void deleteArticle(int number) throws IOException {
+	public void deleteArticle(int number, User user) throws IOException {
 		Article article = articleAdministration.searchByArticleNumber(number);
 		articleAdministration.delete(article);
 		writeArticleDataToRemoveArticle("ESHOP_A.txt", article);
+		//Ereignis für die Einlagerung in ArrayList schreiben
+		EventAdministration InsertEvent = new EventAdministration(article, "Auslagerung", 0, user);
 	}
 
 	/**

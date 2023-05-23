@@ -44,6 +44,18 @@ public class Customer extends User {
 		this.email = email;
 	}
 
+	//Konstruktor, wenn Customer aus Datei auslesen wird
+	public Customer(int id, String name, String lastName, String street, int postalCode, String city, String email, String username, String password) {
+		super(name, lastName, username, password);
+		this.idCounter = id;
+		this.idCounter = ++idCounter;
+		this.id = idCounter;
+		this.street = street;
+		this.postalCode = postalCode;
+		this.city = city;
+		this.email = email;
+	}
+
 	public float getRevenue() {	return revenue;	}
 
 	public void setRevenue(float revenue) { this.revenue = revenue;	}

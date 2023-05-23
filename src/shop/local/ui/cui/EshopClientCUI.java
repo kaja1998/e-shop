@@ -3,6 +3,7 @@ package shop.local.ui.cui;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -60,6 +61,7 @@ public class EshopClientCUI {
 		System.out.print("          \n  Manage an article's inventory:  'g'");
 		System.out.print("          \n  Create new employee:  'n'");
 		//System.out.print("          \n  Save data:  's'");
+		System.out.print("          \n  Show history:  'h'");
 		System.out.print("          \n  Logout:  'l'");
 		System.out.print("          \n  ---------------------");
 		System.out.println("        \n  Quit:        'q'");
@@ -101,73 +103,41 @@ public class EshopClientCUI {
 	}
 
 	private void processInputForEmployeeMenu(String line) throws IOException {
-		String numberString;
-		int number;
-		String articleTitle;
-		ArticleList articleList;
-
 		// Get input
 		switch(line) {
 			//Output articles
 			case "a":
-				articleList = eshop.getAllArticles();        //eshop ist ein Objekt der Klasse Shop
+				ArticleList articleList = eshop.getAllArticles();
 				printArticleList(articleList);
 				break;
 			//Delete article:
 			case "d":
-				// lies die notwendigen Parameter, einzeln pro Zeile
-				System.out.print("Article number > ");
-				numberString = readInput();
-				number = Integer.parseInt(numberString);
-				eshop.deleteArticle(number);
+				deleteArticle();
 				break;
 			//Insert article
 			case "e":
-				// Lese Artikelbezeichnung
-				System.out.print("Article title  > ");
-				articleTitle = readInput();
-
-				// Lese Wert für initialen Artikelbestand
-				System.out.print("Initial quantity / stock > ");
-				String initialQuantityString = readInput();
-				int initialQuantity = Integer.parseInt(initialQuantityString);
-
-				// Lese Preis
-				System.out.print("Article price  > ");
-				String priceString = readInput();
-				double price = Double.parseDouble(priceString);
-
-				// Speichere Artikel
-				try {
-					eshop.insertArticle(articleTitle, initialQuantity, price);
-					System.out.println("Article saved successfully");
-				} catch (ArticleAlreadyExistsException e) {
-					// Hier Fehlerbehandlung...
-					System.out.println("Error saving article");
-					e.printStackTrace();
-				}
+				insertArticle();
 				break;
 			//Search article
 			case "f":
-				System.out.print("Article title > ");
-				articleTitle = readInput();
-				articleList = eshop.searchByArticleTitle(articleTitle);
-				printArticleList(articleList);
+				searchArticle();
 				break;
 			//Manage an article's inventory
 			case "g":
-				System.out.print("Article number > ");
-				number = Integer.parseInt(readInput());
-				manageInventory(number);
+				manageInventory();
 				break;
 			//create new employee
 			case "n":
 				registerEmployee();
 				break;
-			//Save data
-			case "s":
-				//eshop.writeArticleDataToAddArticle();
+			//show history
+			case "h":
+				showHistory();
 				break;
+			//Save data
+			//case "s":
+			//eshop.writeArticleDataToAddArticle();
+			//break;
 			//logout
 			case "l":
 				logout();
@@ -220,7 +190,7 @@ public class EshopClientCUI {
 	}
 
 	/*
-	 * Methoden zum Registrieren und Einloggen von Mitarbeitern / Kunden
+	 * Methoden zum Registrieren und Einloggen von Mitarbeitern / Kunden, sowie Logout
 	 */
 	private void registerCustomer() {
 		//The data from the file is read and added to the ArrayList of customers
@@ -361,7 +331,54 @@ public class EshopClientCUI {
 	/*
 	 * Methoden für den Mitarbeiter
 	 */
-	private void manageInventory(int number) throws IOException {
+	private void deleteArticle() throws IOException {
+		// lies die notwendigen Parameter, einzeln pro Zeile
+		System.out.print("Article number > ");
+		String numberString = readInput();
+		int number = Integer.parseInt(numberString);
+		eshop.deleteArticle(number, loggedinUser);
+	}
+
+	private void searchArticle() throws IOException {
+		ArticleList articleList;
+		System.out.print("Article title > ");
+		String articleTitle = readInput();
+		articleList = eshop.searchByArticleTitle(articleTitle);
+		printArticleList(articleList);
+	}
+
+	private void insertArticle () throws IOException {
+		// Lese Artikelbezeichnung
+		System.out.print("Article title  > ");
+		String articleTitle = readInput();
+
+		// Lese Wert für initialen Artikelbestand
+		System.out.print("Initial quantity / stock > ");
+		String initialQuantityString = readInput();
+		int initialQuantity = Integer.parseInt(initialQuantityString);
+
+		// Lese Preis
+		System.out.print("Article price  > ");
+		String priceString = readInput();
+		double price = Double.parseDouble(priceString);
+
+		// Speichere Artikel
+		try {
+			eshop.insertArticle(articleTitle, initialQuantity, price, loggedinUser);
+			System.out.println("Article saved successfully");
+
+		} catch (ArticleAlreadyExistsException e) {
+			// Hier Fehlerbehandlung...
+			System.out.println("Error saving article");
+			e.printStackTrace();
+		}
+	}
+
+	private void manageInventory() throws IOException {
+		//Lese Artikelbezeichnung
+		System.out.print("Article number > ");
+		int number = Integer.parseInt(readInput());
+
 		// Try to find article by number and gives it to the variable article
 		Article article = eshop.searchByArticleNumber(number);
 
@@ -391,6 +408,20 @@ public class EshopClientCUI {
 			System.out.println("Successfully increased article's stock.");
 		}
 	}
+
+	//Listet alle Ein- und Auslagerungen auf Konsole ausgeben
+	public void showHistory() {
+		List<EventAdministration> eventsListe = EventAdministration.getEvents();
+		for (EventAdministration e : eventsListe) {
+			System.out.println("Date: " + e.getFormattedDate());
+			System.out.println("Article: " + e.getArticle());
+			System.out.println("Case: " + e.getStorageRetrieval());
+			System.out.println("Quantity change: " + e.getQuantity());
+			System.out.println("User " + e.getUser());
+			System.out.println("-----------------------------");
+		}
+	}
+
 
 	/*
 	 * Methoden für den Kunden
@@ -440,8 +471,8 @@ public class EshopClientCUI {
 						}
 					} else {
 						System.out.println("Please input a positive number for quantity.");
-						}
-				//wenn Artikel nicht im Warenkorb liegt
+					}
+					//wenn Artikel nicht im Warenkorb liegt
 				} else {
 					//Überprüfen, ob die eingegebene Menge gültig ist
 					if (quantity >= 1) {

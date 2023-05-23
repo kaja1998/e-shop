@@ -9,7 +9,7 @@ public class Article {
 
 	// Attributes describing an item
 	private String articleTitle;
-	private int number;					//id?
+	private int number;					//id
 	private int quantityInStock;
 	private boolean inStock;
 	private double price;
