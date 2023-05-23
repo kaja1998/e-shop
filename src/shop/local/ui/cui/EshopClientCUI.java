@@ -142,6 +142,10 @@ public class EshopClientCUI {
 			case "l":
 				logout();
 				break;
+			// Quit program
+			case "q":
+				quitProgram();
+				break;
 		}
 	}
 
@@ -181,6 +185,10 @@ public class EshopClientCUI {
 			case "l":
 				logout();
 				break;
+			// Quit program
+			case "q":
+				quitProgram();
+				break;
 		}
 	}
 
@@ -192,7 +200,7 @@ public class EshopClientCUI {
 	/*
 	 * Methoden zum Registrieren und Einloggen von Mitarbeitern / Kunden, sowie Logout
 	 */
-	private void registerCustomer() {
+	private void registerCustomer() throws IOException {
 		//The data from the file is read and added to the ArrayList of customers
 		System.out.println("Your name: ");
 		String name = scanner.nextLine();
@@ -241,6 +249,7 @@ public class EshopClientCUI {
 				try {
 					eshop.writeCustomerData("ESHOP_C.txt", customer);
 				} catch (IOException e) {
+					// TODO
 					e.printStackTrace();
 				}
 				eshop.addCustomer(customer);
@@ -282,6 +291,7 @@ public class EshopClientCUI {
 			try {
 				eshop.writeEmployeeData("ESHOP_E.txt", employee);
 			} catch (IOException e) {
+				// TODO
 				e.printStackTrace();
 			}
 			eshop.addEmployee(employee);
@@ -368,6 +378,7 @@ public class EshopClientCUI {
 			System.out.println("Article saved successfully");
 
 		} catch (ArticleAlreadyExistsException e) {
+			// TODO - funktioniert nicht (liegt wahrscheinlich daran, dass er die IDs vergleicht, die natürlich unterschiedlich sind)
 			// Hier Fehlerbehandlung...
 			System.out.println("Error saving article");
 			e.printStackTrace();
@@ -411,8 +422,8 @@ public class EshopClientCUI {
 
 	//Listet alle Ein- und Auslagerungen auf Konsole ausgeben
 	public void showHistory() {
-		List<EventAdministration> eventsListe = EventAdministration.getEvents();
-		for (EventAdministration e : eventsListe) {
+		List<EventAdministration> eventsList = EventAdministration.getEvents();
+		for (EventAdministration e : eventsList) {
 			System.out.println("Date: " + e.getFormattedDate());
 			System.out.println("Article: " + e.getArticle());
 			System.out.println("Case: " + e.getStorageRetrieval());
@@ -625,9 +636,20 @@ public class EshopClientCUI {
 	}
 
 
+	//beide Methoden gehören zur neuen run Methode. Ebenfalls gibt es im customer und employee Menu jetzt den case q
+	private void quitProgram() {
+		System.out.println("Program terminated. Goodbye!");
+		System.exit(0);
+	}
+
+	private boolean shouldQuitProgram(String input) {
+		return loggedinUser == null && !input.equals("q");
+	}
+
 	/*
 	 * Methoden zur Ausführung des Programms
 	 */
+	//funktioniert aber verstehe nicht so wirklich wieso und sieht zu kompliziert gedacht aus...
 	public void run() throws IOException {
 		// Variables for console input
 		String input = "";
@@ -640,43 +662,89 @@ public class EshopClientCUI {
 				input = readInput();
 				entryMenu = processInputFromEntryMenu(input);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} while (entryMenu);
 
-		// print menu for employees
-		if(this.loggedinUser instanceof Employee) {
-			do {
-				printEmployeeMenu();
-				try {
-					input = readInput();
-					processInputForEmployeeMenu(input);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			} while (loggedinUser != null && !input.equals("q"));
-		}
+		// Check if the program should continue
+		if (!shouldQuitProgram(input)) {
+			// Print menu for employees
+			if (this.loggedinUser instanceof Employee) {
+				do {
+					printEmployeeMenu();
+					try {
+						input = readInput();
+						processInputForEmployeeMenu(input);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				} while (loggedinUser != null && !shouldQuitProgram(input));
+			}
 
-		// print menu for customers
-		if(this.loggedinUser instanceof Customer) {
-			do {
-				printCustomerMenu();
-				try {
-					input = readInput();
-					processInputForCustomerMenu(input);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			} while (loggedinUser != null && !input.equals("q"));
+			// Print menu for customers
+			if (this.loggedinUser instanceof Customer) {
+				do {
+					printCustomerMenu();
+					try {
+						input = readInput();
+						processInputForCustomerMenu(input);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				} while (loggedinUser != null && !shouldQuitProgram(input));
+			}
 		}
 	}
 
+	//Versuch 1004895 - funktioniert auch nicht - MIT LOGOUT
+//	public void run() throws IOException {
+//		// Variables for console input
+//		String input = "";
+//		boolean entryMenu = true;
+//
+//		// Print general menu
+//		do {
+//			printEntryMenu();
+//			try {
+//				input = readInput();
+//				entryMenu = processInputFromEntryMenu(input);
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		} while (entryMenu);
+//
+//		// print menu for employees
+//		if(this.loggedinUser instanceof Employee) {
+//			do {
+//				printEmployeeMenu();
+//				try {
+//					input = readInput();
+//					processInputForEmployeeMenu(input);
+//				} catch (IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			} while (loggedinUser != null && !input.equals("q"));
+//		}
+//
+//		// print menu for customers
+//		if(this.loggedinUser instanceof Customer) {
+//			do {
+//				printCustomerMenu();
+//				try {
+//					input = readInput();
+//					processInputForCustomerMenu(input);
+//				} catch (IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			} while (loggedinUser != null && !input.equals("q"));
+//		}
+//	}
 
 	/*
-	 * Methoden zur Ausführung des Programms
+	 * Methoden zur Ausführung des Programms - ALT OHNE LOGOUT
 	 */
 //	public void run() throws IOException {
 //		// Variables for console input
