@@ -4,7 +4,6 @@ import java.util.Objects;
 
 /**
  * Class to represent individual employees.
- *
  * The class is currently not used because the shop
  * Application so far only manages articles.
  *
@@ -19,6 +18,13 @@ public class Employee extends User {
     public Employee(String name, String lastName, String username, String password) {
         super(name, lastName, username, password);
         this.idCounter = ++idCounter;
+        this.id = idCounter;
+    }
+
+    //Konstruktor, wenn Employee aus Datei auslesen wird
+    public Employee(int id, String name, String lastName, String username, String password) {
+        super(name, lastName, username, password);
+        this.idCounter = id;
         this.id = idCounter;
     }
 

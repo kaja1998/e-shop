@@ -240,33 +240,48 @@ public class FilePersistenceManager implements PersistenceManager {
 
 	@Override
 	public Employee loadEmployee() throws IOException {
-		// Variables
-		int employeeId;
-
-		// First, the employee number is read in as a string and converted into an integer
-		String employeeIdString = readRow();
-		if (employeeIdString != null) {
-			employeeId = Integer.parseInt(employeeIdString);
-
-		} else {
-			//No more data OR if the employee number is no longer in the file, returns null.
+		// Read number convert from String to int
+		String numberString = readRow();
+		if (numberString == null) {
 			return null;
+		} else {
+			String[] splitted = numberString.split(";");
+			int id = Integer.parseInt(splitted[0]);
+			String name = splitted[1];
+			String lastName = splitted[2];
+			String username = splitted[3];
+			String password = splitted[4];
+
+			// create and return a new article object
+			return new Employee(id, name, lastName, username, password);
 		}
-		// Date like name, lastname, email, username, street, postal code and city are being read from the file and saved into variables
-		// Read name
-		String name = readRow();
-
-		// Read lastname
-		String lastName = readRow();
-
-		// Read username
-		String username = readRow();
-
-		// Read password
-		String password = readRow();
-
-		//A new employee object is created with the read data and returned.
-		return new Employee(name, lastName, username, password);
+//		// Variables
+//		int employeeId;
+//
+//		// First, the employee number is read in as a string and converted into an integer
+//		String employeeIdString = readRow();
+//		if (employeeIdString != null) {
+//			employeeId = Integer.parseInt(employeeIdString);
+//
+//		} else {
+//			//No more data OR if the employee number is no longer in the file, returns null.
+//			return null;
+//		}
+//		// Date like name, lastname, email, username, street, postal code and city are being read from the file and saved into variables
+//		// Read name
+//		String name = readRow();
+//
+//		// Read lastname
+//		String lastName = readRow();
+//
+//		// Read username
+//		String username = readRow();
+//
+//		// Read password
+//		String password = readRow();
+//
+//		//A new employee object is created with the read data and returned.
+//		return new Employee(name, lastName, username, password);
 	}
 
 	@Override
@@ -283,12 +298,17 @@ public class FilePersistenceManager implements PersistenceManager {
 		return true;
 	}
 
-	public void writeEmployeeToFile(Employee employee) {
-		writeLine(String.valueOf(employee.getId()));
-		writeLine(employee.getName());
-		writeLine(employee.getLastName());
-		writeLine(employee.getUsername());
-		writeLine(employee.getPassword());
+	public boolean writeEmployeeToFile(Employee employee) {
+
+		String employeeString = employee.getId() + ";" + employee.getName() + ";" + employee.getLastName() + ";" + employee.getUsername() + ";" + employee.getPassword();
+		// Write number
+		writeLine(employeeString);
+		return true;
+//		writeLine(String.valueOf(employee.getId()));
+//		writeLine(employee.getName());
+//		writeLine(employee.getLastName());
+//		writeLine(employee.getUsername());
+//		writeLine(employee.getPassword());
 	}
 
 	/*
