@@ -238,6 +238,10 @@ public class FilePersistenceManager implements PersistenceManager {
 //		writeLine(customer.getPassword());
 	}
 
+	public void clearCustomerFile(){
+		writer.write("");
+	}
+
 	@Override
 	public Employee loadEmployee() throws IOException {
 		// Read number convert from String to int
@@ -328,10 +332,4 @@ public class FilePersistenceManager implements PersistenceManager {
 			writer.println(data);
 		}
 	}
-
-	private void clearFile(){
-		writer.write("");
-	}
-
-
 }

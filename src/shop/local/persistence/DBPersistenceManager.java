@@ -70,4 +70,8 @@ public class DBPersistenceManager implements PersistenceManager {
 	public boolean saveEmployee(Employee employee, List<Employee> existingEmployees) {
 		return false;
 	}
+
+	@Override
+	public void clearCustomerFile() {
+	}
 }

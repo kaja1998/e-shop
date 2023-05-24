@@ -55,4 +55,5 @@ public interface PersistenceManager {
 
 	public boolean saveEmployee(Employee employee, List<Employee> existingEmployees) throws IOException;
 
+	public void clearCustomerFile();
 }

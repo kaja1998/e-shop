@@ -237,4 +237,8 @@ public class Shop {
 		return eventAdministration.getEvents();
 	}
 
+	public void clearCustomerFile(){
+		customerAdministration.clearCustomerFile();
+	}
+
 }

@@ -326,7 +326,7 @@ public class EshopClientCUI {
 
 	private void logout() throws IOException {
 		if (loggedinUser instanceof Customer){
-			eshop.customerAdministration.persistenceManager
+			eshop.clearCustomerFile();
 			eshop.getCustomers();
 			for (Customer c : eshop.getCustomers()){
 				c.getShoppingCart();

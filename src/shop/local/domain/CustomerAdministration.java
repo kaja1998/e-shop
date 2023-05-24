@@ -93,4 +93,8 @@ public class CustomerAdministration {
                 this.customers = customers;
         }
 
+        public void clearCustomerFile(){
+               persistenceManager.clearCustomerFile();
+        }
+
 }
