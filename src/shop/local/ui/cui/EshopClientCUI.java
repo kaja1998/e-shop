@@ -142,10 +142,6 @@ public class EshopClientCUI {
 			case "l":
 				logout();
 				break;
-			// Quit program
-			case "q":
-				quitProgram();
-				break;
 		}
 	}
 
@@ -184,10 +180,6 @@ public class EshopClientCUI {
 			//Logout
 			case "l":
 				logout();
-				break;
-			// Quit program
-			case "q":
-				quitProgram();
 				break;
 		}
 	}
@@ -335,7 +327,6 @@ public class EshopClientCUI {
 	private void logout() throws IOException {
 		loggedinUser = null;
 		System.out.println("\nYou got logged out successfully.\n");
-		run();
 	}
 
 	/*
@@ -652,46 +643,38 @@ public class EshopClientCUI {
 	//funktioniert aber verstehe nicht so wirklich wieso und sieht zu kompliziert gedacht aus...
 	public void run() throws IOException {
 		// Variables for console input
-		String input = "";
-		boolean entryMenu = true;
+		printEntryMenu();
+		String input = readInput();
+		processInputFromEntryMenu(input);
+		//boolean entryMenu = true;
 
 		// Print general menu
-		do {
-			printEntryMenu();
-			try {
+		while(!"q".equals(input)) {
+			if(loggedinUser != null) {
+				if (this.loggedinUser instanceof Employee) {
+						printEmployeeMenu();
+						try {
+							input = readInput();
+							processInputForEmployeeMenu(input);
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+				}
+
+				// Print menu for customers
+				if (this.loggedinUser instanceof Customer) {
+						printCustomerMenu();
+						try {
+							input = readInput();
+							processInputForCustomerMenu(input);
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+				}
+			} else {
+				printEntryMenu();
 				input = readInput();
-				entryMenu = processInputFromEntryMenu(input);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		} while (entryMenu);
-
-		// Check if the program should continue
-		if (!shouldQuitProgram(input)) {
-			// Print menu for employees
-			if (this.loggedinUser instanceof Employee) {
-				do {
-					printEmployeeMenu();
-					try {
-						input = readInput();
-						processInputForEmployeeMenu(input);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				} while (loggedinUser != null && !shouldQuitProgram(input));
-			}
-
-			// Print menu for customers
-			if (this.loggedinUser instanceof Customer) {
-				do {
-					printCustomerMenu();
-					try {
-						input = readInput();
-						processInputForCustomerMenu(input);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				} while (loggedinUser != null && !shouldQuitProgram(input));
+				processInputFromEntryMenu(input);
 			}
 		}
 	}

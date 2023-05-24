@@ -18,7 +18,7 @@ public class ShoppingCart {
         }
 
         //Wenn man einen bereits vorhandenen Warenkorb verwenden möchte. Man übergibt die entsprechende ArrayList<ShoppingCartItem>.
-        //Der übergebene Warenkorb wird dann der Variable cart zugewiesen, und du kannst weiterhin Artikel hinzufügen, aktualisieren oder löschen
+        //Der übergebene Warenkorb wird dann der Variable cartItems zugewiesen, und du kannst weiterhin Artikel hinzufügen, aktualisieren oder löschen
         public ShoppingCart(ArrayList<ShoppingCartItem> cartItems) {
                 this.cartItems = cartItems;
         }
