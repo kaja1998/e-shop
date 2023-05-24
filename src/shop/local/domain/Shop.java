@@ -180,7 +180,8 @@ public class Shop {
 		boolean bo = articleAdministration.decreaseArticleStock(article, quantityToRetrieve, file);
 		//Ereignis für die Einlagerung in ArrayList schreiben
 		if (bo){
-			Event event = new Event(article, quantityToRetrieve, user);
+			int quantity = -quantityToRetrieve;
+			Event event = new Event(article, quantity, user);
 			eventAdministration.addEvent(event);
 		}
 		return bo;
