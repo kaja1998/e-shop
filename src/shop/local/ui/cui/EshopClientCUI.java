@@ -419,7 +419,9 @@ public class EshopClientCUI {
 		}
 	}
 
-	//Gibt alle Ein- und Auslagerungen auf Konsole aus
+	/*
+	 * Methoden für den Mitarbeiter, um alle Ein- und Auslagerungen auf Konsole auszugeben
+	 */
 	public void showHistory() {
 		List<Event> eventsList = eshop.getEvents();
 		for (Event e : eventsList) {
@@ -631,7 +633,6 @@ public class EshopClientCUI {
 	/*
 	 * Methoden zur Ausführung des Programms
 	 */
-	//funktioniert aber verstehe nicht so wirklich wieso und sieht zu kompliziert gedacht aus...
 	public void run() throws IOException {
 		// Variables for console input
 		printEntryMenu();

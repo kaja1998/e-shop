@@ -35,7 +35,7 @@ public class Event {
 
     @Override
     public String toString() {
-       return "Date: " + getFormattedDate() + "\n" + "Article: " + getArticle() + "\n" +  "New quantity: " + getQuantity()  + "\n" + "User " + getUser()  + "\n" + "-----------------------------";
+       return "Date: " + getFormattedDate() + "\n" + "Article: " + getArticle() + "\n" +  "quantity-change: " + getQuantity()  + "\n" + "User " + getUser()  + "\n" + "-----------------------------";
     }
 
     public String getUser() {

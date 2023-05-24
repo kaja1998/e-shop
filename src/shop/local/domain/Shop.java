@@ -29,7 +29,7 @@ public class Shop {
 	//Employee administration variable is declared. Can later be used to create an object of this class
 	private EmployeeAdministration employeeAdministration;
 
-	private EventAdministration eventAdministration;
+	private EventAdministration eventAdministration = new EventAdministration();
 
 
 	/**

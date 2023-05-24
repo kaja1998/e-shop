@@ -12,7 +12,6 @@ public class EventAdministration {
         this.events = new ArrayList<>();
     }
 
-
     public void addEvent(Event event){
         events.add(event);
     }
