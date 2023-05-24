@@ -84,6 +84,10 @@ public class Customer extends User {
 
 	public void setShoppingCart(ShoppingCart shoppingCart) { this.shoppingCart = shoppingCart;	}
 
+	@Override
+	public String toString() {
+		return getId() + ";" + getName() + ";" + getLastName() + ";" + getStreet() + ";" + getPostalCode() + ";" +getCity() + ";" + getEmail() + ";" + getUsername() + ";" + getPassword() + ";" + shoppingCart;
+	}
 
 	//Diese Methode prüft, ob zwei Instanzen der Klasse Kunde gleich sind, indem sie ihre Attribute vergleicht
 	//obj ist das Objekt, das mit dem aktuellen Kunde-Objekt verglichen wird.

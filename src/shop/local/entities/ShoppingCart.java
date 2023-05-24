@@ -39,6 +39,16 @@ public class ShoppingCart {
 //                this.invoice = invoice;
 //        }
 
+
+        @Override
+        public String toString() {
+                String string = "";
+                for (ShoppingCartItem item : cartItems ) {
+                        string += item.getArticle().articleString() + "," + item.getQuantity();
+                }
+                return string;
+        }
+
         public void addArticle(Article article, int quantity) {
                 //neues Objekt ShoppingCartItem wird erstellt und mit den übergebenen Parametern article und quantity initialisiert
                 ShoppingCartItem object = new ShoppingCartItem(article, quantity);

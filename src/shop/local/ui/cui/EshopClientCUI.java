@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import shop.local.domain.CustomerAdministration;
 import shop.local.domain.EventAdministration;
 import shop.local.entities.Invoice;
 import shop.local.entities.ShoppingCart;
@@ -14,7 +15,6 @@ import shop.local.entities.ShoppingCartItem;
 import shop.local.domain.exceptions.ArticleAlreadyExistsException;
 import shop.local.domain.Shop;
 import shop.local.entities.*;
-
 
 /**
  * Very simple user interface class for the eshop.
@@ -325,6 +325,14 @@ public class EshopClientCUI {
 	}
 
 	private void logout() throws IOException {
+		if (loggedinUser instanceof Customer){
+			eshop.customerAdministration.persistenceManager
+			eshop.getCustomers();
+			for (Customer c : eshop.getCustomers()){
+				c.getShoppingCart();
+
+			}
+		}
 		loggedinUser = null;
 		System.out.println("\nYou got logged out successfully.\n");
 	}
@@ -399,31 +407,25 @@ public class EshopClientCUI {
 
 		// Try to change inventory
 		if(stockChange < 0) {
-			boolean success = eshop.decreaseArticleStock(article, (-1)*stockChange,"ESHOP_A.txt");
+			boolean success = eshop.decreaseArticleStock(article, (-1)*stockChange,"ESHOP_A.txt", loggedinUser);
 			if(success) {
 				System.out.println("Successfully decreased article's stock.");
 			} else {
 				System.out.println("Could not decrease stock. Maybe you tried to retrieve more items than there are available?");
 			}
 		} else {
-			eshop.increaseArticleStock(article, stockChange, "ESHOP_A.txt");
+			eshop.increaseArticleStock(article, stockChange, "ESHOP_A.txt", loggedinUser);
 			System.out.println("Successfully increased article's stock.");
 		}
 	}
 
-	//Listet alle Ein- und Auslagerungen auf Konsole ausgeben
+	//Gibt alle Ein- und Auslagerungen auf Konsole aus
 	public void showHistory() {
-		List<EventAdministration> eventsList = EventAdministration.getEvents();
-		for (EventAdministration e : eventsList) {
-			System.out.println("Date: " + e.getFormattedDate());
-			System.out.println("Article: " + e.getArticle());
-			System.out.println("Case: " + e.getStorageRetrieval());
-			System.out.println("Quantity change: " + e.getQuantity());
-			System.out.println("User " + e.getUser());
-			System.out.println("-----------------------------");
+		List<Event> eventsList = eshop.getEvents();
+		for (Event e : eventsList) {
+			System.out.println(e);
 		}
 	}
-
 
 	/*
 	 * Methoden für den Kunden
@@ -626,17 +628,6 @@ public class EshopClientCUI {
 		}
 	}
 
-
-	//beide Methoden gehören zur neuen run Methode. Ebenfalls gibt es im customer und employee Menu jetzt den case q
-	private void quitProgram() {
-		System.out.println("Program terminated. Goodbye!");
-		System.exit(0);
-	}
-
-	private boolean shouldQuitProgram(String input) {
-		return loggedinUser == null && !input.equals("q");
-	}
-
 	/*
 	 * Methoden zur Ausführung des Programms
 	 */
@@ -652,24 +643,24 @@ public class EshopClientCUI {
 		while(!"q".equals(input)) {
 			if(loggedinUser != null) {
 				if (this.loggedinUser instanceof Employee) {
-						printEmployeeMenu();
-						try {
-							input = readInput();
-							processInputForEmployeeMenu(input);
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
+					printEmployeeMenu();
+					try {
+						input = readInput();
+						processInputForEmployeeMenu(input);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
 
 				// Print menu for customers
 				if (this.loggedinUser instanceof Customer) {
-						printCustomerMenu();
-						try {
-							input = readInput();
-							processInputForCustomerMenu(input);
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
+					printCustomerMenu();
+					try {
+						input = readInput();
+						processInputForCustomerMenu(input);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
 			} else {
 				printEntryMenu();
@@ -678,103 +669,6 @@ public class EshopClientCUI {
 			}
 		}
 	}
-
-	//Versuch 1004895 - funktioniert auch nicht - MIT LOGOUT
-//	public void run() throws IOException {
-//		// Variables for console input
-//		String input = "";
-//		boolean entryMenu = true;
-//
-//		// Print general menu
-//		do {
-//			printEntryMenu();
-//			try {
-//				input = readInput();
-//				entryMenu = processInputFromEntryMenu(input);
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		} while (entryMenu);
-//
-//		// print menu for employees
-//		if(this.loggedinUser instanceof Employee) {
-//			do {
-//				printEmployeeMenu();
-//				try {
-//					input = readInput();
-//					processInputForEmployeeMenu(input);
-//				} catch (IOException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//			} while (loggedinUser != null && !input.equals("q"));
-//		}
-//
-//		// print menu for customers
-//		if(this.loggedinUser instanceof Customer) {
-//			do {
-//				printCustomerMenu();
-//				try {
-//					input = readInput();
-//					processInputForCustomerMenu(input);
-//				} catch (IOException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//			} while (loggedinUser != null && !input.equals("q"));
-//		}
-//	}
-
-	/*
-	 * Methoden zur Ausführung des Programms - ALT OHNE LOGOUT
-	 */
-//	public void run() throws IOException {
-//		// Variables for console input
-//		String input = "";
-//		boolean entryMenu = true;
-//
-//		// Print general menu
-//		do {
-//			printEntryMenu();
-//			try {
-//				input = readInput();
-//				entryMenu = processInputFromEntryMenu(input);
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		} while (entryMenu);
-//
-//		// print menu for employees
-//		if(this.loggedinUser instanceof Employee) {
-//			do {
-//				printEmployeeMenu();
-//				try {
-//					input = readInput();
-//					processInputForEmployeeMenu(input);
-//				} catch (IOException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//			} while (!input.equals("q"));
-//		}
-//
-//		// print menu for customers
-//		if(this.loggedinUser instanceof Customer) {
-//			do {
-//				printCustomerMenu();
-//				try {
-//					input = readInput();
-//					processInputForCustomerMenu(input);
-//				} catch (IOException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//			} while (!input.equals("q"));
-//		}
-//		System.out.println("Thank you for visiting our shop!");
-//	}
 
 	public static void main(String[] args) {
 		//Variable vom Typ "EshopClientCUI" wird deklariert, aber noch nicht initialisiert!

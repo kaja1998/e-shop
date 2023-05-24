@@ -329,5 +329,9 @@ public class FilePersistenceManager implements PersistenceManager {
 		}
 	}
 
+	private void clearFile(){
+		writer.write("");
+	}
+
 
 }

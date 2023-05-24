@@ -44,6 +44,7 @@ public class Article {
 	 *
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString() {
 		String availability = inStock ? "inStock" : "soldOut";
 		return ("Number: " + number + " / Price EUR " + price + " / Article title: " + articleTitle + " / Quantity " + quantityInStock + " (" + availability + ")");
@@ -130,4 +131,10 @@ public class Article {
 	public void setNumber(int number) {
 		this.number = number;
 	}
+
+	public String articleString(){
+		return number + "," + price + "," + articleTitle + "," + quantityInStock;
+	}
+
+
 }
