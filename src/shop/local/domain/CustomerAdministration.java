@@ -75,6 +75,10 @@ public class CustomerAdministration {
                 return null;
         }
 
+        public void saveCustomerAndShoppingcart(){
+
+        }
+
         // Adds customer objects from file to ArrayList
         public void addCustomer(Customer customer) {
                 this.customers.add(customer);

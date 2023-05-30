@@ -161,47 +161,6 @@ public class FilePersistenceManager implements PersistenceManager {
 			// create and return a new article object
 			return new Customer(id, name, lastName, street, postalCode, city, email, username, password);
 		}
-		//		// Variables
-//		int customerId;
-//
-//		// First, the customer number is read in as a string and converted into an integer
-//		String customerIdString = readRow();
-//		if (customerIdString != null) {
-//			customerId = Integer.parseInt(customerIdString);
-//
-//		} else {
-//			//No more data OR if the customer number is no longer in the file, returns null.
-//			return null;
-//		}
-//		// Date like name, lastname, email, username, street, postal code and city are being read from the file and saved into variables
-//		// Read name
-//		String name = readRow();
-//
-//		// Read lastname
-//		String lastName = readRow();
-//
-//		// Read street
-//		String street = readRow();
-//
-//		// Read postalCode
-//		String postalCodeString = readRow();
-//		int postalCodeInt = Integer.parseInt(postalCodeString);
-//
-//		// Read city
-//		String city = readRow();
-//
-//		// Read email
-//		String email = readRow();
-//
-//		// Read username
-//		String username = readRow();
-//
-//		// Read password
-//		String password = readRow();
-//
-//		//A new customer object is created with the read data and returned.
-//		Customer customer = new Customer(name, lastName, street, postalCodeInt, city, email, username, password);
-//		return customer;
 	}
 
 	//The saveCustomer(customer k) method writes the data of a customer object to a file.
@@ -226,16 +185,6 @@ public class FilePersistenceManager implements PersistenceManager {
 		// Write number
 		writeLine(customerString);
 		return true;
-
-//		writeLine(String.valueOf(customer.getId()));
-//		writeLine(customer.getName());
-//		writeLine(customer.getLastName());
-//		writeLine(customer.getStreet());
-//		writeLine(String.valueOf(customer.getPostalCode()));
-//		writeLine(customer.getCity());
-//		writeLine(customer.getEmail());
-//		writeLine(customer.getUsername());
-//		writeLine(customer.getPassword());
 	}
 
 	public void clearCustomerFile(){
@@ -259,33 +208,6 @@ public class FilePersistenceManager implements PersistenceManager {
 			// create and return a new article object
 			return new Employee(id, name, lastName, username, password);
 		}
-//		// Variables
-//		int employeeId;
-//
-//		// First, the employee number is read in as a string and converted into an integer
-//		String employeeIdString = readRow();
-//		if (employeeIdString != null) {
-//			employeeId = Integer.parseInt(employeeIdString);
-//
-//		} else {
-//			//No more data OR if the employee number is no longer in the file, returns null.
-//			return null;
-//		}
-//		// Date like name, lastname, email, username, street, postal code and city are being read from the file and saved into variables
-//		// Read name
-//		String name = readRow();
-//
-//		// Read lastname
-//		String lastName = readRow();
-//
-//		// Read username
-//		String username = readRow();
-//
-//		// Read password
-//		String password = readRow();
-//
-//		//A new employee object is created with the read data and returned.
-//		return new Employee(name, lastName, username, password);
 	}
 
 	@Override
@@ -308,11 +230,6 @@ public class FilePersistenceManager implements PersistenceManager {
 		// Write number
 		writeLine(employeeString);
 		return true;
-//		writeLine(String.valueOf(employee.getId()));
-//		writeLine(employee.getName());
-//		writeLine(employee.getLastName());
-//		writeLine(employee.getUsername());
-//		writeLine(employee.getPassword());
 	}
 
 	/*

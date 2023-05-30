@@ -44,7 +44,7 @@ public class Customer extends User {
 		this.email = email;
 	}
 
-	//Konstruktor, wenn Customer aus Datei auslesen wird
+	//Konstruktor, wenn Customer aus Datei ausgelesen wird ohne Warenkorb
 	public Customer(int id, String name, String lastName, String street, int postalCode, String city, String email, String username, String password) {
 		super(name, lastName, username, password);
 		this.idCounter = id;
@@ -54,6 +54,7 @@ public class Customer extends User {
 		this.postalCode = postalCode;
 		this.city = city;
 		this.email = email;
+		this.shoppingCart = new ShoppingCart();
 	}
 
 	public float getRevenue() {	return revenue;	}

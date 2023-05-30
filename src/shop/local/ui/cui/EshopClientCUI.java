@@ -3,12 +3,8 @@ package shop.local.ui.cui;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
-import shop.local.domain.CustomerAdministration;
-import shop.local.domain.EventAdministration;
 import shop.local.entities.Invoice;
 import shop.local.entities.ShoppingCart;
 import shop.local.entities.ShoppingCartItem;
@@ -326,12 +322,13 @@ public class EshopClientCUI {
 
 	private void logout() throws IOException {
 		if (loggedinUser instanceof Customer){
-			eshop.clearCustomerFile();
-			eshop.getCustomers();
-			for (Customer c : eshop.getCustomers()){
-				c.getShoppingCart();
 
-			}
+			//alles unten in eine Methode packen und aufrufen.
+			//eshop.saveCustomerAndShoppingcart();
+
+			//File mit customers wird geleert, um die Customer mit eventuellem Warenkorb erneut rein zu schreiben
+			eshop.clearCustomerFile();
+			eshop.writeCustomerData("ESHOP_C.txt", (Customer) loggedinUser);
 		}
 		loggedinUser = null;
 		System.out.println("\nYou got logged out successfully.\n");

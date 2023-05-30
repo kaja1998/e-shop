@@ -72,6 +72,10 @@ public class Shop {
 		return employeeAdministration.login(username, password);
 	}
 
+	public void saveCustomerAndShoppingcart(){
+		customerAdministration.saveCustomerAndShoppingcart();
+	}
+
 	/**
 	 * Method that returns a list of all items in inventory.
 	 *
@@ -153,6 +157,8 @@ public class Shop {
 	 */
 	public Invoice buyArticles(ShoppingCart shoppingCart) throws IOException {
 		return articleAdministration.buyArticles(shoppingCart);
+		//Ereignis für die Einlagerung in ArrayList schreiben
+		// TODO Event implementieren
 	}
 
 	/**
