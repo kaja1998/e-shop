@@ -12,28 +12,19 @@ import java.util.Objects;
 
 public class Employee extends User {
 
-    private final int id;
     private static int idCounter = 0;
 
     public Employee(String name, String lastName, String username, String password) {
         super(name, lastName, username, password);
-        this.idCounter = ++idCounter;
-        this.id = idCounter;
     }
 
     //Konstruktor, wenn Employee aus Datei auslesen wird
     public Employee(int id, String name, String lastName, String username, String password) {
-        super(name, lastName, username, password);
-        this.idCounter = id;
-        this.id = idCounter;
+        super(id, name, lastName, username, password);
     }
 
     // Methods for setting and reading customer properties,
     // e.g. getStreet() and setStreet()
-
-    public int getId() {
-        return id;
-    }
 
     @Override
     public boolean equals(Object otherEmployee) {

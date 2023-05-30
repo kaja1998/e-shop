@@ -74,4 +74,13 @@ public class EmployeeAdministration {
                 this.employees = this.employees;
         }
 
+        public Employee getUserByID(int id){
+           for (Employee employee : employees) {
+                   if(id == employee.getId()){
+                      return employee;
+                   }
+           }
+           return null;
+        }
+
 }

@@ -6,6 +6,7 @@ package shop.local.domain;
 //Nachdem der Import erfolgt ist, kann man Objekte der Klasse Kunde in der aktuellen Klasse erzeugen und auf deren Methoden und Eigenschaften zugreifen.
 //Ohne den Import müsste man jedes Mal den vollständigen Klassennamen angeben, um die Klasse zu verwenden.
 import shop.local.entities.Customer;
+import shop.local.entities.Employee;
 import shop.local.entities.ShoppingCartItem;
 import shop.local.persistence.FilePersistenceManager;
 import shop.local.persistence.PersistenceManager;
@@ -100,5 +101,15 @@ public class CustomerAdministration {
         public void clearCustomerFile(){
                persistenceManager.clearCustomerFile();
         }
+
+        public Customer getUserByID(int id){
+                for (Customer customer : customers) {
+                        if(id == customer.getId()){
+                                return customer;
+                        }
+                }
+                return null;
+        }
+
 
 }

@@ -17,39 +17,31 @@ public class Customer extends User {
 	private int postalCode;
 	private String city = "";
 	private float revenue = 0.0f;
-	private final int id;
 	private static int idCounter = 0;
 	private ShoppingCart shoppingCart;
 
 	public Customer(String name, String lastName, String street, int postalCode, String city, String email, String username, String password) {
 		super(name, lastName, username, password);
 		this.shoppingCart = new ShoppingCart();
-		this.idCounter = ++idCounter;
-		this.id = idCounter;
 		this.street = street;
 		this.postalCode = postalCode;
 		this.city = city;
 		this.email = email;
 	}
 
-	// Second constructor with attribute ShoppingCart
-	public Customer(String name, String lastName, String street, int postalCode, String city, String email, String username, String password, ShoppingCart shoppingCart) {
-		super(name, lastName, username, password);
-		this.shoppingCart = shoppingCart;
-		this.idCounter = ++idCounter;
-		this.id = idCounter;
-		this.street = street;
-		this.postalCode = postalCode;
-		this.city = city;
-		this.email = email;
-	}
+//	// Second constructor with attribute ShoppingCart
+//	public Customer(String name, String lastName, String street, int postalCode, String city, String email, String username, String password, ShoppingCart shoppingCart) {
+//		super(name, lastName, username, password);
+//		this.shoppingCart = shoppingCart;
+//		this.street = street;
+//		this.postalCode = postalCode;
+//		this.city = city;
+//		this.email = email;
+//	}
 
 	//Konstruktor, wenn Customer aus Datei ausgelesen wird ohne Warenkorb
 	public Customer(int id, String name, String lastName, String street, int postalCode, String city, String email, String username, String password) {
-		super(name, lastName, username, password);
-		this.idCounter = id;
-		this.idCounter = ++idCounter;
-		this.id = idCounter;
+		super(id, name, lastName, username, password);
 		this.street = street;
 		this.postalCode = postalCode;
 		this.city = city;
@@ -76,10 +68,6 @@ public class Customer extends User {
 	public String getEmail() { return email;	}
 
 	public void setEmail(String email) { this.email = email; }
-
-	public int getId() {
-		return id;
-	}
 
 	public ShoppingCart getShoppingCart() {	return shoppingCart; }
 

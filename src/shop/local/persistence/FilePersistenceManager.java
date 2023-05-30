@@ -9,10 +9,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-import shop.local.entities.Article;
-import shop.local.entities.ArticleList;
-import shop.local.entities.Customer;
-import shop.local.entities.Employee;
+import shop.local.domain.ArticleAdministration;
+import shop.local.domain.CustomerAdministration;
+import shop.local.domain.EmployeeAdministration;
+import shop.local.entities.*;
 
 /**
  * @author Sund
@@ -231,6 +231,42 @@ public class FilePersistenceManager implements PersistenceManager {
 		writeLine(employeeString);
 		return true;
 	}
+
+
+	@Override
+	public Event loadEvent( ArticleAdministration articleAdministration, EmployeeAdministration employeeAdministration, CustomerAdministration customerAdministration) throws IOException {
+		// Read number convert from String to int
+		String numberString = readRow();
+		if (numberString == null) {
+			return null;
+		} else {
+			String[] splitted = numberString.split(";");
+			int userId = Integer.parseInt(splitted[0]);
+			int articleId = Integer.parseInt(splitted[1]);
+			int quantity = Integer.parseInt(splitted[2]);
+			String date = splitted[3];
+
+			// create and return a new article object
+			return new Event(userId, articleId, quantity, date, articleAdministration, employeeAdministration, customerAdministration);
+		}
+	}
+
+
+	public boolean saveEvent(List<Event> existingEvents) {
+		// Write all existing customers to the file
+		for (Event event : existingEvents) {
+			this.writeEventToFile(event);
+		}
+		// return true, if everything worked
+		return true;
+	}
+
+	public boolean writeEventToFile(Event event) {
+		// Write number
+		writeLine(event.toFileString());
+		return true;
+	}
+
 
 	/*
 	 * Private helper methods

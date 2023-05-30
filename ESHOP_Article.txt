@@ -1,0 +1,7 @@
+1;Basil;153;1.5
+2;Curcuma;120;2.0
+3;Mint;230;4.55
+4;Pizzaspice;100;1.99
+5;Chilli;200;2.0
+6;pepper;500;3.5
+7;salt;450;1.89

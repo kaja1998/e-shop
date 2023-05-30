@@ -29,7 +29,7 @@ public class Shop {
 	//Employee administration variable is declared. Can later be used to create an object of this class
 	private EmployeeAdministration employeeAdministration;
 
-	private EventAdministration eventAdministration = new EventAdministration();
+	private EventAdministration eventAdministration;
 
 
 	/**
@@ -49,19 +49,25 @@ public class Shop {
 		// A new instance of the ArticleAdministration class is created and assigned to the articleAdministration variable
 		// Read item inventory from file
 		articleAdministration = new ArticleAdministration();
-		articleAdministration.readData(file + "_A.txt");
+		articleAdministration.readData(file + "_Article.txt");
 
 		// A new instance of the CustomerAdministration class is created and assigned to the customerAdministration variable
 		// Read customer profile from file
 		customerAdministration = new CustomerAdministration();
-		customerAdministration.readData(file + "_C.txt");
+		customerAdministration.readData(file + "_Customer.txt");
 		//customerAdministration.writeCustomerData(file+"_C.txt");
 
 		// A new instance of the EmployeeAdministration class is created and assigned to the employeeAdministration variable
-		// Read customer profile from file
+		// Read Employee profile from file
 		employeeAdministration = new EmployeeAdministration();
-		employeeAdministration.readData(file+"_E.txt");
+		employeeAdministration.readData(file+"_Employee.txt");
 		//employeeAdministration.writeData(file+"_e.txt");
+
+		// A new instance of the EventAdministration class is created and assigned to the EventAdministration variable
+		// Read Events from file
+		eventAdministration = new EventAdministration();
+		eventAdministration.readData(file+"_Events.txt", articleAdministration, employeeAdministration, customerAdministration);
+		//eventAdministration.writeData(file+"_ev.txt");
 	}
 
 	public Customer loginCustomer(String username, String password) {
@@ -118,7 +124,7 @@ public class Shop {
 	public Article insertArticle(String articleTitle, int quantityInStock, double price, User user) throws ArticleAlreadyExistsException, IOException {
 		Article article = new Article(articleTitle, quantityInStock, price);
 		articleAdministration.insert(article);
-		writeArticleDataToAddArticle("ESHOP_A.txt", article);
+		writeArticleDataToAddArticle("ESHOP_Article.txt", article);
 		//Ereignis für die Einlagerung in ArrayList schreiben
 		Event event = new Event(article, quantityInStock, user);
 		eventAdministration.addEvent(event);
@@ -134,7 +140,7 @@ public class Shop {
 	public void deleteArticle(int number, User user) throws IOException {
 		Article article = articleAdministration.searchByArticleNumber(number);
 		articleAdministration.delete(article);
-		writeArticleDataToRemoveArticle("ESHOP_A.txt", article);
+		writeArticleDataToRemoveArticle("ESHOP_Article.txt", article);
 		//Ereignis für die Einlagerung in ArrayList schreiben
 		Event event = new Event(article, 0, user);
 		eventAdministration.addEvent(event);
@@ -168,11 +174,13 @@ public class Shop {
 	 * @param quantityToAdd number of articles that are to be added to stock
 	 * @return Article with searched articleNumber (may be empty)
 	 */
-	public void increaseArticleStock(Article article, int quantityToAdd, String file, User user) throws IOException {
-		articleAdministration.increaseArticleStock(article, quantityToAdd, file);
+	public void increaseArticleStock(Article article, int quantityToAdd, String articleFile, String eventFile, User user) throws IOException {
+		articleAdministration.increaseArticleStock(article, quantityToAdd, articleFile);
 		//Ereignis für die Einlagerung in ArrayList schreiben
 		Event event = new Event(article, quantityToAdd, user);
 		eventAdministration.addEvent(event);
+		//Ereignis für die Einlagerung in File schreiben
+		eventAdministration.writeData(eventFile);
 	}
 
 	/**
@@ -182,13 +190,15 @@ public class Shop {
 	 * @param quantityToRetrieve number of articles that are to be retrieved from stock
 	 * @return Article with searched articleNumber (may be empty)
 	 */
-	public boolean decreaseArticleStock(Article article, int quantityToRetrieve, String file, User user) throws IOException {
-		boolean bo = articleAdministration.decreaseArticleStock(article, quantityToRetrieve, file);
-		//Ereignis für die Einlagerung in ArrayList schreiben
+	public boolean decreaseArticleStock(Article article, int quantityToRetrieve, String articleFile, String eventFile, User user) throws IOException {
+		boolean bo = articleAdministration.decreaseArticleStock(article, quantityToRetrieve, articleFile);
 		if (bo){
 			int quantity = -quantityToRetrieve;
 			Event event = new Event(article, quantity, user);
+			//Ereignis für die Auslagerung in ArrayList schreiben
 			eventAdministration.addEvent(event);
+			//Ereignis für die Auslagerung in File schreiben
+			eventAdministration.writeData(eventFile);
 		}
 		return bo;
 	}

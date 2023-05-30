@@ -235,7 +235,7 @@ public class EshopClientCUI {
 				//Wenn kein Kunde gefunden wird, dann kann der Kunde registriert werden.
 				//Kunde wird zur Liste hinzugefügt, indem das Shop-Objekt die Methode in der Klasse KundenVerwaltung aufruft
 				try {
-					eshop.writeCustomerData("ESHOP_C.txt", customer);
+					eshop.writeCustomerData("ESHOP_Customer.txt", customer);
 				} catch (IOException e) {
 					// TODO
 					e.printStackTrace();
@@ -277,7 +277,7 @@ public class EshopClientCUI {
 			//Wenn kein Employee gefunden wird, dann kann der Employee registriert werden.
 			//Employee wird zur Liste hinzugefügt, indem das Shop-Objekt die Methode in der Klasse EmployeeAdministration aufruft
 			try {
-				eshop.writeEmployeeData("ESHOP_E.txt", employee);
+				eshop.writeEmployeeData("ESHOP_Employee.txt", employee);
 			} catch (IOException e) {
 				// TODO
 				e.printStackTrace();
@@ -321,15 +321,15 @@ public class EshopClientCUI {
 	}
 
 	private void logout() throws IOException {
-		if (loggedinUser instanceof Customer){
-
-			//alles unten in eine Methode packen und aufrufen.
-			//eshop.saveCustomerAndShoppingcart();
-
-			//File mit customers wird geleert, um die Customer mit eventuellem Warenkorb erneut rein zu schreiben
-			eshop.clearCustomerFile();
-			eshop.writeCustomerData("ESHOP_C.txt", (Customer) loggedinUser);
-		}
+//		if (loggedinUser instanceof Customer){
+//
+//			//alles unten in eine Methode packen und aufrufen.
+//			//eshop.saveCustomerAndShoppingcart();
+//
+//			//File mit customers wird geleert, um die Customer mit eventuellem Warenkorb erneut rein zu schreiben
+//			eshop.clearCustomerFile();
+//			eshop.writeCustomerData("ESHOP_Customer.txt", (Customer) loggedinUser);
+//		}
 		loggedinUser = null;
 		System.out.println("\nYou got logged out successfully.\n");
 	}
@@ -404,14 +404,14 @@ public class EshopClientCUI {
 
 		// Try to change inventory
 		if(stockChange < 0) {
-			boolean success = eshop.decreaseArticleStock(article, (-1)*stockChange,"ESHOP_A.txt", loggedinUser);
+			boolean success = eshop.decreaseArticleStock(article, (-1)*stockChange,"ESHOP_Article.txt", "ESHOP_Events.txt", loggedinUser);
 			if(success) {
 				System.out.println("Successfully decreased article's stock.");
 			} else {
 				System.out.println("Could not decrease stock. Maybe you tried to retrieve more items than there are available?");
 			}
 		} else {
-			eshop.increaseArticleStock(article, stockChange, "ESHOP_A.txt", loggedinUser);
+			eshop.increaseArticleStock(article, stockChange, "ESHOP_Article.txt", "ESHOP_Events.txt", loggedinUser);
 			System.out.println("Successfully increased article's stock.");
 		}
 	}

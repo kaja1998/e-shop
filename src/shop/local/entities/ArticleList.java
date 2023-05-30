@@ -154,4 +154,12 @@ public class ArticleList {
 		//vollständige Zeichenkette result zurückgegeben, die den gesamten Inhalt der verketteten Liste repräsentiert.
 		return result;
 	}
+
+	//
+	public ArticleList getArticleById(int articleId) {
+		return null;
+	}
+
+
+
 }

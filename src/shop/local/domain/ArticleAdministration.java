@@ -213,7 +213,7 @@ public class ArticleAdministration {
 			int quantity = item.getQuantity();
 
 			// try to take articles stock and check if successful
-			boolean success = decreaseArticleStock(article, quantity, "ESHOP_A.txt");
+			boolean success = decreaseArticleStock(article, quantity, "ESHOP_Article.txt");
 
 			// add item to invoice
 			if(success) {
@@ -227,6 +227,10 @@ public class ArticleAdministration {
 		shoppingCart.deleteAll();
 
 		return invoice;
+	}
+
+	public Article getArticleByID(int id){
+		return null;
 	}
 
 	// TODO: More methods, e.g. for reading and removing items
