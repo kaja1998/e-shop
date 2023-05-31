@@ -155,11 +155,19 @@ public class ArticleList {
 		return result;
 	}
 
-	//
-	public ArticleList getArticleById(int articleId) {
-		return null;
-	}
 
-
+//	public Article getArticleById(int articleId) {
+//		ArticleList currentArticleList = this;
+//
+//		while (currentArticleList != null) {
+//			Article currentArticle = currentArticleList.getFirstArticle();
+//			if (currentArticle != null && currentArticle.getNumber() == articleId) {
+//				return currentArticle;
+//			}
+//			currentArticleList = currentArticleList.getRemainingArticles();
+//		}
+//
+//		return null;
+//	}
 
 }

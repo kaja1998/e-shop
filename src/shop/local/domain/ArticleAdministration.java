@@ -6,22 +6,28 @@ import shop.local.domain.exceptions.ArticleAlreadyExistsException;
 import shop.local.entities.*;
 import shop.local.persistence.FilePersistenceManager;
 import shop.local.persistence.PersistenceManager;
+//Importiert die Klasse ArrayList aus dem Paket java.util.
+//Durch das Importieren dieser Klasse können Instanzen von ArrayList erstellt und alle Methoden und Eigenschaften dieser Klasse verwendet werden,
+//ohne den vollständigen Klassennamen jedes Mal schreiben zu müssen.
+import java.util.ArrayList;
+import java.util.List;
 
-
-/**
- * Class for article administration
- * 
- * @author teschke
- */
-public class ArticleAdministration {
-
-	// Administration of articles in a linked list
-	private ArticleList articleStock = new ArticleList();
-
-	// Persistence api, responsible for the implementation of the file access
-	private PersistenceManager persistenceManager = new FilePersistenceManager();
-	
 	/**
+	 * Class for article administration
+	 * LinkedList
+	 * @author Sund
+	 */
+	public class ArticleAdministration {
+
+
+		// Administration of articles in a linked list
+		private ArticleList articleStock = new ArticleList();
+
+		// Persistence api, responsible for the implementation of the file access
+		private PersistenceManager persistenceManager = new FilePersistenceManager();
+
+
+		/**
 	 * Method for reading article data from a file
 	 * 
 	 * @param file File containing article data to be read
@@ -229,10 +235,121 @@ public class ArticleAdministration {
 		return invoice;
 	}
 
-	public Article getArticleByID(int id){
-		return null;
-	}
+		public Article getArticleByID(int articleID) {
+			ArticleList currentArticleList = articleStock;
+			while (currentArticleList != null) {
+				Article currentArticle = currentArticleList.getFirstArticle();
+				if (currentArticle.getNumber() == articleID) {
+					return currentArticle;
+				}
+				currentArticleList = currentArticleList.getRemainingArticles();
+			}
+			return null; // Article not found
+		}
+
+//	public ArticleList getArticleById(int articleId) {
+//		return articleStock.getArticleById(articleId);
+//	}
 
 	// TODO: More methods, e.g. for reading and removing items
 	// ...
 }
+
+
+///**
+// * Mit Arraylist
+// *
+// * @author Sund
+// */
+//public class ArticleAdministration {
+//
+//	private ArrayList<Customer> articlestock = new ArrayList<>();
+//
+//	// Persistence api, responsible for the implementation of the file access
+//	private PersistenceManager persistenceManager = new FilePersistenceManager();
+//
+//
+//	public void readData(String file) throws IOException {
+//		// open PersistenceManager for reading access
+//		persistenceManager.openForReading(file);
+//
+//		Article article;
+//		do {
+//			// Read article object
+//			article = persistenceManager.readArticle();
+//			if (article != null) {
+//				addArticle(article);
+//			}
+//		} while (article != null);
+//
+//		// Close persistence api
+//		persistenceManager.close();
+//	}
+//
+//	public void addArticle(Article article) {
+//		if (articleStock.contains(article)) {
+//			//Wenn der Artikel bereits existiert, wird eine ArticleAlreadyExistsException ausgelöst
+//			throw new ArticleAlreadyExistsException(article, " - in 'insert()'");
+//		}
+//		//Wenn der Artikel nicht im Artikelbestand vorhanden ist, wird er mithilfe der insert-Methode dem Artikelbestand hinzugefügt
+//		articleStock.add(article);
+//	}
+//
+//	public void writeData(String file, Article article) throws IOException  {
+//		// Open persistence manager for writes
+//		persistenceManager.openForWriting(file);
+//		persistenceManager.addArticle(article, this.articleStock);
+//
+//		// Close the persistence interface again
+//		persistenceManager.close();
+//	}
+//
+//	public void writeDataToRemoveArticle(String file, Article article) throws IOException  {
+//		// Open persistence manager for writes
+//		persistenceManager.openForWriting(file);
+//		persistenceManager.deleteArticle(article, this.articleStock);
+//
+//		// Close the persistence interface again
+//		persistenceManager.close();
+//	}
+//
+//	public void delete(Article article) {
+//		articleStock = articleStock.delete(article);
+//	}
+//
+//	public ArticleList searchArticle(String title) {
+//		ArticleList searchResult = new ArticleList();
+//		ArticleList currentArticleList = articleStock;
+//		while (currentArticleList != null) {
+//			Article currentArticle = currentArticleList.getFirstArticle();
+//			if (currentArticle.getArticleTitle().equals(title)) {
+//				// Enter found item in search result
+//				searchResult.insert(currentArticle);
+//			}
+//			currentArticleList = currentArticleList.getRemainingArticles();
+//		}
+//		return searchResult;
+//	}
+//
+//	public Article searchByArticleNumber(int articleNumber) {
+//		//Es gibt einen Variable "searchResult" vom Typ Article, welche zunächst auf "null" gesetzt ist
+//		Article searchResult = null;
+//		//Artikelliste in Variable speichern
+//		ArticleList currentArticleList = articleStock;
+//		//Dann wird eine Schleife ausgeführt, um durch die Artikel in der Liste zu iterieren
+//		while (articleStock != null) {
+//			Article currentArticle = currentArticleList.getFirstArticle();
+//			//In jeder Iteration wird der erste Artikel in der aktuellen Artikel-Liste "currentArticleList" ermittelt und mit der gesuchten Artikelnummer verglichen
+//			if (currentArticle.getNumber() == articleNumber) {
+//				// Enter found item in search result
+//				//Wenn die Nummer übereinstimmt, wird der Artikel in die Variable "searchResult" gespeichert und die Schleife wird mit break beendet
+//				searchResult = currentArticle;
+//				break;
+//			}
+//			//Andernfalls wird der nächste Artikel in der Liste durch Festlegen der Variable "currentArticleList" auf die Restliste erhalten und die Schleife wird fortgesetzt
+//			currentArticleList = currentArticleList.getRemainingArticles();
+//		}
+//		//Wenn die Schleife beendet wird, gibt die Methode "searchResult" zurück, die entweder null ist, wenn kein Artikel gefunden wurde, oder den Artikel
+//		return searchResult;
+//	}
+

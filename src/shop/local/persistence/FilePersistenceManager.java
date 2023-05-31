@@ -7,6 +7,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 
 import shop.local.domain.ArticleAdministration;
@@ -50,14 +53,14 @@ public class FilePersistenceManager implements PersistenceManager {
 	public boolean close() {
 		if (writer != null)
 			writer.close();
-		
+
 		if (reader != null) {
 			try {
 				reader.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				
+
 				return false;
 			}
 		}
@@ -245,15 +248,25 @@ public class FilePersistenceManager implements PersistenceManager {
 			int articleId = Integer.parseInt(splitted[1]);
 			int quantity = Integer.parseInt(splitted[2]);
 			String date = splitted[3];
+			int eventTypeOrdinal = Integer.parseInt(splitted[4]);
+			Event.EventType type = Event.EventType.values()[eventTypeOrdinal];
+
+			User user;
+			if (employeeAdministration.getUserByID(userId) != null){
+				user = employeeAdministration.getUserByID(userId);
+			} else {
+				user = customerAdministration.getUserByID(userId);
+			}
+			Article article = articleAdministration.getArticleByID(articleId);
 
 			// create and return a new article object
-			return new Event(userId, articleId, quantity, date, articleAdministration, employeeAdministration, customerAdministration);
+			return new Event(type, user, article, quantity, date);
 		}
 	}
 
 
 	public boolean saveEvent(List<Event> existingEvents) {
-		// Write all existing customers to the file
+		// Write all existing Events to the file
 		for (Event event : existingEvents) {
 			this.writeEventToFile(event);
 		}

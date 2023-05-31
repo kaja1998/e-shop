@@ -9,10 +9,23 @@ import java.util.Date;
 
 public class Event {
 
+    public enum EventType { NEU, KAUF, AUSLAGERUNG, EINLAGERUNG };
+
+
+    private EventType eventType;
     private Date date;
     private Article article;
     private int quantity;
     private User user;
+
+
+    public Event(EventType type, Article article, int quantity, User user) {
+        this.eventType = type;
+        this.date = new Date();
+        this.article = article;
+        this.quantity = quantity;
+        this.user = user;
+    }
 
     public Event(Article article, int quantity, User user) {
         this.date = new Date();
@@ -22,15 +35,10 @@ public class Event {
     }
 
     //Konstruktor zum Lesen aus der Datei
-    public Event(int userId, int articleId, int quantity, String date, ArticleAdministration articleAdministration, EmployeeAdministration employeeAdministration, CustomerAdministration customerAdministration) {
-       if (employeeAdministration.getUserByID(userId) != null){
-           this.user = employeeAdministration.getUserByID(userId);
-       } else {
-           this.user = customerAdministration.getUserByID(userId);
-       }
-       this.article = articleAdministration.getArticleByID(articleId);
-       this.quantity = quantity;
-       this.date = getcorrectDate(date);
+//    public Event(int userId, int articleId, int quantity, String date /*, ArticleAdministration articleAdministration, EmployeeAdministration employeeAdministration, CustomerAdministration customerAdministration*/) {
+    public Event(EventType type, User user, Article article, int quantity, String date) {
+        this(type, article, quantity, user);
+        this.date = getcorrectDate(date);
     }
 
     //Die Methode wandelt ein String im angegebenen Format in ein Date-Objekt um.
@@ -69,11 +77,11 @@ public class Event {
 
     @Override
     public String toString() {
-       return "Date: " + getFormattedDate() + "\n" + "Article: " + getArticle() + "\n" +  "quantity-change: " + getQuantity()  + "\n" + "User " + getUser()  + "\n" + "-----------------------------";
+       return "Typ: " + eventType.ordinal() + "\n" + "Date: " + getFormattedDate() + "\n" + "Article: " + getArticle() + "\n" +  "quantity-change: " + getQuantity()  + "\n" + "User " + getUser()  + "\n" + "-----------------------------";
     }
 
     public String toFileString(){
-        return user.getId() + ";" + article.getNumber() + ";" + quantity + ";" + getFormattedDate();
+        return user.getId() + ";" + article.getNumber() + ";" + quantity + ";" + getFormattedDate() + ";" + eventType.ordinal();
     }
 
 

@@ -126,7 +126,7 @@ public class Shop {
 		articleAdministration.insert(article);
 		writeArticleDataToAddArticle("ESHOP_Article.txt", article);
 		//Ereignis für die Einlagerung in ArrayList schreiben
-		Event event = new Event(article, quantityInStock, user);
+		Event event = new Event(Event.EventType.NEU, article, quantityInStock, user);
 		eventAdministration.addEvent(event);
 		return article;
 	}
@@ -142,7 +142,7 @@ public class Shop {
 		articleAdministration.delete(article);
 		writeArticleDataToRemoveArticle("ESHOP_Article.txt", article);
 		//Ereignis für die Einlagerung in ArrayList schreiben
-		Event event = new Event(article, 0, user);
+		Event event = new Event(Event.EventType.AUSLAGERUNG, article, 0, user);
 		eventAdministration.addEvent(event);
 	}
 
@@ -177,7 +177,7 @@ public class Shop {
 	public void increaseArticleStock(Article article, int quantityToAdd, String articleFile, String eventFile, User user) throws IOException {
 		articleAdministration.increaseArticleStock(article, quantityToAdd, articleFile);
 		//Ereignis für die Einlagerung in ArrayList schreiben
-		Event event = new Event(article, quantityToAdd, user);
+		Event event = new Event(Event.EventType.EINLAGERUNG, article, quantityToAdd, user);
 		eventAdministration.addEvent(event);
 		//Ereignis für die Einlagerung in File schreiben
 		eventAdministration.writeData(eventFile);
@@ -194,7 +194,7 @@ public class Shop {
 		boolean bo = articleAdministration.decreaseArticleStock(article, quantityToRetrieve, articleFile);
 		if (bo){
 			int quantity = -quantityToRetrieve;
-			Event event = new Event(article, quantity, user);
+			Event event = new Event(Event.EventType.AUSLAGERUNG, article, quantity, user);
 			//Ereignis für die Auslagerung in ArrayList schreiben
 			eventAdministration.addEvent(event);
 			//Ereignis für die Auslagerung in File schreiben
