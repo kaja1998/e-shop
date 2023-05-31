@@ -86,32 +86,31 @@ public class ShoppingCart {
 
 
         //Funktioniert mit contains
-        public void updateArticleQuantity(Article article, int newQuantity) {
-                //Wenn der übergebene Artikel Sinn macht / wirklich existiert
+        public String updateArticleQuantity(Article article, int newQuantity) {
+                // Wenn der übergebene Artikel Sinn macht / wirklich existiert
                 if (article != null) {
-                        //Befindet sich der Artikel im Warenkorb?
+                        // Befindet sich der Artikel im Warenkorb?
                         if (cartItems.contains(article)) {
-                                //Wenn übergebene Menge gleich null soll der Artikel gelöscht werden
+                                // Wenn übergebene Menge gleich null soll der Artikel gelöscht werden
                                 if (newQuantity == 0) {
                                         deleteSingleArticle(article);
-                                //Wenn übergebene Menge > 0, dann gehe mit einer for-Schleife durch den Warenkorb Array
                                 } else {
                                         for (ShoppingCartItem item : cartItems) {
-                                                //Vergleicht die Artikel im Warenkorb mit dem übergebenen Artikel
+                                                // Vergleicht die Artikel im Warenkorb mit dem übergebenen Artikel
                                                 if (item.getArticle().equals(article)) {
-                                                        //Wenn im Warenkorb ein Artikel gefunden wird, der wie der übergebene Artikel ist
+                                                        // Wenn im Warenkorb ein Artikel gefunden wird, der wie der übergebene Artikel ist
                                                         // dann nehmen den Artikel item und setzte seine Menge auf die, die der Nutzer übergeben hat
                                                         item.setQuantity(newQuantity);
-                                                        //Gehe raus aus der Methode
-                                                        return;
+                                                        // Gehe raus aus der Methode
+                                                        return null;
                                                 }
                                         }
                                 }
-                        //Artikel befindet sich nicht im Warenkorb
                         } else {
-                                System.out.println("Article doesn't exist in your cart yet.");
+                                return "Article doesn't exist in your cart yet.";
                         }
                 }
+                return null;
         }
 
         //Funktioniert auch aber mit contains cooler

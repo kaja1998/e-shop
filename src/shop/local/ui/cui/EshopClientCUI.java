@@ -520,8 +520,11 @@ public class EshopClientCUI {
 				System.out.println("Found article \n");
 				// Variable vom Typ shoppingCart wird deklariert. Mit dem Customer-Objekt wird die Methode getShoppingCart aufgerufen in welcher der Warenkorb des Kunden zurückgegeben wird
 				ShoppingCart shoppingCart = customer.getShoppingCart();
-				//Methode addArticle wird aufgerufen und akzeptiert angegebenen Parameter
-				shoppingCart.updateArticleQuantity(article, newQuantity);
+				// Methode addArticle wird aufgerufen und akzeptiert angegebenen Parameter
+				String updateResult = shoppingCart.updateArticleQuantity(article, newQuantity);
+				if (updateResult != null) {
+					System.out.println(updateResult);
+				}
 				//Warenkorb wird ausgegeben
 				shoppingCart.read();
 			} else {
