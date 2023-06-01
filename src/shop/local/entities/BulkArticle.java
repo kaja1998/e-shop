@@ -39,6 +39,6 @@ public class BulkArticle extends Article {
 
     @Override
     public String toString() {
-        return super.toString() + " / Pack Size: " + packSize;
+        return super.toString() + " / Pack Size " + packSize;
     }
 }
