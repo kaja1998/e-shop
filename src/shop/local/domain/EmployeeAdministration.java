@@ -1,9 +1,7 @@
 package shop.local.domain;
-
 import shop.local.entities.Employee;
 import shop.local.persistence.FilePersistenceManager;
 import shop.local.persistence.PersistenceManager;
-
 import java.io.IOException;
 import java.util.ArrayList;
 

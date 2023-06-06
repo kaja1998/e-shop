@@ -1,11 +1,9 @@
 package shop.local.ui.cui;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import shop.local.entities.Invoice;
 import shop.local.entities.ShoppingCart;
 import shop.local.entities.ShoppingCartItem;
@@ -26,7 +24,6 @@ public class EshopClientCUI {
 	private Shop eshop;
 	private BufferedReader in;
 	private User loggedinUser = null;
-	private Scanner scanner = new Scanner(System.in);                            // Scanner registration
 
 	public EshopClientCUI(String file) throws IOException {
 		//the shop administration handles the tasks that have nothing to do with input/output
@@ -187,23 +184,23 @@ public class EshopClientCUI {
 	private void registerCustomer() throws IOException {
 		//The data from the file is read and added to the ArrayList of customers
 		System.out.println("Your name: ");
-		String name = scanner.nextLine();
+		String name = readInput();
 		System.out.println("Your last name: ");
-		String lastName = scanner.nextLine();
+		String lastName = readInput();
 		System.out.println("Your street: ");
-		String street = scanner.nextLine();
+		String street = readInput();
 		System.out.println("Your postal code: ");
-		int postalCode = Integer.parseInt(scanner.nextLine());
+		int postalCode = Integer.parseInt(readInput());
 		System.out.println("Your city: ");
-		String city = scanner.nextLine();
+		String city = readInput();
 		System.out.println("Your mail: ");
-		String mail = scanner.nextLine();
+		String mail = readInput();
 		System.out.println("Your username: ");
-		String username = scanner.nextLine();
+		String username = readInput();
 		System.out.println("Your password: ");
-		String password = scanner.nextLine();
+		String password = readInput();
 		System.out.println("Register now 'yes' / 'no': ");
-		String registerNow = scanner.nextLine();
+		String registerNow = readInput();
 
 		//Check if registration wants to do
 		if (registerNow.equals("yes")) {  //Wenn man Strings auf Gleichheit überprüfen möchten, sollten man den Operator "==" nicht verwenden. Der Operator "==" prüft, ob die beiden Variablen dieselbe Referenz auf dasselbe Objekt haben, was bei Strings oft nicht der Fall ist. Stattdessen sollte man die equals()-Methode verwenden, um Strings auf Gleichheit zu prüfen.
@@ -283,12 +280,12 @@ public class EshopClientCUI {
 		}
 	}
 
-	private boolean customerLogin() {
+	private boolean customerLogin() throws IOException {
 		System.out.println("Please enter your login data:");
 		System.out.println("Username: ");
-		String username = scanner.nextLine();
+		String username = readInput();
 		System.out.println("Password: ");
-		String password = scanner.nextLine();
+		String password = readInput();
 		loggedinUser = eshop.loginCustomer(username, password);
 		if (loggedinUser != null) {
 			System.out.println("You´re successfully logged in. Hello, Mr. / Mrs. " + loggedinUser.getLastName());
@@ -299,12 +296,12 @@ public class EshopClientCUI {
 		}
 	}
 
-	private boolean employeeLogin() {
+	private boolean employeeLogin() throws IOException {
 		System.out.println("Please enter your login data:");
 		System.out.println("Username: ");
-		String username = scanner.nextLine();
+		String username = readInput();
 		System.out.println("Password: ");
-		String password = scanner.nextLine();
+		String password = readInput();
 
 		loggedinUser = eshop.loginEmployee(username, password);
 		if (loggedinUser != null) {
@@ -510,7 +507,6 @@ public class EshopClientCUI {
 			//checken, ob es den Artikel wirklich gibt im Shop
 			Article article = eshop.searchByArticleNumber(articleNumber);
 			if (article != null) {
-				System.out.println("Found article \n");
 				// Variable vom Typ shoppingCart wird deklariert. Mit dem Customer-Objekt wird die Methode getShoppingCart aufgerufen in welcher der Warenkorb des Kunden zurückgegeben wird
 				ShoppingCart shoppingCart = customer.getShoppingCart();
 				// Methode addArticle wird aufgerufen und akzeptiert angegebenen Parameter
@@ -537,7 +533,6 @@ public class EshopClientCUI {
 			//checken, ob es den Artikel wirklich gibt im Shop
 			Article article = eshop.searchByArticleNumber(articleNumber);
 			if (article != null) {
-				System.out.println("Found article \n");
 				ShoppingCart shoppingCart = customer.getShoppingCart();
 				//Artikel aus dem Warenkorb löschen
 				shoppingCart.deleteSingleArticle(article);
@@ -619,7 +614,7 @@ public class EshopClientCUI {
 			//Methode buyArticles(shoppingCart) wird aufgerufen, um den Kauf der Artikel im Warenkorb durchzuführen.
 			//Das Ergebnis ist eine Rechnung (Invoice), die in der Variable invoice gespeichert wird.
 			shoppingCart.deleteAll();
-			System.out.println("All Articles were removed successfully from the cart.");
+			System.out.println("All Articles were removed successfully from the cart."+ "\n");
 		}
 	}
 

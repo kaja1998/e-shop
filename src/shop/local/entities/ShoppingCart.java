@@ -1,5 +1,4 @@
 package shop.local.entities;
-
 import java.util.ArrayList;
 
 public class ShoppingCart {
@@ -80,7 +79,7 @@ public class ShoppingCart {
                 //Mit einer Schleife wird durch die ArrayList cart iteriert. item ist dabei die aktuelle Iteration
                 for (ShoppingCartItem item : cartItems) {
                         //Für jedes ShoppingCartItem wird die Menge, die Artikelnummer, der Name abgerufen und auf der Konsole ausgegeben
-                        System.out.println(item.getQuantity() + "x " + item.getArticle().getNumber() + " " + item.getArticle().getArticleTitle() + " " + item.getArticle().getPrice() + " €");
+                        System.out.println(item.getQuantity() + "x " + item.getArticle().getNumber() + " " + "(" + item.getArticle().getArticleTitle() + ")" + " " + item.getArticle().getPrice() + " €");
                 }
         }
 
@@ -102,7 +101,7 @@ public class ShoppingCart {
                                                         // dann nehmen den Artikel item und setzte seine Menge auf die, die der Nutzer übergeben hat
                                                         item.setQuantity(newQuantity);
                                                         // Gehe raus aus der Methode
-                                                        return null;
+                                                        return "Article quantity updated successfully.";
                                                 }
                                         }
                                 }

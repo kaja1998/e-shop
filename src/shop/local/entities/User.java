@@ -1,5 +1,4 @@
 package shop.local.entities;
-
 import java.util.Random;
 
 public abstract class User {

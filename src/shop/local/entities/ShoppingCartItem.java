@@ -1,8 +1,5 @@
 package shop.local.entities;
 
-//importiert die Klasse Article.
-import shop.local.entities.Article;
-
 public class ShoppingCartItem {
 
     private Article article;

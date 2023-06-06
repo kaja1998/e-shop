@@ -1,9 +1,7 @@
 package shop.local.domain;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import shop.local.domain.exceptions.ArticleAlreadyExistsException;
 import shop.local.entities.*;
 

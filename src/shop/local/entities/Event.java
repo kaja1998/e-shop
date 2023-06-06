@@ -1,8 +1,4 @@
 package shop.local.entities;
-import shop.local.domain.ArticleAdministration;
-import shop.local.domain.CustomerAdministration;
-import shop.local.domain.EmployeeAdministration;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;

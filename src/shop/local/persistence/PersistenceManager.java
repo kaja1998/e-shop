@@ -1,9 +1,7 @@
 package shop.local.persistence;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import shop.local.domain.ArticleAdministration;
 import shop.local.domain.CustomerAdministration;
 import shop.local.domain.EmployeeAdministration;

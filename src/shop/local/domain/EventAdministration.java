@@ -1,11 +1,7 @@
 package shop.local.domain;
-import shop.local.entities.Article;
-import shop.local.entities.Employee;
 import shop.local.entities.Event;
-import shop.local.entities.User;
 import shop.local.persistence.FilePersistenceManager;
 import shop.local.persistence.PersistenceManager;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
