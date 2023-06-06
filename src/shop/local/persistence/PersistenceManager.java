@@ -1,6 +1,7 @@
 package shop.local.persistence;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import shop.local.domain.ArticleAdministration;
@@ -34,9 +35,9 @@ public interface PersistenceManager {
 	 */
 	public Article readArticle() throws IOException;
 
-	public boolean addArticle(Article articleToAdd, ArticleList existingArticles) throws IOException;
+	public boolean addArticles(Article articleToAdd, ArrayList<Article> existingArticles) throws IOException;
 
-	public boolean deleteArticle(Article articleToDelete, ArticleList existingArticles) throws IOException;
+	public boolean deleteArticle(Article articleToDelete, ArrayList<Article> existingArticles) throws IOException;
 
 
 	/**
@@ -67,11 +68,5 @@ public interface PersistenceManager {
 	public Event loadEvent(ArticleAdministration articleAdministration, EmployeeAdministration employeeAdministration, CustomerAdministration customerAdministration) throws IOException;
 
 	public boolean saveEvent(List<Event> events);
-
-
-	/**
-	 * Method for deleting the customers in an external data source.
-	 */
-	public void clearCustomerFile();
 
 }

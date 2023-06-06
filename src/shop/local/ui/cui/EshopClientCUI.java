@@ -3,6 +3,7 @@ package shop.local.ui.cui;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import shop.local.entities.Invoice;
@@ -42,7 +43,7 @@ public class EshopClientCUI {
 		System.out.print("What would you like to do?");
 		System.out.print("         \n  Login as a customer: 'cl'");
 		System.out.print("         \n  Register as a customer: 'cr'");
-		System.out.print("         \n  Login as employee: 'e'");
+		System.out.print("         \n  Login as employee: 'el'");
 		System.out.print("         \n  ---------------------");
 		System.out.println("         \n  Quit:        'q'");
 		System.out.print("> "); // Prompt
@@ -51,13 +52,12 @@ public class EshopClientCUI {
 
 	private void printEmployeeMenu() {
 		System.out.print("Commands: \n  Output articles:  'a'");        // \n ist ein Absatz
-		System.out.print("          \n  Delete article: 'd'");
-		System.out.print("          \n  Insert article: 'e'");
-		System.out.print("          \n  Search article:  'f'");
-		System.out.print("          \n  Manage an article's inventory:  'g'");
-		System.out.print("          \n  Create new employee:  'n'");
-		//System.out.print("          \n  Save data:  's'");
-		System.out.print("          \n  Show history:  'h'");
+		System.out.print("          \n  Delete article: 'b'");
+		System.out.print("          \n  Insert article: 'c'");
+		System.out.print("          \n  Search article:  'd'");
+		System.out.print("          \n  Manage an article's inventory:  'e'");
+		System.out.print("          \n  Create new employee:  'f'");
+		System.out.print("          \n  Show history:  'g'");
 		System.out.print("          \n  Logout:  'l'");
 		System.out.print("          \n  ---------------------");
 		System.out.println("        \n  Quit:        'q'");
@@ -90,7 +90,7 @@ public class EshopClientCUI {
 				return true;
 			case "cl":
 				return !customerLogin();
-			case "e":
+			case "el":
 				return !employeeLogin();
 			case "q":
 				return false;
@@ -103,37 +103,33 @@ public class EshopClientCUI {
 		switch(line) {
 			//Output articles
 			case "a":
-				ArticleList articleList = eshop.getAllArticles();
+				ArrayList<Article> articleList = eshop.getAllArticles();
 				printArticleList(articleList);
 				break;
 			//Delete article:
-			case "d":
+			case "b":
 				deleteArticle();
 				break;
 			//Insert article
-			case "e":
+			case "c":
 				insertArticle();
 				break;
 			//Search article
-			case "f":
+			case "d":
 				searchArticle();
 				break;
 			//Manage an article's inventory
-			case "g":
+			case "e":
 				manageInventory();
 				break;
 			//create new employee
-			case "n":
+			case "f":
 				registerEmployee();
 				break;
 			//show history
-			case "h":
+			case "g":
 				showHistory();
 				break;
-			//Save data
-			//case "s":
-			//eshop.writeArticleDataToAddArticle();
-			//break;
 			//logout
 			case "l":
 				logout();
@@ -142,7 +138,7 @@ public class EshopClientCUI {
 	}
 
 	private void processInputForCustomerMenu(String line) throws IOException {
-		ArticleList articleList;
+		ArrayList<Article> articleList;
 		// Get input
 		switch(line) {
 			//Output articles
@@ -321,15 +317,6 @@ public class EshopClientCUI {
 	}
 
 	private void logout() throws IOException {
-//		if (loggedinUser instanceof Customer){
-//
-//			//alles unten in eine Methode packen und aufrufen.
-//			//eshop.saveCustomerAndShoppingcart();
-//
-//			//File mit customers wird geleert, um die Customer mit eventuellem Warenkorb erneut rein zu schreiben
-//			eshop.clearCustomerFile();
-//			eshop.writeCustomerData("ESHOP_Customer.txt", (Customer) loggedinUser);
-//		}
 		loggedinUser = null;
 		System.out.println("\nYou got logged out successfully.\n");
 	}
@@ -346,7 +333,7 @@ public class EshopClientCUI {
 	}
 
 	private void searchArticle() throws IOException {
-		ArticleList articleList;
+		ArrayList<Article> articleList;
 		System.out.print("Article title > ");
 		String articleTitle = readInput();
 		articleList = eshop.searchByArticleTitle(articleTitle);
@@ -429,8 +416,14 @@ public class EshopClientCUI {
 	/*
 	 * Methoden für den Kunden
 	 */
-	private void printArticleList(ArticleList liste) {
-		System.out.print(liste);
+//	private void printArticleList(ArrayList<Article> liste) {
+//		System.out.print(liste);
+//	}
+
+	private void printArticleList(ArrayList<Article> liste) {
+		for (Article article : liste) {
+			System.out.println(article);
+		}
 	}
 
 	private void addArticleToCart() throws IOException {

@@ -7,9 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import shop.local.domain.ArticleAdministration;
@@ -98,20 +96,31 @@ public class FilePersistenceManager implements PersistenceManager {
 	 * @param newArticle Article to save
 	 * @return true if write is successful, false otherwise
 	 */
-	public boolean addArticle(Article newArticle, ArticleList existingArticles) {
-		// Write all existing articles to the file
-		while (existingArticles != null) {
-			Article currentArticle = existingArticles.getFirstArticle();
+//	public boolean addArticle(Article newArticle, ArticleList existingArticles) {
+//		// Write all existing articles to the file
+//		while (existingArticles != null) {
+//			Article currentArticle = existingArticles.getFirstArticle();
+//
+//			// only write the articles that have not been edited to file
+//			if(currentArticle.getNumber() != newArticle.getNumber()) {
+//				this.writeArticleToFile(currentArticle);
+//			} else {
+//				// Write the new article to file
+//				this.writeArticleToFile(newArticle);
+//			}
+//			existingArticles = existingArticles.getRemainingArticles();
+//		}
+//		// return true, if everything worked
+//		return true;
+//	}
 
-			// only write the articles that have not been edited to file
-			if(currentArticle.getNumber() != newArticle.getNumber()) {
-				this.writeArticleToFile(currentArticle);
-			} else {
-				// Write the new article to file
-				this.writeArticleToFile(newArticle);
-			}
-			existingArticles = existingArticles.getRemainingArticles();
+	public boolean addArticles(Article newArticle, ArrayList<Article> existingArticles) {
+		// Write all existing articles to the file
+		for (Article article : existingArticles){
+			this.writeArticleToFile(article);
 		}
+		// Write the new article to file
+		//this.writeArticleToFile(newArticle);
 		// return true, if everything worked
 		return true;
 	}
@@ -121,20 +130,39 @@ public class FilePersistenceManager implements PersistenceManager {
 	 *
 	 * @return true if write is successful, false otherwise
 	 */
-	public boolean deleteArticle(Article articleToDelete, ArticleList existingArticles) {
-		// Write all existing articles to the file
-		while (existingArticles != null) {
-			// only write the articles that should be kept to file
-			// do not write the article that should be deleted to file
-			Article currentArticle = existingArticles.getFirstArticle();
-			if(currentArticle.getNumber() != articleToDelete.getNumber()) {
-				this.writeArticleToFile(currentArticle);
+//	public boolean deleteArticle(Article articleToDelete, ArrayList<Article> existingArticles) {
+//		// Write all existing articles to the file
+//		while (existingArticles != null) {
+//			// only write the articles that should be kept to file
+//			// do not write the article that should be deleted to file
+//			Article currentArticle = existingArticles.getFirstArticle();
+//			if(currentArticle.getNumber() != articleToDelete.getNumber()) {
+//				this.writeArticleToFile(currentArticle);
+//			}
+//			existingArticles = existingArticles.getRemainingArticles();
+//		}
+//		// return true, if everything worked
+//		return true;
+//	}
+
+	public boolean deleteArticle(Article articleToDelete, ArrayList<Article> existingArticles) {
+		//Erstelle eine neue ArrayList für die Artikel die behalten werden sollen
+		ArrayList<Article> articlesToKeep = new ArrayList<>();
+
+		// check all existing articles in List
+		for (Article currentArticle : existingArticles) {
+			// check if the article who should be deleted is in list
+			if (currentArticle.getNumber() != articleToDelete.getNumber()) {
+				articlesToKeep.add(currentArticle);
 			}
-			existingArticles = existingArticles.getRemainingArticles();
 		}
-		// return true, if everything worked
+		//weite articles to keep in file
+		for(Article article : articlesToKeep) {
+			this.writeArticleToFile(article);
+		}
 		return true;
 	}
+
 
 	public boolean writeArticleToFile(Article article) {
 		String articleString = article.getNumber() + ";" + article.getArticleTitle() + ";" + article.getQuantityInStock() + ";" + article.getPrice();
@@ -190,10 +218,6 @@ public class FilePersistenceManager implements PersistenceManager {
 		return true;
 	}
 
-	public void clearCustomerFile(){
-		writer.write("");
-	}
-
 	@Override
 	public Employee loadEmployee() throws IOException {
 		// Read number convert from String to int
@@ -215,7 +239,7 @@ public class FilePersistenceManager implements PersistenceManager {
 
 	@Override
 	public boolean saveEmployee(Employee newEmployee, List<Employee> existingEmployees) {
-		// Write all existing employees to the file
+		// Write all existing employees + the new one to the file
 		for (Employee employee : existingEmployees) {
 			this.writeEmployeeToFile(employee);
 		}

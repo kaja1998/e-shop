@@ -76,10 +76,6 @@ public class CustomerAdministration {
                 return null;
         }
 
-        public void saveCustomerAndShoppingcart(){
-
-        }
-
         // Adds customer objects from file to ArrayList
         public void addCustomer(Customer customer) {
                 this.customers.add(customer);
@@ -96,10 +92,6 @@ public class CustomerAdministration {
 
         public void setCustomers(ArrayList<Customer> customers) {
                 this.customers = customers;
-        }
-
-        public void clearCustomerFile(){
-               persistenceManager.clearCustomerFile();
         }
 
         public Customer getUserByID(int id){

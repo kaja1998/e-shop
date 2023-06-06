@@ -78,16 +78,12 @@ public class Shop {
 		return employeeAdministration.login(username, password);
 	}
 
-	public void saveCustomerAndShoppingcart(){
-		customerAdministration.saveCustomerAndShoppingcart();
-	}
-
 	/**
 	 * Method that returns a list of all items in inventory.
 	 *
 	 * @return List of all items in the shop stock
 	 */
-	public ArticleList getAllArticles() {
+	public ArrayList<Article> getAllArticles() {
 		return articleAdministration.getArticleStock();
 	}
 
@@ -98,7 +94,7 @@ public class Shop {
 	 * @param articleTitle Article title of the searched article
 	 * @return list of items found (may be empty)
 	 */
-	public ArticleList searchByArticleTitle(String articleTitle) {
+	public ArrayList<Article> searchByArticleTitle(String articleTitle) {
 		return articleAdministration.searchArticle(articleTitle);
 	}
 
@@ -123,7 +119,7 @@ public class Shop {
 	 */
 	public Article insertArticle(String articleTitle, int quantityInStock, double price, User user) throws ArticleAlreadyExistsException, IOException {
 		Article article = new Article(articleTitle, quantityInStock, price);
-		articleAdministration.insert(article);
+		articleAdministration.insertArticle(article);
 		writeArticleDataToAddArticle("ESHOP_Article.txt", article);
 		//Ereignis für die Einlagerung in ArrayList schreiben
 		Event event = new Event(Event.EventType.NEU, article, quantityInStock, user);
@@ -254,8 +250,5 @@ public class Shop {
 		return eventAdministration.getEvents();
 	}
 
-	public void clearCustomerFile(){
-		customerAdministration.clearCustomerFile();
-	}
 
 }

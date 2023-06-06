@@ -1,6 +1,7 @@
 package shop.local.persistence;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import shop.local.domain.ArticleAdministration;
@@ -39,14 +40,14 @@ public class DBPersistenceManager implements PersistenceManager {
 	}
 
 	@Override
-	public boolean addArticle(Article articleToAdd, ArticleList existingArticles) throws IOException {
+	public boolean addArticles(Article articleToAdd, ArrayList<Article> existingArticles) throws IOException {
 		return false;
 	}
 
 
 
 	@Override
-	public boolean deleteArticle(Article article, ArticleList existingArticles) {
+	public boolean deleteArticle(Article article, ArrayList<Article> existingArticles) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -91,12 +92,6 @@ public class DBPersistenceManager implements PersistenceManager {
 
 	public boolean saveEvent(List<Event> events) {
 		return false;
-	}
-
-
-
-	@Override
-	public void clearCustomerFile() {
 	}
 
 }
