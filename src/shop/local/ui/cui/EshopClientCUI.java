@@ -181,6 +181,64 @@ public class EshopClientCUI {
 	/*
 	 * Methoden zum Registrieren und Einloggen von Mitarbeitern / Kunden, sowie Logout
 	 */
+//	private void registerCustomer() throws IOException {
+//		//The data from the file is read and added to the ArrayList of customers
+//		System.out.println("Your name: ");
+//		String name = readInput();
+//		System.out.println("Your last name: ");
+//		String lastName = readInput();
+//		System.out.println("Your street: ");
+//		String street = readInput();
+//		System.out.println("Your postal code: ");
+//		int postalCode = Integer.parseInt(readInput());
+//		System.out.println("Your city: ");
+//		String city = readInput();
+//		System.out.println("Your mail: ");
+//		String mail = readInput();
+//		System.out.println("Your username: ");
+//		String username = readInput();
+//		System.out.println("Your password: ");
+//		String password = readInput();
+//		System.out.println("Register now 'yes' / 'no': ");
+//		String registerNow = readInput();
+//
+//		//Check if registration wants to do
+//		if (registerNow.equals("yes")) {  //Wenn man Strings auf Gleichheit überprüfen möchten, sollten man den Operator "==" nicht verwenden. Der Operator "==" prüft, ob die beiden Variablen dieselbe Referenz auf dasselbe Objekt haben, was bei Strings oft nicht der Fall ist. Stattdessen sollte man die equals()-Methode verwenden, um Strings auf Gleichheit zu prüfen.
+//			//Erstelle Variable vom Typ Kunde und übergebe die Eingaben des Kunden an den Konstruktor
+//			Customer customer = new Customer(name, lastName, street, postalCode, city, mail, username, password);
+//			boolean customerAlreadyExists = false;
+//
+//			//Check if user already exists.
+//			//First I get the list of all customers from the shop and save it in an instance variable called customer list of type ArrayList<Customer>, which I can freely use in this (EshopClientCUI).
+//			List<Customer> customerList = eshop.getCustomers();
+//
+//			//Dann gehe ich mit einer for-Loop durch die Liste aller Kunden durch.
+//			//Die Schleife durchläuft jedes Element in der customerList und weist es der Variable k zu
+//			for (Customer k : customerList) {
+//				//In dem Body der Schleife wird dann jedes Kunde-Objekt k mit dem customer-Objekt verglichen.
+//				//Der Ausdruck customer.equals(k) führt eine Gleichheitsprüfung zwischen customer und k durch
+//				//und gibt true zurück, wenn die beiden Objekte gleich sind.
+//				if (customer.equals(k)) {
+//					// wenn es den Kunden schon gibt, System.out.println("User mit gleichem Namen existiert bereits.");
+//					System.out.println("User with this name already exists");
+//					customerAlreadyExists = true;
+//				}
+//			}
+//			if(!customerAlreadyExists) {
+//				//Wenn kein Kunde gefunden wird, dann kann der Kunde registriert werden.
+//				//Kunde wird zur Liste hinzugefügt, indem das Shop-Objekt die Methode in der Klasse KundenVerwaltung aufruft
+//				try {
+//					eshop.writeCustomerData("ESHOP_Customer.txt", customer);
+//				} catch (IOException e) {
+//					// TODO
+//					e.printStackTrace();
+//				}
+//				eshop.addCustomer(customer);
+//				System.out.println("Registration successful.");
+//			}
+//		}
+//	}
+
 	private void registerCustomer() throws IOException {
 		//The data from the file is read and added to the ArrayList of customers
 		System.out.println("Your name: ");
@@ -206,35 +264,17 @@ public class EshopClientCUI {
 		if (registerNow.equals("yes")) {  //Wenn man Strings auf Gleichheit überprüfen möchten, sollten man den Operator "==" nicht verwenden. Der Operator "==" prüft, ob die beiden Variablen dieselbe Referenz auf dasselbe Objekt haben, was bei Strings oft nicht der Fall ist. Stattdessen sollte man die equals()-Methode verwenden, um Strings auf Gleichheit zu prüfen.
 			//Erstelle Variable vom Typ Kunde und übergebe die Eingaben des Kunden an den Konstruktor
 			Customer customer = new Customer(name, lastName, street, postalCode, city, mail, username, password);
-			boolean customerAlreadyExists = false;
+			boolean customerAlreadyExists = eshop.checkCustomerExists(customer);
 
-			//Check if user already exists.
-			//First I get the list of all customers from the shop and save it in an instance variable called customer list of type ArrayList<Customer>, which I can freely use in this (EshopClientCUI).
-			List<Customer> customerList = eshop.getCustomers();
-
-			//Dann gehe ich mit einer for-Loop durch die Liste aller Kunden durch.
-			//Die Schleife durchläuft jedes Element in der customerList und weist es der Variable k zu
-			for (Customer k : customerList) {
-				//In dem Body der Schleife wird dann jedes Kunde-Objekt k mit dem customer-Objekt verglichen.
-				//Der Ausdruck customer.equals(k) führt eine Gleichheitsprüfung zwischen customer und k durch
-				//und gibt true zurück, wenn die beiden Objekte gleich sind.
-				if (customer.equals(k)) {
-					// wenn es den Kunden schon gibt, System.out.println("User mit gleichem Namen existiert bereits.");
-					System.out.println("User with this name already exists");
-					customerAlreadyExists = true;
-				}
-			}
-			if(!customerAlreadyExists) {
-				//Wenn kein Kunde gefunden wird, dann kann der Kunde registriert werden.
-				//Kunde wird zur Liste hinzugefügt, indem das Shop-Objekt die Methode in der Klasse KundenVerwaltung aufruft
+			if (!customerAlreadyExists) {
 				try {
-					eshop.writeCustomerData("ESHOP_Customer.txt", customer);
+					eshop.registerCustomer(customer);
+					System.out.println("Registration successful.");
 				} catch (IOException e) {
-					// TODO
 					e.printStackTrace();
 				}
-				eshop.addCustomer(customer);
-				System.out.println("Registration successful.");
+			} else {
+				System.out.println("User with this name already exists.");
 			}
 		}
 	}

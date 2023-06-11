@@ -68,6 +68,27 @@ public class Shop {
 		//eventAdministration.writeData(file+"_ev.txt");
 	}
 
+	public boolean checkCustomerExists(Customer customer) {
+		//First I get the list of all customers from the shop and save it in an instance variable called customer list of type ArrayList<Customer>, which I can freely use in this (EshopClientCUI).
+		List<Customer> customerList = customerAdministration.getCustomers();
+		//Dann gehe ich mit einer for-Loop durch die Liste aller Kunden durch.
+		//Die Schleife durchläuft jedes Element in der customerList und weist es der Variable k zu
+		for (Customer k : customerList) {
+			//In dem Body der Schleife wird dann jedes Kunde-Objekt k mit dem customer-Objekt verglichen.
+			//Der Ausdruck customer.equals(k) führt eine Gleichheitsprüfung zwischen customer und k durch
+			//und gibt true zurück, wenn die beiden Objekte gleich sind.
+			if (customer.equals(k)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public void registerCustomer(Customer customer) throws IOException {
+		writeCustomerData("ESHOP_Customer.txt", customer);
+		addCustomer(customer);
+	}
+
 	public Customer loginCustomer(String username, String password) {
 		return customerAdministration.login(username, password);
 	}

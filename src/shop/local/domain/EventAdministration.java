@@ -7,14 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EventAdministration {
-    private List<Event> events;
+    private List<Event> events = new ArrayList<>();
+
+    //    public EventAdministration (){
+    //    this.events = new ArrayList<>();
+    //    }
 
     // Persistence interface responsible for file access details
     private PersistenceManager persistenceManager = new FilePersistenceManager();
-
-    public EventAdministration (){
-        this.events = new ArrayList<>();
-    }
 
     public void addEvent(Event event){
         events.add(event);
