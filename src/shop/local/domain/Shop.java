@@ -143,6 +143,8 @@ public class Shop {
 		//Ereignis für die Einlagerung in ArrayList schreiben
 		Event event = new Event(Event.EventType.NEU, article, quantityInStock, user);
 		eventAdministration.addEvent(event);
+		//Ereignis für die Einlagerung in File schreiben
+		eventAdministration.writeData("ESHOP_Events.txt");
 		return article;
 	}
 
@@ -159,6 +161,8 @@ public class Shop {
 		//Ereignis für die Einlagerung in ArrayList schreiben
 		Event event = new Event(Event.EventType.AUSLAGERUNG, article, 0, user);
 		eventAdministration.addEvent(event);
+		//Ereignis für die Einlagerung in File schreiben
+		eventAdministration.writeData("ESHOP_Events.txt");
 	}
 
 	/**
@@ -176,8 +180,8 @@ public class Shop {
 	 * @param shoppingCart ShoppingCart of the customer
 	 * @return Invoice with a list of successfully purchased articles, a list of unavailable articles, date and total of purchase
 	 */
-	public Invoice buyArticles(ShoppingCart shoppingCart) throws IOException {
-		return articleAdministration.buyArticles(shoppingCart);
+	public Invoice buyArticles(ShoppingCart shoppingCart, User user) throws IOException {
+		return articleAdministration.buyArticles(shoppingCart, user);
 		//Ereignis für die Einlagerung in ArrayList schreiben
 		// TODO Event implementieren
 	}
@@ -189,13 +193,13 @@ public class Shop {
 	 * @param quantityToAdd number of articles that are to be added to stock
 	 * @return Article with searched articleNumber (may be empty)
 	 */
-	public void increaseArticleStock(Article article, int quantityToAdd, String articleFile, String eventFile, User user) throws IOException {
+	public void increaseArticleStock(Article article, int quantityToAdd, String articleFile, User user) throws IOException {
 		articleAdministration.increaseArticleStock(article, quantityToAdd, articleFile);
 		//Ereignis für die Einlagerung in ArrayList schreiben
 		Event event = new Event(Event.EventType.EINLAGERUNG, article, quantityToAdd, user);
 		eventAdministration.addEvent(event);
 		//Ereignis für die Einlagerung in File schreiben
-		eventAdministration.writeData(eventFile);
+		eventAdministration.writeData("ESHOP_Events.txt");
 	}
 
 	/**
@@ -205,15 +209,15 @@ public class Shop {
 	 * @param quantityToRetrieve number of articles that are to be retrieved from stock
 	 * @return Article with searched articleNumber (may be empty)
 	 */
-	public boolean decreaseArticleStock(Article article, int quantityToRetrieve, String articleFile, String eventFile, User user) throws IOException {
+	public boolean decreaseArticleStock(Article article, int quantityToRetrieve, String articleFile , User user) throws IOException {
 		boolean bo = articleAdministration.decreaseArticleStock(article, quantityToRetrieve, articleFile);
 		if (bo){
 			int quantity = -quantityToRetrieve;
 			Event event = new Event(Event.EventType.AUSLAGERUNG, article, quantity, user);
 			//Ereignis für die Auslagerung in ArrayList schreiben
 			eventAdministration.addEvent(event);
-			//Ereignis für die Auslagerung in File schreiben
-			eventAdministration.writeData(eventFile);
+			//Ereignis für die Einlagerung in File schreiben
+			eventAdministration.writeData("ESHOP_Events.txt");
 		}
 		return bo;
 	}

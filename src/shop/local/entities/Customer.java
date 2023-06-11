@@ -16,7 +16,6 @@ public class Customer extends User {
 	private int postalCode;
 	private String city = "";
 	private float revenue = 0.0f;
-	private static int idCounter = 0;
 	private ShoppingCart shoppingCart;
 
 	public Customer(String name, String lastName, String street, int postalCode, String city, String email, String username, String password) {
@@ -28,15 +27,6 @@ public class Customer extends User {
 		this.email = email;
 	}
 
-//	// Second constructor with attribute ShoppingCart
-//	public Customer(String name, String lastName, String street, int postalCode, String city, String email, String username, String password, ShoppingCart shoppingCart) {
-//		super(name, lastName, username, password);
-//		this.shoppingCart = shoppingCart;
-//		this.street = street;
-//		this.postalCode = postalCode;
-//		this.city = city;
-//		this.email = email;
-//	}
 
 	//Konstruktor, wenn Customer aus Datei ausgelesen wird ohne Warenkorb
 	public Customer(int id, String name, String lastName, String street, int postalCode, String city, String email, String username, String password) {

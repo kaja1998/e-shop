@@ -11,8 +11,6 @@ import java.util.Objects;
 
 public class Employee extends User {
 
-    private static int idCounter = 0;
-
     public Employee(String name, String lastName, String username, String password) {
         super(name, lastName, username, password);
     }

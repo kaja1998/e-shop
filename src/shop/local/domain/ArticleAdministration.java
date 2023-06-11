@@ -6,16 +6,18 @@ import shop.local.persistence.FilePersistenceManager;
 import shop.local.persistence.PersistenceManager;
 import java.util.ArrayList;
 
-	/**
-	 * Class for article administration
-	 * @author Sund
-	 */
+/**
+ * Class for article administration
+ * @author Sund
+ */
 public class ArticleAdministration {
 
 	private ArrayList<Article> articles = new ArrayList<>();
 
 	// Persistence api, responsible for the implementation of the file access
 	private PersistenceManager persistenceManager = new FilePersistenceManager();
+
+	private EventAdministration eventAdministration = new EventAdministration();
 
 
 	public void readData(String file) throws IOException {
@@ -121,7 +123,7 @@ public class ArticleAdministration {
 		return articles;
 	}
 
-	public Invoice buyArticles(ShoppingCart shoppingCart) throws IOException {
+	public Invoice buyArticles(ShoppingCart shoppingCart, User user) throws IOException {
 		// Object for the invoice
 		Invoice invoice = new Invoice();
 
@@ -137,12 +139,20 @@ public class ArticleAdministration {
 			// add item to invoice
 			if (success) {
 				invoice.addPosition(item);
+				Event event = new Event(Event.EventType.AUSLAGERUNG, article, quantity, user);
+				//Ereignis für die Auslagerung in ArrayList schreiben
+				eventAdministration.addEvent(event);
 			} else {
 				invoice.addUnavailableItems(item);
 			}
 		}
+
 		// empty cart
 		shoppingCart.deleteAll();
+
+		//Ereignis für die Einlagerung in File schreiben
+		eventAdministration.writeData("ESHOP_Events.txt");
+
 		return invoice;
 	}
 

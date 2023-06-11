@@ -428,14 +428,14 @@ public class EshopClientCUI {
 
 		// Try to change inventory
 		if(stockChange < 0) {
-			boolean success = eshop.decreaseArticleStock(article, (-1)*stockChange,"ESHOP_Article.txt", "ESHOP_Events.txt", loggedinUser);
+			boolean success = eshop.decreaseArticleStock(article, (-1)*stockChange,"ESHOP_Article.txt", loggedinUser);
 			if(success) {
 				System.out.println("Successfully decreased article's stock.");
 			} else {
 				System.out.println("Could not decrease stock. Maybe you tried to retrieve more items than there are available?");
 			}
 		} else {
-			eshop.increaseArticleStock(article, stockChange, "ESHOP_Article.txt", "ESHOP_Events.txt", loggedinUser);
+			eshop.increaseArticleStock(article, stockChange, "ESHOP_Article.txt", loggedinUser);
 			System.out.println("Successfully increased article's stock.");
 		}
 	}
@@ -611,7 +611,7 @@ public class EshopClientCUI {
 			ShoppingCart shoppingCart = customer.getShoppingCart();
 			//Methode buyArticles(shoppingCart) wird aufgerufen, um den Kauf der Artikel im Warenkorb durchzuführen.
 			//Das Ergebnis ist eine Rechnung (Invoice), die in der Variable invoice gespeichert wird.
-			Invoice invoice = eshop.buyArticles(shoppingCart);
+			Invoice invoice = eshop.buyArticles(shoppingCart, loggedinUser);
 
 			//print which articles couldn't be purchased
 			//Es wird überprüft, ob es Artikel gibt, die nicht gekauft werden konnten, indem überprüft wird, ob invoice.getUnavailableItems() nicht null ist und mindestens ein Element enthält.
