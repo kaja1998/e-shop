@@ -377,7 +377,35 @@ public class EshopClientCUI {
 		printArticleList(articleList);
 	}
 
-	private void insertArticle () throws IOException {
+//	private void insertArticle () throws IOException {
+//		// Lese Artikelbezeichnung
+//		System.out.print("Article title  > ");
+//		String articleTitle = readInput();
+//
+//		// Lese Wert für initialen Artikelbestand
+//		System.out.print("Initial quantity / stock > ");
+//		String initialQuantityString = readInput();
+//		int initialQuantity = Integer.parseInt(initialQuantityString);
+//
+//		// Lese Preis
+//		System.out.print("Article price  > ");
+//		String priceString = readInput();
+//		double price = Double.parseDouble(priceString);
+//
+//		// Speichere Artikel
+//		try {
+//			eshop.insertArticle(articleTitle, initialQuantity, price, loggedinUser);
+//			System.out.println("Article saved successfully");
+//
+//		} catch (ArticleAlreadyExistsException e) {
+//			// TODO - funktioniert nicht (liegt wahrscheinlich daran, dass er die IDs vergleicht, die natürlich unterschiedlich sind)
+//			// Hier Fehlerbehandlung...
+//			System.out.println("Error saving article");
+//			e.printStackTrace();
+//		}
+//	}
+
+	private void insertArticle() throws IOException {
 		// Lese Artikelbezeichnung
 		System.out.print("Article title  > ");
 		String articleTitle = readInput();
@@ -392,14 +420,31 @@ public class EshopClientCUI {
 		String priceString = readInput();
 		double price = Double.parseDouble(priceString);
 
+		// Lese Art des Artikels (Massengutartikel oder Einzelartikel)
+		System.out.print("Article type (bulk/single) > ");
+		String articleType = readInput();
+
+		Article article;
+
+		if (articleType.equalsIgnoreCase("bulk")) {
+			// Lese Packungsgröße
+			System.out.print("Pack size > ");
+			String packSizeString = readInput();
+			int packSize = Integer.parseInt(packSizeString);
+
+			// Erstelle Massengutartikel
+			article = new BulkArticle(articleTitle, initialQuantity, price, packSize);
+		} else {
+			// Erstelle Einzelartikel
+			article = new Article(articleTitle, initialQuantity, price);
+		}
+
 		// Speichere Artikel
 		try {
-			eshop.insertArticle(articleTitle, initialQuantity, price, loggedinUser);
+			eshop.insertArticle(article, initialQuantity, loggedinUser);
 			System.out.println("Article saved successfully");
-
 		} catch (ArticleAlreadyExistsException e) {
 			// TODO - funktioniert nicht (liegt wahrscheinlich daran, dass er die IDs vergleicht, die natürlich unterschiedlich sind)
-			// Hier Fehlerbehandlung...
 			System.out.println("Error saving article");
 			e.printStackTrace();
 		}
@@ -463,6 +508,72 @@ public class EshopClientCUI {
 		}
 	}
 
+//	private void addArticleToCart() throws IOException {
+//		int articleNumber;
+//		int quantity;
+//
+//		if (loggedinUser instanceof Customer) {
+//			Customer customer = (Customer) loggedinUser;
+//
+//			//Input vom User entgegennehmen
+//			System.out.println("Enter article number: ");
+//			String articleNumberString = readInput();
+//			articleNumber = Integer.parseInt((articleNumberString));
+//			System.out.print("Enter quantity: ");
+//			String quantityString = readInput();
+//			quantity = Integer.parseInt(quantityString);
+//
+//			//checken, ob es den Artikel wirklich gibt im Bestand
+//			Article article = eshop.searchByArticleNumber(articleNumber);
+//			if (article != null) {
+//				//Variable vom Typ shoppingCart wird deklariert.
+//				//Mit dem Customer-Objekt wird die Methode getShoppingCart aufgerufen in welcher der Warenkorb des Kunden zurückgegeben wird
+//				ShoppingCart shoppingCart = customer.getShoppingCart();
+//				//Methode in ShoppingCart wird aufgerufen, mit der geprüft wird, ob der Artikel bereits im Warenkorb existiert
+//				if (shoppingCart.cartContainsArticle(article)) {
+//					//Überprüfen, ob die eingegebene Menge gültig ist
+//					if (quantity >= 1) {
+//						for (ShoppingCartItem item : shoppingCart.getCartItems()) {
+//							if (item.getArticle().equals(article)) {
+//								//gucken, ob der Artikel noch vorrätig ist
+//								int availableQuantity = article.getQuantityInStock() - item.getQuantity();
+//								if (availableQuantity >= quantity) {
+//									shoppingCart.addUpArticleQuantity(article, quantity);
+//									System.out.println("Article quantity was updated successfully in the cart.");
+//									//Warenkorb ausgeben
+//									shoppingCart.read();
+//								} else { //Wenn nein, dann ausgeben, dass der Artikel out of stock ist
+//									System.out.println("Could not put article into the Cart, because desired quantity must be not available.");
+//								}
+//							}
+//						}
+//					} else {
+//						System.out.println("Please input a positive number for quantity.");
+//					}
+//					//wenn Artikel nicht im Warenkorb liegt
+//				} else {
+//					//Überprüfen, ob die eingegebene Menge gültig ist
+//					if (quantity >= 1) {
+//						//gucken, ob der Artikel noch vorrätig ist
+//						if (article.getQuantityInStock() >= quantity) {
+//							//Methode addArticle wird aufgerufen und akzeptiert angegebenen Parameter
+//							shoppingCart.addArticle(article, quantity);
+//							System.out.println("Article/s were added successfully into the cart.");
+//							//Warenkorb wird ausgegeben
+//							shoppingCart.read();
+//						} else { //Wenn nein, dann ausgeben, dass der Artikel out of stock ist
+//							System.out.println("Could not put article into the Cart, because it must be out of stock.");
+//						}
+//					} else {
+//						System.out.println("Please input a positive number for quantity.");
+//					}
+//				}
+//			} else {
+//				System.out.println("Article not found.");
+//			}
+//		}
+//	}
+
 	private void addArticleToCart() throws IOException {
 		int articleNumber;
 		int quantity;
@@ -470,54 +581,64 @@ public class EshopClientCUI {
 		if (loggedinUser instanceof Customer) {
 			Customer customer = (Customer) loggedinUser;
 
-			//Input vom User entgegennehmen
+			// Input vom Benutzer entgegennehmen
 			System.out.println("Enter article number: ");
 			String articleNumberString = readInput();
-			articleNumber = Integer.parseInt((articleNumberString));
-			System.out.print("Enter quantity: ");
-			String quantityString = readInput();
-			quantity = Integer.parseInt(quantityString);
+			articleNumber = Integer.parseInt(articleNumberString);
 
-			//checken, ob es den Artikel wirklich gibt im Bestand
+			// Überprüfen, ob der Artikel tatsächlich im Bestand vorhanden ist
 			Article article = eshop.searchByArticleNumber(articleNumber);
 			if (article != null) {
-				//Variable vom Typ shoppingCart wird deklariert.
-				//Mit dem Customer-Objekt wird die Methode getShoppingCart aufgerufen in welcher der Warenkorb des Kunden zurückgegeben wird
+				// Variable vom Typ ShoppingCart wird deklariert.
+				// Mit dem Customer-Objekt wird die Methode getShoppingCart aufgerufen, um den Warenkorb des Kunden zurückzugeben
 				ShoppingCart shoppingCart = customer.getShoppingCart();
-				//Methode in ShoppingCart wird aufgerufen, mit der geprüft wird, ob der Artikel bereits im Warenkorb existiert
-				if (shoppingCart.cartContainsArticle(article)) {
-					//Überprüfen, ob die eingegebene Menge gültig ist
-					if (quantity >= 1) {
-						for (ShoppingCartItem item : shoppingCart.getCartItems()) {
-							if (item.getArticle().equals(article)) {
-								//gucken, ob der Artikel noch vorrätig ist
-								int availableQuantity = article.getQuantityInStock() - item.getQuantity();
-								if (availableQuantity >= quantity) {
-									shoppingCart.addUpArticleQuantity(article, quantity);
-									System.out.println("Article quantity was updated successfully in the cart.");
-									//Warenkorb ausgeben
-									shoppingCart.read();
-								} else { //Wenn nein, dann ausgeben, dass der Artikel out of stock ist
-									System.out.println("Could not put article into the Cart, because desired quantity must be not available.");
-								}
-							}
+
+				// Überprüfen, ob der Artikel ein BulkArticle ist
+				if (article instanceof BulkArticle) {
+					BulkArticle bulkArticle = (BulkArticle) article;
+					int packSize = bulkArticle.getPackSize();
+
+					// Ausgeben der Packgröße
+					System.out.println("This article can only be purchased in packs of " + packSize + ".");
+
+					// Eingabe der Packgröße bzw. der Menge entgegennehmen
+					System.out.print("Enter the number of packs you wish to add: ");
+					String packSizeQuantityString = readInput();
+					int packSizeQuantity = Integer.parseInt(packSizeQuantityString);
+
+					// Überprüfen, ob die eingegebene Packgröße bzw. Menge gültig ist
+					if (packSizeQuantity >= 1) {
+						int quantityToAdd = packSizeQuantity * packSize;
+
+						// Überprüfen, ob die gewünschte Menge noch vorrätig ist
+						int availableQuantity = article.getQuantityInStock();
+						if (availableQuantity >= quantityToAdd) {
+							shoppingCart.addArticle(article, quantityToAdd);
+							System.out.println("Article/s were added successfully to the cart.");
+							// Warenkorb ausgeben
+							shoppingCart.read();
+						} else {
+							System.out.println("Could not put article into the Cart, because desired quantity must be not available.");
 						}
 					} else {
-						System.out.println("Please input a positive number for quantity.");
+						System.out.println("Please input a positive number.");
 					}
-					//wenn Artikel nicht im Warenkorb liegt
 				} else {
-					//Überprüfen, ob die eingegebene Menge gültig ist
+					System.out.print("Enter quantity: ");
+					String quantityString = readInput();
+					quantity = Integer.parseInt(quantityString);
+					// Einzelartikel
+					// Überprüfen, ob die eingegebene Menge gültig ist
 					if (quantity >= 1) {
-						//gucken, ob der Artikel noch vorrätig ist
-						if (article.getQuantityInStock() >= quantity) {
-							//Methode addArticle wird aufgerufen und akzeptiert angegebenen Parameter
+						// Überprüfen, ob der Artikel noch vorrätig ist
+						int availableQuantity = article.getQuantityInStock();
+						if (availableQuantity >= quantity) {
 							shoppingCart.addArticle(article, quantity);
-							System.out.println("Article/s were added successfully into the cart.");
-							//Warenkorb wird ausgegeben
+							System.out.println("Article/s were added successfully to the cart.");
+							// Warenkorb ausgeben
 							shoppingCart.read();
-						} else { //Wenn nein, dann ausgeben, dass der Artikel out of stock ist
-							System.out.println("Could not put article into the Cart, because it must be out of stock.");
+						} else {
+							System.out.println("Could not put article into the Cart, because desired quantity must be not available..");
 						}
 					} else {
 						System.out.println("Please input a positive number for quantity.");
@@ -529,6 +650,42 @@ public class EshopClientCUI {
 		}
 	}
 
+
+//	private void changeArticleQuantityInCart() throws IOException {
+//		int articleNumber;
+//		int newQuantity;
+//
+//		if (loggedinUser instanceof Customer) {
+//			Customer customer = (Customer) loggedinUser;
+//
+//			//Input vom User entgegennehmen
+//			System.out.println("Enter article number: ");
+//			String articleNumberString = readInput();
+//			articleNumber = Integer.parseInt((articleNumberString));
+//			System.out.print("Enter new quantity: ");
+//			String quantityString = readInput();
+//			newQuantity = Integer.parseInt(quantityString);
+//
+//			//checken, ob es den Artikel wirklich gibt im Shop
+//			Article article = eshop.searchByArticleNumber(articleNumber);
+//			if (article != null) {
+//				// Variable vom Typ shoppingCart wird deklariert. Mit dem Customer-Objekt wird die Methode getShoppingCart aufgerufen in welcher der Warenkorb des Kunden zurückgegeben wird
+//				ShoppingCart shoppingCart = customer.getShoppingCart();
+//				// Methode addArticle wird aufgerufen und akzeptiert angegebenen Parameter
+//				String updateResult = shoppingCart.updateArticleQuantity(article, newQuantity);
+//				if (updateResult != null) {
+//					System.out.println(updateResult);
+//				}
+//				// Überprüfen, ob der Warenkorb nicht leer ist und den Warenkorb ausgeben
+//				if (!shoppingCart.getCartItems().isEmpty()) {
+//					shoppingCart.read();
+//				}
+//			} else {
+//				System.out.println("Article not found.");
+//			}
+//		}
+//	}
+
 	private void changeArticleQuantityInCart() throws IOException {
 		int articleNumber;
 		int newQuantity;
@@ -536,26 +693,76 @@ public class EshopClientCUI {
 		if (loggedinUser instanceof Customer) {
 			Customer customer = (Customer) loggedinUser;
 
-			//Input vom User entgegennehmen
+			// Input vom User entgegennehmen
 			System.out.println("Enter article number: ");
 			String articleNumberString = readInput();
-			articleNumber = Integer.parseInt((articleNumberString));
-			System.out.print("Enter new quantity: ");
-			String quantityString = readInput();
-			newQuantity = Integer.parseInt(quantityString);
+			articleNumber = Integer.parseInt(articleNumberString);
 
-			//checken, ob es den Artikel wirklich gibt im Shop
+			// Überprüfen, ob der Artikel tatsächlich im Bestand vorhanden ist
 			Article article = eshop.searchByArticleNumber(articleNumber);
 			if (article != null) {
-				// Variable vom Typ shoppingCart wird deklariert. Mit dem Customer-Objekt wird die Methode getShoppingCart aufgerufen in welcher der Warenkorb des Kunden zurückgegeben wird
+				// Variable vom Typ shoppingCart wird deklariert. Mit dem Customer-Objekt wird die Methode getShoppingCart aufgerufen, in welcher der Warenkorb des Kunden zurückgegeben wird
 				ShoppingCart shoppingCart = customer.getShoppingCart();
-				// Methode addArticle wird aufgerufen und akzeptiert angegebenen Parameter
-				String updateResult = shoppingCart.updateArticleQuantity(article, newQuantity);
-				if (updateResult != null) {
-					System.out.println(updateResult);
+
+				// Überprüfen, ob der Artikel ein BulkArticle ist
+				if (article instanceof BulkArticle) {
+					BulkArticle bulkArticle = (BulkArticle) article;
+					int packSize = bulkArticle.getPackSize();
+
+					// Ausgeben der Packgröße
+					System.out.println("This article can only be purchased in packs of " + packSize + ".");
+
+					// Eingabe der Packgröße bzw. der Menge entgegennehmen
+					System.out.print("Enter the new number of packs you wish to have in your shoppingcart: ");
+					String newPackSizeQuantityString = readInput();
+					int newPackSizeQuantity = Integer.parseInt(newPackSizeQuantityString);
+
+					// Überprüfen, ob die eingegebene Packgröße bzw. Menge ein Vielfaches der Packgröße ist
+					if (newPackSizeQuantity >= 1) {
+						int quantityToChange = newPackSizeQuantity * packSize;
+
+						// Überprüfen, ob die gewünschte Menge noch vorrätig ist
+						int availableQuantity = article.getQuantityInStock();
+						if (availableQuantity >= quantityToChange) {
+							String updateResult = shoppingCart.updateArticleQuantity(article, quantityToChange);
+							if (updateResult != null) {
+								System.out.println(updateResult);
+							}
+							// Überprüfen, ob der Warenkorb nicht leer ist und den Warenkorb ausgeben
+							if (!shoppingCart.getCartItems().isEmpty()) {
+							shoppingCart.read();
+							}
+						} else {
+							System.out.println("Could not change article quantity in the cart. Desired quantity is not available.");
+						}
+					} else {
+						System.out.println("Please input a positive number for the number of packs.");
+					}
+				} else {
+					System.out.print("Enter new quantity: ");
+					String quantityString = readInput();
+					newQuantity = Integer.parseInt(quantityString);
+					// Einzelartikel
+					// Überprüfen, ob die eingegebene Menge gültig ist
+					if (newQuantity >= 1) {
+						// Überprüfen, ob der Artikel noch vorrätig ist
+						int availableQuantity = article.getQuantityInStock();
+						if (availableQuantity >= newQuantity) {
+							String updateResult = shoppingCart.updateArticleQuantity(article, newQuantity);
+							if (updateResult != null) {
+								System.out.println(updateResult);
+							}
+							// Überprüfen, ob der Warenkorb nicht leer ist und den Warenkorb ausgeben
+							if (!shoppingCart.getCartItems().isEmpty()) {
+								shoppingCart.read();
+							}
+						} else {
+							System.out.println("Could not change article quantity in the cart. Desired quantity is not available.");
+						}
+					} else {
+						System.out.println("Please input a positive number for quantity.");
+					}
 				}
-				//Warenkorb wird ausgegeben
-				shoppingCart.read();
 			} else {
 				System.out.println("Article not found.");
 			}

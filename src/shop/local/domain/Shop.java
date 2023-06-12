@@ -127,17 +127,28 @@ public class Shop {
 		return articleAdministration.searchByArticleNumber(articleNumber);
 	}
 
-	/**
-	 * Method of adding a new item to stock.
-	 * If the item is already in stock, the stock will not be changed.
-	 *
-	 * @param articleTitle Title of the article
-	 * @param quantityInStock Stock Quantity
-	 * @return article object inserted in case of success
-	 * @throws ArticleAlreadyExistsException if the article already exists
-	 */
-	public Article insertArticle(String articleTitle, int quantityInStock, double price, User user) throws ArticleAlreadyExistsException, IOException {
-		Article article = new Article(articleTitle, quantityInStock, price);
+//	/**
+//	 * Method of adding a new item to stock.
+//	 * If the item is already in stock, the stock will not be changed.
+//	 *
+//	 * @param articleTitle Title of the article
+//	 * @param quantityInStock Stock Quantity
+//	 * @return article object inserted in case of success
+//	 * @throws ArticleAlreadyExistsException if the article already exists
+//	 */
+//	public Article insertArticle(String articleTitle, int quantityInStock, double price, User user) throws ArticleAlreadyExistsException, IOException {
+//		Article article = new Article(articleTitle, quantityInStock, price);
+//		articleAdministration.insertArticle(article);
+//		writeArticleDataToAddArticle("ESHOP_Article.txt", article);
+//		//Ereignis für die Einlagerung in ArrayList schreiben
+//		Event event = new Event(Event.EventType.NEU, article, quantityInStock, user);
+//		eventAdministration.addEvent(event);
+//		//Ereignis für die Einlagerung in File schreiben
+//		eventAdministration.writeData("ESHOP_Events.txt");
+//		return article;
+//	}
+
+	public Article insertArticle(Article article, int quantityInStock, User user) throws ArticleAlreadyExistsException, IOException {
 		articleAdministration.insertArticle(article);
 		writeArticleDataToAddArticle("ESHOP_Article.txt", article);
 		//Ereignis für die Einlagerung in ArrayList schreiben

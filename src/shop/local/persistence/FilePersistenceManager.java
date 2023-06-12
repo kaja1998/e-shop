@@ -71,6 +71,23 @@ public class FilePersistenceManager implements PersistenceManager {
 	 *
 	 * @return article object, if fetch successful, false null
 	 */
+//	public Article readArticle() throws IOException {
+//		// Read number convert from String to int
+//		String numberString = readRow();
+//		if (numberString == null) {
+//			return null;
+//		} else {
+//			String[] splitted = numberString.split(";");
+//			int id = Integer.parseInt(splitted[0]);
+//			String title = splitted[1];
+//			int quantityInStockNumber = Integer.parseInt(splitted[2]);
+//			double price = Double.parseDouble(splitted[3]);
+//
+//			// create and return a new article object
+//			return new Article(id, title, quantityInStockNumber, price);
+//		}
+//	}
+
 	public Article readArticle() throws IOException {
 		// Read number convert from String to int
 		String numberString = readRow();
@@ -83,8 +100,14 @@ public class FilePersistenceManager implements PersistenceManager {
 			int quantityInStockNumber = Integer.parseInt(splitted[2]);
 			double price = Double.parseDouble(splitted[3]);
 
-			// create and return a new article object
-			return new Article(id, title, quantityInStockNumber, price);
+			if (splitted.length > 4) {
+				// It's a BulkArticle, read the pack size
+				int packSize = Integer.parseInt(splitted[4]);
+				return new BulkArticle(id, title, quantityInStockNumber, price, packSize);
+			} else {
+				// It's a regular Article
+				return new Article(id, title, quantityInStockNumber, price);
+			}
 		}
 	}
 
@@ -162,12 +185,24 @@ public class FilePersistenceManager implements PersistenceManager {
 	}
 
 
-	public boolean writeArticleToFile(Article article) {
-		String articleString = article.getNumber() + ";" + article.getArticleTitle() + ";" + article.getQuantityInStock() + ";" + article.getPrice();
+//	public boolean writeArticleToFile(Article article) {
+//		String articleString = article.getNumber() + ";" + article.getArticleTitle() + ";" + article.getQuantityInStock() + ";" + article.getPrice();
+//
+//		// Write number
+//		writeLine(articleString);
+//		return true;
+//	}
 
-		// Write number
-		writeLine(articleString);
-		return true;
+	public boolean writeArticleToFile(Article article) {
+		if (article instanceof BulkArticle){
+			String bulkArticleString = article.getNumber() + ";" + article.getArticleTitle() + ";" + article.getQuantityInStock() + ";" + article.getPrice()  + ";" + ((BulkArticle) article).getPackSize();
+			writeLine(bulkArticleString);
+			return true;
+		} else {
+			String articleString = article.getNumber() + ";" + article.getArticleTitle() + ";" + article.getQuantityInStock() + ";" + article.getPrice();
+			writeLine(articleString);
+			return true;
+		}
 	}
 
 	public Customer loadCustomer() throws IOException {
