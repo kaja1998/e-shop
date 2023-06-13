@@ -6,6 +6,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class for event administration
+ * @author Sund
+ */
+
 public class EventAdministration {
     private List<Event> events = new ArrayList<>();
 

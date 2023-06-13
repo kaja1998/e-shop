@@ -9,6 +9,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class for customer administration
+ * @author Sund
+ */
+
 public class CustomerAdministration {
 
         // Es wird eine private Instanzvariable (Variablen des Objekts) namens kunden deklariert. Die Instanzvariable ist vom Typ ArrayList<Kunde>.

@@ -3,6 +3,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Event class
+ * @author Sund
+ */
+
 public class Event {
 
     public enum EventType { NEU, KAUF, AUSLAGERUNG, EINLAGERUNG };

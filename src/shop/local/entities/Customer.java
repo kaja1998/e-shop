@@ -3,10 +3,6 @@ import java.util.Objects;
 
 /**
  * Class to represent individual customers.
- *
- * The class is currently not used because the shop
- * Application so far only manages articles.
- *
  * @author Sund
  */
 public class Customer extends User {

@@ -1,5 +1,10 @@
 package shop.local.entities;
 
+/**
+ * Class for representing bulk articles.
+ * @author Sund
+ */
+
 public class BulkArticle extends Article {
     private int packSize;
 
