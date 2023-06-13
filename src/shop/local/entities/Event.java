@@ -12,7 +12,6 @@ public class Event {
 
     public enum EventType { NEU, KAUF, AUSLAGERUNG, EINLAGERUNG };
 
-
     private EventType eventType;
     private Date date;
     private Article article;
@@ -33,6 +32,12 @@ public class Event {
         this.article = article;
         this.quantity = quantity;
         this.user = user;
+    }
+
+    //Konstruktor für showHistory
+    public Event(Date eventDate, int stock) {
+        this.date = eventDate;
+        this.quantity = stock;
     }
 
     //Konstruktor zum Lesen aus der Datei
@@ -87,6 +92,12 @@ public class Event {
 
     public String toFileString(){
         return user.getId() + ";" + article.getNumber() + ";" + quantity + ";" + getFormattedDate() + ";" + eventType.ordinal();
+    }
+
+    public String toStringHistory() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = dateFormat.format(date);
+        return "Date: " + formattedDate + ", Stock quantity: " + quantity;
     }
 
 

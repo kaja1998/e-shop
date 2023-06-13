@@ -408,8 +408,9 @@ public class EshopClientCUI {
 		System.out.println("Enter article number you want to see the history from: ");
 		int articleID = Integer.parseInt(readInput());
 		List<Event> eventsList = eshop.getEventsbyArticleOfLast30Days(articleID);
+		System.out.println("For the article with the ID: " + articleID + ", the stock quantity in the last few days were as followed:");
 		for (Event e : eventsList) {
-			System.out.println(e);
+			System.out.println(e.toStringHistory());
 		}
 	}
 
