@@ -64,6 +64,10 @@ public class Event {
         return dateFormat.format(date);
     }
 
+    public Date getDate(){
+        return this.date;
+    }
+
     public Article getArticle() {
         return article;
     }

@@ -12,13 +12,17 @@ import java.util.ArrayList;
  */
 public class ArticleAdministration {
 
-	private ArrayList<Article> articles = new ArrayList<>();
+	private ArrayList<Article> articles;
 
 	// Persistence api, responsible for the implementation of the file access
-	private PersistenceManager persistenceManager = new FilePersistenceManager();
+	private PersistenceManager persistenceManager;
 
-	private EventAdministration eventAdministration = new EventAdministration();
+	private EventAdministration eventAdministration;
 
+	public ArticleAdministration() {
+		this.articles = new ArrayList<>();
+		this.persistenceManager = new FilePersistenceManager();
+	}
 
 	public void readData(String file) throws IOException {
 		// open PersistenceManager for reading access
@@ -103,6 +107,10 @@ public class ArticleAdministration {
 		return null; // Article not found
 	}
 
+	public void setEventAdministration(EventAdministration eventadministration){
+		this.eventAdministration = eventadministration;
+	}
+
 
 	public void increaseArticleStock(Article article, int quantityToAdd, String file) throws IOException {
 		article.increaseStock(quantityToAdd);
@@ -139,7 +147,7 @@ public class ArticleAdministration {
 			// add item to invoice
 			if (success) {
 				invoice.addPosition(item);
-				Event event = new Event(Event.EventType.AUSLAGERUNG, article, quantity, user);
+				Event event = new Event(Event.EventType.KAUF, article, quantity, user);
 				//Ereignis für die Auslagerung in ArrayList schreiben
 				eventAdministration.addEvent(event);
 			} else {

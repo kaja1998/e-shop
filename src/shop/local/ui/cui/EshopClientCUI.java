@@ -404,8 +404,10 @@ public class EshopClientCUI {
 	/*
 	 * Methods for employee to output all swaps in and outs to console
 	 */
-	public void showHistory() {
-		List<Event> eventsList = eshop.getEvents();
+	public void showHistory() throws IOException {
+		System.out.println("Enter article number you want to see the history from: ");
+		int articleID = Integer.parseInt(readInput());
+		List<Event> eventsList = eshop.getEventsbyArticleOfLast30Days(articleID);
 		for (Event e : eventsList) {
 			System.out.println(e);
 		}
@@ -542,7 +544,7 @@ public class EshopClientCUI {
 
 							// Check if the shopping cart is not empty and print the shopping cart
 							if (!shoppingCart.getCartItems().isEmpty()) {
-							shoppingCart.read();
+								shoppingCart.read();
 							}
 						} else {
 							System.out.println("Could not change article quantity in the cart. Desired quantity is not available.");

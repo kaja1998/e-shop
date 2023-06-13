@@ -63,6 +63,7 @@ public class Shop {
 		// Read Events from file
 		eventAdministration = new EventAdministration();
 		eventAdministration.readData(file+"_Events.txt", articleAdministration, employeeAdministration, customerAdministration);
+		articleAdministration.setEventAdministration(eventAdministration);
 	}
 
 	public boolean checkCustomerExists(Customer customer) {
@@ -268,6 +269,11 @@ public class Shop {
 
 	public List<Event> getEvents(){
 		return eventAdministration.getEvents();
+	}
+
+
+	public List<Event> getEventsbyArticleOfLast30Days(int articleID){
+		return eventAdministration.getEventsbyArticleOfLast30Days(articleID);
 	}
 
 
