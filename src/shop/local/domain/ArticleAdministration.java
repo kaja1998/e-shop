@@ -1,5 +1,8 @@
 package shop.local.domain;
+
 import java.io.IOException;
+
+import shop.local.domain.exceptions.AddArticleException;
 import shop.local.domain.exceptions.ArticleAlreadyExistsException;
 import shop.local.entities.*;
 import shop.local.persistence.FilePersistenceManager;
@@ -8,17 +11,22 @@ import java.util.ArrayList;
 
 /**
  * Class for article administration
+ * 
  * @author Sund
  */
 public class ArticleAdministration {
 
-	private ArrayList<Article> articles = new ArrayList<>();
+	private ArrayList<Article> articles;
 
 	// Persistence api, responsible for the implementation of the file access
-	private PersistenceManager persistenceManager = new FilePersistenceManager();
+	private PersistenceManager persistenceManager;
 
-	private EventAdministration eventAdministration = new EventAdministration();
+	private EventAdministration eventAdministration;
 
+	public ArticleAdministration() {
+		this.articles = new ArrayList<>();
+		this.persistenceManager = new FilePersistenceManager();
+	}
 
 	public void readData(String file) throws IOException {
 		// open PersistenceManager for reading access
@@ -31,9 +39,12 @@ public class ArticleAdministration {
 			if (article != null) {
 				try {
 					insertArticle(article);
+				} catch (AddArticleException e) {
+					throw new RuntimeException(e);
 				} catch (ArticleAlreadyExistsException e) {
 					throw new RuntimeException(e);
 				}
+
 			}
 		} while (article != null);
 
@@ -41,12 +52,14 @@ public class ArticleAdministration {
 		persistenceManager.close();
 	}
 
-	public void insertArticle(Article article) throws ArticleAlreadyExistsException {
+	public void insertArticle(Article article) throws ArticleAlreadyExistsException, AddArticleException {
 		if (articles.contains(article)) {
-			//Wenn der Artikel bereits existiert, wird eine ArticleAlreadyExistsException ausgelöst
+			// Wenn der Artikel bereits existiert, wird eine ArticleAlreadyExistsException
+			// ausgelöst
 			throw new ArticleAlreadyExistsException(article, " - in 'insert()'");
 		}
-		//Wenn der Artikel nicht im Artikelbestand vorhanden ist, wird er der ArrayList hinzugefügt
+		// Wenn der Artikel nicht im Artikelbestand vorhanden ist, wird er der ArrayList
+		// hinzugefügt
 		articles.add(article);
 	}
 
@@ -83,7 +96,11 @@ public class ArticleAdministration {
 	}
 
 	public Article searchByArticleNumber(int articleNumber) {
+		
 		Article searchResult = null;
+		
+
+		
 		for (Article currentArticle : articles) {
 			if (currentArticle.getNumber() == articleNumber) {
 				searchResult = currentArticle;
@@ -92,7 +109,6 @@ public class ArticleAdministration {
 		}
 		return searchResult;
 	}
-
 
 	public Article getArticleByID(int articleID) {
 		for (Article currentArticle : articles) {
@@ -103,12 +119,14 @@ public class ArticleAdministration {
 		return null; // Article not found
 	}
 
+	public void setEventAdministration(EventAdministration eventadministration) {
+		this.eventAdministration = eventadministration;
+	}
 
 	public void increaseArticleStock(Article article, int quantityToAdd, String file) throws IOException {
 		article.increaseStock(quantityToAdd);
 		writeData(file, article);
 	}
-
 
 	public boolean decreaseArticleStock(Article article, int quantityToRetrieve, String file) throws IOException {
 		boolean success = article.decreaseStock(quantityToRetrieve);
@@ -131,6 +149,7 @@ public class ArticleAdministration {
 		for (ShoppingCartItem item : shoppingCart.getCartItems()) {
 			// check which article is in the cart and what quantity should be purchased
 			Article article = item.getArticle();
+			
 			int quantity = item.getQuantity();
 
 			// try to take articles stock and check if successful
@@ -139,8 +158,8 @@ public class ArticleAdministration {
 			// add item to invoice
 			if (success) {
 				invoice.addPosition(item);
-				Event event = new Event(Event.EventType.AUSLAGERUNG, article, quantity, user);
-				//Ereignis für die Auslagerung in ArrayList schreiben
+				Event event = new Event(Event.EventType.KAUF, article, quantity, user);
+				// Ereignis für die Auslagerung in ArrayList schreiben
 				eventAdministration.addEvent(event);
 			} else {
 				invoice.addUnavailableItems(item);
@@ -150,12 +169,11 @@ public class ArticleAdministration {
 		// empty cart
 		shoppingCart.deleteAll();
 
-		//Ereignis für die Einlagerung in File schreiben
+		// Ereignis für die Einlagerung in File schreiben
 		eventAdministration.writeData("ESHOP_Events.txt");
 
 		return invoice;
 	}
-
 
 	public String toString() {
 		String result = "";
@@ -171,7 +189,16 @@ public class ArticleAdministration {
 		return result;
 	}
 
-
+	public void addArticle(Article article, String articleTitle, String articleType, int initialQuantity, double price,
+			int packSize) throws IOException {
+		if (articleType.equalsIgnoreCase("bulk")) {
+			// Lese Packungsgröße
+			// Erstelle Massengutartikel
+			article = new BulkArticle(articleTitle, initialQuantity, price, packSize);
+		} else {
+			// Erstelle Einzelartikel
+			article = new Article(articleTitle, initialQuantity, price);
+		}
+	}
 
 }
-

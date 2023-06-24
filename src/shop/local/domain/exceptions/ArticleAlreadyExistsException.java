@@ -4,9 +4,9 @@ import shop.local.entities.Article;
 
 /**
  * Exception to show that an article already exists
- * 
- * @author teschke
+ * @author Sund
  */
+@SuppressWarnings("serial")
 public class ArticleAlreadyExistsException extends Exception {
 
 	private Article article;
@@ -18,7 +18,7 @@ public class ArticleAlreadyExistsException extends Exception {
 	 * @param additionalMessage additional text for the error message
 	 */
 	public ArticleAlreadyExistsException(Article article, String additionalMessage) {
-		super("Article with the name " + article.getArticleTitle() + " and number " + " already exists" + additionalMessage);
+		super("Article with the name " + article.getArticleTitle() + " and number " +article.getNumber() + " already exists" + additionalMessage);
 		this.article = article;
 	}
 

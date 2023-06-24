@@ -2,9 +2,15 @@ package shop.local.domain;
 import shop.local.entities.Employee;
 import shop.local.persistence.FilePersistenceManager;
 import shop.local.persistence.PersistenceManager;
+import shop.local.ui.cui.EshopClientCUI;
+
 import java.io.IOException;
 import java.util.ArrayList;
-
+import java.util.List;
+/**
+ * Class for employee administration
+ * @author Sund
+ */
 public class EmployeeAdministration {
 
         // List of all employees
@@ -81,4 +87,40 @@ public class EmployeeAdministration {
            return null;
         }
 
+
+        public String registerEmployee(String name, String lastname, String username, String password) throws IOException 
+        {
+        	String message = "";
+        	
+    		//Erstelle Variable vom Typ Employee und übergebe die Eingaben des Employee an den Konstruktor
+    		Employee employee = new Employee(name, lastname, username, password);
+
+    		// Prüfe, ob Employee bereits existiert
+    		List<Employee> employees = EshopClientCUI.getEshop().getEmployees();
+    		boolean employeeAlreadyExists = false;
+    		//Gehe ich mit einer for-Loop durch die Liste aller Employees durch.
+    		//Die Schleife durchläuft jedes Element in der employeeList und weist es der Variable currentEmployee zu
+    		for (Employee currentEmployee : employees) {
+    			//In dem Body der Schleife wird dann jedes Employee-Objekt currentEmployee mit dem employee-Objekt verglichen.
+    			if (employee.equals(currentEmployee)) {
+    				message = "User with this name already exists";
+    				employeeAlreadyExists = true;
+    			}
+    		}
+
+    		if(!employeeAlreadyExists) {
+    			//Wenn kein Employee gefunden wird, dann kann der Employee registriert werden.
+    			//Employee wird zur Liste hinzugefügt, indem das Shop-Objekt die Methode in der Klasse EmployeeAdministration aufruft
+    			try {
+    				EshopClientCUI.getEshop().writeEmployeeData("ESHOP_Employee.txt", employee);
+    			} catch (IOException e) {
+    				e.printStackTrace();
+    			}
+    			EshopClientCUI.getEshop().addEmployee(employee);
+    			message = "Registration successful.";
+    		}
+			return message;
+        }
+
+        
 }

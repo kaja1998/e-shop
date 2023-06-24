@@ -4,6 +4,11 @@ import java.util.List;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Class to represent invoices.
+ * @author Sund
+ */
+
 public class Invoice {
 
         private ArrayList<ShoppingCartItem> positions = new ArrayList<>();

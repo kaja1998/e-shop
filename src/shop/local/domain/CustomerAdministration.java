@@ -3,13 +3,23 @@
 package shop.local.domain;
 import shop.local.entities.Customer;
 import shop.local.entities.ShoppingCartItem;
+import shop.local.entities.User;
 import shop.local.persistence.FilePersistenceManager;
 import shop.local.persistence.PersistenceManager;
+//import shop.local.ui.cui.EshopClientCUI;
+import shop.local.ui.cui.EshopClientCUI;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class for customer administration
+ * @author Sund
+ */
+
 public class CustomerAdministration {
+	
 
         // Es wird eine private Instanzvariable (Variablen des Objekts) namens kunden deklariert. Die Instanzvariable ist vom Typ ArrayList<Kunde>.
         // Das bedeutet, dass sie eine ArrayList von Kunde-Objekten enthält. Der Liste können Elemente hinzugefügt oder entfernt werden.
@@ -93,6 +103,35 @@ public class CustomerAdministration {
                         }
                 }
                 return null;
+        }
+        
+        
+//        method:
+        
+        public String customerRegister(String name, String lastName, String street, int postalCode, String city,
+				String mail, String username, String password, String registerNow) throws IOException 
+        {
+        	String message = "";
+        	
+    		//Check if registration wants to do
+    		if (registerNow.equals("yes")) {
+    			//Erstelle Variable vom Typ Kunde und übergebe die Eingaben des Kunden an den Konstruktor
+    			Customer customer = new Customer(name, lastName, street, postalCode, city, mail, username, password);
+    			boolean customerAlreadyExists = EshopClientCUI.getEshop().checkCustomerExists(customer);
+
+    			if (!customerAlreadyExists) {
+    				try {
+    					EshopClientCUI.getEshop().registerCustomer(customer);
+    					message = "Registration successful.";
+    				} catch (IOException e) {
+    					// TODO exception
+    					e.printStackTrace();
+    				}
+    			} else {
+    				message = "User with this name already exists.";
+    			}
+    		}
+			return message;
         }
 
 

@@ -20,6 +20,7 @@ import shop.local.entities.*;
  * Data in files.
  * @see PersistenceManager
  */
+
 public class FilePersistenceManager implements PersistenceManager {
 
 	//Die Variable "reader" ist vom Typ "BufferedReader" und kann verwendet werden, um Zeichen aus einer Datei zu lesen.
@@ -29,23 +30,23 @@ public class FilePersistenceManager implements PersistenceManager {
 	// Null bedeutet nur, dass die Variable auf keinen bestimmten Speicherbereich im Computer zeigt
 	private PrintWriter writer = null;
 
-	//Die erste Methode openForReading(String datei) öffnet eine Datei zum Lesen.
-	//Der Parameter datei ist der Name der Datei, die geöffnet werden soll.
-	//Die Methode erstellt einen BufferedReader, der den Inhalt der Datei lesen kann.
-	//Wenn die angegebene Datei nicht gefunden wird, wird eine FileNotFoundException ausgelöst.
+	//The first method openForReading(String file) opens a file for reading.
+	//The file parameter is the name of the file to open.
+	//The method creates a BufferedReader that can read the contents of the file.
+	//If the specified file is not found, a FileNotFoundException is thrown.
 	public void openForReading(String dataSource) throws FileNotFoundException {
 		reader = new BufferedReader(new FileReader(dataSource));
 	}
 
 	public void openForWriting(String dataSource) throws IOException {
-		//Das PrintWriter-Objekt wird der Variablen writer zugewiesen
-		//new PrintWriter(new BufferedWriter(new FileWriter(dataSource))): Ein PrintWriter wird erstellt und erhält den BufferedWriter als Argument. Der PrintWriter stellt Methoden zum Schreiben von formatierten Daten bereit.
-		//new BufferedWriter(new FileWriter(dataSource)): Ein BufferedWriter wird erstellt und erhält den FileWriter als Argument. Der BufferedWriter ermöglicht das effiziente Schreiben von Daten in den Speicher.
-		//FileWriter wird erstellt, der die Datei für den Schreibvorgang öffnet. Der dataSource-Parameter gibt den Pfad oder Namen der Datei an, in die geschrieben werden soll.
+		//The PrintWriter object is assigned to the writer variable
+		//new PrintWriter(new BufferedWriter(new FileWriter(dataSource))): A PrintWriter is created and takes the BufferedWriter as an argument. The PrintWriter provides methods for writing formatted data.
+		//new BufferedWriter(new FileWriter(dataSource)): A BufferedWriter is created and takes the FileWriter as an argument. The BufferedWriter allows data to be written to memory efficiently.
+		//FileWriter is created, which opens the file for writing. The dataSource parameter specifies the path or name of the file to write to.
 		writer = new PrintWriter(new BufferedWriter(new FileWriter(dataSource)));
 	}
 
-	//Die Methode close() ist eine Methode zum Schließen eines Writer- und/oder Reader-Objekts, die in einem Feld writer bzw. reader gespeichert werden.
+	//The close() method is a method for closing a writer and/or reader object stored in a writer or reader field, respectively.
 	public boolean close() {
 		if (writer != null)
 			writer.close();
@@ -71,23 +72,6 @@ public class FilePersistenceManager implements PersistenceManager {
 	 *
 	 * @return article object, if fetch successful, false null
 	 */
-//	public Article readArticle() throws IOException {
-//		// Read number convert from String to int
-//		String numberString = readRow();
-//		if (numberString == null) {
-//			return null;
-//		} else {
-//			String[] splitted = numberString.split(";");
-//			int id = Integer.parseInt(splitted[0]);
-//			String title = splitted[1];
-//			int quantityInStockNumber = Integer.parseInt(splitted[2]);
-//			double price = Double.parseDouble(splitted[3]);
-//
-//			// create and return a new article object
-//			return new Article(id, title, quantityInStockNumber, price);
-//		}
-//	}
-
 	public Article readArticle() throws IOException {
 		// Read number convert from String to int
 		String numberString = readRow();
@@ -117,24 +101,6 @@ public class FilePersistenceManager implements PersistenceManager {
 	 * @param newArticle Article to save
 	 * @return true if write is successful, false otherwise
 	 */
-//	public boolean addArticle(Article newArticle, ArticleList existingArticles) {
-//		// Write all existing articles to the file
-//		while (existingArticles != null) {
-//			Article currentArticle = existingArticles.getFirstArticle();
-//
-//			// only write the articles that have not been edited to file
-//			if(currentArticle.getNumber() != newArticle.getNumber()) {
-//				this.writeArticleToFile(currentArticle);
-//			} else {
-//				// Write the new article to file
-//				this.writeArticleToFile(newArticle);
-//			}
-//			existingArticles = existingArticles.getRemainingArticles();
-//		}
-//		// return true, if everything worked
-//		return true;
-//	}
-
 	public boolean addArticles(Article newArticle, ArrayList<Article> existingArticles) {
 		// Write all existing articles to the file
 		for (Article article : existingArticles){
@@ -151,21 +117,6 @@ public class FilePersistenceManager implements PersistenceManager {
 	 *
 	 * @return true if write is successful, false otherwise
 	 */
-//	public boolean deleteArticle(Article articleToDelete, ArrayList<Article> existingArticles) {
-//		// Write all existing articles to the file
-//		while (existingArticles != null) {
-//			// only write the articles that should be kept to file
-//			// do not write the article that should be deleted to file
-//			Article currentArticle = existingArticles.getFirstArticle();
-//			if(currentArticle.getNumber() != articleToDelete.getNumber()) {
-//				this.writeArticleToFile(currentArticle);
-//			}
-//			existingArticles = existingArticles.getRemainingArticles();
-//		}
-//		// return true, if everything worked
-//		return true;
-//	}
-
 	public boolean deleteArticle(Article articleToDelete, ArrayList<Article> existingArticles) {
 		//Erstelle eine neue ArrayList für die Artikel die behalten werden sollen
 		ArrayList<Article> articlesToKeep = new ArrayList<>();
@@ -184,14 +135,6 @@ public class FilePersistenceManager implements PersistenceManager {
 		return true;
 	}
 
-
-//	public boolean writeArticleToFile(Article article) {
-//		String articleString = article.getNumber() + ";" + article.getArticleTitle() + ";" + article.getQuantityInStock() + ";" + article.getPrice();
-//
-//		// Write number
-//		writeLine(articleString);
-//		return true;
-//	}
 
 	public boolean writeArticleToFile(Article article) {
 		if (article instanceof BulkArticle){

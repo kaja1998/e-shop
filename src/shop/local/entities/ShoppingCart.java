@@ -1,6 +1,11 @@
 package shop.local.entities;
 import java.util.ArrayList;
 
+/**
+ * ShoppingCart class
+ * @author Sund
+ */
+
 public class ShoppingCart {
 
         //privates Attribut vom Typ ArrayList, heißt, dass es eine Liste von Article-Objekten speichert
@@ -55,7 +60,8 @@ public class ShoppingCart {
                 cartItems.add(object);
         }
 
-        public boolean cartContainsArticle(Article article) {
+        @SuppressWarnings("unlikely-arg-type")
+		public boolean cartContainsArticle(Article article) {
                 if (cartItems.contains(article)) {
                         return true;
                 } else {
@@ -85,7 +91,8 @@ public class ShoppingCart {
 
 
         //Funktioniert mit contains
-        public String updateArticleQuantity(Article article, int newQuantity) {
+        @SuppressWarnings("unlikely-arg-type")
+		public String updateArticleQuantity(Article article, int newQuantity) {
                 // Wenn der übergebene Artikel Sinn macht / wirklich existiert
                 if (article != null) {
                         // Befindet sich der Artikel im Warenkorb?
@@ -161,15 +168,16 @@ public class ShoppingCart {
         }*/
 
         //Funktioniert
-        public void deleteSingleArticle(Article article) {
+        public String deleteSingleArticle(Article article) {
+        	String message = "";
                 for (ShoppingCartItem item : cartItems) {
                         if (item.getArticle().equals(article)) {
                                 cartItems.remove(item);
-                                System.out.println("Article removed from the cart.");
-                                return;
+                                message = "Article removed from the cart.";
+                                return message;
                         }
                 }
-                System.out.println("Article not found in the cart.");
+                return message = "Article not found in the cart.";
         }
 
         public void deleteAll() {
