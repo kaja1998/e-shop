@@ -4,10 +4,7 @@ import shop.local.persistence.FilePersistenceManager;
 import shop.local.persistence.PersistenceManager;
 import java.io.IOException;
 import java.util.ArrayList;
-/**
- * Class for employee administration
- * @author Sund
- */
+
 public class EmployeeAdministration {
 
         // List of all employees

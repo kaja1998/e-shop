@@ -4,7 +4,8 @@ import shop.local.entities.Article;
 
 /**
  * Exception to show that an article already exists
- * @author Sund
+ * 
+ * @author teschke
  */
 public class ArticleAlreadyExistsException extends Exception {
 

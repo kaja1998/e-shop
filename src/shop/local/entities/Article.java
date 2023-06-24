@@ -2,6 +2,7 @@ package shop.local.entities;
 
 /**
  * Class for representing individual articles.
+ * 
  * @author Sund
  */
 public class Article {
@@ -47,10 +48,6 @@ public class Article {
 	public String toString() {
 		String availability = inStock ? "inStock" : "soldOut";
 		return ("Number: " + number + " / Price EUR " + price + " / Article title: " + articleTitle + " / Quantity " + quantityInStock + " (" + availability + ")");
-	}
-
-	public String articleString(){
-		return number + "," + price + "," + articleTitle + "," + quantityInStock;
 	}
 
 	/**
@@ -133,6 +130,10 @@ public class Article {
 
 	public void setNumber(int number) {
 		this.number = number;
+	}
+
+	public String articleString(){
+		return number + "," + price + "," + articleTitle + "," + quantityInStock;
 	}
 
 

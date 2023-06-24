@@ -1,11 +1,6 @@
 package shop.local.entities;
 import java.util.ArrayList;
 
-/**
- * ShoppingCart class
- * @author Sund
- */
-
 public class ShoppingCart {
 
         //privates Attribut vom Typ ArrayList, heißt, dass es eine Liste von Article-Objekten speichert

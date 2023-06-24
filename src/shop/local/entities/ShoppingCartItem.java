@@ -1,10 +1,5 @@
 package shop.local.entities;
 
-/**
- *  Class for representing shoppingCartItems.
- * @author Sund
- */
-
 public class ShoppingCartItem {
 
     private Article article;

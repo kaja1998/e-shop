@@ -1,11 +1,6 @@
 package shop.local.entities;
 import java.util.Random;
 
-/**
- * Class to represent users.
- * @author Sund
- */
-
 public abstract class User {
 
         private String name = null;

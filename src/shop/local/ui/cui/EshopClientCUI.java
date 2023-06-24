@@ -34,7 +34,7 @@ public class EshopClientCUI {
 	}
 
 	/*
-	 * Methods for outputting the menus.
+	 * Methoden zur Ausgabe der Menüs.
 	 */
 	private void printEntryMenu() {
 		System.out.print("What would you like to do?");
@@ -78,7 +78,7 @@ public class EshopClientCUI {
 	}
 
 	/*
-	 * Methods for processing the menu selections
+	 * Methoden zur Verarbeitung der Menüauswahlen
 	 */
 	private boolean processInputFromEntryMenu(String line) throws IOException {
 		switch (line) {
@@ -179,8 +179,65 @@ public class EshopClientCUI {
 	}
 
 	/*
-	 * Methods for registering and logging in employees / customers, as well as logging out
+	 * Methoden zum Registrieren und Einloggen von Mitarbeitern / Kunden, sowie Logout
 	 */
+//	private void registerCustomer() throws IOException {
+//		//The data from the file is read and added to the ArrayList of customers
+//		System.out.println("Your name: ");
+//		String name = readInput();
+//		System.out.println("Your last name: ");
+//		String lastName = readInput();
+//		System.out.println("Your street: ");
+//		String street = readInput();
+//		System.out.println("Your postal code: ");
+//		int postalCode = Integer.parseInt(readInput());
+//		System.out.println("Your city: ");
+//		String city = readInput();
+//		System.out.println("Your mail: ");
+//		String mail = readInput();
+//		System.out.println("Your username: ");
+//		String username = readInput();
+//		System.out.println("Your password: ");
+//		String password = readInput();
+//		System.out.println("Register now 'yes' / 'no': ");
+//		String registerNow = readInput();
+//
+//		//Check if registration wants to do
+//		if (registerNow.equals("yes")) {  //Wenn man Strings auf Gleichheit überprüfen möchten, sollten man den Operator "==" nicht verwenden. Der Operator "==" prüft, ob die beiden Variablen dieselbe Referenz auf dasselbe Objekt haben, was bei Strings oft nicht der Fall ist. Stattdessen sollte man die equals()-Methode verwenden, um Strings auf Gleichheit zu prüfen.
+//			//Erstelle Variable vom Typ Kunde und übergebe die Eingaben des Kunden an den Konstruktor
+//			Customer customer = new Customer(name, lastName, street, postalCode, city, mail, username, password);
+//			boolean customerAlreadyExists = false;
+//
+//			//Check if user already exists.
+//			//First I get the list of all customers from the shop and save it in an instance variable called customer list of type ArrayList<Customer>, which I can freely use in this (EshopClientCUI).
+//			List<Customer> customerList = eshop.getCustomers();
+//
+//			//Dann gehe ich mit einer for-Loop durch die Liste aller Kunden durch.
+//			//Die Schleife durchläuft jedes Element in der customerList und weist es der Variable k zu
+//			for (Customer k : customerList) {
+//				//In dem Body der Schleife wird dann jedes Kunde-Objekt k mit dem customer-Objekt verglichen.
+//				//Der Ausdruck customer.equals(k) führt eine Gleichheitsprüfung zwischen customer und k durch
+//				//und gibt true zurück, wenn die beiden Objekte gleich sind.
+//				if (customer.equals(k)) {
+//					// wenn es den Kunden schon gibt, System.out.println("User mit gleichem Namen existiert bereits.");
+//					System.out.println("User with this name already exists");
+//					customerAlreadyExists = true;
+//				}
+//			}
+//			if(!customerAlreadyExists) {
+//				//Wenn kein Kunde gefunden wird, dann kann der Kunde registriert werden.
+//				//Kunde wird zur Liste hinzugefügt, indem das Shop-Objekt die Methode in der Klasse KundenVerwaltung aufruft
+//				try {
+//					eshop.writeCustomerData("ESHOP_Customer.txt", customer);
+//				} catch (IOException e) {
+//					// TODO
+//					e.printStackTrace();
+//				}
+//				eshop.addCustomer(customer);
+//				System.out.println("Registration successful.");
+//			}
+//		}
+//	}
 
 	private void registerCustomer() throws IOException {
 		//The data from the file is read and added to the ArrayList of customers
@@ -204,7 +261,7 @@ public class EshopClientCUI {
 		String registerNow = readInput();
 
 		//Check if registration wants to do
-		if (registerNow.equals("yes")) {
+		if (registerNow.equals("yes")) {  //Wenn man Strings auf Gleichheit überprüfen möchten, sollten man den Operator "==" nicht verwenden. Der Operator "==" prüft, ob die beiden Variablen dieselbe Referenz auf dasselbe Objekt haben, was bei Strings oft nicht der Fall ist. Stattdessen sollte man die equals()-Methode verwenden, um Strings auf Gleichheit zu prüfen.
 			//Erstelle Variable vom Typ Kunde und übergebe die Eingaben des Kunden an den Konstruktor
 			Customer customer = new Customer(name, lastName, street, postalCode, city, mail, username, password);
 			boolean customerAlreadyExists = eshop.checkCustomerExists(customer);
@@ -214,7 +271,6 @@ public class EshopClientCUI {
 					eshop.registerCustomer(customer);
 					System.out.println("Registration successful.");
 				} catch (IOException e) {
-					// TODO exception
 					e.printStackTrace();
 				}
 			} else {
@@ -303,7 +359,7 @@ public class EshopClientCUI {
 	}
 
 	/*
-	 * methods for the employee
+	 * Methoden für den Mitarbeiter
 	 */
 	private void deleteArticle() throws IOException {
 		// lies die notwendigen Parameter, einzeln pro Zeile
@@ -320,6 +376,34 @@ public class EshopClientCUI {
 		articleList = eshop.searchByArticleTitle(articleTitle);
 		printArticleList(articleList);
 	}
+
+//	private void insertArticle () throws IOException {
+//		// Lese Artikelbezeichnung
+//		System.out.print("Article title  > ");
+//		String articleTitle = readInput();
+//
+//		// Lese Wert für initialen Artikelbestand
+//		System.out.print("Initial quantity / stock > ");
+//		String initialQuantityString = readInput();
+//		int initialQuantity = Integer.parseInt(initialQuantityString);
+//
+//		// Lese Preis
+//		System.out.print("Article price  > ");
+//		String priceString = readInput();
+//		double price = Double.parseDouble(priceString);
+//
+//		// Speichere Artikel
+//		try {
+//			eshop.insertArticle(articleTitle, initialQuantity, price, loggedinUser);
+//			System.out.println("Article saved successfully");
+//
+//		} catch (ArticleAlreadyExistsException e) {
+//			// TODO - funktioniert nicht (liegt wahrscheinlich daran, dass er die IDs vergleicht, die natürlich unterschiedlich sind)
+//			// Hier Fehlerbehandlung...
+//			System.out.println("Error saving article");
+//			e.printStackTrace();
+//		}
+//	}
 
 	private void insertArticle() throws IOException {
 		// Lese Artikelbezeichnung
@@ -360,7 +444,7 @@ public class EshopClientCUI {
 			eshop.insertArticle(article, initialQuantity, loggedinUser);
 			System.out.println("Article saved successfully");
 		} catch (ArticleAlreadyExistsException e) {
-			// TODO - doesn't work (probably because he's comparing the IDs, which of course are different)
+			// TODO - funktioniert nicht (liegt wahrscheinlich daran, dass er die IDs vergleicht, die natürlich unterschiedlich sind)
 			System.out.println("Error saving article");
 			e.printStackTrace();
 		}
@@ -402,27 +486,93 @@ public class EshopClientCUI {
 	}
 
 	/*
-	 * Methods for employee to output all swaps in and outs to console
+	 * Methoden für den Mitarbeiter, um alle Ein- und Auslagerungen auf Konsole auszugeben
 	 */
-	public void showHistory() throws IOException {
-		System.out.println("Enter article number you want to see the history from: ");
-		int articleID = Integer.parseInt(readInput());
-		List<Event> eventsList = eshop.getEventsbyArticleOfLast30Days(articleID);
-		System.out.println("For the article with the ID: " + articleID + ", the stock quantity in the last few days were as followed:");
+	public void showHistory() {
+		List<Event> eventsList = eshop.getEvents();
 		for (Event e : eventsList) {
-			System.out.println(e.toStringHistory());
+			System.out.println(e);
 		}
 	}
 
 	/*
-	 * methods for the customer
+	 * Methoden für den Kunden
 	 */
+//	private void printArticleList(ArrayList<Article> liste) {
+//		System.out.print(liste);
+//	}
 
 	private void printArticleList(ArrayList<Article> liste) {
 		for (Article article : liste) {
 			System.out.println(article);
 		}
 	}
+
+//	private void addArticleToCart() throws IOException {
+//		int articleNumber;
+//		int quantity;
+//
+//		if (loggedinUser instanceof Customer) {
+//			Customer customer = (Customer) loggedinUser;
+//
+//			//Input vom User entgegennehmen
+//			System.out.println("Enter article number: ");
+//			String articleNumberString = readInput();
+//			articleNumber = Integer.parseInt((articleNumberString));
+//			System.out.print("Enter quantity: ");
+//			String quantityString = readInput();
+//			quantity = Integer.parseInt(quantityString);
+//
+//			//checken, ob es den Artikel wirklich gibt im Bestand
+//			Article article = eshop.searchByArticleNumber(articleNumber);
+//			if (article != null) {
+//				//Variable vom Typ shoppingCart wird deklariert.
+//				//Mit dem Customer-Objekt wird die Methode getShoppingCart aufgerufen in welcher der Warenkorb des Kunden zurückgegeben wird
+//				ShoppingCart shoppingCart = customer.getShoppingCart();
+//				//Methode in ShoppingCart wird aufgerufen, mit der geprüft wird, ob der Artikel bereits im Warenkorb existiert
+//				if (shoppingCart.cartContainsArticle(article)) {
+//					//Überprüfen, ob die eingegebene Menge gültig ist
+//					if (quantity >= 1) {
+//						for (ShoppingCartItem item : shoppingCart.getCartItems()) {
+//							if (item.getArticle().equals(article)) {
+//								//gucken, ob der Artikel noch vorrätig ist
+//								int availableQuantity = article.getQuantityInStock() - item.getQuantity();
+//								if (availableQuantity >= quantity) {
+//									shoppingCart.addUpArticleQuantity(article, quantity);
+//									System.out.println("Article quantity was updated successfully in the cart.");
+//									//Warenkorb ausgeben
+//									shoppingCart.read();
+//								} else { //Wenn nein, dann ausgeben, dass der Artikel out of stock ist
+//									System.out.println("Could not put article into the Cart, because desired quantity must be not available.");
+//								}
+//							}
+//						}
+//					} else {
+//						System.out.println("Please input a positive number for quantity.");
+//					}
+//					//wenn Artikel nicht im Warenkorb liegt
+//				} else {
+//					//Überprüfen, ob die eingegebene Menge gültig ist
+//					if (quantity >= 1) {
+//						//gucken, ob der Artikel noch vorrätig ist
+//						if (article.getQuantityInStock() >= quantity) {
+//							//Methode addArticle wird aufgerufen und akzeptiert angegebenen Parameter
+//							shoppingCart.addArticle(article, quantity);
+//							System.out.println("Article/s were added successfully into the cart.");
+//							//Warenkorb wird ausgegeben
+//							shoppingCart.read();
+//						} else { //Wenn nein, dann ausgeben, dass der Artikel out of stock ist
+//							System.out.println("Could not put article into the Cart, because it must be out of stock.");
+//						}
+//					} else {
+//						System.out.println("Please input a positive number for quantity.");
+//					}
+//				}
+//			} else {
+//				System.out.println("Article not found.");
+//			}
+//		}
+//	}
 
 	private void addArticleToCart() throws IOException {
 		int articleNumber;
@@ -500,6 +650,42 @@ public class EshopClientCUI {
 		}
 	}
 
+
+//	private void changeArticleQuantityInCart() throws IOException {
+//		int articleNumber;
+//		int newQuantity;
+//
+//		if (loggedinUser instanceof Customer) {
+//			Customer customer = (Customer) loggedinUser;
+//
+//			//Input vom User entgegennehmen
+//			System.out.println("Enter article number: ");
+//			String articleNumberString = readInput();
+//			articleNumber = Integer.parseInt((articleNumberString));
+//			System.out.print("Enter new quantity: ");
+//			String quantityString = readInput();
+//			newQuantity = Integer.parseInt(quantityString);
+//
+//			//checken, ob es den Artikel wirklich gibt im Shop
+//			Article article = eshop.searchByArticleNumber(articleNumber);
+//			if (article != null) {
+//				// Variable vom Typ shoppingCart wird deklariert. Mit dem Customer-Objekt wird die Methode getShoppingCart aufgerufen in welcher der Warenkorb des Kunden zurückgegeben wird
+//				ShoppingCart shoppingCart = customer.getShoppingCart();
+//				// Methode addArticle wird aufgerufen und akzeptiert angegebenen Parameter
+//				String updateResult = shoppingCart.updateArticleQuantity(article, newQuantity);
+//				if (updateResult != null) {
+//					System.out.println(updateResult);
+//				}
+//				// Überprüfen, ob der Warenkorb nicht leer ist und den Warenkorb ausgeben
+//				if (!shoppingCart.getCartItems().isEmpty()) {
+//					shoppingCart.read();
+//				}
+//			} else {
+//				System.out.println("Article not found.");
+//			}
+//		}
+//	}
+
 	private void changeArticleQuantityInCart() throws IOException {
 		int articleNumber;
 		int newQuantity;
@@ -507,45 +693,44 @@ public class EshopClientCUI {
 		if (loggedinUser instanceof Customer) {
 			Customer customer = (Customer) loggedinUser;
 
-			// Take input from the user
+			// Input vom User entgegennehmen
 			System.out.println("Enter article number: ");
 			String articleNumberString = readInput();
 			articleNumber = Integer.parseInt(articleNumberString);
 
-			// Check if the item is actually in stock
+			// Überprüfen, ob der Artikel tatsächlich im Bestand vorhanden ist
 			Article article = eshop.searchByArticleNumber(articleNumber);
 			if (article != null) {
-
-				// Variable of type shoppingCart is declared. The getShoppingCart method is called with the Customer object, in which the customer's shopping cart is returned
+				// Variable vom Typ shoppingCart wird deklariert. Mit dem Customer-Objekt wird die Methode getShoppingCart aufgerufen, in welcher der Warenkorb des Kunden zurückgegeben wird
 				ShoppingCart shoppingCart = customer.getShoppingCart();
 
-				// Check if the article is a BulkArticle
+				// Überprüfen, ob der Artikel ein BulkArticle ist
 				if (article instanceof BulkArticle) {
 					BulkArticle bulkArticle = (BulkArticle) article;
 					int packSize = bulkArticle.getPackSize();
 
-					// Print the pack size
+					// Ausgeben der Packgröße
 					System.out.println("This article can only be purchased in packs of " + packSize + ".");
 
-					// Accept input of pack size or quantity
-					System.out.print("Enter the new number of packs you wish to have in your shopping cart: ");
+					// Eingabe der Packgröße bzw. der Menge entgegennehmen
+					System.out.print("Enter the new number of packs you wish to have in your shoppingcart: ");
 					String newPackSizeQuantityString = readInput();
 					int newPackSizeQuantity = Integer.parseInt(newPackSizeQuantityString);
 
+					// Überprüfen, ob die eingegebene Packgröße bzw. Menge ein Vielfaches der Packgröße ist
 					if (newPackSizeQuantity >= 1) {
 						int quantityToChange = newPackSizeQuantity * packSize;
 
-						// Check if the desired quantity is still in stock
+						// Überprüfen, ob die gewünschte Menge noch vorrätig ist
 						int availableQuantity = article.getQuantityInStock();
 						if (availableQuantity >= quantityToChange) {
 							String updateResult = shoppingCart.updateArticleQuantity(article, quantityToChange);
 							if (updateResult != null) {
 								System.out.println(updateResult);
 							}
-
-							// Check if the shopping cart is not empty and print the shopping cart
+							// Überprüfen, ob der Warenkorb nicht leer ist und den Warenkorb ausgeben
 							if (!shoppingCart.getCartItems().isEmpty()) {
-								shoppingCart.read();
+							shoppingCart.read();
 							}
 						} else {
 							System.out.println("Could not change article quantity in the cart. Desired quantity is not available.");
@@ -557,18 +742,17 @@ public class EshopClientCUI {
 					System.out.print("Enter new quantity: ");
 					String quantityString = readInput();
 					newQuantity = Integer.parseInt(quantityString);
-
-					// single item
-					// Check if the amount entered is valid
+					// Einzelartikel
+					// Überprüfen, ob die eingegebene Menge gültig ist
 					if (newQuantity >= 1) {
-						// Check if the item is still in stock
+						// Überprüfen, ob der Artikel noch vorrätig ist
 						int availableQuantity = article.getQuantityInStock();
 						if (availableQuantity >= newQuantity) {
 							String updateResult = shoppingCart.updateArticleQuantity(article, newQuantity);
 							if (updateResult != null) {
 								System.out.println(updateResult);
 							}
-							// Check if the shopping cart is not empty and print the shopping cart
+							// Überprüfen, ob der Warenkorb nicht leer ist und den Warenkorb ausgeben
 							if (!shoppingCart.getCartItems().isEmpty()) {
 								shoppingCart.read();
 							}
@@ -593,11 +777,11 @@ public class EshopClientCUI {
 			System.out.println("Enter article number: ");
 			String articleNumberString = readInput();
 			articleNumber = Integer.parseInt((articleNumberString));
-			//check whether the item really exists in the shop
+			//checken, ob es den Artikel wirklich gibt im Shop
 			Article article = eshop.searchByArticleNumber(articleNumber);
 			if (article != null) {
 				ShoppingCart shoppingCart = customer.getShoppingCart();
-				//Delete item from shopping cart
+				//Artikel aus dem Warenkorb löschen
 				shoppingCart.deleteSingleArticle(article);
 			} else {
 				System.out.println("Article not found.");
@@ -626,34 +810,34 @@ public class EshopClientCUI {
 	}
 
 	private void buyArticlesInCart() throws IOException {
-		//make sure the logged in user is a customer.
+		////sicherstellen, dass der eingeloggte Benutzer ein Customer ist.
 		if (loggedinUser instanceof Customer) {
-			//If true, then loggedinUser object is cast to a customer variable of type Customer.
+			//Wenn erfüllt, dann wird loggedinUser-Objekt in eine Variable customer vom Typ Customer umgewandelt.
 			Customer customer = (Customer) loggedinUser;
-			//Customer's shopping cart is retrieved. The returned value is stored in the shoppingCart variable.
+			//Warenkorb des Kunden wird abgerufen. Der zurückgegebene Wert wird in der Variable shoppingCart gespeichert.
 			ShoppingCart shoppingCart = customer.getShoppingCart();
-			//The buyArticles(shoppingCart) method is called to carry out the purchase of the items in the shopping cart.
-			//The result is an invoice that is stored in the variable invoice.
+			//Methode buyArticles(shoppingCart) wird aufgerufen, um den Kauf der Artikel im Warenkorb durchzuführen.
+			//Das Ergebnis ist eine Rechnung (Invoice), die in der Variable invoice gespeichert wird.
 			Invoice invoice = eshop.buyArticles(shoppingCart, loggedinUser);
 
 			//print which articles couldn't be purchased
-			//Checking if there are any items that could not be purchased by checking that invoice.getUnavailableItems() is not null and contains at least one item.
+			//Es wird überprüft, ob es Artikel gibt, die nicht gekauft werden konnten, indem überprüft wird, ob invoice.getUnavailableItems() nicht null ist und mindestens ein Element enthält.
 			if(invoice.getUnavailableItems() != null && invoice.getUnavailableItems().size() > 0) {
 				System.out.println("Unfortunately some of the items you wished to purchase became unavailable:");
-				//If this is the case, a loop is used to iterate over each unavailable item in the list invoice.getUnavailableItems()
+				//Wenn dies der Fall ist, wird eine Schleife verwendet, um über jeden nicht verfügbaren Artikel in der Liste invoice.getUnavailableItems() zu iterieren
 				for (ShoppingCartItem item : invoice.getUnavailableItems()) {
-					//The unavailable articles are printed on the console
+					//Die nicht verfügbaren Artikeln werden auf der Konsole ausgegeben
 					System.out.println(item.toString());
 				}
 			}
 
 			// print which articles were purchased successfully
-			//Then it checks if there are any items that were successfully purchased by checking that invoice.getPositions() is non-null and contains at least one item.
+			//Dann wird überprüft, ob es Artikel gibt, die erfolgreich gekauft wurden, indem überprüft wird, ob invoice.getPositions() nicht null ist und mindestens ein Element enthält.
 			if(invoice.getPositions() != null && invoice.getPositions().size() > 0) {
 				System.out.println("You successfully purchased:");
-				//With a loop, iterates over each successfully purchased item.
+				//Mit Schleife wird über jeden erfolgreich gekauften Artikel iteriert.
 				for (ShoppingCartItem item : invoice.getPositions()) {
-					//Articles are displayed on the console
+					//Artikeln werden auf der Konsole ausgegeben
 					System.out.println(item.toString());
 				}
 			}
@@ -668,21 +852,21 @@ public class EshopClientCUI {
 	}
 
 	private void deleteAllArticlesInCart() throws IOException {
-		//make sure the logged in user is a customer.
+		////sicherstellen, dass der eingeloggte Benutzer ein Customer ist.
 		if (loggedinUser instanceof Customer) {
-			//If true, then loggedinUser object is cast to a customer variable of type Customer.
+			//Wenn erfüllt, dann wird loggedinUser-Objekt in eine Variable customer vom Typ Customer umgewandelt.
 			Customer customer = (Customer) loggedinUser;
-			//Customer's shopping cart is retrieved. The returned value is stored in the shoppingCart variable.
+			//Warenkorb des Kunden wird abgerufen. Der zurückgegebene Wert wird in der Variable shoppingCart gespeichert.
 			ShoppingCart shoppingCart = customer.getShoppingCart();
-			//The buyArticles(shoppingCart) method is called to carry out the purchase of the items in the shopping cart.
-			//The result is an invoice that is stored in the variable invoice.
+			//Methode buyArticles(shoppingCart) wird aufgerufen, um den Kauf der Artikel im Warenkorb durchzuführen.
+			//Das Ergebnis ist eine Rechnung (Invoice), die in der Variable invoice gespeichert wird.
 			shoppingCart.deleteAll();
 			System.out.println("All Articles were removed successfully from the cart."+ "\n");
 		}
 	}
 
 	/*
-	 * Methods of running the program
+	 * Methoden zur Ausführung des Programms
 	 */
 	public void run() throws IOException {
 		// Variables for console input
@@ -723,17 +907,17 @@ public class EshopClientCUI {
 	}
 
 	public static void main(String[] args) {
-		//Variable of type "EshopClientCUI" is declared but not yet initialized!
+		//Variable vom Typ "EshopClientCUI" wird deklariert, aber noch nicht initialisiert!
 		EshopClientCUI cui;
 		try {
-			//A new object of "EshopClientCUI" is created. The file and the string "ESHOP" are passed as parameters or only the file named "ESHOP" is passed
+			//Ein neues Objekt von "EshopClientCUI" wird erzeugt. Dabei wird die Datei und der String "ESHOP" als Parameter übergeben oder es wird nur die Datei namens "ESHOP" übergeben
 			cui = new EshopClientCUI("ESHOP");
-			//The "run" method is called on the "cui" object to run the program
+			//Die "run"-Methode wird mit dem "cui"-Objekt aufgerufen, um das Programm auszuführen
 			cui.run();
-			//If an error occurs during this, an "IOException" is thrown
+			//Wenn währenddessen ein Fehler auftritt, wird eine "IOException" geworfen
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			//Error message "e.printStackTrace()" is output
+			//Fehlermeldung "e.printStackTrace()" wird ausgegeben
 			e.printStackTrace();
 		}
 	}

@@ -11,9 +11,9 @@ import shop.local.entities.*;
  * to search for articles, to insert new articles
  * and to save inventory.
  *
- * @author Sund
+ * @author Sun
+ * @version 1 (managing items in a linked list)
  */
-
 public class Shop {
 	// Prefix for names of files in which shop data is stored
 	private String file = "";
@@ -53,28 +53,30 @@ public class Shop {
 		// Read customer profile from file
 		customerAdministration = new CustomerAdministration();
 		customerAdministration.readData(file + "_Customer.txt");
+		//customerAdministration.writeCustomerData(file+"_C.txt");
 
 		// A new instance of the EmployeeAdministration class is created and assigned to the employeeAdministration variable
 		// Read Employee profile from file
 		employeeAdministration = new EmployeeAdministration();
 		employeeAdministration.readData(file+"_Employee.txt");
+		//employeeAdministration.writeData(file+"_e.txt");
 
 		// A new instance of the EventAdministration class is created and assigned to the EventAdministration variable
 		// Read Events from file
 		eventAdministration = new EventAdministration();
 		eventAdministration.readData(file+"_Events.txt", articleAdministration, employeeAdministration, customerAdministration);
-		articleAdministration.setEventAdministration(eventAdministration);
+		//eventAdministration.writeData(file+"_ev.txt");
 	}
 
 	public boolean checkCustomerExists(Customer customer) {
 		//First I get the list of all customers from the shop and save it in an instance variable called customer list of type ArrayList<Customer>, which I can freely use in this (EshopClientCUI).
 		List<Customer> customerList = customerAdministration.getCustomers();
-		//Then I go through the list of all customers with a for loop.
-		//The loop iterates through each item in the customerList and assigns it to the variable k
+		//Dann gehe ich mit einer for-Loop durch die Liste aller Kunden durch.
+		//Die Schleife durchläuft jedes Element in der customerList und weist es der Variable k zu
 		for (Customer k : customerList) {
-		//In the body of the loop, each customer object k is then compared with the customer object.
-		//The expression customer.equals(k) performs an equality check between customer and k
-		//and returns true if the two objects are equal.
+			//In dem Body der Schleife wird dann jedes Kunde-Objekt k mit dem customer-Objekt verglichen.
+			//Der Ausdruck customer.equals(k) führt eine Gleichheitsprüfung zwischen customer und k durch
+			//und gibt true zurück, wenn die beiden Objekte gleich sind.
 			if (customer.equals(k)) {
 				return true;
 			}
@@ -125,16 +127,27 @@ public class Shop {
 		return articleAdministration.searchByArticleNumber(articleNumber);
 	}
 
-	/**
-	 * Method of adding a new item to stock.
-	 * If the item is already in stock, the stock will not be changed.
-	 *
-	 * @param article Article
-	 * @param quantityInStock Stock Quantity
-	 * @param user loggedInUser
-	 * @return article object inserted in case of success
-	 * @throws ArticleAlreadyExistsException if the article already exists
-	 */
+//	/**
+//	 * Method of adding a new item to stock.
+//	 * If the item is already in stock, the stock will not be changed.
+//	 *
+//	 * @param articleTitle Title of the article
+//	 * @param quantityInStock Stock Quantity
+//	 * @return article object inserted in case of success
+//	 * @throws ArticleAlreadyExistsException if the article already exists
+//	 */
+//	public Article insertArticle(String articleTitle, int quantityInStock, double price, User user) throws ArticleAlreadyExistsException, IOException {
+//		Article article = new Article(articleTitle, quantityInStock, price);
+//		articleAdministration.insertArticle(article);
+//		writeArticleDataToAddArticle("ESHOP_Article.txt", article);
+//		//Ereignis für die Einlagerung in ArrayList schreiben
+//		Event event = new Event(Event.EventType.NEU, article, quantityInStock, user);
+//		eventAdministration.addEvent(event);
+//		//Ereignis für die Einlagerung in File schreiben
+//		eventAdministration.writeData("ESHOP_Events.txt");
+//		return article;
+//	}
+
 	public Article insertArticle(Article article, int quantityInStock, User user) throws ArticleAlreadyExistsException, IOException {
 		articleAdministration.insertArticle(article);
 		writeArticleDataToAddArticle("ESHOP_Article.txt", article);
@@ -269,11 +282,6 @@ public class Shop {
 
 	public List<Event> getEvents(){
 		return eventAdministration.getEvents();
-	}
-
-
-	public List<Event> getEventsbyArticleOfLast30Days(int articleID){
-		return eventAdministration.getEventsbyArticleOfLast30Days(articleID);
 	}
 
 
