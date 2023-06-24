@@ -1,25 +1,14 @@
 package shop.local.persistence;
-
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-
-import shop.local.entities.Article;
-import shop.local.entities.ArticleList;
-import shop.local.entities.Customer;
-import shop.local.entities.Employee;
+import shop.local.domain.ArticleAdministration;
+import shop.local.domain.CustomerAdministration;
+import shop.local.domain.EmployeeAdministration;
+import shop.local.entities.*;
 
 public class DBPersistenceManager implements PersistenceManager {
 
-	@Override
-	public boolean close() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public Article readArticle() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public void openForReading(String dataSource) {
@@ -34,10 +23,39 @@ public class DBPersistenceManager implements PersistenceManager {
 	}
 
 	@Override
-	public boolean saveArticle(Article article, ArticleList existingArticles) {
+	public boolean close() {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+
+
+
+	@Override
+	public Article readArticle() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean addArticles(Article articleToAdd, ArrayList<Article> existingArticles) throws IOException {
+		return false;
+	}
+
+
+
+	@Override
+	public boolean deleteArticle(Article article, ArrayList<Article> existingArticles) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+//	public boolean deleteArticle(ArticleList existingArticles) throws IOException {
+//		// TODO Auto-generated method stub
+//		return false;
+//	}
+
+
 
 	@Override
 	public boolean saveCustomer(Customer customer, List<Customer> existingCustomers) {
@@ -50,6 +68,8 @@ public class DBPersistenceManager implements PersistenceManager {
 		return null;
 	}
 
+
+
 	@Override
 	public Employee loadEmployee() {
 		return null;
@@ -59,4 +79,17 @@ public class DBPersistenceManager implements PersistenceManager {
 	public boolean saveEmployee(Employee employee, List<Employee> existingEmployees) {
 		return false;
 	}
+
+
+
+	@Override
+	public Event loadEvent(ArticleAdministration articleAdministration, EmployeeAdministration employeeAdministration, CustomerAdministration customerAdministration) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public boolean saveEvent(List<Event> events) {
+		return false;
+	}
+
 }

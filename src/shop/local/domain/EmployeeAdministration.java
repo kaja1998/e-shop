@@ -1,9 +1,7 @@
 package shop.local.domain;
-
 import shop.local.entities.Employee;
 import shop.local.persistence.FilePersistenceManager;
 import shop.local.persistence.PersistenceManager;
-
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -72,6 +70,15 @@ public class EmployeeAdministration {
 
         public void setEmployees(ArrayList<Employee> employees) {
                 this.employees = this.employees;
+        }
+
+        public Employee getUserByID(int id){
+           for (Employee employee : employees) {
+                   if(id == employee.getId()){
+                      return employee;
+                   }
+           }
+           return null;
         }
 
 }

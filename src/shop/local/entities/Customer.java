@@ -1,7 +1,4 @@
 package shop.local.entities;
-
-import shop.local.domain.ShoppingCart;
-
 import java.util.Objects;
 
 /**
@@ -19,31 +16,26 @@ public class Customer extends User {
 	private int postalCode;
 	private String city = "";
 	private float revenue = 0.0f;
-	private final int id;
-	private static int idCounter = 0;
 	private ShoppingCart shoppingCart;
 
 	public Customer(String name, String lastName, String street, int postalCode, String city, String email, String username, String password) {
 		super(name, lastName, username, password);
 		this.shoppingCart = new ShoppingCart();
-		this.idCounter = ++idCounter;
-		this.id = idCounter;
 		this.street = street;
 		this.postalCode = postalCode;
 		this.city = city;
 		this.email = email;
 	}
 
-	// Second constructor with attribute ShoppingCart
-	public Customer(String name, String lastName, String street, int postalCode, String city, String email, String username, String password, ShoppingCart shoppingCart) {
-		super(name, lastName, username, password);
-		this.shoppingCart = shoppingCart;
-		this.idCounter = ++idCounter;
-		this.id = idCounter;
+
+	//Konstruktor, wenn Customer aus Datei ausgelesen wird ohne Warenkorb
+	public Customer(int id, String name, String lastName, String street, int postalCode, String city, String email, String username, String password) {
+		super(id, name, lastName, username, password);
 		this.street = street;
 		this.postalCode = postalCode;
 		this.city = city;
 		this.email = email;
+		this.shoppingCart = new ShoppingCart();
 	}
 
 	public float getRevenue() {	return revenue;	}
@@ -66,14 +58,14 @@ public class Customer extends User {
 
 	public void setEmail(String email) { this.email = email; }
 
-	public int getId() {
-		return id;
-	}
-
 	public ShoppingCart getShoppingCart() {	return shoppingCart; }
 
 	public void setShoppingCart(ShoppingCart shoppingCart) { this.shoppingCart = shoppingCart;	}
 
+	@Override
+	public String toString() {
+		return getId() + ";" + getName() + ";" + getLastName() + ";" + getStreet() + ";" + getPostalCode() + ";" +getCity() + ";" + getEmail() + ";" + getUsername() + ";" + getPassword() + ";" + shoppingCart;
+	}
 
 	//Diese Methode prüft, ob zwei Instanzen der Klasse Kunde gleich sind, indem sie ihre Attribute vergleicht
 	//obj ist das Objekt, das mit dem aktuellen Kunde-Objekt verglichen wird.
@@ -103,18 +95,4 @@ public class Customer extends User {
 				&& Objects.equals(getUsername(), other.getUsername());
 	}
 
-	/*
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		Kunde kunde = (Kunde) o;
-		return kundenNr == kunde.kundenNr && plz == kunde.plz && Objects.equals(kName, kunde.kName) && Objects.equals(kNachname, kunde.kNachname) && Objects.equals(kEmail, kunde.kEmail) && Objects.equals(kBenutzername, kunde.kBenutzername) && Objects.equals(kPasswort, kunde.kPasswort) && Objects.equals(strasse, kunde.strasse) && Objects.equals(wohnort, kunde.wohnort);
-	}
-	*/
-
-	//@Override
-	//public int hashCode() {
-		//return Objects.hash(id, name, lastName, email, username, password, street, postalCode, city);
-	//}
 }

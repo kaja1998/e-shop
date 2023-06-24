@@ -1,5 +1,4 @@
 package shop.local.persistence;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -7,12 +6,12 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
-
-import shop.local.entities.Article;
-import shop.local.entities.ArticleList;
-import shop.local.entities.Customer;
-import shop.local.entities.Employee;
+import shop.local.domain.ArticleAdministration;
+import shop.local.domain.CustomerAdministration;
+import shop.local.domain.EmployeeAdministration;
+import shop.local.entities.*;
 
 /**
  * @author Sund
@@ -39,21 +38,25 @@ public class FilePersistenceManager implements PersistenceManager {
 	}
 
 	public void openForWriting(String dataSource) throws IOException {
+		//Das PrintWriter-Objekt wird der Variablen writer zugewiesen
+		//new PrintWriter(new BufferedWriter(new FileWriter(dataSource))): Ein PrintWriter wird erstellt und erhält den BufferedWriter als Argument. Der PrintWriter stellt Methoden zum Schreiben von formatierten Daten bereit.
+		//new BufferedWriter(new FileWriter(dataSource)): Ein BufferedWriter wird erstellt und erhält den FileWriter als Argument. Der BufferedWriter ermöglicht das effiziente Schreiben von Daten in den Speicher.
+		//FileWriter wird erstellt, der die Datei für den Schreibvorgang öffnet. Der dataSource-Parameter gibt den Pfad oder Namen der Datei an, in die geschrieben werden soll.
 		writer = new PrintWriter(new BufferedWriter(new FileWriter(dataSource)));
 	}
 
-	//Die Methode close() scheint eine Methode zum Schließen eines Writer- und/oder Reader-Objekts zu sein, die in einem Feld writer bzw. reader gespeichert werden.
+	//Die Methode close() ist eine Methode zum Schließen eines Writer- und/oder Reader-Objekts, die in einem Feld writer bzw. reader gespeichert werden.
 	public boolean close() {
 		if (writer != null)
 			writer.close();
-		
+
 		if (reader != null) {
 			try {
 				reader.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				
+
 				return false;
 			}
 		}
@@ -68,30 +71,44 @@ public class FilePersistenceManager implements PersistenceManager {
 	 *
 	 * @return article object, if fetch successful, false null
 	 */
+//	public Article readArticle() throws IOException {
+//		// Read number convert from String to int
+//		String numberString = readRow();
+//		if (numberString == null) {
+//			return null;
+//		} else {
+//			String[] splitted = numberString.split(";");
+//			int id = Integer.parseInt(splitted[0]);
+//			String title = splitted[1];
+//			int quantityInStockNumber = Integer.parseInt(splitted[2]);
+//			double price = Double.parseDouble(splitted[3]);
+//
+//			// create and return a new article object
+//			return new Article(id, title, quantityInStockNumber, price);
+//		}
+//	}
+
 	public Article readArticle() throws IOException {
 		// Read number convert from String to int
 		String numberString = readRow();
-
-		// Check if end of file is reached
-		if(numberString == null) {
+		if (numberString == null) {
 			return null;
+		} else {
+			String[] splitted = numberString.split(";");
+			int id = Integer.parseInt(splitted[0]);
+			String title = splitted[1];
+			int quantityInStockNumber = Integer.parseInt(splitted[2]);
+			double price = Double.parseDouble(splitted[3]);
+
+			if (splitted.length > 4) {
+				// It's a BulkArticle, read the pack size
+				int packSize = Integer.parseInt(splitted[4]);
+				return new BulkArticle(id, title, quantityInStockNumber, price, packSize);
+			} else {
+				// It's a regular Article
+				return new Article(id, title, quantityInStockNumber, price);
+			}
 		}
-		int number = Integer.parseInt(numberString);
-
-		// Read title
-		String title = readRow();
-		if (title == null) {
-			// No data to read anymore
-			return null;
-		}
-
-		// Read quantity in stock
-		String quantityInStockString = readRow();
-		// convert from String to int
-		int quantityInStockNumber = Integer.parseInt(quantityInStockString);
-
-		// create and return a new article object
-		return new Article(number, title, quantityInStockNumber);
 	}
 
 	/**
@@ -100,85 +117,114 @@ public class FilePersistenceManager implements PersistenceManager {
 	 * @param newArticle Article to save
 	 * @return true if write is successful, false otherwise
 	 */
-	public boolean saveArticle(Article newArticle, ArticleList existingArticles) {
-		// Write all existing articles to the file
-		while (existingArticles != null) {
-			Article currentArticle = existingArticles.getFirstArticle();
+//	public boolean addArticle(Article newArticle, ArticleList existingArticles) {
+//		// Write all existing articles to the file
+//		while (existingArticles != null) {
+//			Article currentArticle = existingArticles.getFirstArticle();
+//
+//			// only write the articles that have not been edited to file
+//			if(currentArticle.getNumber() != newArticle.getNumber()) {
+//				this.writeArticleToFile(currentArticle);
+//			} else {
+//				// Write the new article to file
+//				this.writeArticleToFile(newArticle);
+//			}
+//			existingArticles = existingArticles.getRemainingArticles();
+//		}
+//		// return true, if everything worked
+//		return true;
+//	}
 
-			// only write the articles that have not been edited to file
-			if(currentArticle.getNumber() != newArticle.getNumber()) {
-				this.writeArticleToFile(currentArticle);
-			} else {
-				// Write the new article to file
-				this.writeArticleToFile(newArticle);
-			}
-			existingArticles = existingArticles.getRemainingArticles();
+	public boolean addArticles(Article newArticle, ArrayList<Article> existingArticles) {
+		// Write all existing articles to the file
+		for (Article article : existingArticles){
+			this.writeArticleToFile(article);
 		}
+		// Write the new article to file
+		//this.writeArticleToFile(newArticle);
 		// return true, if everything worked
 		return true;
 	}
 
-	public boolean writeArticleToFile(Article article) {
-		// Write number
-		writeLine(String.valueOf(article.getNumber()));
+	/**
+	 * Method for writing item data to an external data source.
+	 *
+	 * @return true if write is successful, false otherwise
+	 */
+//	public boolean deleteArticle(Article articleToDelete, ArrayList<Article> existingArticles) {
+//		// Write all existing articles to the file
+//		while (existingArticles != null) {
+//			// only write the articles that should be kept to file
+//			// do not write the article that should be deleted to file
+//			Article currentArticle = existingArticles.getFirstArticle();
+//			if(currentArticle.getNumber() != articleToDelete.getNumber()) {
+//				this.writeArticleToFile(currentArticle);
+//			}
+//			existingArticles = existingArticles.getRemainingArticles();
+//		}
+//		// return true, if everything worked
+//		return true;
+//	}
 
-		// Write title
-		writeLine(article.getArticleTitle());
+	public boolean deleteArticle(Article articleToDelete, ArrayList<Article> existingArticles) {
+		//Erstelle eine neue ArrayList für die Artikel die behalten werden sollen
+		ArrayList<Article> articlesToKeep = new ArrayList<>();
 
-		// Write quantity in stock
-		writeLine(String.valueOf(article.getQuantityInStock()));
-
-		// Write "i" if in stock and "o" if out of stock
-		//if (article.isInStock()) {
-		//	writeLine("i");
-		//} else {
-		//	writeLine("o");
-		//}
+		// check all existing articles in List
+		for (Article currentArticle : existingArticles) {
+			// check if the article who should be deleted is in list
+			if (currentArticle.getNumber() != articleToDelete.getNumber()) {
+				articlesToKeep.add(currentArticle);
+			}
+		}
+		//weite articles to keep in file
+		for(Article article : articlesToKeep) {
+			this.writeArticleToFile(article);
+		}
 		return true;
 	}
 
-	public Customer loadCustomer() throws IOException {
-		// Variables
-		int customerId;
 
-		// First, the customer number is read in as a string and converted into an integer
-		String customerIdString = readRow();
-		if (customerIdString != null) {
-			customerId = Integer.parseInt(customerIdString);
+//	public boolean writeArticleToFile(Article article) {
+//		String articleString = article.getNumber() + ";" + article.getArticleTitle() + ";" + article.getQuantityInStock() + ";" + article.getPrice();
+//
+//		// Write number
+//		writeLine(articleString);
+//		return true;
+//	}
 
+	public boolean writeArticleToFile(Article article) {
+		if (article instanceof BulkArticle){
+			String bulkArticleString = article.getNumber() + ";" + article.getArticleTitle() + ";" + article.getQuantityInStock() + ";" + article.getPrice()  + ";" + ((BulkArticle) article).getPackSize();
+			writeLine(bulkArticleString);
+			return true;
 		} else {
-			//No more data OR if the customer number is no longer in the file, returns null.
-			return null;
+			String articleString = article.getNumber() + ";" + article.getArticleTitle() + ";" + article.getQuantityInStock() + ";" + article.getPrice();
+			writeLine(articleString);
+			return true;
 		}
-		// Date like name, lastname, email, username, street, postal code and city are being read from the file and saved into variables
-		// Read name
-		String name = readRow();
+	}
 
-		// Read lastname
-		String lastName = readRow();
+	public Customer loadCustomer() throws IOException {
+		// Read number convert from String to int
+		String numberString = readRow();
+		if (numberString == null) {
+			return null;
+		} else {
+			String[] splitted = numberString.split(";");
+			int id = Integer.parseInt(splitted[0]);
+			String name = splitted[1];
+			String lastName = splitted[2];
+			String street = splitted[3];
+			int postalCode = Integer.parseInt(splitted[4]);
+			String city = splitted[5];
+			String email = splitted[6];
+			String username = splitted[7];
+			String password = splitted[8];
 
-		// Read street
-		String street = readRow();
-
-		// Read postalCode
-		String postalCodeString = readRow();
-		int postalCodeInt = Integer.parseInt(postalCodeString);
-
-		// Read city
-		String city = readRow();
-
-		// Read email
-		String email = readRow();
-
-		// Read username
-		String username = readRow();
-
-		// Read password
-		String password = readRow();
-
-		//A new customer object is created with the read data and returned.
-		Customer customer = new Customer(name, lastName, street, postalCodeInt, city, email, username, password);
-		return customer;
+			// create and return a new article object
+			return new Customer(id, name, lastName, street, postalCode, city, email, username, password);
+		}
 	}
 
 	//The saveCustomer(customer k) method writes the data of a customer object to a file.
@@ -197,52 +243,36 @@ public class FilePersistenceManager implements PersistenceManager {
 		return true;
 	}
 
-	public void writeCustomerToFile(Customer customer) throws IOException {
-		writeLine(String.valueOf(customer.getId()));
-		writeLine(customer.getName());
-		writeLine(customer.getLastName());
-		writeLine(customer.getStreet());
-		writeLine(String.valueOf(customer.getPostalCode()));
-		writeLine(customer.getCity());
-		writeLine(customer.getEmail());
-		writeLine(customer.getUsername());
-		writeLine(customer.getPassword());
+	public boolean writeCustomerToFile(Customer customer) throws IOException {
+
+		String customerString = customer.getId() + ";" + customer.getName() + ";" + customer.getLastName() + ";" + customer.getStreet() + ";" + customer.getPostalCode() + ";" + customer.getCity() + ";" + customer.getEmail() + ";" + customer.getUsername() + ";" + customer.getPassword();
+		// Write number
+		writeLine(customerString);
+		return true;
 	}
 
 	@Override
 	public Employee loadEmployee() throws IOException {
-		// Variables
-		int employeeId;						//Greta
-
-		// First, the employee number is read in as a string and converted into an integer
-		String employeeIdString = readRow();
-		if (employeeIdString != null) {
-			employeeId = Integer.parseInt(employeeIdString);
-
-		} else {
-			//No more data OR if the employee number is no longer in the file, returns null.
+		// Read number convert from String to int
+		String numberString = readRow();
+		if (numberString == null) {
 			return null;
+		} else {
+			String[] splitted = numberString.split(";");
+			int id = Integer.parseInt(splitted[0]);
+			String name = splitted[1];
+			String lastName = splitted[2];
+			String username = splitted[3];
+			String password = splitted[4];
+
+			// create and return a new article object
+			return new Employee(id, name, lastName, username, password);
 		}
-		// Date like name, lastname, email, username, street, postal code and city are being read from the file and saved into variables
-		// Read name
-		String name = readRow();
-
-		// Read lastname
-		String lastName = readRow();
-
-		// Read username
-		String username = readRow();
-
-		// Read password
-		String password = readRow();
-
-		//A new employee object is created with the read data and returned.
-		return new Employee(name, lastName, username, password);
 	}
 
 	@Override
 	public boolean saveEmployee(Employee newEmployee, List<Employee> existingEmployees) {
-		// Write all existing employees to the file
+		// Write all existing employees + the new one to the file
 		for (Employee employee : existingEmployees) {
 			this.writeEmployeeToFile(employee);
 		}
@@ -254,13 +284,59 @@ public class FilePersistenceManager implements PersistenceManager {
 		return true;
 	}
 
-	public void writeEmployeeToFile(Employee employee) {
-		writeLine(String.valueOf(employee.getId()));
-		writeLine(employee.getName());
-		writeLine(employee.getLastName());
-		writeLine(employee.getUsername());
-		writeLine(employee.getPassword());
+	public boolean writeEmployeeToFile(Employee employee) {
+
+		String employeeString = employee.getId() + ";" + employee.getName() + ";" + employee.getLastName() + ";" + employee.getUsername() + ";" + employee.getPassword();
+		// Write number
+		writeLine(employeeString);
+		return true;
 	}
+
+
+	@Override
+	public Event loadEvent( ArticleAdministration articleAdministration, EmployeeAdministration employeeAdministration, CustomerAdministration customerAdministration) throws IOException {
+		// Read number convert from String to int
+		String numberString = readRow();
+		if (numberString == null) {
+			return null;
+		} else {
+			String[] splitted = numberString.split(";");
+			int userId = Integer.parseInt(splitted[0]);
+			int articleId = Integer.parseInt(splitted[1]);
+			int quantity = Integer.parseInt(splitted[2]);
+			String date = splitted[3];
+			int eventTypeOrdinal = Integer.parseInt(splitted[4]);
+			Event.EventType type = Event.EventType.values()[eventTypeOrdinal];
+
+			User user;
+			if (employeeAdministration.getUserByID(userId) != null){
+				user = employeeAdministration.getUserByID(userId);
+			} else {
+				user = customerAdministration.getUserByID(userId);
+			}
+			Article article = articleAdministration.getArticleByID(articleId);
+
+			// create and return a new article object
+			return new Event(type, user, article, quantity, date);
+		}
+	}
+
+
+	public boolean saveEvent(List<Event> existingEvents) {
+		// Write all existing Events to the file
+		for (Event event : existingEvents) {
+			this.writeEventToFile(event);
+		}
+		// return true, if everything worked
+		return true;
+	}
+
+	public boolean writeEventToFile(Event event) {
+		// Write number
+		writeLine(event.toFileString());
+		return true;
+	}
+
 
 	/*
 	 * Private helper methods
@@ -279,6 +355,4 @@ public class FilePersistenceManager implements PersistenceManager {
 			writer.println(data);
 		}
 	}
-
-
 }

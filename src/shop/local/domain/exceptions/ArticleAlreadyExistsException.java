@@ -18,8 +18,7 @@ public class ArticleAlreadyExistsException extends Exception {
 	 * @param additionalMessage additional text for the error message
 	 */
 	public ArticleAlreadyExistsException(Article article, String additionalMessage) {
-		super("Article with the name " + article.getArticleTitle() + " and number " + article.getNumber()
-				+ " already exists" + additionalMessage);
+		super("Article with the name " + article.getArticleTitle() + " and number " + " already exists" + additionalMessage);
 		this.article = article;
 	}
 

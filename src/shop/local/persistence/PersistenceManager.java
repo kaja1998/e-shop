@@ -1,12 +1,11 @@
 package shop.local.persistence;
-
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-
-import shop.local.entities.Article;
-import shop.local.entities.ArticleList;
-import shop.local.entities.Customer;
-import shop.local.entities.Employee;
+import shop.local.domain.ArticleAdministration;
+import shop.local.domain.CustomerAdministration;
+import shop.local.domain.EmployeeAdministration;
+import shop.local.entities.*;
 
 /**
  * @author Sund
@@ -26,6 +25,7 @@ public interface PersistenceManager {
 	
 	public boolean close();
 
+
 	/**
 	 * Method for reading in the article data from an external data source.
 	 *
@@ -33,15 +33,10 @@ public interface PersistenceManager {
 	 */
 	public Article readArticle() throws IOException;
 
-	/**
-	 * Method to write the article data to an external data source.
-	 *
-	 * @param article Article object to be saved
-	 * @return true if write is successful, false otherwise
-	 */
-	public boolean saveArticle(Article article, ArticleList existingArticles) throws IOException;
+	public boolean addArticles(Article articleToAdd, ArrayList<Article> existingArticles) throws IOException;
 
-	public boolean saveCustomer(Customer customer, List<Customer> existingCustomers) throws IOException;
+	public boolean deleteArticle(Article articleToDelete, ArrayList<Article> existingArticles) throws IOException;
+
 
 	/**
 	 * Method for reading in the customer data from an external data source.
@@ -49,6 +44,9 @@ public interface PersistenceManager {
 	 * @return customer object, if successful, false null
 	 */
 	public Customer loadCustomer() throws IOException;
+
+	public boolean saveCustomer(Customer customer, List<Customer> existingCustomers) throws IOException;
+
 
 	/**
 	 * Method for reading in the customer data from an external data source.
@@ -58,5 +56,15 @@ public interface PersistenceManager {
 	public Employee loadEmployee() throws IOException;
 
 	public boolean saveEmployee(Employee employee, List<Employee> existingEmployees) throws IOException;
+
+
+	/**
+	 * Method for reading in the Event data from an external data source.
+	 *
+	 * @return Event object, if successful, false null
+	 */
+	public Event loadEvent(ArticleAdministration articleAdministration, EmployeeAdministration employeeAdministration, CustomerAdministration customerAdministration) throws IOException;
+
+	public boolean saveEvent(List<Event> events);
 
 }

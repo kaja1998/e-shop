@@ -1,9 +1,7 @@
 package shop.local.domain;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import shop.local.domain.exceptions.ArticleAlreadyExistsException;
 import shop.local.entities.*;
 
@@ -29,6 +27,8 @@ public class Shop {
 	//Employee administration variable is declared. Can later be used to create an object of this class
 	private EmployeeAdministration employeeAdministration;
 
+	private EventAdministration eventAdministration;
+
 
 	/**
 	 * Constructor that reads the basic data (articles, customers etc.) from files
@@ -47,19 +47,46 @@ public class Shop {
 		// A new instance of the ArticleAdministration class is created and assigned to the articleAdministration variable
 		// Read item inventory from file
 		articleAdministration = new ArticleAdministration();
-		articleAdministration.readData(file + "_A.txt");
+		articleAdministration.readData(file + "_Article.txt");
 
 		// A new instance of the CustomerAdministration class is created and assigned to the customerAdministration variable
 		// Read customer profile from file
 		customerAdministration = new CustomerAdministration();
-		customerAdministration.readData(file + "_C.txt");
+		customerAdministration.readData(file + "_Customer.txt");
 		//customerAdministration.writeCustomerData(file+"_C.txt");
 
 		// A new instance of the EmployeeAdministration class is created and assigned to the employeeAdministration variable
-		// Read customer profile from file
+		// Read Employee profile from file
 		employeeAdministration = new EmployeeAdministration();
-		employeeAdministration.readData(file+"_E.txt");
+		employeeAdministration.readData(file+"_Employee.txt");
 		//employeeAdministration.writeData(file+"_e.txt");
+
+		// A new instance of the EventAdministration class is created and assigned to the EventAdministration variable
+		// Read Events from file
+		eventAdministration = new EventAdministration();
+		eventAdministration.readData(file+"_Events.txt", articleAdministration, employeeAdministration, customerAdministration);
+		//eventAdministration.writeData(file+"_ev.txt");
+	}
+
+	public boolean checkCustomerExists(Customer customer) {
+		//First I get the list of all customers from the shop and save it in an instance variable called customer list of type ArrayList<Customer>, which I can freely use in this (EshopClientCUI).
+		List<Customer> customerList = customerAdministration.getCustomers();
+		//Dann gehe ich mit einer for-Loop durch die Liste aller Kunden durch.
+		//Die Schleife durchläuft jedes Element in der customerList und weist es der Variable k zu
+		for (Customer k : customerList) {
+			//In dem Body der Schleife wird dann jedes Kunde-Objekt k mit dem customer-Objekt verglichen.
+			//Der Ausdruck customer.equals(k) führt eine Gleichheitsprüfung zwischen customer und k durch
+			//und gibt true zurück, wenn die beiden Objekte gleich sind.
+			if (customer.equals(k)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public void registerCustomer(Customer customer) throws IOException {
+		writeCustomerData("ESHOP_Customer.txt", customer);
+		addCustomer(customer);
 	}
 
 	public Customer loginCustomer(String username, String password) {
@@ -75,7 +102,7 @@ public class Shop {
 	 *
 	 * @return List of all items in the shop stock
 	 */
-	public ArticleList getAllArticles() {
+	public ArrayList<Article> getAllArticles() {
 		return articleAdministration.getArticleStock();
 	}
 
@@ -86,7 +113,7 @@ public class Shop {
 	 * @param articleTitle Article title of the searched article
 	 * @return list of items found (may be empty)
 	 */
-	public ArticleList searchByArticleTitle(String articleTitle) {
+	public ArrayList<Article> searchByArticleTitle(String articleTitle) {
 		return articleAdministration.searchArticle(articleTitle);
 	}
 
@@ -100,31 +127,74 @@ public class Shop {
 		return articleAdministration.searchByArticleNumber(articleNumber);
 	}
 
-	/**
-	 * Method of adding a new item to stock.
-	 * If the item is already in stock, the stock will not be changed.
-	 *
-	 * @param articleTitle Title of the article
-	 * @param quantityInStock Stock Quantity
-	 * @return article object inserted in case of success
-	 * @throws ArticleAlreadyExistsException if the article already exists
-	 */
-	public Article insertArticle(String articleTitle, int quantityInStock) throws ArticleAlreadyExistsException {
-		Article b = new Article(articleTitle, quantityInStock);
-		articleAdministration.insert(b);
-		return b;
+//	/**
+//	 * Method of adding a new item to stock.
+//	 * If the item is already in stock, the stock will not be changed.
+//	 *
+//	 * @param articleTitle Title of the article
+//	 * @param quantityInStock Stock Quantity
+//	 * @return article object inserted in case of success
+//	 * @throws ArticleAlreadyExistsException if the article already exists
+//	 */
+//	public Article insertArticle(String articleTitle, int quantityInStock, double price, User user) throws ArticleAlreadyExistsException, IOException {
+//		Article article = new Article(articleTitle, quantityInStock, price);
+//		articleAdministration.insertArticle(article);
+//		writeArticleDataToAddArticle("ESHOP_Article.txt", article);
+//		//Ereignis für die Einlagerung in ArrayList schreiben
+//		Event event = new Event(Event.EventType.NEU, article, quantityInStock, user);
+//		eventAdministration.addEvent(event);
+//		//Ereignis für die Einlagerung in File schreiben
+//		eventAdministration.writeData("ESHOP_Events.txt");
+//		return article;
+//	}
+
+	public Article insertArticle(Article article, int quantityInStock, User user) throws ArticleAlreadyExistsException, IOException {
+		articleAdministration.insertArticle(article);
+		writeArticleDataToAddArticle("ESHOP_Article.txt", article);
+		//Ereignis für die Einlagerung in ArrayList schreiben
+		Event event = new Event(Event.EventType.NEU, article, quantityInStock, user);
+		eventAdministration.addEvent(event);
+		//Ereignis für die Einlagerung in File schreiben
+		eventAdministration.writeData("ESHOP_Events.txt");
+		return article;
 	}
 
 	/**
 	 * Method of deleting an item from inventory.
 	 * Only the first occurrence of the article will be deleted.
 	 *
-	 * @param articleTitle Title of the article
-	 * @param number       Article number
+	 * @param number of the Article which should be deleted
 	 */
-	public void deleteArticle(String articleTitle, int number) {
-		Article b = new Article(articleTitle, number);
-		articleAdministration.delete(b);
+	public void deleteArticle(int number, User user) throws IOException {
+		Article article = articleAdministration.searchByArticleNumber(number);
+		articleAdministration.delete(article);
+		writeArticleDataToRemoveArticle("ESHOP_Article.txt", article);
+		//Ereignis für die Einlagerung in ArrayList schreiben
+		Event event = new Event(Event.EventType.AUSLAGERUNG, article, 0, user);
+		eventAdministration.addEvent(event);
+		//Ereignis für die Einlagerung in File schreiben
+		eventAdministration.writeData("ESHOP_Events.txt");
+	}
+
+	/**
+	 * Method for getting all items in the logged in user's shopping cart
+	 *
+	 * @return List of all items in the logged in user's shopping cart
+	 */
+	public List<ShoppingCartItem> getUsersShoppingCart(Customer customer) {
+		return customerAdministration.getUsersShoppingCart(customer);
+	}
+
+	/**
+	 * Method for purchasing articles in the shopping cart
+	 *
+	 * @param shoppingCart ShoppingCart of the customer
+	 * @return Invoice with a list of successfully purchased articles, a list of unavailable articles, date and total of purchase
+	 */
+	public Invoice buyArticles(ShoppingCart shoppingCart, User user) throws IOException {
+		return articleAdministration.buyArticles(shoppingCart, user);
+		//Ereignis für die Einlagerung in ArrayList schreiben
+		// TODO Event implementieren
 	}
 
 	/**
@@ -134,8 +204,13 @@ public class Shop {
 	 * @param quantityToAdd number of articles that are to be added to stock
 	 * @return Article with searched articleNumber (may be empty)
 	 */
-	public void increaseArticleStock(Article article, int quantityToAdd) throws IOException {
-		articleAdministration.increaseArticleStock(article, quantityToAdd);
+	public void increaseArticleStock(Article article, int quantityToAdd, String articleFile, User user) throws IOException {
+		articleAdministration.increaseArticleStock(article, quantityToAdd, articleFile);
+		//Ereignis für die Einlagerung in ArrayList schreiben
+		Event event = new Event(Event.EventType.EINLAGERUNG, article, quantityToAdd, user);
+		eventAdministration.addEvent(event);
+		//Ereignis für die Einlagerung in File schreiben
+		eventAdministration.writeData("ESHOP_Events.txt");
 	}
 
 	/**
@@ -145,16 +220,29 @@ public class Shop {
 	 * @param quantityToRetrieve number of articles that are to be retrieved from stock
 	 * @return Article with searched articleNumber (may be empty)
 	 */
-	public boolean decreaseArticleStock(Article article, int quantityToRetrieve) throws IOException {
-		return articleAdministration.decreaseArticleStock(article, quantityToRetrieve);
+	public boolean decreaseArticleStock(Article article, int quantityToRetrieve, String articleFile , User user) throws IOException {
+		boolean bo = articleAdministration.decreaseArticleStock(article, quantityToRetrieve, articleFile);
+		if (bo){
+			int quantity = -quantityToRetrieve;
+			Event event = new Event(Event.EventType.AUSLAGERUNG, article, quantity, user);
+			//Ereignis für die Auslagerung in ArrayList schreiben
+			eventAdministration.addEvent(event);
+			//Ereignis für die Einlagerung in File schreiben
+			eventAdministration.writeData("ESHOP_Events.txt");
+		}
+		return bo;
 	}
 
 	public void addEmployee(Employee employee) {
 		employeeAdministration.addEmployee(employee);
 	}
 
-	public void writeArticleData(String file, Article article) throws IOException {
-		articleAdministration.writeData(file, article);
+	public void writeArticleDataToAddArticle(String file, Article articleToAdd) throws IOException {
+		articleAdministration.writeData(file, articleToAdd);
+	}
+
+	public void writeArticleDataToRemoveArticle(String file, Article articleToRemove) throws IOException {
+		articleAdministration.writeDataToRemoveArticle(file, articleToRemove);
 	}
 
 	public void writeCustomerData(String file, Customer customer) throws IOException {
@@ -191,5 +279,10 @@ public class Shop {
 	public void readData(String file) throws IOException {
 		customerAdministration.readData(file);
 	}
+
+	public List<Event> getEvents(){
+		return eventAdministration.getEvents();
+	}
+
 
 }

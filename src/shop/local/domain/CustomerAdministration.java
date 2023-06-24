@@ -1,18 +1,11 @@
 //Definiert eine neue Java-Package mit dem Namen "bib.local.domain".
 //Eine Package in Java ist eine Möglichkeit, Klassen logisch zu organisieren und zu strukturieren.
 package shop.local.domain;
-
-//Dieses Code-Snippet importiert die Klasse Kunde aus dem Package bib.local.entities.
-//Nachdem der Import erfolgt ist, kann man Objekte der Klasse Kunde in der aktuellen Klasse erzeugen und auf deren Methoden und Eigenschaften zugreifen.
-//Ohne den Import müsste man jedes Mal den vollständigen Klassennamen angeben, um die Klasse zu verwenden.
-import shop.local.entities.Article;
 import shop.local.entities.Customer;
+import shop.local.entities.ShoppingCartItem;
 import shop.local.persistence.FilePersistenceManager;
 import shop.local.persistence.PersistenceManager;
 import java.io.IOException;
-//Importiert die Klasse ArrayList aus dem Paket java.util.
-//Durch das Importieren dieser Klasse können Instanzen von ArrayList erstellt und alle Methoden und Eigenschaften dieser Klasse verwendet werden,
-//ohne den vollständigen Klassennamen jedes Mal schreiben zu müssen.
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,6 +56,9 @@ public class CustomerAdministration {
         }
 
         public Customer login (String userName, String password) {
+                //Die Methode durchläuft eine Schleife über eine Liste von Kundenobjekten.
+                //In jeder Iteration wird überprüft, ob der Benutzername (userName) und das Passwort (password)
+                //mit den entsprechenden Werten des aktuellen Kundenobjekts übereinstimmen.
                 for (Customer user : customers) {
                         if (user.getUsername().equals(userName) && user.getPassword().equals(password)) {
                                 return user;
@@ -77,6 +73,10 @@ public class CustomerAdministration {
                 this.customers.add(customer);
         }
 
+        public List<ShoppingCartItem> getUsersShoppingCart(Customer customer) {
+                return customer.getShoppingCart().getCartItems();
+        }
+
         // Getter und Setter
         public List<Customer> getCustomers() {
                 return customers;
@@ -85,5 +85,15 @@ public class CustomerAdministration {
         public void setCustomers(ArrayList<Customer> customers) {
                 this.customers = customers;
         }
+
+        public Customer getUserByID(int id){
+                for (Customer customer : customers) {
+                        if(id == customer.getId()){
+                                return customer;
+                        }
+                }
+                return null;
+        }
+
 
 }

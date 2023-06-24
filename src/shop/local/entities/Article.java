@@ -1,8 +1,5 @@
 package shop.local.entities;
 
-
-import java.util.Random;
-
 /**
  * Class for representing individual articles.
  * 
@@ -12,28 +9,32 @@ public class Article {
 
 	// Attributes describing an item
 	private String articleTitle;
-	private int number;					//id?
+	private int number;					//id
 	private int quantityInStock;
 	private boolean inStock;
-
+	private double price;
 	private static int idCounter = 0;
 
-	public Article(int number, String articleTitle, int quantityInStock) {
-		this.number = number;
-		this.idCounter = number;
-		this.articleTitle = articleTitle;
-		this.quantityInStock = quantityInStock;
-		this.inStock = quantityInStock > 0;
-	}
-
-	public Article(String articleTitle, int quantityInStock) {
+	//Konstruktor, wenn ich den Artikel anlege
+	public Article(String articleTitle, int quantityInStock, double price) {
 		this.idCounter = ++idCounter;
 		this.number = idCounter;
 		this.articleTitle = articleTitle;
 		this.quantityInStock = quantityInStock;
 		this.inStock = quantityInStock > 0;
+		this.price = price;
 	}
-	
+
+	//Konstruktor, wenn Artikel aus Datei auslesen wird
+	public Article(int number, String articleTitle, int quantityInStock, double price) {
+		this.idCounter = number;
+		this.number = idCounter;
+		this.articleTitle = articleTitle;
+		this.quantityInStock = quantityInStock;
+		this.inStock = quantityInStock > 0;
+		this.price = price;
+	}
+
 	// --- Dienste der Artikel-Objekte ---
 
 	/**
@@ -43,9 +44,10 @@ public class Article {
 	 *
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString() {
 		String availability = inStock ? "inStock" : "soldOut";
-		return ("Number: " + number + " / Article title: " + articleTitle + " / Quantity " + quantityInStock + " (" + availability + ")");
+		return ("Number: " + number + " / Price EUR " + price + " / Article title: " + articleTitle + " / Quantity " + quantityInStock + " (" + availability + ")");
 	}
 
 	/**
@@ -55,15 +57,17 @@ public class Article {
 	 *
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public boolean equals(Object otherArticle) {
 		if (otherArticle instanceof Article)
-			return ((this.number == ((Article) otherArticle).number)
-					&& (this.articleTitle.equals(((Article) otherArticle).articleTitle)));
+			return ((this.number == ((Article) otherArticle).number));
+		else if (otherArticle instanceof ShoppingCartItem)
+			return ((this.number == ((ShoppingCartItem) otherArticle).getArticle().getNumber()));
 		else
 			return false;
 	}
 
-	
+
 	/*
 	 * From here Accessor-Methoden
 	 */
@@ -87,6 +91,14 @@ public class Article {
 		this.quantityInStock = quantityInStock;
 	}
 
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
 	public void increaseStock(int quantityToAdd) {
 		// stock up
 		this.quantityInStock += quantityToAdd;
@@ -108,7 +120,7 @@ public class Article {
 		this.quantityInStock -= quantityToRetrieve;
 
 		// check if article is out of stock now
-		if(this.quantityInStock == 0) {
+		if(this.quantityInStock < 0) {
 			this.inStock = false;
 		}
 
@@ -119,4 +131,10 @@ public class Article {
 	public void setNumber(int number) {
 		this.number = number;
 	}
+
+	public String articleString(){
+		return number + "," + price + "," + articleTitle + "," + quantityInStock;
+	}
+
+
 }

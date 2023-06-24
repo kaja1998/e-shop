@@ -1,4 +1,5 @@
 package shop.local.entities;
+import java.util.Random;
 
 public abstract class User {
 
@@ -6,8 +7,18 @@ public abstract class User {
         private String lastName = null;
         private String userName = null;
         private String password = null;
+        private final int Id;
 
         public User (String name, String lastName, String userName, String password) {
+                this.Id = new Random().nextInt(0,10000);
+                this.name = name;
+                this.lastName = lastName;
+                this.userName = userName;
+                this.password = password;
+        }
+
+        public User (int id, String name, String lastName, String userName, String password) {
+                this.Id = id;
                 this.name = name;
                 this.lastName = lastName;
                 this.userName = userName;
@@ -40,6 +51,7 @@ public abstract class User {
 
         public void setPassword(String password) { this.password = password;  }
 
-
-
+        public int getId() {
+                return Id;
+        }
 }
