@@ -399,7 +399,7 @@ public class EshopClientCUI {
 	/*
 	 * methods for the employee
 	 */
-	private void deleteArticle() throws IOException {
+	private void deleteArticle() throws IOException, ArticleNotFoundException {
 		// lies die notwendigen Parameter, einzeln pro Zeile
 		System.out.print("Article number > ");
 	    String numberString = readInput();

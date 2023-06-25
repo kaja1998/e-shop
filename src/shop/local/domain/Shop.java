@@ -171,7 +171,7 @@ public class Shop {
 	 *
 	 * @param number of the Article which should be deleted
 	 */
-	public void deleteArticle(int number, User user) throws IOException {
+	public void deleteArticle(int number, User user) throws IOException, ArticleNotFoundException {
 		Article article = articleAdministration.searchByArticleNumber(number);
 		articleAdministration.delete(article);
 		writeArticleDataToRemoveArticle("ESHOP_Article.txt", article);

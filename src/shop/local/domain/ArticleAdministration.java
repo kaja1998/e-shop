@@ -96,17 +96,16 @@ public class ArticleAdministration {
 		return searchResult;
 	}
 
-	public Article searchByArticleNumber(int articleNumber) {
-		
+	public Article searchByArticleNumber(int articleNumber) throws ArticleNotFoundException {
 		Article searchResult = null;
-		
-
-		
 		for (Article currentArticle : articles) {
 			if (currentArticle.getNumber() == articleNumber) {
 				searchResult = currentArticle;
 				break;
 			}
+		}
+		if(searchResult == null) {
+			throw new ArticleNotFoundException(articleNumber, null);
 		}
 		return searchResult;
 	}

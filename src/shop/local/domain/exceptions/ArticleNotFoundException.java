@@ -4,6 +4,7 @@ package shop.local.domain.exceptions;
 public class ArticleNotFoundException extends Exception {
 
     private String title;
+    private int articleNumber;
 
     /**
      * Constructor
@@ -14,6 +15,17 @@ public class ArticleNotFoundException extends Exception {
     public ArticleNotFoundException(String title, String additionalMessage) {
         super("Article with the name " +  title + " does not exist" + additionalMessage);
         this.title = title;
+    }
+
+    /**
+     * Constructor
+     *
+     * @param articleNumber the article that was not found
+     * @param additionalMessage additional text for the error message
+     */
+    public ArticleNotFoundException(int articleNumber, String additionalMessage) {
+        super("Article with the number " +  articleNumber + " does not exist" + additionalMessage);
+        this.articleNumber = articleNumber;
     }
 
     public String getTitle() {
