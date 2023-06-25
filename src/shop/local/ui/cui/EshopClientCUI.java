@@ -206,7 +206,7 @@ public class EshopClientCUI {
 	 * logging out
 	 */
 
-	private void registerCustomer() throws IOException {
+	private void registerCustomer() {
 		try {
 			// The data from the file is read and added to the ArrayList of customers
 			System.out.println("Your name: ");
@@ -230,7 +230,6 @@ public class EshopClientCUI {
 		            postalCodeString = readInput();
 		        }
 		    }
-
 			System.out.println("Your city: ");
 			String city = readInput();
 			System.out.println("Your mail: ");

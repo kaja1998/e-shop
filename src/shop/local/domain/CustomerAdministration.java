@@ -2,6 +2,7 @@
 //Eine Package in Java ist eine Möglichkeit, Klassen logisch zu organisieren und zu strukturieren.
 package shop.local.domain;
 import shop.local.domain.exceptions.LoginException;
+import shop.local.domain.exceptions.RegisterException;
 import shop.local.entities.Customer;
 import shop.local.entities.ShoppingCartItem;
 import shop.local.entities.User;
@@ -109,8 +110,7 @@ public class CustomerAdministration {
 //        method:
         
         public String customerRegister(String name, String lastName, String street, int postalCode, String city,
-				String mail, String username, String password, String registerNow) throws IOException 
-        {
+				String mail, String username, String password, String registerNow) throws IOException, RegisterException {
         	String message = "";
         	
     		//Check if registration wants to do
@@ -124,14 +124,13 @@ public class CustomerAdministration {
     					EshopClientCUI.getEshop().registerCustomer(customer);
     					message = "Registration successful.";
     				} catch (IOException e) {
-    					// TODO exception
     					e.printStackTrace();
     				}
     			} else {
-    				message = "User with this name already exists.";
+    				throw new RegisterException(customer, null);
     			}
     		}
-			return message;
+                return message;
         }
 
 

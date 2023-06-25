@@ -1,5 +1,6 @@
 package shop.local.domain;
 import shop.local.domain.exceptions.LoginException;
+import shop.local.domain.exceptions.RegisterException;
 import shop.local.entities.Employee;
 import shop.local.persistence.FilePersistenceManager;
 import shop.local.persistence.PersistenceManager;
@@ -88,8 +89,7 @@ public class EmployeeAdministration {
         }
 
 
-        public String registerEmployee(String name, String lastname, String username, String password) throws IOException 
-        {
+        public String registerEmployee(String name, String lastname, String username, String password) throws IOException, RegisterException {
         	String message = "";
         	
     		//Erstelle Variable vom Typ Employee und übergebe die Eingaben des Employee an den Konstruktor
@@ -118,8 +118,10 @@ public class EmployeeAdministration {
     			}
     			EshopClientCUI.getEshop().addEmployee(employee);
     			message = "Registration successful.";
-    		}
-			return message;
+    		} else {
+                    throw new RegisterException(employee, null);
+                }
+                return message;
         }
 
         

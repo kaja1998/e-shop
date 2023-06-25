@@ -7,6 +7,7 @@ import java.util.List;
 import shop.local.domain.exceptions.ArticleAlreadyExistsException;
 import shop.local.domain.exceptions.ArticleNotFoundException;
 import shop.local.domain.exceptions.LoginException;
+import shop.local.domain.exceptions.RegisterException;
 import shop.local.entities.*;
 
 /**
@@ -298,18 +299,14 @@ public class Shop {
 	}
 
 	public String customerRegister(String name, String lastName, String street, int postalCode, String city, String mail,
-			String username, String password, String registerNow) throws IOException {
+			String username, String password, String registerNow) throws IOException, RegisterException {
 		return customerAdministration.customerRegister(name, lastName, street, postalCode, city, mail, username, password,
 				registerNow);
 	}
 
-	public String registerEmployee(String name, String lastname, String username, String password) throws IOException {
+	public String registerEmployee(String name, String lastname, String username, String password) throws IOException, RegisterException {
 		return employeeAdministration.registerEmployee(name, lastname, username, password);
 	}
-
-
-
-
 
 	public void addArticle(Article article, String articleTitle, String articleType, int initialQuantity, double price,
 			int packSize)  throws IOException{
