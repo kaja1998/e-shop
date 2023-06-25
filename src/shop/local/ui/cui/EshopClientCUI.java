@@ -10,7 +10,6 @@ import java.util.Scanner;
 import shop.local.domain.exceptions.ArticleAlreadyExistsException;
 import shop.local.domain.exceptions.ArticleBuyingException;
 import shop.local.domain.exceptions.ArticleNotFoundException;
-import shop.local.domain.exceptions.DeleteArticleException;
 import shop.local.domain.exceptions.EmployeeNotFoundException;
 import shop.local.domain.exceptions.InvalidArticleIdException;
 import shop.local.domain.exceptions.RegisterCustomerException;
@@ -163,7 +162,7 @@ public class EshopClientCUI {
 		}
 	}
 
-	private void processInputForCustomerMenu(String line) throws DeleteArticleException, Exception {
+	private void processInputForCustomerMenu(String line) throws Exception {
 		ArrayList<Article> articleList;
 		// Get input
 		switch (line) {
@@ -1070,7 +1069,7 @@ public class EshopClientCUI {
 		}
 	}
 
-	private void deleteAllArticlesInCart() throws DeleteArticleException, IOException, Exception {
+	private void deleteAllArticlesInCart() throws IOException, Exception {
 		// make sure the logged in user is a customer.
 		if (loggedinUser instanceof Customer) {
 			// If true, then loggedinUser object is cast to a customer variable of type
@@ -1167,7 +1166,7 @@ public class EshopClientCUI {
 		}
 	}
 
-	public static void main(String[] args) throws DeleteArticleException, Exception {
+	public static void main(String[] args) throws Exception {
 		// Variable of type "EshopClientCUI" is declared but not yet initialized!
 		EshopClientCUI cui;
 		try {
