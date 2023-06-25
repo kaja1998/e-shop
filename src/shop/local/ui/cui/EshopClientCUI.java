@@ -1052,17 +1052,6 @@ public class EshopClientCUI {
 //				}
 //			}
 
-			// print which articles were purchased successfully
-			// Then it checks if there are any items that were successfully purchased by
-			// checking that invoice.getPositions() is non-null and contains at least one
-			// item.
-			try {
-				articlePurchaseSuccessfully(invoice);
-			} catch (ArticleBuyingException e) {
-				System.out.println("\nError while article purchase\n");
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 			// if (invoice.getPositions() != null && invoice.getPositions().size() > 0) {
 //				System.out.println("You successfully purchased:");
 //				// With a loop, iterates over each successfully purchased item.
@@ -1113,7 +1102,7 @@ public class EshopClientCUI {
 		}
 	}
 
-	public void articlesCouldntPurchase(Invoice invoice) throws ArticleBuyingException, IOException {
+	public void articlesCouldntPurchase(Invoice invoice) throws ArticleBuyingException {
 		if (invoice.getUnavailableItems() != null && invoice.getUnavailableItems().size() > 0) {
 			System.out.println("Unfortunately some of the items you wished to purchase became unavailable:");
 			// If this is the case, a loop is used to iterate over each unavailable item in
@@ -1122,10 +1111,11 @@ public class EshopClientCUI {
 				// The unavailable articles are printed on the console
 				System.out.println(item.toString());
 			}
+			throw new ArticleBuyingException(invoice.getUnavailableItems(), null);
 		}
 	}
 
-	public void articlePurchaseSuccessfully(Invoice invoice) throws ArticleBuyingException, IOException {
+	public void articlePurchaseSuccessfully(Invoice invoice) {
 		if (invoice.getPositions() != null && invoice.getPositions().size() > 0) {
 			System.out.println("You successfully purchased:");
 			// With a loop, iterates over each successfully purchased item.

@@ -1,23 +1,37 @@
 package shop.local.domain.exceptions;
 
-import shop.local.entities.Article;
+import shop.local.entities.ShoppingCartItem;
+
+import java.util.List;
 
 @SuppressWarnings("serial")
 public class ArticleBuyingException extends Exception {
-    private Article article;
+
+    private final List<ShoppingCartItem> shoppingCartItem;
 
     /**
      * Constructor
      *
-     * @param article           the already existing article
+     * @param shoppingCartItems the already existing articles
      * @param additionalMessage additional text for the error message
      */
-    public ArticleBuyingException(Article article, String additionalMessage) {
-        super("Error occurred while purchasing " + article.getArticleTitle() + " with number " + article.getNumber() + additionalMessage);
-        this.article = article;
+    public ArticleBuyingException(List<ShoppingCartItem> shoppingCartItems, String additionalMessage) {
+        super(buildErrorMessage(shoppingCartItems, additionalMessage));
+        this.shoppingCartItem = shoppingCartItems;
     }
 
-    public Article getArticle() {
-        return article;
+    private static String buildErrorMessage(List<ShoppingCartItem> shoppingCartItems, String additionalMessage) {
+        StringBuilder errorMessage = new StringBuilder();
+        for (ShoppingCartItem shoppingCartItem: shoppingCartItems) {
+            errorMessage.append("Error occurred while purchasing ").append(shoppingCartItem.getArticle().getArticleTitle()).append(" with number ").append(shoppingCartItem.getArticle().getNumber());
+        }
+        if(additionalMessage != null) {
+            errorMessage.append(additionalMessage);
+        }
+        return errorMessage.toString();
+    }
+
+    public List<ShoppingCartItem> getShoppingCartItems() {
+        return shoppingCartItem;
     }
 }
