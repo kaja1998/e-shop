@@ -5,13 +5,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import shop.local.domain.exceptions.ArticleAlreadyExistsException;
 import shop.local.domain.exceptions.ArticleBuyingException;
 import shop.local.domain.exceptions.ArticleNotFoundException;
 import shop.local.domain.exceptions.LoginException;
-import shop.local.domain.exceptions.InvalidArticleIdException;
 import shop.local.domain.EventAdministration;
 import shop.local.domain.Shop;
 import shop.local.entities.*;
@@ -118,7 +116,7 @@ public class EshopClientCUI {
 	}
 
 	private void processInputForEmployeeMenu(String line)
-			throws IOException, ArticleNotFoundException, InvalidArticleIdException {
+			throws IOException, ArticleNotFoundException {
 		// Get input
 		switch (line) {
 		// Output articles
@@ -664,16 +662,15 @@ public class EshopClientCUI {
 	/*
 	 * Methods for employee to output all swaps in and outs to console
 	 */
-	public void showHistory() throws IOException, InvalidArticleIdException {
+	public void showHistory() throws IOException {
 		System.out.println("Enter the article number you want to see the history from: ");
+		String articleNumberString = readInput();
 		int articleID = 0;
 		boolean validInput = false;
-		@SuppressWarnings("resource")
-		Scanner scanner = new Scanner(System.in);
 
 		while (!validInput) {
 			try {
-				articleID = Integer.parseInt(scanner.nextLine());
+				articleID = Integer.parseInt(articleNumberString);
 				validInput = true;
 			} catch (NumberFormatException e) {
 				System.out.println("Invalid input. Please enter a valid integer value.");
