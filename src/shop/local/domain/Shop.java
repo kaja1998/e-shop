@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import shop.local.domain.exceptions.AddArticleException;
 import shop.local.domain.exceptions.ArticleAlreadyExistsException;
 import shop.local.domain.exceptions.ArticleNotFoundException;
 import shop.local.domain.exceptions.EmployeeNotFoundException;
@@ -155,7 +154,7 @@ public class Shop {
 	 * @throws ArticleAlreadyExistsException if the article already exists
 	 */
 	public Article insertArticle(Article article, int quantityInStock, User user) 
-			throws AddArticleException, ArticleAlreadyExistsException, IOException {
+			throws ArticleAlreadyExistsException, IOException {
 		articleAdministration.insertArticle(article);
 		writeArticleDataToAddArticle("ESHOP_Article.txt", article);
 		// Ereignis für die Einlagerung in ArrayList schreiben
@@ -315,7 +314,7 @@ public class Shop {
 
 
 	public void addArticle(Article article, String articleTitle, String articleType, int initialQuantity, double price,
-			int packSize)  throws AddArticleException, IOException{
+			int packSize)  throws IOException{
 		articleAdministration.addArticle(article, articleTitle, articleType, initialQuantity, price, packSize);
 	}
 

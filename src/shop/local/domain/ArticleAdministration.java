@@ -2,7 +2,6 @@ package shop.local.domain;
 
 import java.io.IOException;
 
-import shop.local.domain.exceptions.AddArticleException;
 import shop.local.domain.exceptions.ArticleAlreadyExistsException;
 import shop.local.entities.*;
 import shop.local.persistence.FilePersistenceManager;
@@ -39,8 +38,6 @@ public class ArticleAdministration {
 			if (article != null) {
 				try {
 					insertArticle(article);
-				} catch (AddArticleException e) {
-					throw new RuntimeException(e);
 				} catch (ArticleAlreadyExistsException e) {
 					throw new RuntimeException(e);
 				}
@@ -52,14 +49,12 @@ public class ArticleAdministration {
 		persistenceManager.close();
 	}
 
-	public void insertArticle(Article article) throws ArticleAlreadyExistsException, AddArticleException {
+	public void insertArticle(Article article) throws ArticleAlreadyExistsException {
 		if (articles.contains(article)) {
-			// Wenn der Artikel bereits existiert, wird eine ArticleAlreadyExistsException
-			// ausgelöst
+			// Wenn der Artikel bereits existiert, wird eine ArticleAlreadyExistsException ausgelöst
 			throw new ArticleAlreadyExistsException(article, " - in 'insert()'");
 		}
-		// Wenn der Artikel nicht im Artikelbestand vorhanden ist, wird er der ArrayList
-		// hinzugefügt
+		// Wenn der Artikel nicht im Artikelbestand vorhanden ist, wird er der ArrayList hinzugefügt
 		articles.add(article);
 	}
 

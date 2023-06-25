@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import shop.local.domain.exceptions.AddArticleException;
 import shop.local.domain.exceptions.ArticleAlreadyExistsException;
 import shop.local.domain.exceptions.ArticleBuyingException;
 import shop.local.domain.exceptions.ArticleNotFoundException;
@@ -125,7 +124,7 @@ public class EshopClientCUI {
 	}
 
 	private void processInputForEmployeeMenu(String line)
-			throws IOException, ArticleNotFoundException, InvalidArticleIdException, AddArticleException {
+			throws IOException, ArticleNotFoundException, InvalidArticleIdException {
 		// Get input
 		switch (line) {
 		// Output articles
@@ -527,7 +526,7 @@ public class EshopClientCUI {
 //		}
 //	}
 	
-	private void insertArticle() throws IOException, AddArticleException {
+	private void insertArticle() throws IOException {
 		// Lese Artikelbezeichnung
 		System.out.print("Article title  > ");
 		String articleTitle = readInput();
@@ -570,7 +569,7 @@ public class EshopClientCUI {
 	        }
 	    }
 
-		// Lese Art des Artikels (Massengutartikel oder Einzelartikel)
+	    // Lese Art des Artikels (Massengutartikel oder Einzelartikel)
 	    System.out.print("Article type (bulk/single) > ");
 	    String articleType = readInput();
 	    boolean validInputT = false;
