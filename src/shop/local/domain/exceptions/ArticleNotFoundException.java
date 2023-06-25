@@ -1,23 +1,22 @@
 package shop.local.domain.exceptions;
 
-import shop.local.entities.Article;
-
 @SuppressWarnings("serial")
 public class ArticleNotFoundException extends Exception {
-    private Article article;
+
+    private String title;
 
     /**
      * Constructor
      *
-     * @param article           the article that was not found
+     * @param title           the article that was not found
      * @param additionalMessage additional text for the error message
      */
-    public ArticleNotFoundException(Article article, String additionalMessage) {
-        super("Article with the name " + article.getArticleTitle() + " and number " + article.getNumber() + " does not exist" + additionalMessage);
-        this.article = article;
+    public ArticleNotFoundException(String title, String additionalMessage) {
+        super("Article with the name " +  title + " does not exist" + additionalMessage);
+        this.title = title;
     }
 
-    public Article getArticle() {
-        return article;
+    public String getTitle() {
+        return title;
     }
 }

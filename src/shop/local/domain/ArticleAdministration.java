@@ -3,6 +3,7 @@ package shop.local.domain;
 import java.io.IOException;
 
 import shop.local.domain.exceptions.ArticleAlreadyExistsException;
+import shop.local.domain.exceptions.ArticleNotFoundException;
 import shop.local.entities.*;
 import shop.local.persistence.FilePersistenceManager;
 import shop.local.persistence.PersistenceManager;
@@ -80,13 +81,18 @@ public class ArticleAdministration {
 		articles.remove(article);
 	}
 
-	public ArrayList<Article> searchArticle(String title) {
+	public ArrayList<Article> searchArticle(String title) throws ArticleNotFoundException {
 		ArrayList<Article> searchResult = new ArrayList<>();
 		for (Article currentArticle : articles) {
 			if (currentArticle.getArticleTitle().equals(title)) {
 				searchResult.add(currentArticle);
 			}
 		}
+
+		if(searchResult.size() < 1) {
+			throw new ArticleNotFoundException(title, null);
+		}
+
 		return searchResult;
 	}
 
