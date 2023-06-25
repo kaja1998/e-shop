@@ -1,6 +1,7 @@
 //Definiert eine neue Java-Package mit dem Namen "bib.local.domain".
 //Eine Package in Java ist eine Möglichkeit, Klassen logisch zu organisieren und zu strukturieren.
 package shop.local.domain;
+import shop.local.domain.exceptions.LoginException;
 import shop.local.entities.Customer;
 import shop.local.entities.ShoppingCartItem;
 import shop.local.entities.User;
@@ -65,7 +66,7 @@ public class CustomerAdministration {
                 persistenceManager.close();
         }
 
-        public Customer login (String userName, String password) {
+        public Customer login (String userName, String password) throws LoginException {
                 //Die Methode durchläuft eine Schleife über eine Liste von Kundenobjekten.
                 //In jeder Iteration wird überprüft, ob der Benutzername (userName) und das Passwort (password)
                 //mit den entsprechenden Werten des aktuellen Kundenobjekts übereinstimmen.
@@ -74,8 +75,7 @@ public class CustomerAdministration {
                                 return user;
                         }
                 }
-                // TODO: Exception werfen
-                return null;
+                throw new LoginException(userName, null);
         }
 
         // Adds customer objects from file to ArrayList

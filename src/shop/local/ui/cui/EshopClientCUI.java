@@ -10,14 +10,9 @@ import java.util.Scanner;
 import shop.local.domain.exceptions.ArticleAlreadyExistsException;
 import shop.local.domain.exceptions.ArticleBuyingException;
 import shop.local.domain.exceptions.ArticleNotFoundException;
-import shop.local.domain.exceptions.EmployeeNotFoundException;
+import shop.local.domain.exceptions.LoginException;
 import shop.local.domain.exceptions.InvalidArticleIdException;
-import shop.local.domain.exceptions.RegisterCustomerException;
-import shop.local.domain.exceptions.RegisterEmployeeException;
 import shop.local.domain.EventAdministration;
-//import shop.local.domain.ArticleAdministration;
-//import shop.local.domain.CustomerAdministration;
-//import shop.local.domain.EmployeeAdministration;
 import shop.local.domain.Shop;
 import shop.local.entities.*;
 
@@ -107,7 +102,7 @@ public class EshopClientCUI {
 	/*
 	 * Methods for processing the menu selections
 	 */
-	private boolean processInputFromEntryMenu(String line) throws IOException, EmployeeNotFoundException {
+	private boolean processInputFromEntryMenu(String line) throws IOException, LoginException {
 		switch (line) {
 		case "cr":
 			registerCustomer();
@@ -253,8 +248,6 @@ public class EshopClientCUI {
 				message = eshop.customerRegister(name, lastName, street, postalCode, city, mail, username, password,
 						registerNow);
 				System.out.println(message);
-			} catch (RegisterCustomerException e) {
-				System.out.println("\nError while registring Customer\n");
 			} catch (Exception e) {
 				System.out.println("\nError while registring Customer\n");
 			}
@@ -318,8 +311,6 @@ public class EshopClientCUI {
 		try {
 			message = eshop.registerEmployee(name, lastname, username, password);
 			System.out.println(message);
-		} catch (RegisterEmployeeException e) {
-			System.out.println("\nError while registring Employee\n");
 		} catch (Exception e) {
 			System.out.println("\nError while registring Employee\n");
 		}
@@ -354,7 +345,7 @@ public class EshopClientCUI {
 //		}
 	}
 
-	private boolean customerLogin() throws IOException {
+	private boolean customerLogin() throws IOException, LoginException {
 		System.out.println("Please enter your login data:");
 		System.out.println("Username: ");
 		String username = readInput();
@@ -372,7 +363,7 @@ public class EshopClientCUI {
 		}
 	}
 
-	private boolean employeeLogin() throws IOException, EmployeeNotFoundException {
+	private boolean employeeLogin() throws IOException, LoginException {
 		System.out.println("Please enter your login data:");
 		System.out.println("Username: ");
 		String username = readInput();

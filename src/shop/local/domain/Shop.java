@@ -6,9 +6,7 @@ import java.util.List;
 
 import shop.local.domain.exceptions.ArticleAlreadyExistsException;
 import shop.local.domain.exceptions.ArticleNotFoundException;
-import shop.local.domain.exceptions.EmployeeNotFoundException;
-import shop.local.domain.exceptions.RegisterCustomerException;
-import shop.local.domain.exceptions.RegisterEmployeeException;
+import shop.local.domain.exceptions.LoginException;
 import shop.local.entities.*;
 
 /**
@@ -104,11 +102,11 @@ public class Shop {
 		addCustomer(customer);
 	}
 
-	public Customer loginCustomer(String username, String password) {
+	public Customer loginCustomer(String username, String password) throws LoginException {
 		return customerAdministration.login(username, password);
 	}
 
-	public Employee loginEmployee(String username, String password) throws EmployeeNotFoundException{
+	public Employee loginEmployee(String username, String password) throws LoginException {
 		return employeeAdministration.login(username, password);
 	}
 
@@ -300,12 +298,12 @@ public class Shop {
 	}
 
 	public String customerRegister(String name, String lastName, String street, int postalCode, String city, String mail,
-			String username, String password, String registerNow) throws RegisterCustomerException, IOException {
+			String username, String password, String registerNow) throws IOException {
 		return customerAdministration.customerRegister(name, lastName, street, postalCode, city, mail, username, password,
 				registerNow);
 	}
 
-	public String registerEmployee(String name, String lastname, String username, String password) throws RegisterEmployeeException, IOException {
+	public String registerEmployee(String name, String lastname, String username, String password) throws IOException {
 		return employeeAdministration.registerEmployee(name, lastname, username, password);
 	}
 

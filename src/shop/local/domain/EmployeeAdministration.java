@@ -1,4 +1,5 @@
 package shop.local.domain;
+import shop.local.domain.exceptions.LoginException;
 import shop.local.entities.Employee;
 import shop.local.persistence.FilePersistenceManager;
 import shop.local.persistence.PersistenceManager;
@@ -54,14 +55,13 @@ public class EmployeeAdministration {
                 persistenceManager.close();
         }
 
-        public Employee login (String username, String password) {
+        public Employee login (String username, String password) throws LoginException {
                 for (Employee user : employees) {
                         if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
                                 return user;
                         }
                 }
-                // TODO: Exception werfen
-                return null;
+                throw new LoginException(username, null);
         }
 
         // Adds employee objects from file to ArrayList
