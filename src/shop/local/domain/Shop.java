@@ -299,7 +299,7 @@ public class Shop {
 	}
 
 	public String customerRegister(String name, String lastName, String street, int postalCode, String city, String mail,
-			String username, String password, String registerNow) throws IOException, RegisterException {
+			String username, String password, String registerNow) throws RegisterException {
 		return customerAdministration.customerRegister(name, lastName, street, postalCode, city, mail, username, password,
 				registerNow);
 	}

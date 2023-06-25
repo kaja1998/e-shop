@@ -89,7 +89,7 @@ public class EmployeeAdministration {
         }
 
 
-        public String registerEmployee(String name, String lastname, String username, String password) throws IOException, RegisterException {
+        public String registerEmployee(String name, String lastname, String username, String password) throws RegisterException {
         	String message = "";
         	
     		//Erstelle Variable vom Typ Employee und übergebe die Eingaben des Employee an den Konstruktor
@@ -119,7 +119,7 @@ public class EmployeeAdministration {
     			EshopClientCUI.getEshop().addEmployee(employee);
     			message = "Registration successful.";
     		} else {
-                    throw new RegisterException(employee, null);
+                    throw new RegisterException(employee, "A User with this Name already exist. Please choose another one.");
                 }
                 return message;
         }

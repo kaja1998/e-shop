@@ -6,10 +6,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import shop.local.domain.exceptions.ArticleAlreadyExistsException;
-import shop.local.domain.exceptions.ArticleBuyingException;
-import shop.local.domain.exceptions.ArticleNotFoundException;
-import shop.local.domain.exceptions.LoginException;
+import shop.local.domain.exceptions.*;
 import shop.local.domain.EventAdministration;
 import shop.local.domain.Shop;
 import shop.local.entities.*;
@@ -245,10 +242,10 @@ public class EshopClientCUI {
 				message = eshop.customerRegister(name, lastName, street, postalCode, city, mail, username, password,
 						registerNow);
 				System.out.println(message);
-			} catch (Exception e) {
-				System.out.println("\nError while registring Customer\n");
+			} catch (RegisterException e) {
+				System.out.println("\n" + e.getMessage() + "\n");
 			}
-		} catch (Exception e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
@@ -292,25 +289,30 @@ public class EshopClientCUI {
 //		}
 	}
 
-	private void registerEmployee() throws IOException {
+	private void registerEmployee() {
 
 		// Lese Daten für Name, Nachname, Benutzername und Passwort
-		System.out.print("Name > ");
-		String name = readInput();
-		System.out.print("Lastname > ");
-		String lastname = readInput();
-		System.out.print("Username > ");
-		String username = readInput();
-		System.out.print("Password > ");
-		String password = readInput();
-
-		String message = "";
 		try {
-			message = eshop.registerEmployee(name, lastname, username, password);
-			System.out.println(message);
-		} catch (Exception e) {
-			System.out.println("\nError while registring Employee\n");
+			System.out.print("Name > ");
+			String name = readInput();
+			System.out.print("Lastname > ");
+			String lastname = readInput();
+			System.out.print("Username > ");
+			String username = readInput();
+			System.out.print("Password > ");
+			String password = readInput();
+
+			String message = "";
+			try {
+				message = eshop.registerEmployee(name, lastname, username, password);
+				System.out.println(message);
+			} catch (RegisterException e) {
+				System.out.println("\n" + e.getMessage() + "\n");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+	}
 
 //		//Erstelle Variable vom Typ Employee und übergebe die Eingaben des Employee an den Konstruktor
 //		Employee employee = new Employee(name, lastname, username, password);
@@ -340,7 +342,6 @@ public class EshopClientCUI {
 //			eshop.addEmployee(employee);
 //			System.out.println("Registration successful.");
 //		}
-	}
 
 	private boolean customerLogin() throws IOException, LoginException {
 		System.out.println("Please enter your login data:");

@@ -5,10 +5,8 @@ import shop.local.domain.exceptions.LoginException;
 import shop.local.domain.exceptions.RegisterException;
 import shop.local.entities.Customer;
 import shop.local.entities.ShoppingCartItem;
-import shop.local.entities.User;
 import shop.local.persistence.FilePersistenceManager;
 import shop.local.persistence.PersistenceManager;
-//import shop.local.ui.cui.EshopClientCUI;
 import shop.local.ui.cui.EshopClientCUI;
 
 import java.io.IOException;
@@ -110,7 +108,7 @@ public class CustomerAdministration {
 //        method:
         
         public String customerRegister(String name, String lastName, String street, int postalCode, String city,
-				String mail, String username, String password, String registerNow) throws IOException, RegisterException {
+				String mail, String username, String password, String registerNow) throws RegisterException {
         	String message = "";
         	
     		//Check if registration wants to do
@@ -127,7 +125,7 @@ public class CustomerAdministration {
     					e.printStackTrace();
     				}
     			} else {
-    				throw new RegisterException(customer, null);
+    				throw new RegisterException(customer, "A User with this Name already exist. Please choose another one.");
     			}
     		}
                 return message;
