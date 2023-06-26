@@ -229,8 +229,7 @@ public class Shop {
 	 *                           stock
 	 * @return Article with searched articleNumber (may be empty)
 	 */
-	public boolean decreaseArticleStock(Article article, int quantityToRetrieve, String articleFile, User user)
-			throws IOException {
+	public boolean decreaseArticleStock(Article article, int quantityToRetrieve, String articleFile, User user) throws IOException {
 		boolean bo = articleAdministration.decreaseArticleStock(article, quantityToRetrieve, articleFile);
 		if (bo) {
 			int quantity = -quantityToRetrieve;
@@ -427,8 +426,7 @@ public class Shop {
 //		}
 //	}
 	
-	public String removeArticleFromCART(Customer customer, Article article) throws IOException 
-	{
+	public String removeArticleFromCART(Customer customer, Article article) throws IOException {
 			ShoppingCart shoppingCart = customer.getShoppingCart();
 			// Delete item from shopping cart
 			return shoppingCart.deleteSingleArticle(article);

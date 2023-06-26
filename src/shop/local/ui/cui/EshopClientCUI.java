@@ -50,6 +50,18 @@ public class EshopClientCUI {
 		in = new BufferedReader(new InputStreamReader(System.in));
 	}
 
+//	public EshopClientCUI(String file) {
+//		try {
+//			// the shop administration handles the tasks that have nothing to do with
+//			// input/output
+//			eshop = new Shop(file);
+//			// Create Stream object for text input via console window
+//			in = new BufferedReader(new InputStreamReader(System.in));
+//		} catch (IOException e) {
+//			System.out.println("An error occurred while initializing the EshopClientCUI: " + e.getMessage());
+//		}
+//	}
+
 	/*
 	 * Methods for outputting the menus.
 	 */
@@ -112,7 +124,7 @@ public class EshopClientCUI {
 		return false;
 	}
 
-	private void processInputForEmployeeMenu(String line) throws IOException, ArticleNotFoundException {
+	private void processInputForEmployeeMenu(String line) throws IOException {
 		// Get input
 		switch (line) {
 		// Output articles
@@ -195,6 +207,17 @@ public class EshopClientCUI {
 		return in.readLine();
 	}
 
+//	private String readInput() {
+//		try {
+//			// einlesen von Konsole
+//			return in.readLine();
+//		} catch (IOException e) {
+//			System.out.println("An error occurred while reading input. Error: " + e.getMessage());
+//			// Weitere Aktionen, um mit dem Fehler umzugehen oder das Programm zu beenden
+//			return ""; // Dummy-Rückgabewert, falls die Eingabe nicht erfolgreich war
+//		}
+//	}
+
 	/*
 	 * Methods for registering and logging in employees / customers, as well as
 	 * logging out
@@ -247,6 +270,7 @@ public class EshopClientCUI {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
 
 //		//The data from the file is read and added to the ArrayList of customers
 //		System.out.println("Your name: ");
@@ -286,7 +310,6 @@ public class EshopClientCUI {
 //				System.out.println("User with this name already exists.");
 //			}
 //		}
-	}
 
 	private void registerEmployee() {
 
@@ -639,81 +662,89 @@ public class EshopClientCUI {
 		}
 	}
 
-	private void manageInventory() throws IOException, ArticleNotFoundException {
-		// Lese Artikelbezeichnung
-		 int number = 0;
-		    boolean validInput = false;
-		    
-		    while (!validInput) {
-		        System.out.print("Article number > ");
-		        try {
-		            number = Integer.parseInt(readInput());
-		            validInput = true; // Input is valid, exit the loop
-		        } catch (NumberFormatException e) {
-		            System.out.println("Invalid input. Please provide an integer value.");
-		        }
-		    }
-		// Try to find article by number and gives it to the variable article
-		Article article = eshop.searchByArticleNumber(number);
+	private void manageInventory() {
+		try {
+			// Lese Artikelbezeichnung
+			 int number = 0;
+				boolean validInput = false;
 
-		// Check if article was found
-		if (article != null) {
-			System.out.println("Found article \n" + article.toString());
-		} else {
-			System.out.println("Article not found");
-			return;
-		}
+				while (!validInput) {
+					System.out.print("Article number > ");
+					try {
+						number = Integer.parseInt(readInput());
+						validInput = true; // Input is valid, exit the loop
+					} catch (NumberFormatException e) {
+						System.out.println("Invalid input. Please provide an integer value.");
+					}
+				}
 
-		//Get quantity change
-		System.out.println(
-				"Please enter how many items you'd like to add (positive number) or to retrieve from stock (negative number)");
-		String stockChangeString = readInput();
-		int stockChange = Integer.parseInt(stockChangeString);
-
-		// Try to change inventory
-		if (stockChange < 0) {
-			boolean success = eshop.decreaseArticleStock(article, (-1) * stockChange, "ESHOP_Article.txt",
-					loggedinUser);
-			if (success) {
-				System.out.println("Successfully decreased article's stock.");
-			} else {
-				System.out.println(
-						"Could not decrease stock. Maybe you tried to retrieve more items than there are available?");
+			// Try to find article by number and gives it to the variable article
+			Article article;
+			try {
+				article = eshop.searchByArticleNumber(number);
+			} catch (ArticleNotFoundException e) {
+				System.out.println("\n" + e.getMessage() + "\n");
+				return;
 			}
-		} else {
-			eshop.increaseArticleStock(article, stockChange, "ESHOP_Article.txt", loggedinUser);
-			System.out.println("Successfully increased article's stock.");
+
+			System.out.println("Found article \n" + article.toString());
+
+			//Get quantity change
+			System.out.println("Please enter how many items you'd like to add (positive number) or to retrieve from stock (negative number): ");
+			String stockChangeString = readInput();
+			int stockChange = Integer.parseInt(stockChangeString);
+
+			// Try to change inventory
+			if (stockChange < 0) {
+				boolean success = eshop.decreaseArticleStock(article, (-1) * stockChange, "ESHOP_Article.txt",
+						loggedinUser);
+				if (success) {
+					System.out.println("Successfully decreased article's stock.");
+				} else {
+					System.out.println(
+							"Could not decrease stock. Maybe you tried to retrieve more items than there are available?");
+				}
+			} else {
+				eshop.increaseArticleStock(article, stockChange, "ESHOP_Article.txt", loggedinUser);
+				System.out.println("Successfully increased article's stock.");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
 	/*
 	 * Methods for employee to output all swaps in and outs to console
 	 */
-	public void showHistory() throws IOException {
-		System.out.println("Enter the article number you want to see the history from: ");
-		String articleNumberString = readInput();
-		int articleID = 0;
-		boolean validInput = false;
+	public void showHistory(){
+		try {
+			System.out.println("Enter the article number you want to see the history from: ");
+			String articleNumberString = readInput();
+			int articleID = 0;
+			boolean validInput = false;
 
-		while (!validInput) {
-			try {
-				articleID = Integer.parseInt(articleNumberString);
-				validInput = true;
-			} catch (NumberFormatException e) {
-				System.out.println("Invalid input. Please enter a valid integer value.");
+			while (!validInput) {
+				try {
+					articleID = Integer.parseInt(articleNumberString);
+					validInput = true;
+				} catch (NumberFormatException e) {
+					System.out.println("Invalid input. Please enter a valid integer value.");
+				}
 			}
-		}
 
-		if (!ea.getEvents().isEmpty()) {
+			if (!ea.getEvents().isEmpty()) {
 
-			List<Event> eventsList = eshop.getEventsbyArticleOfLast30Days(articleID);
-			System.out.println("For the article with the ID: " + articleID
-					+ ", the stock quantity in the last few days were as follows:");
-			for (Event e : eventsList) {
-				System.out.println(e.toStringHistory());
+				List<Event> eventsList = eshop.getEventsbyArticleOfLast30Days(articleID);
+				System.out.println("For the article with the ID: " + articleID
+						+ ", the stock quantity in the last few days were as follows:");
+				for (Event e : eventsList) {
+					System.out.println(e.toStringHistory());
+				}
+			} else {
+				System.out.println("Event List is null now.");
 			}
-		} else {
-			System.out.println("Event List is null now.");
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -726,7 +757,7 @@ public class EshopClientCUI {
 			System.out.println(article);
 	}
 
-	private void addArticleToCart() throws IOException {
+	private void addArticleToCart() {
 	    int articleNumber = 0;
 		int quantity;
 		try {
@@ -750,7 +781,13 @@ public class EshopClientCUI {
 				    }
 
 				// Überprüfen, ob der Artikel tatsächlich im Bestand vorhanden ist
-				Article article = eshop.searchByArticleNumber(articleNumber);
+				Article article;
+				try {
+					article = eshop.searchByArticleNumber(articleNumber);
+				} catch (ArticleNotFoundException e){
+					System.out.println("\n" + e.getMessage() + "\n");
+					return;
+				}
 
 				if (article != null) {
 					// Variable vom Typ ShoppingCart wird deklariert.
@@ -848,7 +885,7 @@ public class EshopClientCUI {
 		}
 	}
 
-	private void changeArticleQuantityInCart() throws IOException {
+	private void changeArticleQuantityInCart() {
 		try {
 			if (loggedinUser instanceof Customer) {
 				Customer customer = (Customer) loggedinUser;
@@ -963,42 +1000,44 @@ public class EshopClientCUI {
 				}
 			}
 		} catch (ArticleNotFoundException e) {
-			// TODO Auto-generated catch block
+			System.out.println("\n" + e.getMessage() + "\n");
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void removeArticleFromCart() throws IOException, ArticleNotFoundException {
-	    int articleNumber = 0;
+	private void removeArticleFromCart() {
+	    try {
+			int articleNumber = 0;
 
-		if (loggedinUser instanceof Customer) {
-			Customer customer = (Customer) loggedinUser;
-			System.out.print("Enter article number: ");
-		    String articleNumberString = readInput();
-		    boolean validInput = false;
+			if (loggedinUser instanceof Customer) {
+				Customer customer = (Customer) loggedinUser;
+				System.out.print("Enter article number: ");
+				String articleNumberString = readInput();
+				boolean validInput = false;
 
-		    while (!validInput) {
-		        try {
-		            articleNumber = Integer.parseInt(articleNumberString);
-		            validInput = true; // Break the loop if parsing succeeds
-		        } catch (NumberFormatException e) {
-		            System.out.println("Invalid input. Please enter an integer value for the article number.");
-		            System.out.print("Enter article number: ");
-		            articleNumberString = readInput();
-		        }
-		    }
-			// check whether the item really exists in the shop
-			Article article = eshop.searchByArticleNumber(articleNumber);
-
-			if (article != null) {
-				try {
-					System.out.println(eshop.removeArticleFromCART(customer, article));
-				} catch (Exception e) {
-					// TODO: handle exception
+				while (!validInput) {
+					try {
+						articleNumber = Integer.parseInt(articleNumberString);
+						validInput = true; // Break the loop if parsing succeeds
+					} catch (NumberFormatException e) {
+						System.out.println("Invalid input. Please enter an integer value for the article number.");
+						System.out.print("Enter article number: ");
+						articleNumberString = readInput();
+					}
 				}
-			} else {
-				System.out.println("Article not found.");
+				// check whether the item really exists in the shop
+				Article article;
+				try {
+					article = eshop.searchByArticleNumber(articleNumber);
+				} catch (ArticleNotFoundException e) {
+					System.out.println("\n" + e.getMessage() + "\n");
+					return;
+				}
+				System.out.println(eshop.removeArticleFromCART(customer, article));
 			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -1083,7 +1122,7 @@ public class EshopClientCUI {
 		}
 	}
 
-	private void deleteAllArticlesInCart() throws IOException, Exception {
+	private void deleteAllArticlesInCart() {
 		// make sure the logged in user is a customer.
 		if (loggedinUser instanceof Customer) {
 			// If true, then loggedinUser object is cast to a customer variable of type
@@ -1100,7 +1139,7 @@ public class EshopClientCUI {
 		}
 	}
 
-	public void viewArticlesInCart(List<ShoppingCartItem> shoppingCartItems) throws IOException {
+	public void viewArticlesInCart(List<ShoppingCartItem> shoppingCartItems) {
 		if (shoppingCartItems != null && shoppingCartItems.size() > 0) {
 			// Wenn beides der Fall ist, wird eine Schleife verwendet, um über jedes
 			// ShoppingCartItem in der Liste zu iterieren.
