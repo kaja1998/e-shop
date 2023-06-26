@@ -105,7 +105,7 @@ public class ArticleAdministration {
 			}
 		}
 		if(searchResult == null) {
-			throw new ArticleNotFoundException(articleNumber, null);
+			throw new ArticleNotFoundException(articleNumber, "Please enter article number which actually exists.");
 		}
 		return searchResult;
 	}

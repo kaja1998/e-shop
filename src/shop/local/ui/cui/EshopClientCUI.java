@@ -385,7 +385,7 @@ public class EshopClientCUI {
 		return false;
 	}
 
-	private void logout() throws IOException {
+	private void logout() {
 		loggedinUser = null;
 		System.out.println("\nYou got logged out successfully.\n");
 	}
@@ -393,27 +393,35 @@ public class EshopClientCUI {
 	/*
 	 * methods for the employee
 	 */
-	private void deleteArticle() throws IOException, ArticleNotFoundException {
-		// lies die notwendigen Parameter, einzeln pro Zeile
-		System.out.print("Article number > ");
-	    String numberString = readInput();
-	    int number = 0;
-	    boolean validInput = false;
+	private void deleteArticle() {
+		try {
+			// lies die notwendigen Parameter, einzeln pro Zeile
+			System.out.print("Article number > ");
+			String numberString = readInput();
+			int number = 0;
+			boolean validInput = false;
 
-	    while (!validInput) {
-	        try {
-	            number = Integer.parseInt(numberString);
-	            validInput = true; // Break the loop if parsing succeeds
-	        } catch (NumberFormatException e) {
-	            System.out.println("Invalid input. Please enter an integer value for the article number.");
-	            System.out.print("Article number > ");
-	            numberString = readInput();
-	        }
-	    }
-		eshop.deleteArticle(number, loggedinUser);
+			while (!validInput) {
+				try {
+					number = Integer.parseInt(numberString);
+					validInput = true; // Break the loop if parsing succeeds
+				} catch (NumberFormatException e) {
+					System.out.println("Invalid input. Please enter an integer value for the article number.");
+					System.out.print("Article number > ");
+					numberString = readInput();
+				}
+			}
+			try {
+				eshop.deleteArticle(number, loggedinUser);
+			} catch (ArticleNotFoundException e) {
+				System.out.println("\n" + e.getMessage() + "\n");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
-	private void searchArticle() throws IOException, ArticleNotFoundException {
+		private void searchArticle() throws IOException, ArticleNotFoundException {
 		ArrayList<Article> articleList;
 		System.out.print("Article title > ");
 		String articleTitle = readInput();

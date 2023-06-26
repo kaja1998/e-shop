@@ -1,5 +1,9 @@
 package shop.local.domain.exceptions;
 
+import shop.local.entities.ShoppingCartItem;
+
+import java.util.List;
+
 @SuppressWarnings("serial")
 public class ArticleNotFoundException extends Exception {
 
@@ -13,8 +17,17 @@ public class ArticleNotFoundException extends Exception {
      * @param additionalMessage additional text for the error message
      */
     public ArticleNotFoundException(String title, String additionalMessage) {
-        super("Article with the name " +  title + " does not exist" + additionalMessage);
+        super(buildErrorMessage(title, additionalMessage));
         this.title = title;
+    }
+
+    private static String buildErrorMessage(String title, String additionalMessage) {
+        StringBuilder errorMessage = new StringBuilder();
+        errorMessage.append("Article with the name " +  title + " does not exist. ");
+        if(additionalMessage != null) {
+            errorMessage.append(additionalMessage);
+        }
+        return errorMessage.toString();
     }
 
     /**
@@ -24,11 +37,19 @@ public class ArticleNotFoundException extends Exception {
      * @param additionalMessage additional text for the error message
      */
     public ArticleNotFoundException(int articleNumber, String additionalMessage) {
-        super("Article with the number " +  articleNumber + " does not exist" + additionalMessage);
+        super(buildErrorMessage(articleNumber, additionalMessage));
         this.articleNumber = articleNumber;
     }
 
-    public String getTitle() {
-        return title;
+    private static String buildErrorMessage(int articleNumber, String additionalMessage) {
+        StringBuilder errorMessage = new StringBuilder();
+        errorMessage.append("Article with the number " +  articleNumber + " does not exist. ");
+        if(additionalMessage != null) {
+            errorMessage.append(additionalMessage);
+        }
+        return errorMessage.toString();
     }
+
+
+
 }
