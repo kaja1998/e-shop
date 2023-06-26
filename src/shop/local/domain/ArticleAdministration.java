@@ -90,7 +90,7 @@ public class ArticleAdministration {
 		}
 
 		if(searchResult.size() < 1) {
-			throw new ArticleNotFoundException(title, null);
+			throw new ArticleNotFoundException(title, "Please enter article title of an article which actually exists.");
 		}
 
 		return searchResult;

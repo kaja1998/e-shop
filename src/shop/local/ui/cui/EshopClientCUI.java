@@ -17,7 +17,7 @@ import shop.local.entities.*;
  * User Interface).
  *
  * @author Sund
- * @version 1 (managing articles in a linked list)
+ * @version 1
  */
 public class EshopClientCUI {
 
@@ -97,7 +97,7 @@ public class EshopClientCUI {
 	/*
 	 * Methods for processing the menu selections
 	 */
-	private boolean processInputFromEntryMenu(String line) throws IOException, LoginException {
+	private boolean processInputFromEntryMenu(String line) {
 		switch (line) {
 		case "cr":
 			registerCustomer();
@@ -112,8 +112,7 @@ public class EshopClientCUI {
 		return false;
 	}
 
-	private void processInputForEmployeeMenu(String line)
-			throws IOException, ArticleNotFoundException {
+	private void processInputForEmployeeMenu(String line) throws IOException, ArticleNotFoundException {
 		// Get input
 		switch (line) {
 		// Output articles
@@ -421,12 +420,20 @@ public class EshopClientCUI {
 		}
 	}
 
-		private void searchArticle() throws IOException, ArticleNotFoundException {
-		ArrayList<Article> articleList;
-		System.out.print("Article title > ");
-		String articleTitle = readInput();
-		articleList = eshop.searchByArticleTitle(articleTitle);
-		printArticleList(articleList);
+	private void searchArticle() {
+		try {
+			ArrayList<Article> articleList;
+			System.out.print("Article title > ");
+			String articleTitle = readInput();
+			try {
+				articleList = eshop.searchByArticleTitle(articleTitle);
+				printArticleList(articleList);
+			} catch (ArticleNotFoundException e) {
+				System.out.println("\n" + e.getMessage() + "\n");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 //	private void insertArticle() throws IOException {
@@ -528,101 +535,106 @@ public class EshopClientCUI {
 //		}
 //	}
 	
-	private void insertArticle() throws IOException {
-		// Lese Artikelbezeichnung
-		System.out.print("Article title  > ");
-		String articleTitle = readInput();
+	private void insertArticle() {
 
-		// Lese Wert für initialen Artikelbestand
+		try {
+			// Lese Artikelbezeichnung
+			System.out.print("Article title  > ");
+			String articleTitle = readInput();
+
+			// Lese Wert für initialen Artikelbestand
 //		System.out.print("Initial quantity / stock > ");
 //		String initialQuantityString = readInput();
 //		int initialQuantity = Integer.parseInt(initialQuantityString);
-		System.out.print("Initial quantity / stock > ");
-	    int initialQuantity = 0;
-	    boolean validInput = false;
-	    
-	    while (!validInput) {
-	        try {
-	            String initialQuantityString = readInput();
-	            initialQuantity = Integer.parseInt(initialQuantityString);
-	            validInput = true; // Break the loop if parsing succeeds
-	        } catch (NumberFormatException e) {
-	            System.out.println("Invalid input. Please enter an integer value.");
-	        }
-	    }
+			System.out.print("Initial quantity / stock > ");
+			int initialQuantity = 0;
+			boolean validInput = false;
 
-		// Lese Preis
+			while (!validInput) {
+				try {
+					String initialQuantityString = readInput();
+					initialQuantity = Integer.parseInt(initialQuantityString);
+					validInput = true; // Break the loop if parsing succeeds
+				} catch (NumberFormatException e) {
+					System.out.println("Invalid input. Please enter an integer value.");
+				}
+			}
+
+			// Lese Preis
 //		System.out.print("Article price  > ");
 //		String priceString = readInput();
 //		double price = Double.parseDouble(priceString);
-	    System.out.print("Article price > ");
-	    String priceString = readInput();
-	    double price = 0.0;
-	    boolean validInputP = false;
+			System.out.print("Article price > ");
+			String priceString = readInput();
+			double price = 0.0;
+			boolean validInputP = false;
 
-	    while (!validInputP) {
-	        try {
-	            price = Double.parseDouble(priceString);
-	            validInputP = true; // Break the loop if parsing succeeds
-	        } catch (NumberFormatException e) {
-	            System.out.println("Invalid input. Please enter a valid number.");
-	            System.out.print("Article price > ");
-	            priceString = readInput();
-	        }
-	    }
+			while (!validInputP) {
+				try {
+					price = Double.parseDouble(priceString);
+					validInputP = true; // Break the loop if parsing succeeds
+				} catch (NumberFormatException e) {
+					System.out.println("Invalid input. Please enter a valid number.");
+					System.out.print("Article price > ");
+					priceString = readInput();
+				}
+			}
 
-	    // Lese Art des Artikels (Massengutartikel oder Einzelartikel)
-	    System.out.print("Article type (bulk/single) > ");
-	    String articleType = readInput();
-	    boolean validInputT = false;
+			// Lese Art des Artikels (Massengutartikel oder Einzelartikel)
+			System.out.print("Article type (bulk/single) > ");
+			String articleType = readInput();
+			boolean validInputT = false;
 
-	    while (!validInputT) {
-	        if (articleType.equalsIgnoreCase("bulk") || articleType.equalsIgnoreCase("single")) {
-	        	validInputT = true; // Break the loop if input is valid
-	        } else {
-	            System.out.println("Invalid input. Please enter 'bulk' or 'single'.");
-	            System.out.print("Article type (bulk/single) > ");
-	            articleType = readInput();
-	        }
-	    }
+			while (!validInputT) {
+				if (articleType.equalsIgnoreCase("bulk") || articleType.equalsIgnoreCase("single")) {
+					validInputT = true; // Break the loop if input is valid
+				} else {
+					System.out.println("Invalid input. Please enter 'bulk' or 'single'.");
+					System.out.print("Article type (bulk/single) > ");
+					articleType = readInput();
+				}
+			}
 
-		Article article;
+			Article article;
 
-		if (articleType.equalsIgnoreCase("bulk")) {
-			// Lese Packungsgröße
-			System.out.print("Pack size > ");
-		    String packSizeString = readInput();
-		    int packSize = 0;
-		    boolean validInputSize = false;
+			if (articleType.equalsIgnoreCase("bulk")) {
+				// Lese Packungsgröße
+				System.out.print("Pack size > ");
+				String packSizeString = readInput();
+				int packSize = 0;
+				boolean validInputSize = false;
 
-		    while (!validInputSize) {
-		        try {
-		            packSize = Integer.parseInt(packSizeString);
-		            validInputSize = true; // Break the loop if parsing succeeds
-		        } catch (NumberFormatException e) {
-		            System.out.println("Invalid input. Please enter an integer value for the pack size.");
-		            System.out.print("Pack size > ");
-		            packSizeString = readInput();
-		        }
-		    }
+				while (!validInputSize) {
+					try {
+						packSize = Integer.parseInt(packSizeString);
+						validInputSize = true; // Break the loop if parsing succeeds
+					} catch (NumberFormatException e) {
+						System.out.println("Invalid input. Please enter an integer value for the pack size.");
+						System.out.print("Pack size > ");
+						packSizeString = readInput();
+					}
+				}
 
-			// Erstelle Massengutartikel
-			article = new BulkArticle(articleTitle, initialQuantity, price, packSize);
-		
-			System.out.println(article.toString());
-		} else {
-			// Erstelle Einzelartikel
-			article = new Article(articleTitle, initialQuantity, price);
-			System.out.println(article.toString());
-		}
+				// Erstelle Massengutartikel
+				article = new BulkArticle(articleTitle, initialQuantity, price, packSize);
 
-		// Speichere Artikel
-		try {
-			eshop.insertArticle(article, initialQuantity, loggedinUser);
-			System.out.println("Article saved successfully");
-		} catch (ArticleAlreadyExistsException e) {
-			// TODO - doesn't work (probably because he's comparing the IDs, which of course are different)
-			System.out.println("Error saving article");
+				System.out.println(article.toString());
+			} else {
+				// Erstelle Einzelartikel
+				article = new Article(articleTitle, initialQuantity, price);
+				System.out.println(article.toString());
+			}
+
+			// Speichere Artikel
+			try {
+				eshop.insertArticle(article, initialQuantity, loggedinUser);
+				System.out.println("Article saved successfully");
+			} catch (ArticleAlreadyExistsException e) {
+				// TODO - doesn't work (probably because he's comparing the IDs, which of course are different)
+				System.out.println("Error saving article");
+				e.printStackTrace();
+			}
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -652,13 +664,13 @@ public class EshopClientCUI {
 			return;
 		}
 
-//		 Get quantity change
+		//Get quantity change
 		System.out.println(
 				"Please enter how many items you'd like to add (positive number) or to retrieve from stock (negative number)");
 		String stockChangeString = readInput();
 		int stockChange = Integer.parseInt(stockChangeString);
-//
-//		// Try to change inventory
+
+		// Try to change inventory
 		if (stockChange < 0) {
 			boolean success = eshop.decreaseArticleStock(article, (-1) * stockChange, "ESHOP_Article.txt",
 					loggedinUser);
