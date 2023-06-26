@@ -343,40 +343,46 @@ public class EshopClientCUI {
 //			System.out.println("Registration successful.");
 //		}
 
-	private boolean customerLogin() throws IOException, LoginException {
-		System.out.println("Please enter your login data:");
-		System.out.println("Username: ");
-		String username = readInput();
-		System.out.println("Password: ");
-		String password = readInput();
+	private boolean customerLogin() {
+		try {
+			System.out.println("Please enter your login data:");
+			System.out.println("Username: ");
+			String username = readInput();
+			System.out.println("Password: ");
+			String password = readInput();
 
-		loggedinUser = eshop.loginCustomer(username, password);
-
-		if (loggedinUser != null) {
-			System.out.println("You´re successfully logged in. Hello, Mr. / Mrs. " + loggedinUser.getLastName());
-			return true;
-		} else {
-			System.out.println("Incorrect Username oder password.");
-			return false;
+			try {
+				loggedinUser = eshop.loginCustomer(username, password);
+				System.out.println("You´re successfully logged in. Hello, Mr. / Mrs. " + loggedinUser.getLastName());
+				return true;
+			} catch (LoginException e) {
+				System.out.println("\n" + e.getMessage() + "\n");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+		return false;
 	}
 
-	private boolean employeeLogin() throws IOException, LoginException {
-		System.out.println("Please enter your login data:");
-		System.out.println("Username: ");
-		String username = readInput();
-		System.out.println("Password: ");
-		String password = readInput();
+	private boolean employeeLogin() {
+		try {
+			System.out.println("Please enter your login data:");
+			System.out.println("Username: ");
+			String username = readInput();
+			System.out.println("Password: ");
+			String password = readInput();
 
-		loggedinUser = eshop.loginEmployee(username, password);
-
-		if (loggedinUser != null) {
-			System.out.println("You´re successfully logged in. Hello, Mr. / Mrs. " + loggedinUser.getLastName());
-			return true;
-		} else {
-			System.out.println("Incorrect Username oder password.");
-			return false;
+			try {
+				loggedinUser = eshop.loginEmployee(username, password);
+				System.out.println("You´re successfully logged in. Hello, Mr. / Mrs. " + loggedinUser.getLastName());
+				return true;
+			} catch (LoginException e) {
+				System.out.println("\n" + e.getMessage() + "\n");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+		return false;
 	}
 
 	private void logout() throws IOException {
