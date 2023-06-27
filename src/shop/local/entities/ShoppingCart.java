@@ -181,6 +181,16 @@ public class ShoppingCart {
 //                return message = "Article not found in the cart.";
 //        }
 
+        public String addArticleToCart(Article article){
+                // Überprüfen, ob der Artikel ein BulkArticle ist
+                if (article instanceof BulkArticle) {
+                        BulkArticle bulkArticle = (BulkArticle) article;
+                        int packSize = bulkArticle.getPackSize();
+                }
+                return null;
+        }
+
+
         public String deleteSingleArticle(Article article) throws ArticleInCartNotFoundException {
                 for (ShoppingCartItem item : cartItems) {
                         if (item.getArticle().equals(article)) {

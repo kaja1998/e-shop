@@ -3,7 +3,9 @@ package shop.local.domain;
 import java.io.IOException;
 
 import shop.local.domain.exceptions.ArticleAlreadyExistsException;
+import shop.local.domain.exceptions.ArticleBuyingException;
 import shop.local.domain.exceptions.ArticleNotFoundException;
+import shop.local.domain.exceptions.EmptyCartException;
 import shop.local.entities.*;
 import shop.local.persistence.FilePersistenceManager;
 import shop.local.persistence.PersistenceManager;
@@ -141,29 +143,36 @@ public class ArticleAdministration {
 		return articles;
 	}
 
-	public Invoice buyArticles(ShoppingCart shoppingCart, User user) throws IOException {
+	public Invoice buyArticles(ShoppingCart shoppingCart, User user) throws IOException, EmptyCartException, ArticleBuyingException {
 		// Object for the invoice
 		Invoice invoice = new Invoice();
 
 		// Go through all items in the cart
-		for (ShoppingCartItem item : shoppingCart.getCartItems()) {
-			// check which article is in the cart and what quantity should be purchased
-			Article article = item.getArticle();
-			
-			int quantity = item.getQuantity();
+		if (shoppingCart != null && shoppingCart.getCartItems() != null && shoppingCart.getCartItems().size()>0) {
+			for (ShoppingCartItem item : shoppingCart.getCartItems()) {
+				// check which article is in the cart and what quantity should be purchased
+				Article article = item.getArticle();
 
-			// try to take articles stock and check if successful
-			boolean success = decreaseArticleStock(article, quantity, "ESHOP_Article.txt");
+				int quantity = item.getQuantity();
 
-			// add item to invoice
-			if (success) {
-				invoice.addPosition(item);
-				Event event = new Event(Event.EventType.KAUF, article, quantity, user);
-				// Ereignis für die Auslagerung in ArrayList schreiben
-				eventAdministration.addEvent(event);
-			} else {
-				invoice.addUnavailableItems(item);
+				// try to take articles stock and check if successful
+				boolean success = decreaseArticleStock(article, quantity, "ESHOP_Article.txt");
+
+				// add item to invoice
+				if (success) {
+					invoice.addPosition(item);
+					Event event = new Event(Event.EventType.KAUF, article, quantity, user);
+					// Ereignis für die Auslagerung in ArrayList schreiben
+					eventAdministration.addEvent(event);
+				} else {
+					invoice.addUnavailableItems(item);
+				}
 			}
+			if (invoice.getUnavailableItems().size() >= shoppingCart.getCartItems().size()) {
+				throw new ArticleBuyingException("All articles became unavailable. ");
+			}
+		} else {
+			throw new EmptyCartException(null);
 		}
 
 		// empty cart

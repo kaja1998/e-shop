@@ -102,7 +102,7 @@ public class EshopClientCUI {
 		return false;
 	}
 
-	private void processInputForEmployeeMenu(String line) throws IOException, ArticleNotFoundException {
+	private void processInputForEmployeeMenu(String line) {
 		// Get input
 		switch (line) {
 		// Output articles
@@ -141,7 +141,7 @@ public class EshopClientCUI {
 		}
 	}
 
-	private void processInputForCustomerMenu(String line) throws Exception {
+	private void processInputForCustomerMenu(String line) {
 		ArrayList<Article> articleList;
 		// Get input
 		switch (line) {
@@ -192,7 +192,6 @@ public class EshopClientCUI {
 
 	private void registerCustomer() {
 		try {
-			// The data from the file is read and added to the ArrayList of customers
 			System.out.println("Your name: ");
 			String name = readInput();
 			System.out.println("Your last name: ");
@@ -240,8 +239,6 @@ public class EshopClientCUI {
 	}
 
 	private void registerEmployee() {
-
-		// Lese Daten für Name, Nachname, Benutzername und Passwort
 		try {
 			System.out.print("Name > ");
 			String name = readInput();
@@ -316,7 +313,6 @@ public class EshopClientCUI {
 	 */
 	private void deleteArticle() {
 		try {
-			// lies die notwendigen Parameter, einzeln pro Zeile
 			System.out.print("Article number > ");
 			String numberString = readInput();
 			int number = 0;
@@ -344,7 +340,6 @@ public class EshopClientCUI {
 
 	private void searchArticle() {
 		ArrayList<Article> articleList;
-
 		try {
 			while (true) {
 				System.out.print("Article title > ");
@@ -611,18 +606,27 @@ public class EshopClientCUI {
 	/*
 	 * Methods for employee to output all swaps in and outs to console
 	 */
-	public void showHistory() throws IOException, ArticleNotFoundException {
-		System.out.println("Enter article number you want to see the history from: ");
-		int articleID = Integer.parseInt(readInput());
-		HashMap<String, Integer> eventsList = eshop.getEventsbyArticleOfLast30Days(articleID);
-		//int finalStockQuantityOfTheLast30Days = eshop.getOriginalStock(articleID, eventsList);
-		System.out.println("For the article with the ID: " + articleID + ", the stock quantity in the last few days were as followed:");
-		int sum = eshop.searchByArticleNumber(articleID).getQuantityInStock();
-		for (String date : eventsList.keySet()) {
-			sum -= eventsList.get(date);
-			System.out.println(date + ", Stock quantity: " + sum);
+	public void showHistory() {
+		try {
+			System.out.println("Enter article number you want to see the history from: ");
+			int articleID = Integer.parseInt(readInput());
+			HashMap<String, Integer> eventsList = eshop.getEventsbyArticleOfLast30Days(articleID);
+			//int finalStockQuantityOfTheLast30Days = eshop.getOriginalStock(articleID, eventsList);
+			System.out.println("For the article with the ID: " + articleID + ", the stock quantity in the last few days were as followed:");
+			int sum = 0;
+			try {
+				sum = eshop.searchByArticleNumber(articleID).getQuantityInStock();
+			} catch (ArticleNotFoundException a){
+				System.out.println("\n" + a.getMessage() + "\n");
+			}
+			for (String date : eventsList.keySet()) {
+				sum -= eventsList.get(date);
+				System.out.println(date + ", Stock quantity: " + sum);
+			}
+			//System.out.println("Stock Quantity ");
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		//System.out.println("Stock Quantity ");
 	}
 
 	/*
@@ -667,6 +671,8 @@ public class EshopClientCUI {
 				}
 
 				ShoppingCart shoppingCart = customer.getShoppingCart();
+
+				eshop.addArticleToCart(article, (Customer) loggedinUser);
 
 				// Überprüfen, ob der Artikel ein BulkArticle ist
 				if (article instanceof BulkArticle) {
@@ -871,68 +877,34 @@ public class EshopClientCUI {
 		}
 	}
 
-	private void buyArticlesInCart() throws IOException {
-		// make sure the logged in user is a customer.
-		if (loggedinUser instanceof Customer) {
-			// If true, then loggedinUser object is cast to a customer variable of type
-			// Customer.
-			Customer customer = (Customer) loggedinUser;
-			// Customer's shopping cart is retrieved. The returned value is stored in the
-			// shoppingCart variable.
-			ShoppingCart shoppingCart = customer.getShoppingCart();
-			// The buyArticles(shoppingCart) method is called to carry out the purchase of
-			// the items in the shopping cart.
-			// The result is an invoice that is stored in the variable invoice.
-			Invoice invoice = eshop.buyArticles(shoppingCart, loggedinUser);
+	private void buyArticlesInCart() {
+		try {
+			if (loggedinUser instanceof Customer) {
+				Customer customer = (Customer) loggedinUser;
+				ShoppingCart shoppingCart = customer.getShoppingCart();
+				// The buyArticles(shoppingCart) method is called to carry out the purchase of
+				// the items in the shopping cart.
+				// The result is an invoice that is stored in the variable invoice.
+				Invoice invoice = null;
+				try {
+					invoice = eshop.buyArticles(shoppingCart, loggedinUser);
+				} catch (EmptyCartException e) {
+					System.out.println("\n" + e.getMessage() + "\n");
+				} catch (ArticleBuyingException a) {
+					System.out.println("\n" + a.getMessage() + "\n");
+				}
 
-			// print which articles couldn't be purchased
-			// Checking if there are any items that could not be purchased by checking that
-			// invoice.getUnavailableItems() is not null and contains at least one item.
-			try {
+				// print which articles couldn't be purchased
 				articlesCouldntPurchase(invoice);
-			} catch (ArticleBuyingException e) {
-				System.out.println("\nError while buying article from cart\n");
+				// print which articles could be purchased
+				articlePurchaseSuccessfully(invoice);
 			}
-			// if (invoice.getUnavailableItems() != null &&
-			// invoice.getUnavailableItems().size() > 0) {
-//				System.out.println("Unfortunately some of the items you wished to purchase became unavailable:");
-//				// If this is the case, a loop is used to iterate over each unavailable item in
-//				// the list invoice.getUnavailableItems()
-//				for (ShoppingCartItem item : invoice.getUnavailableItems()) {
-//					// The unavailable articles are printed on the console
-//					System.out.println(item.toString());
-//				}
-//			}
-
-			// if (invoice.getPositions() != null && invoice.getPositions().size() > 0) {
-//				System.out.println("You successfully purchased:");
-//				// With a loop, iterates over each successfully purchased item.
-//				for (ShoppingCartItem item : invoice.getPositions()) {
-//					// Articles are displayed on the console
-//					System.out.println(item.toString());
-//				}
-//			}
-
-			// print date and total
-			System.out.println("Total: " + invoice.getTotal() + "\n");
-			System.out.println("Date: " + invoice.getFormattedDate() + " Uhr" + "\n");
-			invoice.setCustomer((Customer) loggedinUser);
-			System.out.println("Your delivery address: \n" + invoice.getCustomerAddress() + "\n");
-			System.out.println(
-					"Please transfer the full amount to the following bank account: \nSpice Shop \nDE35 1511 0000 1998 1997 29 \nBIC: SCFBDE33 \n");
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
-	private void deleteAllArticlesInCart() {
-		// make sure the logged in user is a customer.
-		if (loggedinUser instanceof Customer) {
-			Customer customer = (Customer) loggedinUser;
-
-			System.out.println(eshop.deleteAllArticlesInCart((Customer) loggedinUser));
-		}
-	}
-
-	public void articlesCouldntPurchase(Invoice invoice) throws ArticleBuyingException {
+	public void articlesCouldntPurchase(Invoice invoice) {
 		if (invoice.getUnavailableItems() != null && invoice.getUnavailableItems().size() > 0) {
 			System.out.println("Unfortunately some of the items you wished to purchase became unavailable:");
 			// If this is the case, a loop is used to iterate over each unavailable item in
@@ -941,7 +913,6 @@ public class EshopClientCUI {
 				// The unavailable articles are printed on the console
 				System.out.println(item.toString());
 			}
-			throw new ArticleBuyingException(invoice.getUnavailableItems(), null);
 		}
 	}
 
@@ -953,6 +924,20 @@ public class EshopClientCUI {
 				// Articles are displayed on the console
 				System.out.println(item.toString());
 			}
+			// print date and total
+			System.out.println("\nTotal: " + invoice.getTotal() + "\n");
+			System.out.println("Date: " + invoice.getFormattedDate() + " Uhr" + "\n");
+			invoice.setCustomer((Customer) loggedinUser);
+			System.out.println("Your delivery address: \n" + invoice.getCustomerAddress() + "\n");
+			System.out.println("Please transfer the full amount to the following bank account: \nSpice Shop \nDE35 1511 0000 1998 1997 29 \nBIC: SCFBDE33 \n");
+		}
+	}
+
+	private void deleteAllArticlesInCart() {
+		if (loggedinUser instanceof Customer) {
+			Customer customer = (Customer) loggedinUser;
+
+			System.out.println(eshop.deleteAllArticlesInCart((Customer) loggedinUser));
 		}
 	}
 
@@ -1009,8 +994,6 @@ public class EshopClientCUI {
 			cui.run();
 			// If an error occurs during this, an "IOException" is thrown
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			// Error message "e.printStackTrace()" is output
 			e.printStackTrace();
 		}
 	}

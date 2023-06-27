@@ -66,17 +66,6 @@ public class Shop {
 		articleAdministration.setEventAdministration(eventAdministration);
 	}
 
-	public boolean checkCustomerExists(Customer customer) {
-		List<Customer> customerList = customerAdministration.getCustomers();
-		for (Customer k : customerList) {
-			// In the body of the loop, each customer object k is then compared with the customer object. Returns true if the two objects are equal.
-			if (customer.equals(k)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public Customer loginCustomer(String username, String password) throws LoginException {
 		return customerAdministration.login(username, password);
 	}
@@ -171,7 +160,7 @@ public class Shop {
 	 * @return Invoice with a list of successfully purchased articles, a list of
 	 *         unavailable articles, date and total of purchase
 	 */
-	public Invoice buyArticles(ShoppingCart shoppingCart, User user) throws IOException {
+	public Invoice buyArticles(ShoppingCart shoppingCart, User user) throws IOException, EmptyCartException, ArticleBuyingException {
 		return articleAdministration.buyArticles(shoppingCart, user);
 	}
 
@@ -233,6 +222,13 @@ public class Shop {
 	public String registerEmployee(String name, String lastname, String username, String password) throws IOException, RegisterException {
 		return employeeAdministration.registerEmployee(name, lastname, username, password);
 	}
+
+	public String addArticleToCart(Article article, Customer customer){
+		ShoppingCart shoppingCart = customer.getShoppingCart();
+		// Delete item from shopping cart
+		return shoppingCart.addArticleToCart(article);
+	}
+
 	
 	public String removeArticleFromCART(Customer customer, Article article) throws IOException, ArticleInCartNotFoundException {
 			ShoppingCart shoppingCart = customer.getShoppingCart();

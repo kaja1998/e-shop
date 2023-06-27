@@ -4,10 +4,10 @@ package shop.local.domain;
 import shop.local.domain.exceptions.LoginException;
 import shop.local.domain.exceptions.RegisterException;
 import shop.local.entities.Customer;
+import shop.local.entities.Employee;
 import shop.local.entities.ShoppingCartItem;
 import shop.local.persistence.FilePersistenceManager;
 import shop.local.persistence.PersistenceManager;
-import shop.local.ui.cui.EshopClientCUI;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -100,15 +100,20 @@ public class CustomerAdministration {
                 return null;
         }
         
-        public String registerCustomer(String name, String lastName, String street, int postalCode, String city,
-				String mail, String username, String password, String registerNow) throws RegisterException {
+        public String registerCustomer(String name, String lastName, String street, int postalCode, String city, String mail, String username, String password, String registerNow) throws RegisterException {
         	String message = "";
         	
     		//Check if registration wants to do
     		if (registerNow.equals("yes")) {
     			//Erstelle Variable vom Typ Kunde und übergebe die Eingaben des Kunden an den Konstruktor
     			Customer customer = new Customer(name, lastName, street, postalCode, city, mail, username, password);
-    			boolean customerAlreadyExists = EshopClientCUI.getEshop().checkCustomerExists(customer);
+
+                boolean customerAlreadyExists = false;
+                for (Customer currentCustomer : customers) {
+                    if (customer.equals(currentCustomer)) {
+                        customerAlreadyExists = true;
+                    }
+                }
 
     			if (!customerAlreadyExists) {
     				try {
