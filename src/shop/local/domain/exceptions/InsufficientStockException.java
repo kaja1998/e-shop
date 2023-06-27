@@ -1,7 +1,5 @@
 package shop.local.domain.exceptions;
 
-import shop.local.entities.Article;
-
 public class InsufficientStockException extends Throwable {
 
     private int availableQuantity;

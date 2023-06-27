@@ -1,9 +1,5 @@
 package shop.local.domain.exceptions;
 
-import shop.local.entities.ShoppingCartItem;
-
-import java.util.List;
-
 @SuppressWarnings("serial")
 public class ArticleNotFoundException extends Exception {
 

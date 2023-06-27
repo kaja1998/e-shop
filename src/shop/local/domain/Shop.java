@@ -2,6 +2,7 @@ package shop.local.domain;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import shop.local.domain.exceptions.*;
@@ -149,8 +150,7 @@ public class Shop {
 	 * @return article object inserted in case of success
 	 * @throws ArticleAlreadyExistsException if the article already exists
 	 */
-	public Article insertArticle(Article article, int quantityInStock, User user) 
-			throws ArticleAlreadyExistsException, IOException {
+	public Article insertArticle(Article article, int quantityInStock, User user) throws ArticleAlreadyExistsException, IOException {
 		articleAdministration.insertArticle(article);
 		writeArticleDataToAddArticle("ESHOP_Article.txt", article);
 		// Ereignis für die Einlagerung in ArrayList schreiben
@@ -287,8 +287,9 @@ public class Shop {
 		return eventAdministration.getEvents();
 	}
 
-	public List<Event> getEventsbyArticleOfLast30Days(int articleID) {
-		return eventAdministration.getEventsbyArticleOfLast30Days(articleID);
+	public HashMap<String, Integer> getEventsbyArticleOfLast30Days(int articleID) {
+		Article article = articleAdministration.getArticleByID(articleID);
+		return eventAdministration.getEventsbyArticleOfLast30Days(article);
 	}
 
 	public String customerRegister(String name, String lastName, String street, int postalCode, String city, String mail,

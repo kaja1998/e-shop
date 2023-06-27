@@ -1,9 +1,6 @@
 package shop.local.domain.exceptions;
-
-import shop.local.entities.ShoppingCartItem;
 import shop.local.entities.User;
 
-import java.util.List;
 
 @SuppressWarnings("serial")
 public class RegisterException extends Exception {

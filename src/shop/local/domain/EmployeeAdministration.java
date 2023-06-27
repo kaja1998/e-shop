@@ -4,11 +4,9 @@ import shop.local.domain.exceptions.RegisterException;
 import shop.local.entities.Employee;
 import shop.local.persistence.FilePersistenceManager;
 import shop.local.persistence.PersistenceManager;
-import shop.local.ui.cui.EshopClientCUI;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 /**
  * Class for employee administration
  * @author Sund
@@ -75,9 +73,6 @@ public class EmployeeAdministration {
                 return employees;
         }
 
-        public void setEmployees(ArrayList<Employee> employees) {
-                this.employees = this.employees;
-        }
 
         public Employee getUserByID(int id){
            for (Employee employee : employees) {

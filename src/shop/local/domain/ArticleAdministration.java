@@ -53,7 +53,7 @@ public class ArticleAdministration {
 	public void insertArticle(Article article) throws ArticleAlreadyExistsException {
 		if (articles.contains(article)) {
 			// Wenn der Artikel bereits existiert, wird eine ArticleAlreadyExistsException ausgelöst
-			throw new ArticleAlreadyExistsException(article, " - in 'insert()'");
+			throw new ArticleAlreadyExistsException(article, null);
 		}
 		// Wenn der Artikel nicht im Artikelbestand vorhanden ist, wird er der ArrayList hinzugefügt
 		articles.add(article);

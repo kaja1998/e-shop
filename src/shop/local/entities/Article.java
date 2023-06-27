@@ -62,12 +62,13 @@ public class Article {
 	 */
 	@Override
 	public boolean equals(Object otherArticle) {
-		if (otherArticle instanceof Article)
-			return ((this.number == ((Article) otherArticle).number));
-		else if (otherArticle instanceof ShoppingCartItem)
-			return ((this.number == ((ShoppingCartItem) otherArticle).getArticle().getNumber()));
-		else
+		if (otherArticle instanceof Article) {
+			return this.articleTitle.equals(((Article) otherArticle).articleTitle);
+		} else if (otherArticle instanceof ShoppingCartItem) {
+			return this.articleTitle.equals(((ShoppingCartItem) otherArticle).getArticle().getArticleTitle());
+		} else {
 			return false;
+		}
 	}
 
 	/*

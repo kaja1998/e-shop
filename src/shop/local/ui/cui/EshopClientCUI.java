@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 import shop.local.domain.exceptions.*;
 import shop.local.domain.EventAdministration;
@@ -49,18 +49,6 @@ public class EshopClientCUI {
 		// Create Stream object for text input via console window
 		in = new BufferedReader(new InputStreamReader(System.in));
 	}
-
-//	public EshopClientCUI(String file) {
-//		try {
-//			// the shop administration handles the tasks that have nothing to do with
-//			// input/output
-//			eshop = new Shop(file);
-//			// Create Stream object for text input via console window
-//			in = new BufferedReader(new InputStreamReader(System.in));
-//		} catch (IOException e) {
-//			System.out.println("An error occurred while initializing the EshopClientCUI: " + e.getMessage());
-//		}
-//	}
 
 	/*
 	 * Methods for outputting the menus.
@@ -124,7 +112,7 @@ public class EshopClientCUI {
 		return false;
 	}
 
-	private void processInputForEmployeeMenu(String line) throws IOException {
+	private void processInputForEmployeeMenu(String line) throws IOException, ArticleNotFoundException {
 		// Get input
 		switch (line) {
 		// Output articles
@@ -207,17 +195,6 @@ public class EshopClientCUI {
 		return in.readLine();
 	}
 
-//	private String readInput() {
-//		try {
-//			// einlesen von Konsole
-//			return in.readLine();
-//		} catch (IOException e) {
-//			System.out.println("An error occurred while reading input. Error: " + e.getMessage());
-//			// Weitere Aktionen, um mit dem Fehler umzugehen oder das Programm zu beenden
-//			return ""; // Dummy-Rückgabewert, falls die Eingabe nicht erfolgreich war
-//		}
-//	}
-
 	/*
 	 * Methods for registering and logging in employees / customers, as well as
 	 * logging out
@@ -272,45 +249,6 @@ public class EshopClientCUI {
 		}
 	}
 
-//		//The data from the file is read and added to the ArrayList of customers
-//		System.out.println("Your name: ");
-//		String name = readInput();
-//		System.out.println("Your last name: ");
-//		String lastName = readInput();
-//		System.out.println("Your street: ");
-//		String street = readInput();
-//		System.out.println("Your postal code: ");
-//		int postalCode = Integer.parseInt(readInput());
-//		System.out.println("Your city: ");
-//		String city = readInput();
-//		System.out.println("Your mail: ");
-//		String mail = readInput();
-//		System.out.println("Your username: ");
-//		String username = readInput();
-//		System.out.println("Your password: ");
-//		String password = readInput();
-//		System.out.println("Register now 'yes' / 'no': ");
-//		String registerNow = readInput();
-//
-//		//Check if registration wants to do
-//		if (registerNow.equals("yes")) {
-//			//Erstelle Variable vom Typ Kunde und übergebe die Eingaben des Kunden an den Konstruktor
-//			Customer customer = new Customer(name, lastName, street, postalCode, city, mail, username, password);
-//			boolean customerAlreadyExists = eshop.checkCustomerExists(customer);
-//
-//			if (!customerAlreadyExists) {
-//				try {
-//					eshop.registerCustomer(customer);
-//					System.out.println("Registration successful.");
-//				} catch (IOException e) {
-//					// TODO exception
-//					e.printStackTrace();
-//				}
-//			} else {
-//				System.out.println("User with this name already exists.");
-//			}
-//		}
-
 	private void registerEmployee() {
 
 		// Lese Daten für Name, Nachname, Benutzername und Passwort
@@ -335,35 +273,6 @@ public class EshopClientCUI {
 			e.printStackTrace();
 		}
 	}
-
-//		//Erstelle Variable vom Typ Employee und übergebe die Eingaben des Employee an den Konstruktor
-//		Employee employee = new Employee(name, lastname, username, password);
-//
-//		// Prüfe, ob Employee bereits existiert
-//		List<Employee> employees = eshop.getEmployees();
-//		boolean employeeAlreadyExists = false;
-//		//Gehe ich mit einer for-Loop durch die Liste aller Employees durch.
-//		//Die Schleife durchläuft jedes Element in der employeeList und weist es der Variable currentEmployee zu
-//		for (Employee currentEmployee : employees) {
-//			//In dem Body der Schleife wird dann jedes Employee-Objekt currentEmployee mit dem employee-Objekt verglichen.
-//			if (employee.equals(currentEmployee)) {
-//				System.out.println("User with this name already exists");
-//				employeeAlreadyExists = true;
-//			}
-//		}
-//
-//		if(!employeeAlreadyExists) {
-//			//Wenn kein Employee gefunden wird, dann kann der Employee registriert werden.
-//			//Employee wird zur Liste hinzugefügt, indem das Shop-Objekt die Methode in der Klasse EmployeeAdministration aufruft
-//			try {
-//				eshop.writeEmployeeData("ESHOP_Employee.txt", employee);
-//			} catch (IOException e) {
-//				// TODO
-//				e.printStackTrace();
-//			}
-//			eshop.addEmployee(employee);
-//			System.out.println("Registration successful.");
-//		}
 
 	private boolean customerLogin() {
 		try {
@@ -571,16 +480,12 @@ public class EshopClientCUI {
 //	}
 	
 	private void insertArticle() {
-
 		try {
 			// Lese Artikelbezeichnung
 			System.out.print("Article title  > ");
 			String articleTitle = readInput();
 
 			// Lese Wert für initialen Artikelbestand
-//		System.out.print("Initial quantity / stock > ");
-//		String initialQuantityString = readInput();
-//		int initialQuantity = Integer.parseInt(initialQuantityString);
 			System.out.print("Initial quantity / stock > ");
 			int initialQuantity = 0;
 			boolean validInput = false;
@@ -596,9 +501,6 @@ public class EshopClientCUI {
 			}
 
 			// Lese Preis
-//		System.out.print("Article price  > ");
-//		String priceString = readInput();
-//		double price = Double.parseDouble(priceString);
 			System.out.print("Article price > ");
 			String priceString = readInput();
 			double price = 0.0;
@@ -631,14 +533,12 @@ public class EshopClientCUI {
 			}
 
 			Article article;
-
 			if (articleType.equalsIgnoreCase("bulk")) {
 				// Lese Packungsgröße
 				System.out.print("Pack size > ");
 				String packSizeString = readInput();
 				int packSize = 0;
 				boolean validInputSize = false;
-
 				while (!validInputSize) {
 					try {
 						packSize = Integer.parseInt(packSizeString);
@@ -649,15 +549,11 @@ public class EshopClientCUI {
 						packSizeString = readInput();
 					}
 				}
-
 				// Erstelle Massengutartikel
 				article = new BulkArticle(articleTitle, initialQuantity, price, packSize);
-
-				System.out.println(article.toString());
 			} else {
 				// Erstelle Einzelartikel
 				article = new Article(articleTitle, initialQuantity, price);
-				System.out.println(article.toString());
 			}
 
 			// Speichere Artikel
@@ -665,9 +561,7 @@ public class EshopClientCUI {
 				eshop.insertArticle(article, initialQuantity, loggedinUser);
 				System.out.println("Article saved successfully");
 			} catch (ArticleAlreadyExistsException e) {
-				// TODO - doesn't work (probably because he's comparing the IDs, which of course are different)
-				System.out.println("Error saving article");
-				e.printStackTrace();
+				System.out.println("\n" + e.getMessage() + "\n");
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -727,44 +621,28 @@ public class EshopClientCUI {
 	/*
 	 * Methods for employee to output all swaps in and outs to console
 	 */
-	public void showHistory(){
-		try {
-			System.out.println("Enter the article number you want to see the history from: ");
-			String articleNumberString = readInput();
-			int articleID = 0;
-			boolean validInput = false;
-
-			while (!validInput) {
-				try {
-					articleID = Integer.parseInt(articleNumberString);
-					validInput = true;
-				} catch (NumberFormatException e) {
-					System.out.println("Invalid input. Please enter a valid integer value.");
-				}
-			}
-
-			if (!ea.getEvents().isEmpty()) {
-
-				List<Event> eventsList = eshop.getEventsbyArticleOfLast30Days(articleID);
-				System.out.println("For the article with the ID: " + articleID
-						+ ", the stock quantity in the last few days were as follows:");
-				for (Event e : eventsList) {
-					System.out.println(e.toStringHistory());
-				}
-			} else {
-				System.out.println("Event List is null now.");
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
+	public void showHistory() throws IOException, ArticleNotFoundException {
+		System.out.println("Enter article number you want to see the history from: ");
+		int articleID = Integer.parseInt(readInput());
+		HashMap<String, Integer> eventsList = eshop.getEventsbyArticleOfLast30Days(articleID);
+		//int finalStockQuantityOfTheLast30Days = eshop.getOriginalStock(articleID, eventsList);
+		System.out.println("For the article with the ID: " + articleID + ", the stock quantity in the last few days were as followed:");
+		int sum = eshop.searchByArticleNumber(articleID).getQuantityInStock();
+		for (String date : eventsList.keySet()) {
+			sum -= eventsList.get(date);
+			System.out.println(date + ", Stock quantity: " + sum);
 		}
+		//System.out.println("Stock Quantity ");
 	}
+
+
 
 	/*
 	 * methods for the customer
 	 */
 
-	private void printArticleList(ArrayList<Article> liste) {
-		for (Article article : liste)
+	private void printArticleList(ArrayList<Article> list) {
+		for (Article article : list)
 			System.out.println(article);
 	}
 
