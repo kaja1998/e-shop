@@ -430,6 +430,10 @@ public class Shop {
 		return shoppingCart.changeArticleQuantityInCart(newQuantity, article);
 	}
 
+	public String deleteAllArticlesInCart (Customer customer){
+		ShoppingCart shoppingCart = customer.getShoppingCart();
+		return shoppingCart.deleteAllArticlesInCart();
+	}
 
 	
 //	public void viewArticlesInCart(List<ShoppingCartItem> shoppingCartItems)  throws IOException

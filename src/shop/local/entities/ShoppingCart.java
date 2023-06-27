@@ -191,6 +191,11 @@ public class ShoppingCart {
                 throw new ArticleInCartNotFoundException(article, null);
         }
 
+        public String deleteAllArticlesInCart(){
+                cartItems.clear();
+                return "All Articles were removed successfully from the cart." + "\n";
+        }
+
         public String changeArticleQuantityInCart(int newQuantity, Article article) throws ArticleInCartNotFoundException, BulkArticleException, InsufficientStockException {
                 if (article instanceof BulkArticle) {
                         BulkArticle bulkArticle = (BulkArticle) article;
