@@ -54,21 +54,12 @@ public class Shop {
 		articleAdministration = new ArticleAdministration();
 		articleAdministration.readData(file + "_Article.txt");
 
-		// A new instance of the CustomerAdministration class is created and assigned to
-		// the customerAdministration variable
-		// Read customer profile from file
 		customerAdministration = new CustomerAdministration();
 		customerAdministration.readData(file + "_Customer.txt");
 
-		// A new instance of the EmployeeAdministration class is created and assigned to
-		// the employeeAdministration variable
-		// Read Employee profile from file
 		employeeAdministration = new EmployeeAdministration();
 		employeeAdministration.readData(file + "_Employee.txt");
 
-		// A new instance of the EventAdministration class is created and assigned to
-		// the EventAdministration variable
-		// Read Events from file
 		eventAdministration = new EventAdministration();
 		eventAdministration.readData(file + "_Events.txt", articleAdministration, employeeAdministration,
 				customerAdministration);
@@ -76,19 +67,9 @@ public class Shop {
 	}
 
 	public boolean checkCustomerExists(Customer customer) {
-		// First I get the list of all customers from the shop and save it in an
-		// instance variable called customer list of type ArrayList<Customer>, which I
-		// can freely use in this (EshopClientCUI).
 		List<Customer> customerList = customerAdministration.getCustomers();
-		// Then I go through the list of all customers with a for loop.
-		// The loop iterates through each item in the customerList and assigns it to the
-		// variable k
 		for (Customer k : customerList) {
-			// In the body of the loop, each customer object k is then compared with the
-			// customer object.
-			// The expression customer.equals(k) performs an equality check between customer
-			// and k
-			// and returns true if the two objects are equal.
+			// In the body of the loop, each customer object k is then compared with the customer object. Returns true if the two objects are equal.
 			if (customer.equals(k)) {
 				return true;
 			}
@@ -197,8 +178,6 @@ public class Shop {
 	 */
 	public Invoice buyArticles(ShoppingCart shoppingCart, User user) throws IOException {
 		return articleAdministration.buyArticles(shoppingCart, user);
-		// Ereignis für die Einlagerung in ArrayList schreiben
-		// TODO Event implementieren
 	}
 
 	/**
@@ -266,26 +245,6 @@ public class Shop {
 		customerAdministration.addCustomer(customer);
 	}
 
-	public List<Customer> getCustomers() {
-		return customerAdministration.getCustomers();
-	}
-
-	public void setCustomers(ArrayList<Customer> kunden) {
-		customerAdministration.setCustomers(kunden);
-	}
-
-	public ArrayList<Employee> getEmployees() {
-		return employeeAdministration.getEmployees();
-	}
-
-
-	public void readData(String file) throws IOException {
-		customerAdministration.readData(file);
-	}
-
-	public List<Event> getEvents() {
-		return eventAdministration.getEvents();
-	}
 
 	public HashMap<String, Integer> getEventsbyArticleOfLast30Days(int articleID) {
 		Article article = articleAdministration.getArticleByID(articleID);
@@ -301,124 +260,6 @@ public class Shop {
 	public String registerEmployee(String name, String lastname, String username, String password) throws IOException, RegisterException {
 		return employeeAdministration.registerEmployee(name, lastname, username, password);
 	}
-
-	public void addArticle(Article article, String articleTitle, String articleType, int initialQuantity, double price, int packSize)  throws IOException{
-		articleAdministration.addArticle(article, articleTitle, articleType, initialQuantity, price, packSize);
-	}
-
-//	public void changeInventory(int stockChange, Article article, User loggedinUser) throws IOException {
-//
-//		if (stockChange < 0) {
-//			boolean success = decreaseArticleStock(article, (-1) * stockChange, "ESHOP_Article.txt",loggedinUser);
-//			if (success) {
-//				System.out.println("Successfully decreased article's stock.");
-//			} else {
-//				System.out.println(
-//						"Could not decrease stock. Maybe you tried to retrieve more items than there are available?");
-//			}
-//		} else {
-//			increaseArticleStock(article, stockChange, "ESHOP_Article.txt", loggedinUser);
-//			System.out.println("Successfully increased article's stock.");
-//		}
-//	}
-	
-//	public void showHistory(int articleID, List<Event> eventsList)  throws IOException
-//	{
-//		System.out.println("For the article with the ID: " + articleID + ", the stock quantity in the last few days were as followed:");
-//		for (Event e : eventsList) {
-//			System.out.println(e.toStringHistory());
-//		}
-//	}
-	
-	
-	
-//	public void checkPackSizeQuantity(int packSizeQuantity, Article article, ShoppingCart shoppingCart, int packSize)  throws IOException
-//	{
-//		if (packSizeQuantity >= 1) {
-//			int quantityToAdd = packSizeQuantity * packSize;
-//
-//			// Überprüfen, ob die gewünschte Menge noch vorrätig ist
-//			int availableQuantity = article.getQuantityInStock();
-//			if (availableQuantity >= quantityToAdd) {
-//				shoppingCart.addArticle(article, quantityToAdd);
-//				System.out.println("Article/s were added successfully to the cart.");
-//				// Warenkorb ausgeben
-//				shoppingCart.read();
-//			} else {
-//				System.out.println("Could not put article into the Cart, because desired quantity must be not available.");
-//			}
-//		} else {
-//			System.out.println("Please input a positive number.");
-//		}
-//	}
-	
-//	public void checkQuantity(int quantity, ShoppingCart shoppingCart, Article article)  throws IOException
-//	{
-//		if (quantity >= 1) {
-//			// Überprüfen, ob der Artikel noch vorrätig ist
-//			int availableQuantity = article.getQuantityInStock();
-//			if (availableQuantity >= quantity) {
-//				shoppingCart.addArticle(article, quantity);
-//				System.out.println("Article/s were added successfully to the cart.");
-//				// Warenkorb ausgeben
-//				shoppingCart.read();
-//			} else {
-//				System.out.println(
-//						"Could not put article into the Cart, because desired quantity must be not available..");
-//			}
-//		} else {
-//			System.out.println("Please input a positive number for quantity.");
-//		}
-//	}
-
-//	public void checkArticleSizeQTY(int newPackSizeQuantity, int packSize, ShoppingCart shoppingCart, Article article)  throws IOException
-//	{
-//		if (newPackSizeQuantity >= 1) {
-//			int quantityToChange = newPackSizeQuantity * packSize;
-//
-//			// Check if the desired quantity is still in stock
-//			int availableQuantity = article.getQuantityInStock();
-//			if (availableQuantity >= quantityToChange) {
-//				String updateResult = shoppingCart.updateArticleQuantity(article, quantityToChange);
-//				if (updateResult != null) {
-//					System.out.println(updateResult);
-//				}
-//
-//				// Check if the shopping cart is not empty and print the shopping cart
-//				if (!shoppingCart.getCartItems().isEmpty()) {
-//					shoppingCart.read();
-//				}
-//			} else {
-//				System.out.println(
-//						"Could not change article quantity in the cart. Desired quantity is not available.");
-//			}
-//		} else {
-//			System.out.println("Please input a positive number for the number of packs.");
-//		}
-//	}
-	
-//	public void checkAmount(int newQuantity, Article article, ShoppingCart shoppingCart)  throws IOException
-//	{
-//		if (newQuantity >= 1) {
-//			// Check if the item is still in stock
-//			int availableQuantity = article.getQuantityInStock();
-//			if (availableQuantity >= newQuantity) {
-//				String updateResult = shoppingCart.updateArticleQuantity(article, newQuantity);
-//				if (updateResult != null) {
-//					System.out.println(updateResult);
-//				}
-//				// Check if the shopping cart is not empty and print the shopping cart
-//				if (!shoppingCart.getCartItems().isEmpty()) {
-//					shoppingCart.read();
-//				}
-//			} else {
-//				System.out.println(
-//						"Could not change article quantity in the cart. Desired quantity is not available.");
-//			}
-//		} else {
-//			System.out.println("Please input a positive number for quantity.");
-//		}
-//	}
 	
 	public String removeArticleFromCART(Customer customer, Article article) throws IOException, ArticleInCartNotFoundException {
 			ShoppingCart shoppingCart = customer.getShoppingCart();
@@ -449,23 +290,6 @@ public class Shop {
 		}
 		return null;
 	}
-
-
-	
-//	public void viewArticlesInCart(List<ShoppingCartItem> shoppingCartItems)  throws IOException
-//	{
-//		if (shoppingCartItems != null && shoppingCartItems.size() > 0) {
-//			// Wenn beides der Fall ist, wird eine Schleife verwendet, um über jedes
-//			// ShoppingCartItem in der Liste zu iterieren.
-//			System.out.println("In your shopping cart are the following items:");
-//			for (ShoppingCartItem item : shoppingCartItems) {
-//				// Artikel wird/werden auf der Konsole ausgegeben.
-//				System.out.println(item.toString());
-//			}
-//		} else {
-//			System.out.println("There are no items in your cart yet.");
-//		}
-//	}
 	
 //	public void articlesCouldntPurchase(Invoice invoice)  throws IOException
 //	{

@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import shop.local.domain.exceptions.*;
-import shop.local.domain.EventAdministration;
 import shop.local.domain.Shop;
 import shop.local.entities.*;
 
@@ -24,18 +23,9 @@ public class EshopClientCUI {
 	private static Shop eshop;
 	private static BufferedReader in;
 	private User loggedinUser = null;
-//	private CustomerAdministration cu = new CustomerAdministration();
-//	private EmployeeAdministration ea = new EmployeeAdministration();
-//	private ArticleAdministration aa = new ArticleAdministration();
-
-	EventAdministration ea = new EventAdministration();
 
 	public static Shop getEshop() {
 		return eshop;
-	}
-
-	public User getLoggedinUser() {
-		return loggedinUser;
 	}
 
 	public static BufferedReader getIn() {
