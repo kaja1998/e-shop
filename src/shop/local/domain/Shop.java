@@ -182,8 +182,7 @@ public class Shop {
 	 * @param quantityToAdd number of articles that are to be added to stock
 	 * @return Article with searched articleNumber (may be empty)
 	 */
-	public void increaseArticleStock(Article article, int quantityToAdd, String articleFile, User user)
-			throws IOException {
+	public void increaseArticleStock(Article article, int quantityToAdd, String articleFile, User user) throws IOException {
 		articleAdministration.increaseArticleStock(article, quantityToAdd, articleFile);
 		// Ereignis für die Einlagerung in ArrayList schreiben
 		Event event = new Event(Event.EventType.EINLAGERUNG, article, quantityToAdd, user);
@@ -219,10 +218,6 @@ public class Shop {
 
 	public void writeArticleDataToRemoveArticle(String file, Article articleToRemove) throws IOException {
 		articleAdministration.writeDataToRemoveArticle(file, articleToRemove);
-	}
-
-	public void writeEmployeeData(String file, Employee employee) throws IOException {
-		employeeAdministration.writeData(file, employee);
 	}
 
 	public HashMap<String, Integer> getEventsbyArticleOfLast30Days(int articleID) {
