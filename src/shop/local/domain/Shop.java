@@ -435,6 +435,21 @@ public class Shop {
 		return shoppingCart.deleteAllArticlesInCart();
 	}
 
+	public String viewArticlesInCart(Customer customer) throws EmptyCartException {
+		List<ShoppingCartItem> shoppingCartItems = customerAdministration.getUsersShoppingCart(customer);
+
+		if (shoppingCartItems != null && shoppingCartItems.size() > 0) {
+			for (ShoppingCartItem item : shoppingCartItems) {
+				//Artikel auf der Konsole ausgegeben.
+				return "In your shopping cart are the following items: \n" + item.toString();
+			}
+		} else {
+			throw new EmptyCartException(null);
+		}
+		return null;
+	}
+
+
 	
 //	public void viewArticlesInCart(List<ShoppingCartItem> shoppingCartItems)  throws IOException
 //	{

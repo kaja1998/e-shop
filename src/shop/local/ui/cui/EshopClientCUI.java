@@ -992,27 +992,12 @@ public class EshopClientCUI {
 	}
 
 	private void viewArticlesInCart() {
-		// sicherstellen, dass der eingeloggte Benutzer ein Customer ist
 		if (loggedinUser instanceof Customer) {
-			List<ShoppingCartItem> shoppingCartItems = eshop.getUsersShoppingCart((Customer) loggedinUser);
-			// Danach wird überprüft, ob shoppingCartItems nicht null ist und mindestens ein
-			// Element enthält.
 			try {
-				viewArticlesInCart(shoppingCartItems);
-			} catch (Exception e) {
-				System.out.println("\nError while viewing article from cart\n");
+				System.out.println(eshop.viewArticlesInCart((Customer) loggedinUser));
+			} catch (EmptyCartException c) {
+				System.out.println("\n" + c.getMessage() + "\n");
 			}
-			// if (shoppingCartItems != null && shoppingCartItems.size() > 0) {
-//				// Wenn beides der Fall ist, wird eine Schleife verwendet, um über jedes
-//				// ShoppingCartItem in der Liste zu iterieren.
-//				System.out.println("In your shopping cart are the following items:");
-//				for (ShoppingCartItem item : shoppingCartItems) {
-//					// Artikel wird/werden auf der Konsole ausgegeben.
-//					System.out.println(item.toString());
-//				}
-//			} else {
-//				System.out.println("There are no items in your cart yet.");
-//			}
 		}
 	}
 
@@ -1074,20 +1059,6 @@ public class EshopClientCUI {
 			Customer customer = (Customer) loggedinUser;
 
 			System.out.println(eshop.deleteAllArticlesInCart((Customer) loggedinUser));
-		}
-	}
-
-	public void viewArticlesInCart(List<ShoppingCartItem> shoppingCartItems) {
-		if (shoppingCartItems != null && shoppingCartItems.size() > 0) {
-			// Wenn beides der Fall ist, wird eine Schleife verwendet, um über jedes
-			// ShoppingCartItem in der Liste zu iterieren.
-			System.out.println("In your shopping cart are the following items:");
-			for (ShoppingCartItem item : shoppingCartItems) {
-				// Artikel wird/werden auf der Konsole ausgegeben.
-				System.out.println(item.toString());
-			}
-		} else {
-			System.out.println("There are no items in your cart yet.");
 		}
 	}
 
