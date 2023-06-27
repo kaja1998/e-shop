@@ -176,7 +176,7 @@ public class ArticleAdministration {
 		}
 
 		// empty cart
-		shoppingCart.deleteAll();
+		shoppingCart.deleteAllArticlesInCart();
 
 		// Ereignis für die Einlagerung in File schreiben
 		eventAdministration.writeData("ESHOP_Events.txt");

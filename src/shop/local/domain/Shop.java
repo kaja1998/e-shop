@@ -20,17 +20,10 @@ public class Shop {
 	// Prefix for names of files in which shop data is stored
 	@SuppressWarnings("unused")
 	private String file = "";
-
-	// Variable from parts management is declared. Can later be used to create an
-	// object of this class
 	private ArticleAdministration articleAdministration;
 
-	// Customer administration variable is declared. Can later be used to create an
-	// object of this class
 	private CustomerAdministration customerAdministration;
 
-	// Employee administration variable is declared. Can later be used to create an
-	// object of this class
 	private EmployeeAdministration employeeAdministration;
 
 	private EventAdministration eventAdministration;
@@ -149,9 +142,6 @@ public class Shop {
 	 *
 	 * @return List of all items in the logged in user's shopping cart
 	 */
-	public List<ShoppingCartItem> getUsersShoppingCart(Customer customer) {
-		return customerAdministration.getUsersShoppingCart(customer);
-	}
 
 	/**
 	 * Method for purchasing articles in the shopping cart
@@ -223,10 +213,10 @@ public class Shop {
 		return employeeAdministration.registerEmployee(name, lastname, username, password);
 	}
 
-	public String addArticleToCart(Article article, Customer customer){
+	public String addArticleToCart(Article article, int quantity, Customer customer) throws BulkArticleException, InsufficientStockException {
 		ShoppingCart shoppingCart = customer.getShoppingCart();
 		// Delete item from shopping cart
-		return shoppingCart.addArticleToCart(article);
+		return shoppingCart.addArticleToCart(article, quantity);
 	}
 
 	
@@ -259,30 +249,4 @@ public class Shop {
 		}
 		return null;
 	}
-	
-//	public void articlesCouldntPurchase(Invoice invoice)  throws IOException
-//	{
-//		if (invoice.getUnavailableItems() != null && invoice.getUnavailableItems().size() > 0) {
-//			System.out.println("Unfortunately some of the items you wished to purchase became unavailable:");
-//			// If this is the case, a loop is used to iterate over each unavailable item in
-//			// the list invoice.getUnavailableItems()
-//			for (ShoppingCartItem item : invoice.getUnavailableItems()) {
-//				// The unavailable articles are printed on the console
-//				System.out.println(item.toString());
-//			}
-//		}
-//	}
-	
-//	public void articlePurchaseSuccessfully(Invoice invoice)  throws IOException
-//	{
-//		if (invoice.getPositions() != null && invoice.getPositions().size() > 0) {
-//			System.out.println("You successfully purchased:");
-//			// With a loop, iterates over each successfully purchased item.
-//			for (ShoppingCartItem item : invoice.getPositions()) {
-//				// Articles are displayed on the console
-//				System.out.println(item.toString());
-//			}
-//		}
-//	}
-	
 }

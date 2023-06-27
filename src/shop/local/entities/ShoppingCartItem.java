@@ -34,7 +34,7 @@ public class ShoppingCartItem {
     }
 
     public String toString() {
-        return (quantity + "x " + article.getNumber() + " (" + article.getArticleTitle() + ")" + " " + article.getPrice() + " €");
+        return (quantity + "x " + article.getNumber() + " (" + article.getArticleTitle() + ")" + " " + article.getPrice() + " EUR");
     }
 
 }

@@ -363,106 +363,6 @@ public class EshopClientCUI {
 			e.printStackTrace();
 		}
 	}
-
-
-//	private void insertArticle() throws IOException {
-//		// Lese Artikelbezeichnung
-//		System.out.print("Article title  > ");
-//		String articleTitle = readInput();
-//
-//		// Lese Wert für initialen Artikelbestand
-//		  System.out.print("Initial quantity / stock > ");
-//		    int initialQuantity = 0;
-//		    boolean validInput = false;
-//		    
-//		    while (!validInput) {
-//		        try {
-//		            String initialQuantityString = readInput();
-//		            initialQuantity = Integer.parseInt(initialQuantityString);
-//		            validInput = true; // Break the loop if parsing succeeds
-//		        } catch (NumberFormatException e) {
-//		            System.out.println("Invalid input. Please enter an integer value.");
-//		        }
-//		    }
-//
-//		    System.out.print("Article price > ");
-//		    String priceString = readInput();
-//		    double price = 0.0;
-//		    boolean validInputF = false;
-//
-//		    while (!validInputF) {
-//		        try {
-//		            price = Double.parseDouble(priceString);
-//		            validInputF = true; // Break the loop if parsing succeeds
-//		        } catch (NumberFormatException e) {
-//		            System.out.println("Invalid input. Please enter a valid number.");
-//		            System.out.print("Article price > ");
-//		            priceString = readInput();
-//		        }
-//		    }
-//
-//		// Lese Art des Artikels (Massengutartikel oder Einzelartikel)
-//		    System.out.print("Article type (bulk/single) > ");
-//		    String articleType = readInput();
-//		    boolean validInputS = false;
-//
-//		    while (!validInputS) {
-//		        if (articleType.equalsIgnoreCase("bulk") || articleType.equalsIgnoreCase("single")) {
-//		        	validInputS = true; // Break the loop if input is valid
-//		        } else {
-//		            System.out.println("Invalid input. Please enter 'bulk' or 'single'.");
-//		            System.out.print("Article type (bulk/single) > ");
-//		            articleType = readInput();
-//		        }
-//		    }
-//
-//		Article article = null;
-//		int packSize = 0;
-//
-//		if (articleType.equalsIgnoreCase("bulk")) {
-//			// Lese Packungsgröße
-//			System.out.print("Pack size > ");
-//			String packSizeString = readInput();
-//			packSize = Integer.parseInt(packSizeString);
-//
-//			try {
-//				eshop.addArticle(article, articleTitle, articleType, initialQuantity, price, packSize);
-//			} catch (AddArticleException e) {
-//				System.out.println("\nError while inserting Article\n");
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//			// // Erstelle Massengutartikel
-////			article = new BulkArticle(articleTitle, initialQuantity, price, packSize);
-//		} else {
-//			try {
-//				eshop.addArticle(article, articleTitle, articleType, initialQuantity, price, packSize);
-//			} catch (AddArticleException e) {
-//				System.out.println("\nError while inserting Article\n");
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-////			// Erstelle Einzelartikel
-////			article = new Article(articleTitle, initialQuantity, price);
-//		}
-//
-//		// Speichere Artikel
-//		try {
-//
-//			eshop.insertArticle(article, initialQuantity, loggedinUser);
-//
-//			System.out.println("Article saved successfully");
-//		} catch (AddArticleException e) {
-//			// TODO Auto-generated catch block
-//			System.out.println("Error while inserting the article");
-//			e.printStackTrace();
-//		} catch (ArticleAlreadyExistsException e) {
-//			System.out.println("Error saving article");
-//			e.printStackTrace();
-//		} catch (Exception e) {
-//			System.out.println("Wrong Input Type\n\nArticle not inserted");
-//		}
-//	}
 	
 	private void insertArticle() {
 		try {
@@ -489,12 +389,12 @@ public class EshopClientCUI {
 			System.out.print("Article price > ");
 			String priceString = readInput();
 			double price = 0.0;
-			boolean validInputP = false;
+			validInput = false;
 
-			while (!validInputP) {
+			while (!validInput) {
 				try {
 					price = Double.parseDouble(priceString);
-					validInputP = true; // Break the loop if parsing succeeds
+					validInput = true; // Break the loop if parsing succeeds
 				} catch (NumberFormatException e) {
 					System.out.println("Invalid input. Please enter a valid number.");
 					System.out.print("Article price > ");
@@ -534,14 +434,11 @@ public class EshopClientCUI {
 						packSizeString = readInput();
 					}
 				}
-				// Erstelle Massengutartikel
 				article = new BulkArticle(articleTitle, initialQuantity, price, packSize);
 			} else {
-				// Erstelle Einzelartikel
 				article = new Article(articleTitle, initialQuantity, price);
 			}
 
-			// Speichere Artikel
 			try {
 				eshop.insertArticle(article, initialQuantity, loggedinUser);
 				System.out.println("Article saved successfully");
@@ -640,7 +537,7 @@ public class EshopClientCUI {
 
 	private void addArticleToCart() {
 	    int articleNumber = 0;
-		int quantity;
+		int quantity = 0;
 		try {
 			if (loggedinUser instanceof Customer) {
 				Customer customer = (Customer) loggedinUser;
@@ -670,88 +567,27 @@ public class EshopClientCUI {
 					return;
 				}
 
-				ShoppingCart shoppingCart = customer.getShoppingCart();
+				System.out.print("Enter number of items you wish to add: ");
+				String quantityString = readInput();
+				validInput = false;
 
-				eshop.addArticleToCart(article, (Customer) loggedinUser);
-
-				// Überprüfen, ob der Artikel ein BulkArticle ist
-				if (article instanceof BulkArticle) {
-					BulkArticle bulkArticle = (BulkArticle) article;
-					int packSize = bulkArticle.getPackSize();
-
-					// Ausgeben der Packgröße
-					System.out.println("This article can only be purchased in packs of " + packSize + ".");
-
-					// Eingabe der Packgröße bzw. der Menge entgegennehmen
-					  System.out.print("Enter the number of packs you wish to add: ");
-						String packSizeQuantityString = readInput();
-						int packSizeQuantity = 0;
-						boolean validInputA = false;
-
-						while (!validInputA) {
-							try {
-								packSizeQuantity = Integer.parseInt(packSizeQuantityString);
-								validInputA = true; // Break the loop if parsing succeeds
-							} catch (NumberFormatException e) {
-								System.out.println("Invalid input. Please enter an integer value for the pack size quantity.");
-								System.out.print("Enter the number of packs you wish to add: ");
-								packSizeQuantityString = readInput();
-							}
-						}
-
-					// Überprüfen, ob die eingegebene Packgröße bzw. Menge gültig ist
-
-					if (packSizeQuantity >= 1) {
-						int quantityToAdd = packSizeQuantity * packSize;
-
-						// Überprüfen, ob die gewünschte Menge noch vorrätig ist
-						int availableQuantity = article.getQuantityInStock();
-						if (availableQuantity >= quantityToAdd) {
-							shoppingCart.addArticle(article, quantityToAdd);
-							System.out.println("Article/s were added successfully to the cart.");
-							// Warenkorb ausgeben
-
-							shoppingCart.read();
-
-							System.out.println("In your shopping cart are the following items: ");
-							// Mit einer Schleife wird durch die ArrayList cart iteriert. item ist dabei die
-							// aktuelle Iteration
-							for (ShoppingCartItem item : shoppingCart.getCartItems()) {
-								// Für jedes ShoppingCartItem wird die Menge, die Artikelnummer, der Name
-								// abgerufen und auf der Konsole ausgegeben
-								System.out.println(item.getQuantity() + "x " + item.getArticle().getNumber() + " "
-										+ "(" + item.getArticle().getArticleTitle() + ")" + " "
-										+ item.getArticle().getPrice() + " €");
-							}
-						} else {
-							System.out.println(
-									"Could not put article into the Cart, because desired quantity must be not available.");
-						}
-					} else {
-						System.out.println("Please input a positive number.");
+				while (!validInput) {
+					try {
+						quantity = Integer.parseInt(quantityString);
+						validInput = true; // Break the loop if parsing succeeds
+					} catch (NumberFormatException e) {
+						System.out.println("Invalid input. Please enter an integer value.");
+						System.out.print("Enter number of items you wish to add: ");
+						quantityString = readInput();
 					}
-				} else {
-					System.out.print("Enter quantity: ");
-					String quantityString = readInput();
-					quantity = Integer.parseInt(quantityString);
-					// Einzelartikel
-					// Überprüfen, ob die eingegebene Menge gültig ist
+				}
 
-					if (quantity >= 1) {
-						// Überprüfen, ob der Artikel noch vorrätig ist
-						int availableQuantity = article.getQuantityInStock();
-						if (availableQuantity >= quantity) {
-							shoppingCart.addArticle(article, quantity);
-							System.out.println("Article/s were added successfully to the cart.");
-							// Warenkorb ausgeben
-							shoppingCart.read();
-						} else {
-							System.out.println(
-									"Could not put article into the Cart, because desired quantity must be not available..");
-						}
-					} else {
-						System.out.println("Please input a positive number for quantity.");
-					}
+				try {
+					System.out.println(eshop.addArticleToCart(article, quantity, (Customer) loggedinUser));
+				} catch (BulkArticleException b) {
+					System.out.println("\n" + b.getMessage() + "\n");
+				} catch (InsufficientStockException i) {
+					System.out.println("\n" + i.getMessage() + "\n");
 				}
 			}
 		} catch (Exception e) {
@@ -925,7 +761,7 @@ public class EshopClientCUI {
 				System.out.println(item.toString());
 			}
 			// print date and total
-			System.out.println("\nTotal: " + invoice.getTotal() + "\n");
+			System.out.println("\nTotal: " + invoice.getTotal() + " EUR\n");
 			System.out.println("Date: " + invoice.getFormattedDate() + " Uhr" + "\n");
 			invoice.setCustomer((Customer) loggedinUser);
 			System.out.println("Your delivery address: \n" + invoice.getCustomerAddress() + "\n");

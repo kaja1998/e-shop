@@ -35,19 +35,6 @@ public class ShoppingCart {
                 return cartItems;
         }
 
-        public void setCartItems(ArrayList<ShoppingCartItem> cartItems) {
-                this.cartItems = cartItems;
-        }
-
-//        public Invoice getInvoice() {
-//                return invoice;
-//        }
-//
-//        public void setInvoice(Invoice invoice) {
-//                this.invoice = invoice;
-//        }
-
-
         @Override
         public String toString() {
                 String string = "";
@@ -57,45 +44,44 @@ public class ShoppingCart {
                 return string;
         }
 
-        public void addArticle(Article article, int quantity) {
-                //neues Objekt ShoppingCartItem wird erstellt und mit den übergebenen Parametern article und quantity initialisiert
-                ShoppingCartItem object = new ShoppingCartItem(article, quantity);
-                //ShoppingCartItem-Objekt object wird zur ArrayListe cart hinzugefügt
-                cartItems.add(object);
-        }
+        public String read() {
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.append("In your shopping cart are the following items:\n");
 
-        @SuppressWarnings("unlikely-arg-type")
-		public boolean cartContainsArticle(Article article) {
-                if (cartItems.contains(article)) {
-                        return true;
-                } else {
-                        return false;
-                }
-        }
-
-        //Wenn Artikel in den Warenkorb hinzugefügt werden, der Artikel aber schon im Warenkorb existiert, wird die quantity einfach nur auf den
-        //schon bestehenden gleichen Artikel aufaddiert und dieser nicht ein zweites Mal hinzugefügt
-        public void addUpArticleQuantity(Article article, int quantity){
                 for (ShoppingCartItem item : cartItems) {
-                        if (item.getArticle().equals(article)) {
-                                item.setQuantity(item.getQuantity() + quantity);
-                                return;
+                        stringBuilder.append(item.getQuantity())
+                                .append("x ")
+                                .append(item.getArticle().getNumber())
+                                .append(" (")
+                                .append(item.getArticle().getArticleTitle())
+                                .append(") ")
+                                .append(item.getArticle().getPrice())
+                                .append(" EUR\n");
+                }
+                return stringBuilder.toString();
+        }
+
+        public String changeArticleQuantityInCart(int newQuantity, Article article) throws ArticleInCartNotFoundException, BulkArticleException, InsufficientStockException {
+                if (article instanceof BulkArticle) {
+                        BulkArticle bulkArticle = (BulkArticle) article;
+                        int packSize = bulkArticle.getPackSize();
+                        if (newQuantity % packSize != 0) {
+                                throw new BulkArticleException(article, packSize, null);
                         }
                 }
-        }
-
-        public void read() {
-                System.out.println("In your shopping cart are the following items: ");
-                //Mit einer Schleife wird durch die ArrayList cart iteriert. item ist dabei die aktuelle Iteration
-                for (ShoppingCartItem item : cartItems) {
-                        //Für jedes ShoppingCartItem wird die Menge, die Artikelnummer, der Name abgerufen und auf der Konsole ausgegeben
-                        System.out.println(item.getQuantity() + "x " + item.getArticle().getNumber() + " " + "(" + item.getArticle().getArticleTitle() + ")" + " " + item.getArticle().getPrice() + " €");
+                // Check if the item is still in stock
+                int availableQuantity = article.getQuantityInStock();
+                if (availableQuantity >= newQuantity) {
+                        String updateResult = updateArticleQuantity(article, newQuantity);
+                        if (updateResult !=null) {
+                                return updateResult;
+                        }
+                } else {
+                        throw new InsufficientStockException(availableQuantity, null);
                 }
+                return null;
         }
 
-
-        //Funktioniert mit contains
-        @SuppressWarnings("unlikely-arg-type")
 		public String updateArticleQuantity(Article article, int newQuantity) throws ArticleInCartNotFoundException {
                 // Befindet sich der Artikel im Warenkorb?
                 if (cartItems.contains(article)) {
@@ -121,75 +107,55 @@ public class ShoppingCart {
                 return null;
         }
 
-        //Funktioniert auch aber mit contains cooler
-        /*public void updateArticleQuantity(Article article, int newQuantity) {
-                //Schleife durchläuft den Warenkorb (cart) und sucht nach dem entsprechenden Artikel
-                for (ShoppingCartItem item : cartItems) {
-                        //Wenn übergebene Menge > 0, dann gehe mit einer for-Schleife durch den Warenkorb Array
-                        if (newQuantity > 0) {
-                                //Artikel werden verglichen
-                                if (item.getArticle().equals(article)) {
-                                        //Wenn Artikel gleich bzw. gefunden wurde, wird die Artikelmenge aktualisiert
-                                        item.setQuantity(newQuantity);
-                                        System.out.println("Article quantity updated successfully.");
-                                        return;
-                                }
-                        }
-                }
-                if (newQuantity == 0) {
-                        deleteSingleArticle(article);
-                        return;
-                }
-                System.out.println("Article not found in the cart.");
-        }*/
-
-
-        //Funktioniert nicht mit contains
-        /*public void deleteSingleArticle(Article article) {
-                //Es wird überprüft, ob der Artikel eine gültige Referenz enthält und nicht den Wert null hat.
-                if (article != null) {
-                        //enthält der Warenkorb den Artikel?
-                        if(cart.contains(article)) {
-                                //Schleife iteriert über die Elemente im Warenkorb
-                                for (int i = 0; i < cart.size(); i++) {
-                                        //Stimmt das Article-Objekt des aktuellen Elements im Warenkorb mit dem übergebenen Artikel überein?
-                                        if (cart.get(i).getArticle() == article) {
-                                                //wenn ja, löschen
-                                                cart.remove(i);
-                                                System.out.println("Article removed from the cart.");
-                                                return;
-                                        }
-                                }
-                        //Wenn Artikel nicht im Warenkorb ist, wird "Article not found in the cart." ausgegeben.
-                        } else {
-                                System.out.println("Article not found in the cart.");
-                        }
-                }else {
-                        System.out.println("Invalid input. Please try again.");
-                }
-        }*/
-
-//        public String deleteSingleArticle(Article article) {
-//        	String message = "";
-//                for (ShoppingCartItem item : cartItems) {
-//                        if (item.getArticle().equals(article)) {
-//                                cartItems.remove(item);
-//                                message = "Article removed from the cart.";
-//                                return message;
-//                        }
-//                }
-//                return message = "Article not found in the cart.";
-//        }
-
-        public String addArticleToCart(Article article){
+        public String addArticleToCart(Article article, int quantity) throws BulkArticleException, InsufficientStockException {
                 // Überprüfen, ob der Artikel ein BulkArticle ist
                 if (article instanceof BulkArticle) {
                         BulkArticle bulkArticle = (BulkArticle) article;
                         int packSize = bulkArticle.getPackSize();
+                        if (quantity % packSize != 0) {
+                                throw new BulkArticleException(article, packSize, null);
+                        }
+                }
+                // Überprüfen, ob die eingegebene Menge gültig ist
+                if (quantity >= 1) {
+                        // Überprüfen, ob der Artikel noch vorrätig ist
+                        int availableQuantity = article.getQuantityInStock();
+                        if (availableQuantity >= quantity) {
+                                if (cartItems.contains(article)) {
+                                        return addUpArticleQuantity(article, quantity);
+                                } else {
+                                        addArticle(article, quantity);
+                                        return "Article/s were added successfully to the cart.";
+                                        // Warenkorb ausgeben
+                                        //read();
+                                }
+                        } else {
+                                throw new InsufficientStockException(availableQuantity, null);
+                        }
+                } else {
+                        return "Please input a positive number for quantity.";
+                }
+        }
+
+        public void addArticle(Article article, int quantity) {
+                //neues Objekt ShoppingCartItem wird erstellt und mit den übergebenen Parametern article und quantity initialisiert
+                ShoppingCartItem object = new ShoppingCartItem(article, quantity);
+                //ShoppingCartItem-Objekt object wird zur ArrayListe cart hinzugefügt
+                cartItems.add(object);
+        }
+
+        //Wenn Artikel in den Warenkorb hinzugefügt werden, der Artikel aber schon im Warenkorb existiert, wird die quantity einfach nur auf den
+        //schon bestehenden gleichen Artikel aufaddiert und dieser nicht ein zweites Mal hinzugefügt
+        public String addUpArticleQuantity(Article article, int quantity) {
+                for (ShoppingCartItem item : cartItems) {
+                        if (item.getArticle().equals(article)) {
+                                int newQuantity = item.getQuantity() + quantity;
+                                item.setQuantity(newQuantity);
+                                return "Article quantity was updated.";
+                        }
                 }
                 return null;
         }
-
 
         public String deleteSingleArticle(Article article) throws ArticleInCartNotFoundException {
                 for (ShoppingCartItem item : cartItems) {
@@ -204,34 +170,5 @@ public class ShoppingCart {
         public String deleteAllArticlesInCart(){
                 cartItems.clear();
                 return "All Articles were removed successfully from the cart." + "\n";
-        }
-
-        public String changeArticleQuantityInCart(int newQuantity, Article article) throws ArticleInCartNotFoundException, BulkArticleException, InsufficientStockException {
-                if (article instanceof BulkArticle) {
-                        BulkArticle bulkArticle = (BulkArticle) article;
-                        int packSize = bulkArticle.getPackSize();
-                        if (newQuantity % packSize != 0) {
-                                throw new BulkArticleException(article, packSize, null);
-                        }
-                }
-                // Check if the item is still in stock
-                int availableQuantity = article.getQuantityInStock();
-                if (availableQuantity >= newQuantity) {
-                        String updateResult = updateArticleQuantity(article, newQuantity);
-                        if (updateResult !=null) {
-                                return updateResult;
-                        }
-                        // Check if the shopping cart is not empty and print the shopping cart
-                        if (!getCartItems().isEmpty()) {
-                                read();
-                        }
-                } else {
-                        throw new InsufficientStockException(availableQuantity, null);
-                }
-                return null;
-        }
-
-        public void deleteAll() {
-                cartItems.clear();
         }
 }
