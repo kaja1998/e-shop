@@ -444,20 +444,32 @@ public class EshopClientCUI {
 	}
 
 	private void searchArticle() {
+		ArrayList<Article> articleList;
+
 		try {
-			ArrayList<Article> articleList;
-			System.out.print("Article title > ");
-			String articleTitle = readInput();
-			try {
-				articleList = eshop.searchByArticleTitle(articleTitle);
-				printArticleList(articleList);
-			} catch (ArticleNotFoundException e) {
-				System.out.println("\n" + e.getMessage() + "\n");
+			while (true) {
+				System.out.print("Article title > ");
+				String articleTitle = readInput();
+
+				if (articleTitle.trim().isEmpty() || articleTitle.matches(".*\\d+.*")) {
+					System.out.println("Invalid input. Please enter a valid article title.");
+					continue; // Starte die Schleife erneut, um eine gültige Eingabe zu erhalten
+				}
+
+				try {
+					articleList = eshop.searchByArticleTitle(articleTitle);
+					printArticleList(articleList);
+					break; // Beende die Schleife, wenn die Suche erfolgreich war
+				} catch (ArticleNotFoundException e) {
+					System.out.println("\n" + e.getMessage() + "\n");
+					break; // Beende die Schleife, wenn der Artikel nicht gefunden wurde
+				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
+
 
 //	private void insertArticle() throws IOException {
 //		// Lese Artikelbezeichnung
@@ -993,6 +1005,7 @@ public class EshopClientCUI {
 
 	private void viewArticlesInCart() {
 		if (loggedinUser instanceof Customer) {
+			Customer customer = (Customer) loggedinUser;
 			try {
 				System.out.println(eshop.viewArticlesInCart((Customer) loggedinUser));
 			} catch (EmptyCartException c) {
