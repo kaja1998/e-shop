@@ -22,10 +22,6 @@ public class BulkArticle extends Article {
         return packSize;
     }
 
-    public void setPackSize(int packSize) {
-        this.packSize = packSize;
-    }
-
     @Override
     public void setQuantityInStock(int quantityInStock) {
         if (quantityInStock % packSize != 0) {

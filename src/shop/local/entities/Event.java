@@ -81,10 +81,6 @@ public class Event {
         return quantity;
     }
 
-//    public User getUser() {
-//        return user;
-//    }
-
     @Override
     public String toString() {
        return "Typ: " + eventType.ordinal() + "\n" + "Date: " + getFormattedDate() + "\n" + "Article: " + getArticle() + "\n" +  "quantity-change: " + getQuantity()  + "\n" + "User " + getUser()  + "\n" + "-----------------------------";

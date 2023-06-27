@@ -34,29 +34,15 @@ public class Customer extends User {
 		this.shoppingCart = new ShoppingCart();
 	}
 
-	public float getRevenue() {	return revenue;	}
-
-	public void setRevenue(float revenue) { this.revenue = revenue;	}
-
 	public int getPostalCode() { return postalCode; }
-
-	public void setPostalCode(int postalCode) { this.postalCode = postalCode; }
 
 	public String getStreet() { return street; }
 
-	public void setStreet(String street) { this.street = street; }
-
 	public String getCity() { return city; }
-
-	public void setCity(String city) { this.city = city; }
 
 	public String getEmail() { return email;	}
 
-	public void setEmail(String email) { this.email = email; }
-
 	public ShoppingCart getShoppingCart() {	return shoppingCart; }
-
-	public void setShoppingCart(ShoppingCart shoppingCart) { this.shoppingCart = shoppingCart;	}
 
 	@Override
 	public String toString() {

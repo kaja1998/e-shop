@@ -96,33 +96,24 @@ public class EmployeeAdministration {
     		Employee employee = new Employee(name, lastname, username, password);
 
     		// Prüfe, ob Employee bereits existiert
-    		List<Employee> employees = EshopClientCUI.getEshop().getEmployees();
     		boolean employeeAlreadyExists = false;
-    		//Gehe ich mit einer for-Loop durch die Liste aller Employees durch.
-    		//Die Schleife durchläuft jedes Element in der employeeList und weist es der Variable currentEmployee zu
     		for (Employee currentEmployee : employees) {
-    			//In dem Body der Schleife wird dann jedes Employee-Objekt currentEmployee mit dem employee-Objekt verglichen.
     			if (employee.equals(currentEmployee)) {
-    				message = "User with this name already exists";
     				employeeAlreadyExists = true;
     			}
     		}
-
     		if(!employeeAlreadyExists) {
     			//Wenn kein Employee gefunden wird, dann kann der Employee registriert werden.
-    			//Employee wird zur Liste hinzugefügt, indem das Shop-Objekt die Methode in der Klasse EmployeeAdministration aufruft
     			try {
-    				EshopClientCUI.getEshop().writeEmployeeData("ESHOP_Employee.txt", employee);
+    				writeData("ESHOP_Employee.txt", employee);
     			} catch (IOException e) {
     				e.printStackTrace();
     			}
-    			EshopClientCUI.getEshop().addEmployee(employee);
+                addEmployee(employee);
     			message = "Registration successful.";
     		} else {
                     throw new RegisterException(employee, "A User with this Name already exist. Please choose another one.");
                 }
                 return message;
         }
-
-        
 }

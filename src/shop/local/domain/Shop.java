@@ -4,10 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import shop.local.domain.exceptions.ArticleAlreadyExistsException;
-import shop.local.domain.exceptions.ArticleNotFoundException;
-import shop.local.domain.exceptions.LoginException;
-import shop.local.domain.exceptions.RegisterException;
+import shop.local.domain.exceptions.*;
 import shop.local.entities.*;
 
 /**
@@ -281,9 +278,6 @@ public class Shop {
 		return employeeAdministration.getEmployees();
 	}
 
-	public void setEmployees(ArrayList<Employee> employees) {
-		employeeAdministration.setEmployees(employees);
-	}
 
 	public void readData(String file) throws IOException {
 		customerAdministration.readData(file);
@@ -307,8 +301,7 @@ public class Shop {
 		return employeeAdministration.registerEmployee(name, lastname, username, password);
 	}
 
-	public void addArticle(Article article, String articleTitle, String articleType, int initialQuantity, double price,
-			int packSize)  throws IOException{
+	public void addArticle(Article article, String articleTitle, String articleType, int initialQuantity, double price, int packSize)  throws IOException{
 		articleAdministration.addArticle(article, articleTitle, articleType, initialQuantity, price, packSize);
 	}
 
@@ -426,11 +419,18 @@ public class Shop {
 //		}
 //	}
 	
-	public String removeArticleFromCART(Customer customer, Article article) throws IOException {
+	public String removeArticleFromCART(Customer customer, Article article) throws IOException, ArticleInCartNotFoundException {
 			ShoppingCart shoppingCart = customer.getShoppingCart();
 			// Delete item from shopping cart
 			return shoppingCart.deleteSingleArticle(article);
 	}
+
+	public String changeArticleQuantityInCart(int newQuantity, Article article, Customer customer) throws ArticleInCartNotFoundException, BulkArticleException, InsufficientStockException {
+		ShoppingCart shoppingCart = customer.getShoppingCart();
+		return shoppingCart.changeArticleQuantityInCart(newQuantity, article);
+	}
+
+
 	
 //	public void viewArticlesInCart(List<ShoppingCartItem> shoppingCartItems)  throws IOException
 //	{

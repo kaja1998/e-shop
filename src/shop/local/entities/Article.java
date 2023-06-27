@@ -70,7 +70,6 @@ public class Article {
 			return false;
 	}
 
-
 	/*
 	 * From here Accessor-Methoden
 	 */
@@ -82,9 +81,6 @@ public class Article {
 		return articleTitle;
 	}
 
-	public boolean isInStock() {
-		return inStock;
-	}
 
 	public int getQuantityInStock() {
 		return quantityInStock;
@@ -98,9 +94,6 @@ public class Article {
 		return price;
 	}
 
-	public void setPrice(double price) {
-		this.price = price;
-	}
 
 	public void increaseStock(int quantityToAdd) {
 		// stock up
@@ -130,10 +123,4 @@ public class Article {
 		// if we came until here, stock was decreased successfully
 		return true;
 	}
-
-	public void setNumber(int number) {
-		this.number = number;
-	}
-
-
 }

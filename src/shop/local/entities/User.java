@@ -38,10 +38,6 @@ public abstract class User {
 
         public String getLastName() { return lastName; }
 
-        public void setLastName(String lastName) {
-                this.lastName = lastName;
-        }
-
         public String getUsername() {
                 return userName;
         }
@@ -53,8 +49,6 @@ public abstract class User {
         public String getPassword() {
                 return password;
         }
-
-        public void setPassword(String password) { this.password = password;  }
 
         public int getId() {
                 return Id;

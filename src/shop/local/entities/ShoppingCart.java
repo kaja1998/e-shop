@@ -1,4 +1,8 @@
 package shop.local.entities;
+import shop.local.domain.exceptions.ArticleInCartNotFoundException;
+import shop.local.domain.exceptions.BulkArticleException;
+import shop.local.domain.exceptions.InsufficientStockException;
+
 import java.util.ArrayList;
 
 /**
@@ -92,29 +96,27 @@ public class ShoppingCart {
 
         //Funktioniert mit contains
         @SuppressWarnings("unlikely-arg-type")
-		public String updateArticleQuantity(Article article, int newQuantity) {
-                // Wenn der übergebene Artikel Sinn macht / wirklich existiert
-                if (article != null) {
-                        // Befindet sich der Artikel im Warenkorb?
-                        if (cartItems.contains(article)) {
-                                // Wenn übergebene Menge gleich null soll der Artikel gelöscht werden
-                                if (newQuantity == 0) {
-                                        deleteSingleArticle(article);
-                                } else {
-                                        for (ShoppingCartItem item : cartItems) {
-                                                // Vergleicht die Artikel im Warenkorb mit dem übergebenen Artikel
-                                                if (item.getArticle().equals(article)) {
-                                                        // Wenn im Warenkorb ein Artikel gefunden wird, der wie der übergebene Artikel ist
-                                                        // dann nehmen den Artikel item und setzte seine Menge auf die, die der Nutzer übergeben hat
-                                                        item.setQuantity(newQuantity);
-                                                        // Gehe raus aus der Methode
-                                                        return "Article quantity updated successfully.";
-                                                }
+		public String updateArticleQuantity(Article article, int newQuantity) throws ArticleInCartNotFoundException {
+                // Befindet sich der Artikel im Warenkorb?
+                if (cartItems.contains(article)) {
+                        // Wenn übergebene Menge gleich null, soll der Artikel gelöscht werden
+                        if (newQuantity == 0) {
+                                deleteSingleArticle(article);
+                                return "Article deleted from shopping cart. ";
+                        } else {
+                                for (ShoppingCartItem item : cartItems) {
+                                        // Vergleicht die Artikel im Warenkorb mit dem übergebenen Artikel
+                                        if (item.getArticle().equals(article)) {
+                                                // Wenn im Warenkorb ein Artikel gefunden wird, der wie der übergebene Artikel ist
+                                                // dann nehmen den Artikel item und setzt seine Menge auf die, die der Nutzer übergeben hat
+                                                item.setQuantity(newQuantity);
+                                                // Gehe raus aus der Methode
+                                                return "Article quantity updated successfully.";
                                         }
                                 }
-                        } else {
-                                return "Article doesn't exist in your cart yet.";
                         }
+                } else {
+                        throw new ArticleInCartNotFoundException(article, null);
                 }
                 return null;
         }
@@ -167,17 +169,51 @@ public class ShoppingCart {
                 }
         }*/
 
-        //Funktioniert
-        public String deleteSingleArticle(Article article) {
-        	String message = "";
+//        public String deleteSingleArticle(Article article) {
+//        	String message = "";
+//                for (ShoppingCartItem item : cartItems) {
+//                        if (item.getArticle().equals(article)) {
+//                                cartItems.remove(item);
+//                                message = "Article removed from the cart.";
+//                                return message;
+//                        }
+//                }
+//                return message = "Article not found in the cart.";
+//        }
+
+        public String deleteSingleArticle(Article article) throws ArticleInCartNotFoundException {
                 for (ShoppingCartItem item : cartItems) {
                         if (item.getArticle().equals(article)) {
                                 cartItems.remove(item);
-                                message = "Article removed from the cart.";
-                                return message;
+                                return "Article removed from the cart.";
                         }
                 }
-                return message = "Article not found in the cart.";
+                throw new ArticleInCartNotFoundException(article, null);
+        }
+
+        public String changeArticleQuantityInCart(int newQuantity, Article article) throws ArticleInCartNotFoundException, BulkArticleException, InsufficientStockException {
+                if (article instanceof BulkArticle) {
+                        BulkArticle bulkArticle = (BulkArticle) article;
+                        int packSize = bulkArticle.getPackSize();
+                        if (newQuantity % packSize != 0) {
+                                throw new BulkArticleException(article, packSize, null);
+                        }
+                }
+                // Check if the item is still in stock
+                int availableQuantity = article.getQuantityInStock();
+                if (availableQuantity >= newQuantity) {
+                        String updateResult = updateArticleQuantity(article, newQuantity);
+                        if (updateResult !=null) {
+                                return updateResult;
+                        }
+                        // Check if the shopping cart is not empty and print the shopping cart
+                        if (!getCartItems().isEmpty()) {
+                                read();
+                        }
+                } else {
+                        throw new InsufficientStockException(availableQuantity, null);
+                }
+                return null;
         }
 
         public void deleteAll() {

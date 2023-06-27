@@ -682,12 +682,11 @@ public class EshopClientCUI {
 			Article article;
 			try {
 				article = eshop.searchByArticleNumber(number);
+				System.out.println("Found article \n" + article.toString());
 			} catch (ArticleNotFoundException e) {
 				System.out.println("\n" + e.getMessage() + "\n");
 				return;
 			}
-
-			System.out.println("Found article \n" + article.toString());
 
 			//Get quantity change
 			System.out.println("Please enter how many items you'd like to add (positive number) or to retrieve from stock (negative number): ");
@@ -885,122 +884,185 @@ public class EshopClientCUI {
 		}
 	}
 
+//	private void changeArticleQuantityInCart() {
+//		try {
+//			if (loggedinUser instanceof Customer) {
+//				Customer customer = (Customer) loggedinUser;
+//
+//				// Take input from the user
+//				 System.out.print("Enter article number: ");
+//				    String articleNumberString = readInput();
+//				    int articleNumber = 0;
+//				    boolean validInput = false;
+//
+//				    while (!validInput) {
+//				        try {
+//				            articleNumber = Integer.parseInt(articleNumberString);
+//				            validInput = true; // Break the loop if parsing succeeds
+//				        } catch (NumberFormatException e) {
+//				            System.out.println("Invalid input. Please enter an integer value for the article number.");
+//				            System.out.print("Enter article number: ");
+//				            articleNumberString = readInput();
+//				        }
+//				    }
+//
+//				// Check if the item is actually in stock
+//				Article article;
+//
+//				try {
+//					article = eshop.searchByArticleNumber(articleNumber);
+//				} catch (ArticleNotFoundException e) {
+//					System.out.println("\n" + e.getMessage() + "\n");
+//					return;
+//				}
+//
+//				ShoppingCart shoppingCart = customer.getShoppingCart();
+//
+//				// Check if the article is a BulkArticle
+//				if (article instanceof BulkArticle) {
+//					BulkArticle bulkArticle = (BulkArticle) article;
+//					int packSize = bulkArticle.getPackSize();
+//
+//					// Print the pack size
+//					System.out.println("This article can only be purchased in packs of " + packSize + ".");
+//
+//					// Accept input of pack size or quantity
+//					System.out.print("Enter the new number of packs you wish to have in your shopping cart: ");
+//					String newPackSizeQuantityString = readInput();
+//					int newPackSizeQuantity = 0;
+//					boolean validInput1 = false;
+//
+//					while (!validInput1) {
+//						try {
+//							newPackSizeQuantity = Integer.parseInt(newPackSizeQuantityString);
+//							validInput1 = true; // Break the loop if parsing succeeds
+//						} catch (NumberFormatException e) {
+//							System.out.println("Invalid input. Please enter an integer value for the new pack size quantity.");
+//							System.out.print("Enter the new number of packs you wish to have in your shopping cart: ");
+//							newPackSizeQuantityString = readInput();
+//						}
+//					}
+//
+//					if (newPackSizeQuantity >= 1) {
+//						int quantityToChange = newPackSizeQuantity * packSize;
+//
+//						// Check if the desired quantity is still in stock
+//						int availableQuantity = article.getQuantityInStock();
+//						if (availableQuantity >= quantityToChange) {
+//							String updateResult = shoppingCart.updateArticleQuantity(article, quantityToChange);
+//							if (updateResult != null) {
+//								System.out.println(updateResult);
+//							}
+//
+//							// Check if the shopping cart is not empty and print the shopping cart
+//							if (!shoppingCart.getCartItems().isEmpty()) {
+//								shoppingCart.read();
+//							}
+//						} else {
+//							System.out.println(
+//									"Could not change article quantity in the cart. Desired quantity is not available.");
+//						}
+//					} else {
+//						System.out.println("Please input a positive number for the number of packs.");
+//					}
+//				} else {
+//					int newQuantity;
+//					System.out.print("Enter new quantity: ");
+//					String quantityString = readInput();
+//					newQuantity = Integer.parseInt(quantityString);
+//
+//					// single item
+//					// Check if the amount entered is valid
+//
+//					if (newQuantity >= 1) {
+//						// Check if the item is still in stock
+//						int availableQuantity = article.getQuantityInStock();
+//						if (availableQuantity >= newQuantity) {
+//							String updateResult = shoppingCart.updateArticleQuantity(article, newQuantity);
+//							if (updateResult != null) {
+//								System.out.println(updateResult);
+//							}
+//							// Check if the shopping cart is not empty and print the shopping cart
+//							if (!shoppingCart.getCartItems().isEmpty()) {
+//								shoppingCart.read();
+//							}
+//						} else {
+//							System.out.println(
+//									"Could not change article quantity in the cart. Desired quantity is not available.");
+//						}
+//					} else {
+//						System.out.println("Please input a positive number for quantity.");
+//					}
+//				}
+//			}
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//	}
+
 	private void changeArticleQuantityInCart() {
 		try {
 			if (loggedinUser instanceof Customer) {
 				Customer customer = (Customer) loggedinUser;
 
 				// Take input from the user
-				 System.out.print("Enter article number: ");
-				    String articleNumberString = readInput();
-				    int articleNumber = 0;
-				    boolean validInput = false;
+				System.out.print("Enter article number: ");
+				String articleNumberString = readInput();
+				int articleNumber = 0;
+				boolean validInput = false;
 
-				    while (!validInput) {
-				        try {
-				            articleNumber = Integer.parseInt(articleNumberString);
-				            validInput = true; // Break the loop if parsing succeeds
-				        } catch (NumberFormatException e) {
-				            System.out.println("Invalid input. Please enter an integer value for the article number.");
-				            System.out.print("Enter article number: ");
-				            articleNumberString = readInput();
-				        }
-				    }
+				while (!validInput) {
+					try {
+						articleNumber = Integer.parseInt(articleNumberString);
+						validInput = true; // Break the loop if parsing succeeds
+					} catch (NumberFormatException e) {
+						System.out.println("Invalid input. Please enter an integer value for the article number.");
+						System.out.print("Enter article number: ");
+						articleNumberString = readInput();
+					}
+				}
 
 				// Check if the item is actually in stock
 				Article article;
 
-				article = eshop.searchByArticleNumber(articleNumber);
+				try {
+					article = eshop.searchByArticleNumber(articleNumber);
+				} catch (ArticleNotFoundException e) {
+					System.out.println("\n" + e.getMessage() + "\n");
+					return;
+				}
 
-				if (article != null) {
+				System.out.print("Enter new quantity: ");
+				String newQuantityNumberString = readInput();
+				int newQuantity = 0;
+				boolean validInput2 = false;
 
-					// Variable of type shoppingCart is declared. The getShoppingCart method is
-					// called with the Customer object, in which the customer's shopping cart is
-					// returned
-					ShoppingCart shoppingCart = customer.getShoppingCart();
-
-					// Check if the article is a BulkArticle
-					if (article instanceof BulkArticle) {
-						BulkArticle bulkArticle = (BulkArticle) article;
-						int packSize = bulkArticle.getPackSize();
-
-						// Print the pack size
-						System.out.println("This article can only be purchased in packs of " + packSize + ".");
-
-						// Accept input of pack size or quantity
-						System.out.print("Enter the new number of packs you wish to have in your shopping cart: ");
-					    String newPackSizeQuantityString = readInput();
-					    int newPackSizeQuantity = 0;
-					    boolean validInput1 = false;
-
-					    while (!validInput1) {
-					        try {
-					            newPackSizeQuantity = Integer.parseInt(newPackSizeQuantityString);
-					            validInput1 = true; // Break the loop if parsing succeeds
-					        } catch (NumberFormatException e) {
-					            System.out.println("Invalid input. Please enter an integer value for the new pack size quantity.");
-					            System.out.print("Enter the new number of packs you wish to have in your shopping cart: ");
-					            newPackSizeQuantityString = readInput();
-					        }
-					    }
-
-						if (newPackSizeQuantity >= 1) {
-							int quantityToChange = newPackSizeQuantity * packSize;
-
-							// Check if the desired quantity is still in stock
-							int availableQuantity = article.getQuantityInStock();
-							if (availableQuantity >= quantityToChange) {
-								String updateResult = shoppingCart.updateArticleQuantity(article, quantityToChange);
-								if (updateResult != null) {
-									System.out.println(updateResult);
-								}
-
-								// Check if the shopping cart is not empty and print the shopping cart
-								if (!shoppingCart.getCartItems().isEmpty()) {
-									shoppingCart.read();
-								}
-							} else {
-								System.out.println(
-										"Could not change article quantity in the cart. Desired quantity is not available.");
-							}
+				while (!validInput2) {
+					try {
+						newQuantity = Integer.parseInt(newQuantityNumberString);
+						if (newQuantity >= 0) {
+							validInput2 = true; // Break the loop if parsing succeeds and input is valid
 						} else {
-							System.out.println("Please input a positive number for the number of packs.");
+							System.out.println("Invalid input. Please enter a non-negative integer value for the new quantity.");
+							System.out.print("Enter new quantity: ");
+							newQuantityNumberString = readInput();
 						}
-					} else {
-						int newQuantity;
+					} catch (NumberFormatException e) {
+						System.out.println("Invalid input. Please enter an integer value for the new quantity.");
 						System.out.print("Enter new quantity: ");
-						String quantityString = readInput();
-						newQuantity = Integer.parseInt(quantityString);
-
-						// single item
-						// Check if the amount entered is valid
-
-						if (newQuantity >= 1) {
-							// Check if the item is still in stock
-							int availableQuantity = article.getQuantityInStock();
-							if (availableQuantity >= newQuantity) {
-								String updateResult = shoppingCart.updateArticleQuantity(article, newQuantity);
-								if (updateResult != null) {
-									System.out.println(updateResult);
-								}
-								// Check if the shopping cart is not empty and print the shopping cart
-								if (!shoppingCart.getCartItems().isEmpty()) {
-									shoppingCart.read();
-								}
-							} else {
-								System.out.println(
-										"Could not change article quantity in the cart. Desired quantity is not available.");
-							}
-						} else {
-							System.out.println("Please input a positive number for quantity.");
-						}
+						newQuantityNumberString = readInput();
 					}
-				} else {
-					System.out.println("Article not found.");
+				}
+				try {
+					System.out.println(eshop.changeArticleQuantityInCart(newQuantity, article, (Customer) loggedinUser));
+				} catch (ArticleInCartNotFoundException a) {
+					System.out.println("\n" + a.getMessage() + "\n");
+				} catch (BulkArticleException b) {
+					System.out.println("\n" + b.getMessage() + "\n");
+				} catch (InsufficientStockException i) {
+					System.out.println("\n" + i.getMessage() + "\n");
 				}
 			}
-		} catch (ArticleNotFoundException e) {
-			System.out.println("\n" + e.getMessage() + "\n");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -1034,7 +1096,11 @@ public class EshopClientCUI {
 					System.out.println("\n" + e.getMessage() + "\n");
 					return;
 				}
-				System.out.println(eshop.removeArticleFromCART(customer, article));
+				try {
+					System.out.println(eshop.removeArticleFromCART(customer, article));
+				} catch (ArticleInCartNotFoundException e) {
+					System.out.println("\n" + e.getMessage() + "\n");
+				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -1044,10 +1110,6 @@ public class EshopClientCUI {
 	private void viewArticlesInCart() {
 		// sicherstellen, dass der eingeloggte Benutzer ein Customer ist
 		if (loggedinUser instanceof Customer) {
-			// Warenkorb des Kunden wird abgerufen und in lokaler Variable shoppingCartItems
-			// gespeichert.
-			// Der Rückgabewert ist eine Liste von ShoppingCartItem-Objekten, die in der
-			// Variablen shoppingCartItems gespeichert wird.
 			List<ShoppingCartItem> shoppingCartItems = eshop.getUsersShoppingCart((Customer) loggedinUser);
 			// Danach wird überprüft, ob shoppingCartItems nicht null ist und mindestens ein
 			// Element enthält.
