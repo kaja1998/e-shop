@@ -228,7 +228,7 @@ public class EshopClientCUI {
 			String message = "";
 
 			try {
-				message = eshop.customerRegister(name, lastName, street, postalCode, city, mail, username, password,
+				message = eshop.registerCustomer(name, lastName, street, postalCode, city, mail, username, password,
 						registerNow);
 				System.out.println(message);
 			} catch (RegisterException e) {

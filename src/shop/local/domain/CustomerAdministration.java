@@ -91,10 +91,6 @@ public class CustomerAdministration {
                 return customers;
         }
 
-        public void setCustomers(ArrayList<Customer> customers) {
-                this.customers = customers;
-        }
-
         public Customer getUserByID(int id){
                 for (Customer customer : customers) {
                         if(id == customer.getId()){
@@ -104,10 +100,7 @@ public class CustomerAdministration {
                 return null;
         }
         
-        
-//        method:
-        
-        public String customerRegister(String name, String lastName, String street, int postalCode, String city,
+        public String registerCustomer(String name, String lastName, String street, int postalCode, String city,
 				String mail, String username, String password, String registerNow) throws RegisterException {
         	String message = "";
         	
@@ -119,17 +112,16 @@ public class CustomerAdministration {
 
     			if (!customerAlreadyExists) {
     				try {
-    					EshopClientCUI.getEshop().registerCustomer(customer);
-    					message = "Registration successful.";
+                        writeData("ESHOP_Customer.txt", customer);
     				} catch (IOException e) {
     					e.printStackTrace();
     				}
+                    addCustomer(customer);
+                    message = "Registration successful.";
     			} else {
     				throw new RegisterException(customer, "A User with this Name already exist. Please choose another one.");
     			}
     		}
                 return message;
         }
-
-
 }

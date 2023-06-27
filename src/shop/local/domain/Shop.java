@@ -77,11 +77,6 @@ public class Shop {
 		return false;
 	}
 
-	public void registerCustomer(Customer customer) throws IOException {
-		writeCustomerData("ESHOP_Customer.txt", customer);
-		addCustomer(customer);
-	}
-
 	public Customer loginCustomer(String username, String password) throws LoginException {
 		return customerAdministration.login(username, password);
 	}
@@ -218,10 +213,6 @@ public class Shop {
 		return bo;
 	}
 
-	public void addEmployee(Employee employee) {
-		employeeAdministration.addEmployee(employee);
-	}
-
 	public void writeArticleDataToAddArticle(String file, Article articleToAdd) throws IOException {
 		articleAdministration.writeData(file, articleToAdd);
 	}
@@ -230,31 +221,18 @@ public class Shop {
 		articleAdministration.writeDataToRemoveArticle(file, articleToRemove);
 	}
 
-	public void writeCustomerData(String file, Customer customer) throws IOException {
-		customerAdministration.writeData(file, customer);
-	}
-
 	public void writeEmployeeData(String file, Employee employee) throws IOException {
 		employeeAdministration.writeData(file, employee);
 	}
-
-	/**
-	 * Method to add a customer to the list of all customers
-	 */
-	public void addCustomer(Customer customer) {
-		customerAdministration.addCustomer(customer);
-	}
-
 
 	public HashMap<String, Integer> getEventsbyArticleOfLast30Days(int articleID) {
 		Article article = articleAdministration.getArticleByID(articleID);
 		return eventAdministration.getEventsbyArticleOfLast30Days(article);
 	}
 
-	public String customerRegister(String name, String lastName, String street, int postalCode, String city, String mail,
+	public String registerCustomer(String name, String lastName, String street, int postalCode, String city, String mail,
 			String username, String password, String registerNow) throws RegisterException {
-		return customerAdministration.customerRegister(name, lastName, street, postalCode, city, mail, username, password,
-				registerNow);
+		return customerAdministration.registerCustomer(name, lastName, street, postalCode, city, mail, username, password, registerNow);
 	}
 
 	public String registerEmployee(String name, String lastname, String username, String password) throws IOException, RegisterException {
