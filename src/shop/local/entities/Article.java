@@ -1,5 +1,7 @@
 package shop.local.entities;
 
+import shop.local.domain.exceptions.StockDecreaseException;
+
 /**
  * Class for representing individual articles.
  * @author Sund
@@ -106,7 +108,26 @@ public class Article {
 		}
 	}
 
-	public boolean decreaseStock(int quantityToRetrieve) {
+	public boolean decreaseStock(int quantityToRetrieve) throws StockDecreaseException {
+		// check if quantity can be retrieved
+		if(quantityToRetrieve > this.quantityInStock) {
+			throw new StockDecreaseException("Insufficient quantity in stock.");
+		}
+
+		// retrieve stock
+		//Wenn die angegebene Menge kleiner oder gleich dem Lagerbestand ist, wird die Menge vom Lagerbestand abgezogen, um die Entnahme zu simulieren.
+		this.quantityInStock -= quantityToRetrieve;
+
+		// check if article is out of stock now
+		if(this.quantityInStock < 0) {
+			this.inStock = false;
+		}
+
+		// if we came until here, stock was decreased successfully
+		return true;
+	}
+
+	public boolean decreaseStockWhileBuy(int quantityToRetrieve) {
 		// check if quantity can be retrieved
 		if(quantityToRetrieve > this.quantityInStock) {
 			return false;

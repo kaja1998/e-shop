@@ -2,10 +2,7 @@ package shop.local.domain;
 
 import java.io.IOException;
 
-import shop.local.domain.exceptions.ArticleAlreadyExistsException;
-import shop.local.domain.exceptions.ArticleBuyingException;
-import shop.local.domain.exceptions.ArticleNotFoundException;
-import shop.local.domain.exceptions.EmptyCartException;
+import shop.local.domain.exceptions.*;
 import shop.local.entities.*;
 import shop.local.persistence.FilePersistenceManager;
 import shop.local.persistence.PersistenceManager;
@@ -130,8 +127,17 @@ public class ArticleAdministration {
 		writeData(file, article);
 	}
 
-	public boolean decreaseArticleStock(Article article, int quantityToRetrieve, String file) throws IOException {
+	public boolean decreaseArticleStock(Article article, int quantityToRetrieve, String file) throws IOException, StockDecreaseException {
 		boolean success = article.decreaseStock(quantityToRetrieve);
+		if (success) {
+			writeData(file, article);
+			return true;
+		}
+		return false;
+	}
+
+	public boolean decreaseArticleStockWhileBuy(Article article, int quantityToRetrieve, String file) throws IOException {
+		boolean success = article.decreaseStockWhileBuy(quantityToRetrieve);
 		if (success) {
 			writeData(file, article);
 			return true;
@@ -156,7 +162,7 @@ public class ArticleAdministration {
 				int quantity = item.getQuantity();
 
 				// try to take articles stock and check if successful
-				boolean success = decreaseArticleStock(article, quantity, "ESHOP_Article.txt");
+				boolean success = decreaseArticleStockWhileBuy(article, quantity, "ESHOP_Article.txt");
 
 				// add item to invoice
 				if (success) {

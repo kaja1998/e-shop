@@ -169,7 +169,8 @@ public class EshopClientCUI {
 		// Buy all in SC
 		case "f":
 			buyArticlesInCart();
-			// clear cart
+			break;
+		// clear cart
 		case "g":
 			deleteAllArticlesInCart();
 			break;
@@ -224,6 +225,11 @@ public class EshopClientCUI {
 			System.out.println("Register now 'yes' / 'no': ");
 			String registerNow = readInput();
 
+			if (name.isEmpty() || lastName.isEmpty() || street.isEmpty() || postalCodeString.isEmpty() ||
+					city.isEmpty() || mail.isEmpty() || username.isEmpty() || password.isEmpty() || registerNow.isEmpty()) {
+				throw new IllegalArgumentException("Please fill in all fields.");
+			}
+
 			String message = "";
 
 			try {
@@ -243,15 +249,19 @@ public class EshopClientCUI {
 			System.out.print("Name > ");
 			String name = readInput();
 			System.out.print("Lastname > ");
-			String lastname = readInput();
+			String lastName = readInput();
 			System.out.print("Username > ");
-			String username = readInput();
+			String userName = readInput();
 			System.out.print("Password > ");
 			String password = readInput();
 
+			if (name.isEmpty() || lastName.isEmpty() || userName.isEmpty() || password.isEmpty()) {
+				throw new IllegalArgumentException("Please fill in all fields.");
+			}
+
 			String message = "";
 			try {
-				message = eshop.registerEmployee(name, lastname, username, password);
+				message = eshop.registerEmployee(name, lastName, userName, password);
 				System.out.println(message);
 			} catch (RegisterException e) {
 				System.out.println("\n" + e.getMessage() + "\n");
@@ -483,13 +493,14 @@ public class EshopClientCUI {
 
 			// Try to change inventory
 			if (stockChange < 0) {
-				boolean success = eshop.decreaseArticleStock(article, (-1) * stockChange, "ESHOP_Article.txt",
-						loggedinUser);
+				boolean success = true;
+				try {
+					success = eshop.decreaseArticleStock(article, (-1) * stockChange, "ESHOP_Article.txt", loggedinUser);
+				} catch (StockDecreaseException s){
+					System.out.println("\n" + s.getMessage() + "\n");
+				}
 				if (success) {
 					System.out.println("Successfully decreased article's stock.");
-				} else {
-					System.out.println(
-							"Could not decrease stock. Maybe you tried to retrieve more items than there are available?");
 				}
 			} else {
 				eshop.increaseArticleStock(article, stockChange, "ESHOP_Article.txt", loggedinUser);
@@ -724,16 +735,17 @@ public class EshopClientCUI {
 				Invoice invoice = null;
 				try {
 					invoice = eshop.buyArticles(shoppingCart, loggedinUser);
+
+					// print which articles couldn't be purchased
+					articlesCouldntPurchase(invoice);
+					// print which articles could be purchased
+					articlePurchaseSuccessfully(invoice);
+
 				} catch (EmptyCartException e) {
 					System.out.println("\n" + e.getMessage() + "\n");
 				} catch (ArticleBuyingException a) {
 					System.out.println("\n" + a.getMessage() + "\n");
 				}
-
-				// print which articles couldn't be purchased
-				articlesCouldntPurchase(invoice);
-				// print which articles could be purchased
-				articlePurchaseSuccessfully(invoice);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -772,8 +784,11 @@ public class EshopClientCUI {
 	private void deleteAllArticlesInCart() {
 		if (loggedinUser instanceof Customer) {
 			Customer customer = (Customer) loggedinUser;
-
-			System.out.println(eshop.deleteAllArticlesInCart((Customer) loggedinUser));
+			try {
+				System.out.println(eshop.deleteAllArticlesInCart((Customer) loggedinUser));
+			} catch (EmptyCartException e){
+				System.out.println("\n" + e.getMessage() + "\n");
+			}
 		}
 	}
 

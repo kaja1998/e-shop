@@ -1,6 +1,7 @@
 package shop.local.entities;
 import shop.local.domain.exceptions.ArticleInCartNotFoundException;
 import shop.local.domain.exceptions.BulkArticleException;
+import shop.local.domain.exceptions.EmptyCartException;
 import shop.local.domain.exceptions.InsufficientStockException;
 
 import java.util.ArrayList;
@@ -167,8 +168,12 @@ public class ShoppingCart {
                 throw new ArticleInCartNotFoundException(article, null);
         }
 
-        public String deleteAllArticlesInCart(){
-                cartItems.clear();
-                return "All Articles were removed successfully from the cart." + "\n";
+        public String deleteAllArticlesInCart() throws EmptyCartException {
+                if (cartItems.isEmpty()) {
+                        throw new EmptyCartException("No articles in the shopping cart.");
+                } else {
+                        cartItems.clear();
+                        return "All articles were removed successfully from the cart.\n";
+                }
         }
 }
