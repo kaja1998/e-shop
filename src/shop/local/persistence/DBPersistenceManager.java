@@ -42,7 +42,7 @@ public class DBPersistenceManager implements PersistenceManager {
 	}
 
 	@Override
-	public boolean addArticles(Article articleToAdd, ArrayList<Article> existingArticles) throws IOException {
+	public boolean writeArticles(ArrayList<Article> existingArticles) throws IOException {
 		return false;
 	}
 

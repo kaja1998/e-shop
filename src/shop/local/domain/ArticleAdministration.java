@@ -58,10 +58,10 @@ public class ArticleAdministration {
 		articles.add(article);
 	}
 
-	public void writeData(String file, Article article) throws IOException {
+	public void writeData(String file) throws IOException {
 		// Open persistence manager for writes
 		persistenceManager.openForWriting(file);
-		persistenceManager.addArticles(article, this.articles);
+		persistenceManager.writeArticles(this.articles);
 
 		// Close the persistence interface again
 		persistenceManager.close();
@@ -124,13 +124,13 @@ public class ArticleAdministration {
 
 	public void increaseArticleStock(Article article, int quantityToAdd, String file) throws IOException {
 		article.increaseStock(quantityToAdd);
-		writeData(file, article);
+		writeData(file);
 	}
 
 	public boolean decreaseArticleStock(Article article, int quantityToRetrieve, String file) throws IOException, StockDecreaseException {
 		boolean success = article.decreaseStock(quantityToRetrieve);
 		if (success) {
-			writeData(file, article);
+			writeData(file);
 			return true;
 		}
 		return false;
@@ -139,7 +139,7 @@ public class ArticleAdministration {
 	public boolean decreaseArticleStockWhileBuy(Article article, int quantityToRetrieve, String file) throws IOException {
 		boolean success = article.decreaseStockWhileBuy(quantityToRetrieve);
 		if (success) {
-			writeData(file, article);
+			writeData(file);
 			return true;
 		}
 		return false;
@@ -204,16 +204,16 @@ public class ArticleAdministration {
 		return result;
 	}
 
-	public void addArticle(Article article, String articleTitle, String articleType, int initialQuantity, double price,
-			int packSize) throws IOException {
-		if (articleType.equalsIgnoreCase("bulk")) {
-			// Lese Packungsgröße
-			// Erstelle Massengutartikel
-			article = new BulkArticle(articleTitle, initialQuantity, price, packSize);
-		} else {
-			// Erstelle Einzelartikel
-			article = new Article(articleTitle, initialQuantity, price);
-		}
-	}
+//	public void addArticle(Article article, String articleTitle, String articleType, int initialQuantity, double price,
+//			int packSize) throws IOException {
+//		if (articleType.equalsIgnoreCase("bulk")) {
+//			// Lese Packungsgröße
+//			// Erstelle Massengutartikel
+//			article = new BulkArticle(articleTitle, initialQuantity, price, packSize);
+//		} else {
+//			// Erstelle Einzelartikel
+//			article = new Article(articleTitle, initialQuantity, price);
+//		}
+//	}
 
 }

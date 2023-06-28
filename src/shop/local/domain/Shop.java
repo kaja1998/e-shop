@@ -110,7 +110,7 @@ public class Shop {
 	 */
 	public Article insertArticle(Article article, int quantityInStock, User user) throws ArticleAlreadyExistsException, IOException {
 		articleAdministration.insertArticle(article);
-		writeArticleDataToAddArticle("ESHOP_Article.txt", article);
+		writeArticleDataToAddArticle("ESHOP_Article.txt");
 		// Ereignis für die Einlagerung in ArrayList schreiben
 		Event event = new Event(Event.EventType.NEU, article, quantityInStock, user);
 		eventAdministration.addEvent(event);
@@ -191,8 +191,8 @@ public class Shop {
 		return bo;
 	}
 
-	public void writeArticleDataToAddArticle(String file, Article articleToAdd) throws IOException {
-		articleAdministration.writeData(file, articleToAdd);
+	public void writeArticleDataToAddArticle(String file) throws IOException {
+		articleAdministration.writeData(file);
 	}
 
 	public void writeArticleDataToRemoveArticle(String file, Article articleToRemove) throws IOException {
@@ -218,7 +218,6 @@ public class Shop {
 		// Delete item from shopping cart
 		return shoppingCart.addArticleToCart(article, quantity);
 	}
-
 	
 	public String removeArticleFromCART(Customer customer, Article article) throws IOException, ArticleInCartNotFoundException {
 			ShoppingCart shoppingCart = customer.getShoppingCart();

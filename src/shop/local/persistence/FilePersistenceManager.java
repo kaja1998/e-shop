@@ -98,17 +98,13 @@ public class FilePersistenceManager implements PersistenceManager {
 	/**
 	 * Method for writing item data to an external data source.
 	 *
-	 * @param newArticle Article to save
 	 * @return true if write is successful, false otherwise
 	 */
-	public boolean addArticles(Article newArticle, ArrayList<Article> existingArticles) {
+	public boolean writeArticles(ArrayList<Article> existingArticles) {
 		// Write all existing articles to the file
 		for (Article article : existingArticles){
 			this.writeArticleToFile(article);
 		}
-		// Write the new article to file
-		//this.writeArticleToFile(newArticle);
-		// return true, if everything worked
 		return true;
 	}
 
