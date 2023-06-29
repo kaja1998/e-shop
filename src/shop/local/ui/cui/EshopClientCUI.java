@@ -3,8 +3,11 @@ package shop.local.ui.cui;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 import shop.local.domain.exceptions.*;
 import shop.local.domain.Shop;
@@ -371,7 +374,7 @@ public class EshopClientCUI {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void insertArticle() {
 		try {
 			// Lese Title
@@ -475,7 +478,7 @@ public class EshopClientCUI {
 			//int articleID = readInt("Enter article number you want to see the history from: ", "Invalid input. Please enter an integer value for article number.");
 			System.out.println("Enter article number you want to see the history from: ");
 			int articleID = Integer.parseInt(readInput());
-			HashMap<String, Integer> eventsList = eshop.getEventsbyArticleOfLast30Days(articleID);
+			Map<Date, Integer> eventsList = eshop.getEventsbyArticleOfLast30Days(articleID);
 			//int finalStockQuantityOfTheLast30Days = eshop.getOriginalStock(articleID, eventsList);
 			System.out.println("For the article with the ID: " + articleID + ", the stock quantity in the last few days were as followed:");
 			int sum = 0;
@@ -484,9 +487,10 @@ public class EshopClientCUI {
 			} catch (ArticleNotFoundException a){
 				System.out.println("\n" + a.getMessage() + "\n");
 			}
-			for (String date : eventsList.keySet()) {
+			SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+			for (Date date : eventsList.keySet()) {
 				sum -= eventsList.get(date);
-				System.out.println(date + ", Stock quantity: " + sum);
+				System.out.println(dateFormat.format(date) + ", Stock quantity: " + sum);
 			}
 			//System.out.println("Stock Quantity ");
 		} catch (IOException e) {

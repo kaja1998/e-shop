@@ -4,7 +4,10 @@ import shop.local.entities.Event;
 import shop.local.persistence.FilePersistenceManager;
 import shop.local.persistence.PersistenceManager;
 import java.io.IOException;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
@@ -61,7 +64,7 @@ public class EventAdministration {
         persistenceManager.close();
     }
 
-    public HashMap<String, Integer> getEventsbyArticleOfLast30Days(Article article) {
+    public Map<Date, Integer> getEventsbyArticleOfLast30Days(Article article) {
         List<Event> filteredEvents = new ArrayList<Event>();
 
         // Durchlaufe alle Ereignisse
@@ -69,12 +72,13 @@ public class EventAdministration {
             // Überprüfe, ob das Ereignis zum gewünschten Artikel gehört
             if (event.getArticle().getNumber() == article.getNumber()) {
                 // Konvertiere das Datum des Ereignisses in ein LocalDate-Objekt
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(event.getDate());
-                LocalDate localDate = LocalDate.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH));
+
+                Instant instant = event.getDate().toInstant();
+                ZonedDateTime zdt = instant.atZone(ZoneId.systemDefault());
+                LocalDate date = zdt.toLocalDate();
 
                 // Berechne die Anzahl der Tage zwischen dem Ereignisdatum und dem aktuellen Datum
-                long tageDifferenz = ChronoUnit.DAYS.between(localDate, LocalDate.now());
+                long tageDifferenz = ChronoUnit.DAYS.between(date, LocalDate.now());
 
                 // Überprüfe, ob das Ereignis innerhalb der letzten 30 Tage liegt
                 if (tageDifferenz <= 30) {
@@ -84,16 +88,15 @@ public class EventAdministration {
         }
 
         // Sortiere die Ereignisse nach dem Datum
-        List<Event> sortedEvents = getDatesSorted(filteredEvents);    //TODO: HashMap Sortieren
+        List<Event> sortedEvents = getDatesSorted(filteredEvents);
 
         // Berechne die Artikelbestände für die gefilterten Ereignisse
-        HashMap<String, Integer> stringIntegerHashMap = calculateArticleStocks(article, sortedEvents);
+        Map<Date, Integer> stringIntegerHashMap = calculateArticleStocks(article, sortedEvents);
 
         // Gib die berechneten Ereignisse zurück
         return stringIntegerHashMap;
     }
 
-    //TODO: HashMap Sortieren
     private List<Event> getDatesSorted(List<Event> filteredEvents) {
         // Die Liste der Ereignisse nach dem Datum sortieren
 
@@ -112,34 +115,33 @@ public class EventAdministration {
     }
 
     /*Method that creates a list totaling the item's stock quantity for each date
-     * Doesn't work as it's supposed to. TODO: Think about the logic again
      * */
-    private HashMap<String, Integer> calculateArticleStocks(Article article, List<Event> filteredEvents) {
+    private Map<Date, Integer> calculateArticleStocks(Article article, List<Event> filteredEvents) {
         List<Event> calculatedEvents = new ArrayList<>();
 
-        HashMap<String, List<Event>> groupedEvents = new HashMap<String, List<Event>>();
+        Map<Date, List<Event>> groupedEvents = new TreeMap<Date, List<Event>>();
 
         // Schleife über die filteredEvents
         for (Event event : filteredEvents) {
-            String dateString = event.getDate().getDate() + "." + event.getDate().getMonth() + "." + event.getDate().getYear();
+            //String dateString = event.getDate().getDate() + "." + event.getDate().getMonth() + "." + event.getDate().getYear();
             //Wir suchen in der Hashmap nach einem datum
-            List<Event> foundEvents = groupedEvents.get(dateString);
+            List<Event> foundEvents = groupedEvents.get(event.getDate());
             //wenn es das Datum gibt, dann wird der Key (Datum) zu dem Value (den List<Events>) hinzugefügt
             if (foundEvents != null) {
-                groupedEvents.get(dateString).add(event);
+                groupedEvents.get(event.getDate()).add(event);
                 //Wenn es das Datum in der Hashmap noch nicht gibt, dann wird ein neuer KeyValue erstellt (Key + Value-Paar wird erstellt)
             } else {
                 List<Event> e = new ArrayList<>();
                 e.add(event);
                 //dateString = key, e = value
-                groupedEvents.put(dateString, e);
+                groupedEvents.put(event.getDate(), e);
             }
         }
 
         //
-        HashMap<String, Integer> summedStockQuantity = new HashMap<String, Integer>();
+        Map<Date, Integer> summedStockQuantity = new TreeMap<Date, Integer>();
         //Schleife über die HashMap Keys von groupedEvents (die Keys sind die Datums)
-        for (String i : groupedEvents.keySet()) {
+        for (Date i : groupedEvents.keySet()) {
             //In einer Liste werden die Events zu dem Datum gespeichert
             //wenn ich mit get in den Key reingehe, dann bekomme ich den Value zurück
             List<Event> foundEvents = groupedEvents.get(i);
@@ -152,16 +154,5 @@ public class EventAdministration {
             summedStockQuantity.put(i, summedValues);
         }
         return summedStockQuantity;
-    }
-
-    public Integer getOriginalStock(Article article, HashMap<String, Integer> summedStockQuantity) {
-        //hole mir die aktuelle Quantity von dem Artikel
-        int originalStock = article.getQuantityInStock();
-        //Mit Schleife über HashMap und hole mir da die summierten Quantities
-        for (Integer q : summedStockQuantity.values()) {
-            //summiere die mit der aktuellen StockQuantity auf
-            originalStock += q;
-        }
-        return originalStock;
     }
 }

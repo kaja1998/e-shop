@@ -167,7 +167,7 @@ public class ArticleAdministration {
 				// add item to invoice
 				if (success) {
 					invoice.addPosition(item);
-					Event event = new Event(Event.EventType.KAUF, article, quantity, user);
+					Event event = new Event(Event.EventType.KAUF, article, -quantity, user);
 					// Ereignis für die Auslagerung in ArrayList schreiben
 					eventAdministration.addEvent(event);
 				} else {

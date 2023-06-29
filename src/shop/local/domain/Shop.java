@@ -1,9 +1,7 @@
 package shop.local.domain;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import shop.local.domain.exceptions.*;
 import shop.local.entities.*;
@@ -110,7 +108,7 @@ public class Shop {
 	 */
 	public Article insertArticle(Article article, int quantityInStock, User user) throws ArticleAlreadyExistsException, IOException {
 		articleAdministration.insertArticle(article);
-		writeArticleDataToAddArticle("ESHOP_Article.txt");
+		writeArticleDataToAddArticle();
 		// Ereignis für die Einlagerung in ArrayList schreiben
 		Event event = new Event(Event.EventType.NEU, article, quantityInStock, user);
 		eventAdministration.addEvent(event);
@@ -191,15 +189,15 @@ public class Shop {
 		return bo;
 	}
 
-	public void writeArticleDataToAddArticle(String file) throws IOException {
-		articleAdministration.writeData(file);
+	public void writeArticleDataToAddArticle() throws IOException {
+		articleAdministration.writeData("ESHOP_Article.txt");
 	}
 
 	public void writeArticleDataToRemoveArticle(String file, Article articleToRemove) throws IOException {
 		articleAdministration.writeDataToRemoveArticle(file, articleToRemove);
 	}
 
-	public HashMap<String, Integer> getEventsbyArticleOfLast30Days(int articleID) {
+	public Map<Date, Integer> getEventsbyArticleOfLast30Days(int articleID) {
 		Article article = articleAdministration.getArticleByID(articleID);
 		return eventAdministration.getEventsbyArticleOfLast30Days(article);
 	}
