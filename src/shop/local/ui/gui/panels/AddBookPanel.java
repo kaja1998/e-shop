@@ -7,9 +7,11 @@ import shop.local.domain.Shop;
 import shop.local.domain.exceptions.ArticleAlreadyExistsException;
 import shop.local.entities.Article;
 import shop.local.entities.User;
+import shop.local.ui.cui.EshopClientCUI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 // Wichtig: Das AddBookPanel _ist ein_ Panel und damit auch eine Component; 
 // es kann daher in das Layout eines anderen Containers 
@@ -27,11 +29,16 @@ public class AddBookPanel extends JPanel {
 
 	
 	private Shop eshop = null;
+
+	private EshopClientCUI cui = null;
 	private AddBookListener addBookListener = null;
 
 	private JButton hinzufuegenButton;
-	private JTextField nummerTextFeld = null;
 	private JTextField titelTextFeld = null;
+	private JTextField priceTextFeld = null;
+	private JTextField quanitityTextFeld = null;
+	private JTextField articleTypeTextFeld = null;
+	private JTextField packSizeTextFeld = null;
 
 	public AddBookPanel(Shop shop, AddBookListener addBookListener) {
 		eshop = shop;
@@ -53,12 +60,21 @@ public class AddBookPanel extends JPanel {
 		Box.Filler filler = new Box.Filler(borderMinSize, borderPrefSize, borderMaxSize);
 		add(filler);
 
-		nummerTextFeld = new JTextField();
 		titelTextFeld = new JTextField();
-		add(new JLabel("Nummer:"));
-		add(nummerTextFeld);
-		add(new JLabel("Titel:"));
+		priceTextFeld = new JTextField();
+		quanitityTextFeld = new JTextField();
+		articleTypeTextFeld = new JTextField();
+		packSizeTextFeld = new JTextField();
+		add(new JLabel("Title:"));
 		add(titelTextFeld);
+		add(new JLabel("Price:"));
+		add(priceTextFeld);
+		add(new JLabel("Initital quantity:"));
+		add(quanitityTextFeld);
+		add(new JLabel("Type (bulk / single):"));
+		add(articleTypeTextFeld);
+		add(new JLabel("Pack size:"));
+		add(packSizeTextFeld);
 
 		// Abstandhalter ("Filler") zwischen letztem Eingabefeld und Add-Button
 		Dimension fillerMinSize = new Dimension(5, 20);
@@ -67,14 +83,14 @@ public class AddBookPanel extends JPanel {
 		filler = new Box.Filler(fillerMinSize, fillerPrefSize, fillerMaxSize);
 		add(filler);
 
-		hinzufuegenButton = new JButton("Hinzufuegen");
+		hinzufuegenButton = new JButton("Add");
 		add(hinzufuegenButton);
 
 		// Abstandhalter ("Filler") zwischen letztem Element und Rand
 		add(new Box.Filler(borderMinSize, borderPrefSize, borderMaxSize));
 
 		// Rahmen definieren
-		setBorder(BorderFactory.createTitledBorder("Einfügen"));
+		setBorder(BorderFactory.createTitledBorder("Insert new Article"));
 	}
 
 	private void setupEvents() {
@@ -90,24 +106,38 @@ public class AddBookPanel extends JPanel {
 	}
 
 	private void buchEinfügen() {
-		String nummer = nummerTextFeld.getText();
 		String titel = titelTextFeld.getText();
+		String priceText = priceTextFeld.getText();
+		String quantityText = quanitityTextFeld.getText();
+		String articleType = articleTypeTextFeld.getText();
+		String packSizeText = packSizeTextFeld.getText();
+		User user = null; // Benutzer abrufen, je nach Implementierung
 
-		if (!nummer.isEmpty() && !titel.isEmpty()) {
+
+		if (!titel.isEmpty() && !priceText.isEmpty() && !quantityText.isEmpty() && !articleType.isEmpty() && !packSizeText.isEmpty()) {
 			try {
-				int nummerAlsInt = Integer.parseInt(nummer);
-				eshop.insertArticle(article, nummerAlsInt, user);
+				double price = Double.parseDouble(priceText);
+				int quantity = Integer.parseInt(quantityText);
+				int packSize = Integer.parseInt(packSizeText);
+
+				Article article = eshop.insertArticle(titel, price, quantity, articleType, packSize, null);
 				//Article article = eshop.fuegeBuchEin(titel, nummerAlsInt);
-				nummerTextFeld.setText("");
+
 				titelTextFeld.setText("");
+				priceTextFeld.setText("");
+				quanitityTextFeld.setText("");
+				articleTypeTextFeld.setText("");
+				packSizeTextFeld.setText("");
 
 				// Am Ende Listener, d.h. unseren Frame benachrichtigen:
 				addBookListener.onBookAdded(article);
 			} catch (NumberFormatException nfe) {
-				System.err.println("Bitte eine Zahl eingeben.");
+				System.err.println("Please enter an integer as value.");
 			} catch (ArticleAlreadyExistsException bebe) {
 				System.err.println(bebe.getMessage());
-			} 
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
 		}
 	}
 }

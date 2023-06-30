@@ -405,23 +405,19 @@ public class EshopClientCUI {
 				}
 			}
 
-			Article article;
+			int packSize = 0;
 			if (articleType.equalsIgnoreCase("bulk")) {
 				// Lese Packungsgröße
-				int packSize = readInt("Pack size > ", "Invalid input. Please enter an integer value for the pack size.");
+				packSize = readInt("Pack size > ", "Invalid input. Please enter an integer value for the pack size.");
 
 				while (packSize <= 0) {
 					System.out.println("Invalid input. Please enter a positive integer value for pack size.");
 					packSize = readInt("Pack size > ", "Please enter a positive integer value for pack size.");
 				}
-
-				article = new BulkArticle(articleTitle, initialQuantity, price, packSize);
-			} else {
-				article = new Article(articleTitle, initialQuantity, price);
 			}
 
 			try {
-				eshop.insertArticle(article, initialQuantity, loggedinUser);
+				eshop.insertArticle(articleTitle, price, initialQuantity, articleType, packSize, loggedinUser);
 				System.out.println("Article saved successfully");
 			} catch (ArticleAlreadyExistsException e) {
 				System.out.println("\n" + e.getMessage() + "\n");

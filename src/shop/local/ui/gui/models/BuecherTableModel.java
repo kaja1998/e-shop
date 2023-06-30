@@ -2,6 +2,7 @@ package shop.local.ui.gui.models;
 
 //import bib.local.entities.Buch;
 import shop.local.entities.Article;
+import shop.local.entities.BulkArticle;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.Vector;
 public class BuecherTableModel extends AbstractTableModel  {
 
     private List<Article> articles;
-    private String[] spaltenNamen = { "Nummer","Titel", "verfügbar" };
+    private String[] spaltenNamen = { "Number", "Title", "Price", "Quantity", "Pack size"};
 
     
     public BuecherTableModel(List<Article> aktuelleBuecher) {
@@ -61,8 +62,16 @@ public class BuecherTableModel extends AbstractTableModel  {
             case 1:
                 return chosenArticle.getArticleTitle();
             case 2:
+                return chosenArticle.getPrice();
+            case 3:
                 return chosenArticle.getQuantityInStock();
-                //isVerfuegbar();
+            case 4:
+                if (chosenArticle instanceof BulkArticle) {
+                    BulkArticle bulkArticle = (BulkArticle) chosenArticle;
+                    return bulkArticle.getPackSize();
+                } else {
+                    return null;
+                }
             default:
                 return null;
         }

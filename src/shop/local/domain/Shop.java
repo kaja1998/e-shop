@@ -100,13 +100,18 @@ public class Shop {
 	 * Method of adding a new item to stock. If the item is already in stock, the
 	 * stock will not be changed.
 	 *
-	 * @param article         Article
 	 * @param quantityInStock Stock Quantity
 	 * @param user            loggedInUser
 	 * @return article object inserted in case of success
 	 * @throws ArticleAlreadyExistsException if the article already exists
 	 */
-	public Article insertArticle(Article article, int quantityInStock, User user) throws ArticleAlreadyExistsException, IOException {
+	public Article insertArticle(String articleTitle, double price, int quantityInStock, String articleType, int packSize, User user) throws ArticleAlreadyExistsException, IOException {
+		Article article;
+		if (articleType.equalsIgnoreCase("bulk")) {
+			article = new BulkArticle(articleTitle, quantityInStock, price, packSize);
+		} else {
+			article = new Article(articleTitle, quantityInStock, price);
+		}
 		articleAdministration.insertArticle(article);
 		writeArticleDataToAddArticle();
 		// Ereignis für die Einlagerung in ArrayList schreiben

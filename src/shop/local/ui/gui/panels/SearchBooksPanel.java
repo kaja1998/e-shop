@@ -52,7 +52,7 @@ public class SearchBooksPanel extends JPanel {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridy = 0;	// Zeile 0
 
-		JLabel searchLabel = new JLabel("Suchbegriff:");
+		JLabel searchLabel = new JLabel("Search term:");
 		c.gridx = 0;	// Spalte 0
 		c.weightx = 0.2;	// 20% der gesamten Breite
 		c.anchor = GridBagConstraints.EAST;
@@ -60,20 +60,20 @@ public class SearchBooksPanel extends JPanel {
 		this.add(searchLabel);
 		
 		searchTextField = new JTextField();
-		searchTextField.setToolTipText("Hier Suchbegriff eingeben.");
+		searchTextField.setToolTipText("Enter search term here.");
 		c.gridx = 1;	// Spalte 1
 		c.weightx = 0.6;	// 60% der gesamten Breite
 		gridBagLayout.setConstraints(searchTextField, c);
 		this.add(searchTextField);
 		
-		searchButton = new JButton("Such!");
+		searchButton = new JButton("Enter");
 		c.gridx = 2;	// Spalte 2
 		c.weightx = 0.2;	// 20% der gesamten Breite
 		gridBagLayout.setConstraints(searchButton, c);
 		this.add(searchButton);
 		
 		// Rahmen definieren
-		setBorder(BorderFactory.createTitledBorder("Suche"));
+		setBorder(BorderFactory.createTitledBorder("Search"));
 	}
 	
 	private void setupEvents() {

@@ -113,7 +113,7 @@ public class BibGuiMitKomponenten extends JFrame implements AddBookPanel.AddBook
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				BibGuiMitKomponenten gui = new BibGuiMitKomponenten("Bibliothek");
+				BibGuiMitKomponenten gui = new BibGuiMitKomponenten("Kaja's Spice Shop");
 			}
 		});
 		
