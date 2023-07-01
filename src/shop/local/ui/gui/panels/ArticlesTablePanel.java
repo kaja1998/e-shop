@@ -9,9 +9,9 @@ import shop.local.ui.gui.models.BuecherTableModel;
 import javax.swing.*;
 import java.util.Collections;
 
-public class BooksTablePanel extends JTable {
+public class ArticlesTablePanel extends JTable {
 
-	public BooksTablePanel(java.util.List<Article> articles) {
+	public ArticlesTablePanel(java.util.List<Article> articles) {
 		super();
 
 		// TableModel erzeugen ...
@@ -19,10 +19,10 @@ public class BooksTablePanel extends JTable {
 		// ... bei JTable "anmelden" und ...
 		setModel(tableModel);
 		// ... Daten an Model übergeben (für Sortierung o.ä.)
-		updateBooksList(articles);
+		updateArticlesList(articles);
 	}
 	
-	public void updateBooksList(java.util.List<Article> articles) {
+	public void updateArticlesList(java.util.List<Article> articles) {
 
 		// Sortierung (mit Lambda-Expression)
 //		Collections.sort(buecher, (b1, b2) -> b1.getTitel().compareTo(b2.getTitel()));	// Sortierung nach Titel

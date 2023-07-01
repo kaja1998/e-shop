@@ -12,12 +12,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-// Wichtig: Das SearchBooksPanel _ist ein_ Panel und damit auch eine Component;
+// Wichtig: Das SearchArticlesPanel _ist ein_ Panel und damit auch eine Component;
 // es kann daher in das Layout eines anderen Containers 
 // (in unserer Anwendung des Frames) eingefügt werden.
-public class SearchBooksPanel extends JPanel {
+public class SearchArticlesPanel extends JPanel {
 
-	// Über dieses Interface übermittelt das SearchBooksPanel
+	// Über dieses Interface übermittelt das SearchArticlesPanel
 	// Suchergebnisse an einen Empfänger.
 	// In unserem Fall ist der Empfänger die BibGuiMitKomponenten,
 	// die dieses Interface implementiert und auf ein neues
@@ -32,7 +32,7 @@ public class SearchBooksPanel extends JPanel {
 	private JButton searchButton = null;
 	private SearchResultListener searchResultListener;
 	
-	public SearchBooksPanel(Shop bibliothek, SearchResultListener searchResultListener) {
+	public SearchArticlesPanel(Shop bibliothek, SearchResultListener searchResultListener) {
 		eshop = bibliothek;
 		this.searchResultListener = searchResultListener;
 

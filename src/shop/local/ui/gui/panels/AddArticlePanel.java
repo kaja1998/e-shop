@@ -1,8 +1,5 @@
 package shop.local.ui.gui.panels;
 
-//import bib.local.domain.Bibliothek;
-//import bib.local.domain.exceptions.BuchExistiertBereitsException;
-//import bib.local.entities.Buch;
 import shop.local.domain.Shop;
 import shop.local.domain.exceptions.ArticleAlreadyExistsException;
 import shop.local.entities.Article;
@@ -13,26 +10,24 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
-// Wichtig: Das AddBookPanel _ist ein_ Panel und damit auch eine Component; 
+// Wichtig: Das AddArticlePanel _ist ein_ Panel und damit auch eine Component;
 // es kann daher in das Layout eines anderen Containers 
 // (in unserer Anwendung des Frames) eingefügt werden.
-public class AddBookPanel extends JPanel {
+public class AddArticlePanel extends JPanel {
 
-	// Über dieses Interface übermittelt das AddBookPanel
-	// ein neu hinzugefügtes Buch an einen Empfänger.
-	// In unserem Fall ist der Empfänger die BibGuiMitKomponenten,
+	// Über dieses Interface übermittelt das AddArticlePanel
+	// ein neu hinzugefügten Article an einen Empfänger.
+	// In unserem Fall ist der Empfänger EmployeeBackEnd,
 	// die dieses Interface implementiert und auf ein neue hinzugefügtes
-	// Buch reagiert, indem sie die Bücherliste aktualisiert.	
-	public interface AddBookListener {
-		public void onBookAdded(Article article);
+	// Article reagiert, indem es die Articleliste aktualisiert.
+	public interface AddArticleListener {
+		public void onArticleAdded(Article article);
 	}
 
 	
 	private Shop eshop = null;
-
-	private EshopClientCUI cui = null;
-	private AddBookListener addBookListener = null;
-
+	private  User user;
+	private AddArticleListener addArticleListener = null;
 	private JButton hinzufuegenButton;
 	private JTextField titelTextFeld = null;
 	private JTextField priceTextFeld = null;
@@ -40,10 +35,10 @@ public class AddBookPanel extends JPanel {
 	private JTextField articleTypeTextFeld = null;
 	private JTextField packSizeTextFeld = null;
 
-	public AddBookPanel(Shop shop, AddBookListener addBookListener) {
+	public AddArticlePanel(Shop shop, AddArticleListener addArticleListener, User user) {
 		eshop = shop;
-		this.addBookListener = addBookListener;
-
+		this.addArticleListener = addArticleListener;
+		this.user = user;
 		setupUI();
 
 		setupEvents();
@@ -94,25 +89,15 @@ public class AddBookPanel extends JPanel {
 	}
 
 	private void setupEvents() {
-//		hinzufuegenButton.addActionListener(
-//				new ActionListener() {
-//					@Override
-//					public void actionPerformed(ActionEvent ae) {
-//						System.out.println("Event: " + ae.getActionCommand());
-//						buchEinfügen();
-//					}
-//				});
-		hinzufuegenButton.addActionListener(e -> buchEinfügen());
+		hinzufuegenButton.addActionListener(e -> ArticleEinfügen());
 	}
 
-	private void buchEinfügen() {
+	private void ArticleEinfügen() {
 		String titel = titelTextFeld.getText();
 		String priceText = priceTextFeld.getText();
 		String quantityText = quanitityTextFeld.getText();
 		String articleType = articleTypeTextFeld.getText();
 		String packSizeText = packSizeTextFeld.getText();
-		User user = null; // Benutzer abrufen, je nach Implementierung
-
 
 		if (!titel.isEmpty() && !priceText.isEmpty() && !quantityText.isEmpty() && !articleType.isEmpty() && !packSizeText.isEmpty()) {
 			try {
@@ -120,8 +105,7 @@ public class AddBookPanel extends JPanel {
 				int quantity = Integer.parseInt(quantityText);
 				int packSize = Integer.parseInt(packSizeText);
 
-				Article article = eshop.insertArticle(titel, price, quantity, articleType, packSize, null);
-				//Article article = eshop.fuegeBuchEin(titel, nummerAlsInt);
+				Article article = eshop.insertArticle(titel, price, quantity, articleType, packSize, user);
 
 				titelTextFeld.setText("");
 				priceTextFeld.setText("");
@@ -130,7 +114,7 @@ public class AddBookPanel extends JPanel {
 				packSizeTextFeld.setText("");
 
 				// Am Ende Listener, d.h. unseren Frame benachrichtigen:
-				addBookListener.onBookAdded(article);
+				addArticleListener.onArticleAdded(article);
 			} catch (NumberFormatException nfe) {
 				System.err.println("Please enter an integer as value.");
 			} catch (ArticleAlreadyExistsException bebe) {
@@ -140,4 +124,5 @@ public class AddBookPanel extends JPanel {
 			}
 		}
 	}
+
 }

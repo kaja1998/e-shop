@@ -7,12 +7,12 @@ import javax.swing.*;
 import java.util.Collections;
 import java.util.Comparator;
 
-// Wichtig: Das BooksListPanel _ist eine_ JList und damit eine Component;
+// Wichtig: Das ArticlesListPanel _ist eine_ JList und damit eine Component;
 // es kann daher in das Layout eines anderen Containers
 // (in unserer Anwendung des Frames) eingefügt werden.
-public class BooksListPanel extends JList<Article> {
+public class ArticlesListPanel extends JList<Article> {
 
-	public BooksListPanel(java.util.List<Article> buecher) {
+	public ArticlesListPanel(java.util.List<Article> buecher) {
 		super();
 
 		// ListModel erzeugen ...
