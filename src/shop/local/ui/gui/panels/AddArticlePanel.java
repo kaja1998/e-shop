@@ -4,7 +4,6 @@ import shop.local.domain.Shop;
 import shop.local.domain.exceptions.ArticleAlreadyExistsException;
 import shop.local.entities.Article;
 import shop.local.entities.User;
-import shop.local.ui.cui.EshopClientCUI;
 
 import javax.swing.*;
 import java.awt.*;
