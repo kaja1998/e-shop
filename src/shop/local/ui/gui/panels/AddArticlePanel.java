@@ -115,9 +115,9 @@ public class AddArticlePanel extends JPanel {
 				// Am Ende Listener, d.h. unseren Frame benachrichtigen:
 				addArticleListener.onArticleAdded(article);
 			} catch (NumberFormatException nfe) {
-				System.err.println("Please enter an integer as value.");
+				JOptionPane.showMessageDialog(this, "Please enter an integer as value.", "Add Article Error", JOptionPane.ERROR_MESSAGE);
 			} catch (ArticleAlreadyExistsException bebe) {
-				System.err.println(bebe.getMessage());
+				JOptionPane.showMessageDialog(this, bebe.getMessage(), "Add Article Error", JOptionPane.ERROR_MESSAGE);
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
