@@ -1,7 +1,7 @@
 package shop.local.ui.gui;
 
 import shop.local.domain.Shop;
-import shop.local.ui.gui.panels.CustomerRegistrationButtonPanel;
+import shop.local.ui.gui.panels.RegistrationCustomerPanel;
 import shop.local.ui.gui.panels.LoginCustomerPanel;
 import shop.local.ui.gui.panels.LoginEmployeePanel;
 
@@ -11,7 +11,7 @@ import java.io.IOException;
 public class LoginStart extends JFrame {
 
     private Shop eshop;
-    private CustomerRegistrationButtonPanel customerRegistrationButtonPanel;
+    private RegistrationCustomerPanel registrationCustomerPanel;
     private LoginCustomerPanel loginCustomerPanel;
     private LoginEmployeePanel loginEmployeePanel;
 
@@ -32,8 +32,8 @@ public class LoginStart extends JFrame {
 
             JTabbedPane tabbedPane = new JTabbedPane();
 
-            customerRegistrationButtonPanel = new CustomerRegistrationButtonPanel();
-            tabbedPane.addTab("Customer Registration", customerRegistrationButtonPanel);
+            registrationCustomerPanel = new RegistrationCustomerPanel(eshop, this);
+            tabbedPane.addTab("Customer Registration", registrationCustomerPanel);
 
             loginCustomerPanel = new LoginCustomerPanel(eshop, this);
             tabbedPane.addTab("Customer Login", loginCustomerPanel);
@@ -44,8 +44,13 @@ public class LoginStart extends JFrame {
             getContentPane().add(tabbedPane);
 
             // Setze Fenster-Größe und sichtbar
-            setSize(400, 200);
+            setSize(450, 450);
             setLocationRelativeTo(null);
             setVisible(true);
+        }
+
+        public void openCustomerLogin() {
+            JTabbedPane tabbedPane = (JTabbedPane) getContentPane().getComponent(0);
+            tabbedPane.setSelectedComponent(loginCustomerPanel);
         }
     }

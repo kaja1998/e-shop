@@ -3,7 +3,7 @@ package shop.local.ui.gui.panels;
 import shop.local.domain.Shop;
 import shop.local.domain.exceptions.LoginException;
 import shop.local.entities.User;
-import shop.local.ui.gui.EmployeeBackEnd;
+import shop.local.ui.gui.CustomerBackEnd;
 import shop.local.ui.gui.LoginStart;
 
 import javax.swing.*;
@@ -73,8 +73,8 @@ public class LoginCustomerPanel extends JPanel {
         }
         try {
             loggedinUser = eshop.loginCustomer(userName, password);
-            EmployeeBackEnd ebe = new EmployeeBackEnd(eshop, loggedinUser);
-            ebe.setVisible(true);
+            CustomerBackEnd cbe = new CustomerBackEnd(eshop, loggedinUser);
+            cbe.setVisible(true);
             loginStart.dispose();
 
         } catch (LoginException e) {

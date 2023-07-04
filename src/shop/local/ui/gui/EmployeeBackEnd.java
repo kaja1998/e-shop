@@ -212,7 +212,4 @@ public class EmployeeBackEnd extends JFrame implements AddArticlePanel.AddArticl
 			}
 		}
 	}
-
-
-
 }
