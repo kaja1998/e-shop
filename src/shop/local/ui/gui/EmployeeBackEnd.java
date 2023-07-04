@@ -107,6 +107,9 @@ public class EmployeeBackEnd extends JFrame implements AddArticlePanel.AddArticl
 		JMenu helpMenu = new HelpMenu();
 		mBar.add(helpMenu);
 
+		JMenu LogoutMenu = new LogoutMenu();
+		mBar.add(LogoutMenu);
+
 		// ... und beim Fenster anmelden
 		this.setJMenuBar(mBar);
 	}
@@ -186,4 +189,30 @@ public class EmployeeBackEnd extends JFrame implements AddArticlePanel.AddArticl
 			// Hier wird einfach eine Meldung mit dem geklickten Menüelement ausgegeben
 		}
 	}
+
+	class LogoutMenu extends JMenu implements ActionListener {
+
+		public LogoutMenu() {
+			super("Logout");
+
+			JMenuItem logoutItem = new JMenuItem("Logout");
+			logoutItem.addActionListener(this);
+			add(logoutItem);
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			System.out.println("Klick auf MenuItem " + e.getActionCommand());
+
+			switch (e.getActionCommand()) {
+				case "Logout":
+					// Aktion für den "Logout" Menüpunkt
+					// Hier kannst du den entsprechenden Code einfügen
+					break;
+			}
+		}
+	}
+
+
+
 }

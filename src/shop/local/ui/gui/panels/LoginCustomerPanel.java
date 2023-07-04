@@ -4,21 +4,22 @@ import shop.local.domain.Shop;
 import shop.local.domain.exceptions.LoginException;
 import shop.local.entities.User;
 import shop.local.ui.gui.EmployeeBackEnd;
+import shop.local.ui.gui.LoginStart;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class LoginEmployeeButtonPanel extends JPanel {
+public class LoginCustomerPanel extends JPanel {
     private User loggedinUser = null;
-    private JFrame EmployeeLoginFrame;
     private Shop eshop;
-    private JButton employeeLoginButton;
+    private LoginStart loginStart;
+    private JButton customerLoginButton;
     private JTextField usernameField;
     private JPasswordField passwordField;
 
 
-    public LoginEmployeeButtonPanel(JFrame EmployeeLoginFrame, Shop shop) {
-        this.EmployeeLoginFrame = EmployeeLoginFrame;
+    public LoginCustomerPanel(Shop shop, LoginStart loginStart) {
+        this.loginStart = loginStart;
         eshop = shop;
         setupUI();
         setupEvents();
@@ -50,34 +51,37 @@ public class LoginEmployeeButtonPanel extends JPanel {
         constraints.gridy = 1;
         add(passwordField, constraints);
 
-        employeeLoginButton = new JButton("Login");
+        customerLoginButton = new JButton("Login");
 
         constraints.gridx = 0;
         constraints.gridy = 2;
         constraints.gridwidth = 2;
-        add(employeeLoginButton, constraints);
+        add(customerLoginButton, constraints);
     }
 
     private void setupEvents() {
-        employeeLoginButton.addActionListener(e -> LoginEmployee());
+        customerLoginButton.addActionListener(e -> LoginCustomer());
     }
 
-    private void LoginEmployee() {
+    private void LoginCustomer() {
         String userName = usernameField.getText();
         String password = new String(passwordField.getPassword());
 
-        if (!userName.isEmpty() && !password.isEmpty()) {
-            try {
-                loggedinUser = eshop.loginEmployee(userName, password);
-                EmployeeBackEnd ebe = new EmployeeBackEnd(eshop, loggedinUser);
-                ebe.setVisible(true);
-                EmployeeLoginFrame.dispose();
+        if (userName.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Fill in all fields", "Login Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        try {
+            loggedinUser = eshop.loginCustomer(userName, password);
+            EmployeeBackEnd ebe = new EmployeeBackEnd(eshop, loggedinUser);
+            ebe.setVisible(true);
+            loginStart.dispose();
 
-            } catch (LoginException e) {
-                JOptionPane.showMessageDialog(this, e.getMessage(), "Login Error", JOptionPane.ERROR_MESSAGE);
-                usernameField.setText("");
-                passwordField.setText("");
-            }
+        } catch (LoginException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Login Error", JOptionPane.ERROR_MESSAGE);
+            usernameField.setText("");
+            passwordField.setText("");
         }
     }
+
 }

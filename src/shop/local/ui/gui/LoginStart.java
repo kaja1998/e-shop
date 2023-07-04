@@ -2,19 +2,19 @@ package shop.local.ui.gui;
 
 import shop.local.domain.Shop;
 import shop.local.ui.gui.panels.CustomerRegistrationButtonPanel;
-import shop.local.ui.gui.panels.CustomerLoginButtonPanel;
-import shop.local.ui.gui.panels.EmployeeLoginButtonPanel;
+import shop.local.ui.gui.panels.LoginCustomerPanel;
+import shop.local.ui.gui.panels.LoginEmployeePanel;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.IOException;
 
 public class LoginStart extends JFrame {
 
-        private  Shop eshop;
-        private CustomerRegistrationButtonPanel CustomerRegistrationButtonPanel;
-        private CustomerLoginButtonPanel CustomerLoginButtonPanel;
-        private EmployeeLoginButtonPanel EmployeeLoginButtonPanel;
+    private Shop eshop;
+    private CustomerRegistrationButtonPanel customerRegistrationButtonPanel;
+    private LoginCustomerPanel loginCustomerPanel;
+    private LoginEmployeePanel loginEmployeePanel;
+
 
         public LoginStart() {
             super("Login");
@@ -30,22 +30,21 @@ public class LoginStart extends JFrame {
             setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
             this.addWindowListener(new WindowCloser());
 
-            setLayout(new BorderLayout());
+            JTabbedPane tabbedPane = new JTabbedPane();
 
-            // North
-            CustomerRegistrationButtonPanel = new CustomerRegistrationButtonPanel();
-            add(CustomerRegistrationButtonPanel, BorderLayout.NORTH);
+            customerRegistrationButtonPanel = new CustomerRegistrationButtonPanel();
+            tabbedPane.addTab("Customer Registration", customerRegistrationButtonPanel);
 
-            // Center
-            CustomerLoginButtonPanel = new CustomerLoginButtonPanel();
-            add(CustomerLoginButtonPanel, BorderLayout.CENTER);
+            loginCustomerPanel = new LoginCustomerPanel(eshop, this);
+            tabbedPane.addTab("Customer Login", loginCustomerPanel);
 
-            // South
-            EmployeeLoginButtonPanel = new EmployeeLoginButtonPanel(this, eshop);
-            add(EmployeeLoginButtonPanel, BorderLayout.SOUTH);
+            loginEmployeePanel = new LoginEmployeePanel(eshop, this);
+            tabbedPane.addTab("Employee Login", loginEmployeePanel);
+
+            getContentPane().add(tabbedPane);
 
             // Setze Fenster-Größe und sichtbar
-            setSize(300, 150);
+            setSize(400, 200);
             setLocationRelativeTo(null);
             setVisible(true);
         }
