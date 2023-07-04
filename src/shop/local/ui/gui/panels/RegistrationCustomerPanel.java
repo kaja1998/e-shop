@@ -175,6 +175,8 @@ public class RegistrationCustomerPanel extends JPanel {
                 // Öffne den Reiter "Customer Login"
                 loginStart.openCustomerLogin();
 
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Invalid postal code. Please enter an integer value.", "Registration Error", JOptionPane.ERROR_MESSAGE);
             } catch (RegisterException e) {
                 JOptionPane.showMessageDialog(this, e.getMessage(), "Register Error", JOptionPane.ERROR_MESSAGE);
                 usernameField.setText("");
