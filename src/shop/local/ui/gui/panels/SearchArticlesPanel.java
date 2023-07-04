@@ -1,7 +1,5 @@
 package shop.local.ui.gui.panels;
 
-//import bib.local.domain.Bibliothek;
-//import bib.local.entities.Buch;
 import shop.local.domain.Shop;
 import shop.local.domain.exceptions.ArticleNotFoundException;
 import shop.local.entities.Article;

@@ -65,6 +65,11 @@ public class Shop {
 		return employeeAdministration.login(username, password);
 	}
 
+	public String logout(User user){
+		user = null;
+		return "You got logged out successfully.";
+	}
+
 	/**
 	 * Method that returns a list of all items in inventory.
 	 *

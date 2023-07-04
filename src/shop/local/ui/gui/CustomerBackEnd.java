@@ -11,6 +11,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.List;
 
@@ -168,17 +170,17 @@ public class CustomerBackEnd extends JFrame implements AddArticlePanel.AddArticl
     class HelpMenu extends JMenu implements ActionListener {
 
         public HelpMenu() {
-            super("Help");										// Titel des Menüs
+            super("Help");                                        // Titel des Menüs
 
             // Nur zu Testzwecken: Menü mit Untermenü
-            JMenu m = new JMenu("About"); 						// Untermenü mit dem Titel "About"
-            JMenuItem mi = new JMenuItem("Programmers"); 		// Menüelement mit dem Titel "Programmers"
-            mi.addActionListener(this); 							// ActionListener hinzufügen, um auf Klicks zu reagieren
-            m.add(mi); 												// Menüelement zum Untermenü hinzufügen
-            mi = new JMenuItem("Stuff"); 						// Ein weiteres Menüelement mit dem Titel "Stuff"
-            mi.addActionListener(this); 							// ActionListener hinzufügen, um auf Klicks zu reagieren
-            m.add(mi); 												// Menüelement zum Untermenü hinzufügen
-            this.add(m); 											// Untermenü zum Hauptmenü hinzufügen
+            JMenu m = new JMenu("About");                        // Untermenü mit dem Titel "About"
+            JMenuItem mi = new JMenuItem("Programmers");        // Menüelement mit dem Titel "Programmers"
+            mi.addActionListener(this);                            // ActionListener hinzufügen, um auf Klicks zu reagieren
+            m.add(mi);                                                // Menüelement zum Untermenü hinzufügen
+            mi = new JMenuItem("Stuff");                        // Ein weiteres Menüelement mit dem Titel "Stuff"
+            mi.addActionListener(this);                            // ActionListener hinzufügen, um auf Klicks zu reagieren
+            m.add(mi);                                                // Menüelement zum Untermenü hinzufügen
+            this.add(m);                                            // Untermenü zum Hauptmenü hinzufügen
         }
 
         @Override
@@ -206,7 +208,42 @@ public class CustomerBackEnd extends JFrame implements AddArticlePanel.AddArticl
             switch (e.getActionCommand()) {
                 case "Logout":
                     // Aktion für den "Logout" Menüpunkt
-                    // Hier kannst du den entsprechenden Code einfügen
+                    eshop.logout(user); // Aufruf der eshop.logout() Methode
+
+                    // Schließe das EmployeeBackEnd-Fenster
+                    Window window = SwingUtilities.windowForComponent(this);
+                    if (window instanceof JFrame) {
+                        JFrame frame = (JFrame) window;
+                        frame.dispose();
+                    }
+
+                    // Erstelle das Erfolgsfenster
+                    JOptionPane pane = new JOptionPane("Successfully logged out", JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{}, null);
+                    JDialog dialog = pane.createDialog("Logout");
+
+                    // Schließe das Erfolgsfenster nach 2 Sekunden
+                    Timer timer = new Timer(2000, new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent evt) {
+                            dialog.dispose();
+                            // Öffne das LoginStart-Fenster
+                            LoginStart loginStart = new LoginStart();
+                            loginStart.setVisible(true);
+                        }
+                    });
+                    timer.setRepeats(false); // Der Timer wird nur einmal ausgeführt
+                    timer.start();
+
+                    // Füge einen WindowListener hinzu, um den Timer zu stoppen, wenn das Fenster manuell geschlossen wird
+                    dialog.addWindowListener(new WindowAdapter() {
+                        @Override
+                        public void windowClosing(WindowEvent e) {
+                            timer.stop();
+                        }
+                    });
+
+                    // Zeige das Erfolgsfenster an
+                    dialog.setVisible(true);
                     break;
             }
         }

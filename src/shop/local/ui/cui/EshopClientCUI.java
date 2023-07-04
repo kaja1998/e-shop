@@ -336,9 +336,8 @@ public class EshopClientCUI {
 		return false;
 	}
 
-	private void logout() {
-		loggedinUser = null;
-		System.out.println("\nYou got logged out successfully.\n");
+	public void logout() {
+		eshop.logout(loggedinUser);
 	}
 
 	/*
