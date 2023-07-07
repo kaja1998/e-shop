@@ -1,10 +1,7 @@
 package shop.local.ui.gui.panels;
 
-//import bib.local.entities.Buch;
-//import bib.local.ui.gui.models.BuecherTableModel;
-
 import shop.local.entities.Article;
-import shop.local.ui.gui.models.BuecherTableModel;
+import shop.local.ui.gui.models.ArticleTableModel;
 
 import javax.swing.*;
 import java.util.Collections;
@@ -15,7 +12,7 @@ public class ArticlesTablePanel extends JTable {
 		super();
 
 		// TableModel erzeugen ...
-		BuecherTableModel tableModel = new BuecherTableModel(articles);
+		ArticleTableModel tableModel = new ArticleTableModel(articles);
 		// ... bei JTable "anmelden" und ...
 		setModel(tableModel);
 		// ... Daten an Model übergeben (für Sortierung o.ä.)
@@ -25,12 +22,12 @@ public class ArticlesTablePanel extends JTable {
 	public void updateArticlesList(java.util.List<Article> articles) {
 
 		// Sortierung (mit Lambda-Expression)
-//		Collections.sort(buecher, (b1, b2) -> b1.getTitel().compareTo(b2.getTitel()));	// Sortierung nach Titel
+//		Collections.sort(articles, (a1, a2) -> a1.getTitel().compareTo(a2.getTitel()));	// Sortierung nach Titel
 		Collections.sort(articles, (a1, a2) -> a1.getNumber() - a2.getNumber());	// Sortierung nach Nummer
 
 		// TableModel von JTable holen und ...
-		BuecherTableModel tableModel = (BuecherTableModel) getModel();
+		ArticleTableModel tableModel = (ArticleTableModel) getModel();
 		// ... Inhalt aktualisieren
-		tableModel.setBooks(articles);
+		tableModel.setArticles(articles);
 	}
 }

@@ -1,6 +1,5 @@
 package shop.local.ui.gui.models;
 
-//import bib.local.entities.Buch;
 import shop.local.entities.Article;
 import shop.local.entities.BulkArticle;
 
@@ -8,22 +7,22 @@ import javax.swing.table.AbstractTableModel;
 import java.util.List;
 import java.util.Vector;
 
-public class BuecherTableModel extends AbstractTableModel  {
+public class ArticleTableModel extends AbstractTableModel  {
 
     private List<Article> articles;
     private String[] spaltenNamen = { "Number", "Title", "Price", "Quantity", "Pack size"};
 
     
-    public BuecherTableModel(List<Article> aktuelleBuecher) {
+    public ArticleTableModel(List<Article> aktuelleArticles) {
     	super(); 
     	// Ich erstelle eine Kopie der Bücherliste,
     	// damit beim Aktualisieren (siehe Methode setBooks())
     	// keine unerwarteten Seiteneffekte entstehen.
     	articles = new Vector<Article>();
-        articles.addAll(aktuelleBuecher);
+        articles.addAll(aktuelleArticles);
     }
 
-    public void setBooks(List<Article> currentArticle){
+    public void setArticles(List<Article> currentArticle){
         articles.clear();
         articles.addAll(currentArticle);
         fireTableDataChanged();

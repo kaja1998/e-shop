@@ -23,10 +23,9 @@ public class AddArticlePanel extends JPanel {
 		public void onArticleAdded(Article article);
 	}
 
-	
-	private Shop eshop = null;
+	private Shop eshop;
 	private  User user;
-	private AddArticleListener addArticleListener = null;
+	private AddArticleListener addArticleListener;
 	private JButton hinzufuegenButton;
 	private JTextField titelTextFeld = null;
 	private JTextField priceTextFeld = null;

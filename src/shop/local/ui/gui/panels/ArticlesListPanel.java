@@ -1,6 +1,5 @@
 package shop.local.ui.gui.panels;
 
-//import bib.local.entities.Buch;
 import shop.local.entities.Article;
 
 import javax.swing.*;
@@ -12,7 +11,7 @@ import java.util.Comparator;
 // (in unserer Anwendung des Frames) eingefügt werden.
 public class ArticlesListPanel extends JList<Article> {
 
-	public ArticlesListPanel(java.util.List<Article> buecher) {
+	public ArticlesListPanel(java.util.List<Article> articles) {
 		super();
 
 		// ListModel erzeugen ...
@@ -20,14 +19,14 @@ public class ArticlesListPanel extends JList<Article> {
 		// ... bei JList "anmelden" und ...
 		setModel(listModel);
 		// ... Daten an Model übergeben
-		updateBooksList(buecher);
+		updateArticleList(articles);
 	}
 	
-	public void updateBooksList(java.util.List<Article> articles) {
+	public void updateArticleList(java.util.List<Article> articles) {
 
 		// Sortierung (mit Lambda-Expression)
-		//Collections.sort(buecher, (b1, b2) -> b1.getTitel().compareTo(b2.getTitel()));	// Sortierung nach Titel
-		Collections.sort(articles, (b1, b2) -> b1.getNumber() - b2.getNumber());	// Sortierung nach Nummer
+		//Collections.sort(articles, (a1, a2) -> a1.getTitel().compareTo(a2.getTitel()));	// Sortierung nach Titel
+		Collections.sort(articles, (a1, a2) -> a1.getNumber() - a2.getNumber());	// Sortierung nach Nummer
 		//keine Ahnung, ob richtig aber er meinte damit es klappt muss das so
 		Collections.sort(articles, Comparator.comparingInt(Article::getNumber));
 

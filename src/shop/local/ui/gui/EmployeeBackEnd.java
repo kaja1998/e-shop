@@ -3,9 +3,7 @@ package shop.local.ui.gui;
 import shop.local.domain.Shop;
 import shop.local.entities.Article;
 import shop.local.entities.User;
-import shop.local.ui.gui.panels.AddArticlePanel;
-import shop.local.ui.gui.panels.ArticlesTablePanel;
-import shop.local.ui.gui.panels.SearchArticlesPanel;
+import shop.local.ui.gui.panels.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,12 +11,12 @@ import java.awt.event.*;
 import java.io.IOException;
 import java.util.List;
 
-public class EmployeeBackEnd extends JFrame implements AddArticlePanel.AddArticleListener, SearchArticlesPanel.SearchResultListener {
+public class EmployeeBackEnd extends JFrame implements AddArticlePanel.AddArticleListener, DeleteArticlePanel.DeleteArticleListener, SearchArticlesPanel.SearchResultListener {
 
 	private Shop eshop;
 	private User user;
 	private SearchArticlesPanel searchPanel;
-	private AddArticlePanel addPanel;
+	private CardLayoutEmployee cardLayout;
 	private ArticlesTablePanel ArticlesPanel;
 
 	public EmployeeBackEnd(Shop shop, User user) {
@@ -46,7 +44,7 @@ public class EmployeeBackEnd extends JFrame implements AddArticlePanel.AddArticl
 		searchPanel = new SearchArticlesPanel(eshop, this);
 
 		// West
-		addPanel = new AddArticlePanel(eshop, this, user);
+		cardLayout = new CardLayoutEmployee(eshop, this, this, user);
 
 		// Center
 		List<Article> articles = eshop.getAllArticles();
@@ -57,7 +55,7 @@ public class EmployeeBackEnd extends JFrame implements AddArticlePanel.AddArticl
 
 		// "Zusammenbau" in BorderLayout des Frames
 		getContentPane().add(searchPanel, BorderLayout.NORTH);
-		add(addPanel, BorderLayout.WEST);
+		add(cardLayout, BorderLayout.WEST);
 		add(scrollPane, BorderLayout.CENTER);
 		// Hinweis zu ContentPane oben:
 		// Komponenten müssen in Swing der ContentPane hinzugefügt werden (siehe oben).
@@ -80,6 +78,11 @@ public class EmployeeBackEnd extends JFrame implements AddArticlePanel.AddArticl
 	public void onArticleAdded(Article article) {
 		// Ich lade hier einfach alle Article neu und lasse sie anzeigen
 		List<Article> articles = eshop.getAllArticles();
+		ArticlesPanel.updateArticlesList(articles);
+	}
+
+	@Override
+	public void onDeleteResult(List<Article> articles) {
 		ArticlesPanel.updateArticlesList(articles);
 	}
 
