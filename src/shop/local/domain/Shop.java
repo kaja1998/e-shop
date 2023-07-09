@@ -169,8 +169,8 @@ public class Shop {
 	 * @param quantityToAdd number of articles that are to be added to stock
 	 * @return Article with searched articleNumber (may be empty)
 	 */
-	public void increaseArticleStock(Article article, int quantityToAdd, String articleFile, User user) throws IOException {
-		articleAdministration.increaseArticleStock(article, quantityToAdd, articleFile);
+	public void increaseArticleStock(Article article, int quantityToAdd, User user) throws IOException {
+		articleAdministration.increaseArticleStock(article, quantityToAdd, "ESHOP_Article.txt");
 		// Ereignis für die Einlagerung in ArrayList schreiben
 		Event event = new Event(Event.EventType.EINLAGERUNG, article, quantityToAdd, user);
 		eventAdministration.addEvent(event);
@@ -186,8 +186,8 @@ public class Shop {
 	 *                           stock
 	 * @return Article with searched articleNumber (may be empty)
 	 */
-	public boolean decreaseArticleStock(Article article, int quantityToRetrieve, String articleFile, User user) throws IOException, StockDecreaseException {
-		boolean bo = articleAdministration.decreaseArticleStock(article, quantityToRetrieve, articleFile);
+	public boolean decreaseArticleStock(Article article, int quantityToRetrieve, User user) throws IOException, StockDecreaseException {
+		boolean bo = articleAdministration.decreaseArticleStock(article, quantityToRetrieve, "ESHOP_Article.txt");
 		if (bo) {
 			int quantity = -quantityToRetrieve;
 			Event event = new Event(Event.EventType.AUSLAGERUNG, article, quantity, user);

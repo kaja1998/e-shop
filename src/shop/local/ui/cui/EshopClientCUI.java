@@ -403,13 +403,13 @@ public class EshopClientCUI {
 				}
 			}
 
-			int packSize = 0;
+			int packSize = 2;
 			if (articleType.equalsIgnoreCase("bulk")) {
 				// Lese Packungsgröße
 				packSize = readInt("Pack size > ", "Invalid input. Please enter an integer value for the pack size.");
 
-				while (packSize <= 0) {
-					System.out.println("Invalid input. Please enter a positive integer value for pack size.");
+				while (packSize <= 1) {
+					System.out.println("Invalid input. Please enter a positive integer value greater than 1 for pack size.");
 					packSize = readInt("Pack size > ", "Please enter a positive integer value for pack size.");
 				}
 			}
@@ -447,7 +447,7 @@ public class EshopClientCUI {
 			if (stockChange < 0) {
 				boolean success = true;
 				try {
-					success = eshop.decreaseArticleStock(article, (-1) * stockChange, "ESHOP_Article.txt", loggedinUser);
+					success = eshop.decreaseArticleStock(article, (-1) * stockChange, loggedinUser);
 				} catch (StockDecreaseException s){
 					System.out.println("\n" + s.getMessage() + "\n");
 				}
@@ -455,7 +455,7 @@ public class EshopClientCUI {
 					System.out.println("Successfully decreased article's stock.");
 				}
 			} else {
-				eshop.increaseArticleStock(article, stockChange, "ESHOP_Article.txt", loggedinUser);
+				eshop.increaseArticleStock(article, stockChange, loggedinUser);
 				System.out.println("Successfully increased article's stock.");
 			}
 		} catch (IOException e) {

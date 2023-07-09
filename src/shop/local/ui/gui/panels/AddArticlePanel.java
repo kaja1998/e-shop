@@ -2,25 +2,16 @@ package shop.local.ui.gui.panels;
 
 import shop.local.domain.Shop;
 import shop.local.domain.exceptions.ArticleAlreadyExistsException;
-import shop.local.entities.Article;
 import shop.local.entities.User;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
-// Wichtig: Das AddArticlePanel _ist ein_ Panel und damit auch eine Component;
-// es kann daher in das Layout eines anderen Containers 
-// (in unserer Anwendung des Frames) eingefügt werden.
 public class AddArticlePanel extends JPanel {
 
-	// Über dieses Interface übermittelt das AddArticlePanel
-	// ein neu hinzugefügten Article an einen Empfänger.
-	// In unserem Fall ist der Empfänger EmployeeBackEnd,
-	// die dieses Interface implementiert und auf ein neue hinzugefügtes
-	// Article reagiert, indem es die Articleliste aktualisiert.
 	public interface AddArticleListener {
-		public void onArticleAdded(Article article);
+		public void updateArticleList();
 	}
 
 	private Shop eshop;
@@ -83,44 +74,64 @@ public class AddArticlePanel extends JPanel {
 		add(new Box.Filler(borderMinSize, borderPrefSize, borderMaxSize));
 
 		// Rahmen definieren
-		setBorder(BorderFactory.createTitledBorder("Insert new Article"));
+		//setBorder(BorderFactory.createTitledBorder("Insert new Article"));
 	}
 
 	private void setupEvents() {
-		hinzufuegenButton.addActionListener(e -> ArticleEinfügen());
+		hinzufuegenButton.addActionListener(e -> AddArticle());
 	}
 
-	private void ArticleEinfügen() {
+	private void AddArticle() {
 		String titel = titelTextFeld.getText();
 		String priceText = priceTextFeld.getText();
 		String quantityText = quanitityTextFeld.getText();
 		String articleType = articleTypeTextFeld.getText();
 		String packSizeText = packSizeTextFeld.getText();
 
-		if (!titel.isEmpty() && !priceText.isEmpty() && !quantityText.isEmpty() && !articleType.isEmpty() && !packSizeText.isEmpty()) {
-			try {
-				double price = Double.parseDouble(priceText);
-				int quantity = Integer.parseInt(quantityText);
-				int packSize = Integer.parseInt(packSizeText);
+		if (titel.isEmpty() || priceText.isEmpty() || quantityText.isEmpty() || articleType.isEmpty()) {
+			JOptionPane.showMessageDialog(this, "Fill in all fields", "Add Article Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		try {
+			double price = Double.parseDouble(priceText);
+			int quantity = Integer.parseInt(quantityText);
+			int packSize = 2;
 
-				Article article = eshop.insertArticle(titel, price, quantity, articleType, packSize, user);
-
-				titelTextFeld.setText("");
-				priceTextFeld.setText("");
-				quanitityTextFeld.setText("");
-				articleTypeTextFeld.setText("");
-				packSizeTextFeld.setText("");
-
-				// Am Ende Listener, d.h. unseren Frame benachrichtigen:
-				addArticleListener.onArticleAdded(article);
-			} catch (NumberFormatException nfe) {
-				JOptionPane.showMessageDialog(this, "Please enter an integer as value.", "Add Article Error", JOptionPane.ERROR_MESSAGE);
-			} catch (ArticleAlreadyExistsException bebe) {
-				JOptionPane.showMessageDialog(this, bebe.getMessage(), "Add Article Error", JOptionPane.ERROR_MESSAGE);
-			} catch (IOException e) {
-				throw new RuntimeException(e);
+			if (articleType.equals("bulk")) {
+				// Überprüfen, ob packSize eingegeben wurde
+				if (packSizeText.isEmpty()) {
+					JOptionPane.showMessageDialog(this, "Please enter an integer value for pack size", "Add Article Error", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				try {
+					packSize = Integer.parseInt(packSizeText);
+					if (packSize <= 1) {
+						JOptionPane.showMessageDialog(this, "Please enter a positive integer value greater than 1 for pack size.", "Add Article Error", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+				} catch (NumberFormatException nfe) {
+					JOptionPane.showMessageDialog(this, "Please enter an integer as value.", "Add Article Error", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
 			}
+
+			eshop.insertArticle(titel, price, quantity, articleType, packSize, user);
+			JOptionPane.showMessageDialog(this, "Successfully added article", "Add Article", JOptionPane.INFORMATION_MESSAGE);
+
+			titelTextFeld.setText("");
+			priceTextFeld.setText("");
+			quanitityTextFeld.setText("");
+			articleTypeTextFeld.setText("");
+			packSizeTextFeld.setText("");
+
+			// Am Ende Listener, d.h. unseren Frame benachrichtigen:
+			addArticleListener.updateArticleList();
+		} catch (NumberFormatException nfe) {
+			JOptionPane.showMessageDialog(this, "Please enter an integer as value.", "Add Article Error", JOptionPane.ERROR_MESSAGE);
+		} catch (ArticleAlreadyExistsException bebe) {
+			JOptionPane.showMessageDialog(this, bebe.getMessage(), "Add Article Error", JOptionPane.ERROR_MESSAGE);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
 		}
 	}
-
 }

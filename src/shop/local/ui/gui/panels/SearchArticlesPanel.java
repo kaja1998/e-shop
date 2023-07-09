@@ -6,20 +6,18 @@ import shop.local.entities.Article;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
-// Wichtig: Das SearchArticlesPanel _ist ein_ Panel und damit auch eine Component;
+// Das SearchArticlesPanel _ist ein_ Panel und damit auch eine Component;
 // es kann daher in das Layout eines anderen Containers 
-// (in unserer Anwendung des Frames) eingefügt werden.
+// (in meiner Anwendung des EmployeeBackEnd Frames) eingefügt werden.
 public class SearchArticlesPanel extends JPanel {
 
 	// Über dieses Interface übermittelt das SearchArticlesPanel
 	// Suchergebnisse an einen Empfänger.
-	// In unserem Fall ist der Empfänger die BibGuiMitKomponenten,
-	// die dieses Interface implementiert und auf ein neues
-	// Suchergebnis reagiert, indem sie die Bücherliste aktualisiert.
+	// In unserem Fall ist der Empfänger das EmployeeBackEnd,
+	// welches dieses Interface implementiert und auf ein neues
+	// Suchergebnis reagiert, indem es die Articleliste aktualisiert.
 	public interface SearchResultListener {
 		void onSearchResult(List<Article> articles);
 	}
@@ -51,22 +49,25 @@ public class SearchArticlesPanel extends JPanel {
 		c.gridy = 0;	// Zeile 0
 
 		JLabel searchLabel = new JLabel("Search term:");
-		c.gridx = 0;	// Spalte 0
-		c.weightx = 0.2;	// 20% der gesamten Breite
+		c.gridx = 0;    // Spalte 0
+		c.weightx = 0.05;    // 20% der gesamten Breite
 		c.anchor = GridBagConstraints.EAST;
+		c.insets = new Insets(0, 0, 0, 0); // Hier wird der Abstand festgelegt (10 Pixel rechts)
 		gridBagLayout.setConstraints(searchLabel, c);
 		this.add(searchLabel);
 		
 		searchTextField = new JTextField();
 		searchTextField.setToolTipText("Enter search term here.");
 		c.gridx = 1;	// Spalte 1
-		c.weightx = 0.6;	// 60% der gesamten Breite
+		c.weightx = 0.75;	// 60% der gesamten Breite
+		c.insets = new Insets(0, 0, 0, 15); // Hier wird der Abstand festgelegt (10 Pixel links und rechts)
 		gridBagLayout.setConstraints(searchTextField, c);
 		this.add(searchTextField);
-		
+
 		searchButton = new JButton("Enter");
 		c.gridx = 2;	// Spalte 2
 		c.weightx = 0.2;	// 20% der gesamten Breite
+		c.insets = new Insets(0, 0, 0, 10); // Hier wird der Abstand festgelegt (10 Pixel rechts)
 		gridBagLayout.setConstraints(searchButton, c);
 		this.add(searchButton);
 		
@@ -75,29 +76,34 @@ public class SearchArticlesPanel extends JPanel {
 	}
 	
 	private void setupEvents() {
-		searchButton.addActionListener(new SuchListener());
+		searchButton.addActionListener(e -> SuchListener());
 	}
 	
 	// Lokale Klasse für Reaktion auf Such-Klick
-	class SuchListener implements ActionListener {
+	private void SuchListener() {
+		// Suchbegriff aus dem Textfeld lesen
+		String suchbegriff = searchTextField.getText();
 
-		@Override
-		public void actionPerformed(ActionEvent ae) {
-			if (ae.getSource().equals(searchButton)) {
-				String suchbegriff = searchTextField.getText();
-				List<Article> suchErgebnis;
-				if (suchbegriff.isEmpty()) {
-					suchErgebnis = eshop.getAllArticles();
-				} else {
-					//suchErgebnis = eshop.sucheNachTitel(suchbegriff);
-					try {
-						suchErgebnis = eshop.searchByArticleTitle(suchbegriff);
-					} catch (ArticleNotFoundException e) {
-						throw new RuntimeException(e);
-					}
-				}
-				searchResultListener.onSearchResult(suchErgebnis);
+		// Liste für das Suchergebnis deklarieren
+		List<Article> suchErgebnis;
+
+		// Überprüfen, ob das Suchfeld leer ist
+		if (suchbegriff.isEmpty()) {
+			// Wenn das Suchfeld leer ist, alle Artikel abrufen
+			suchErgebnis = eshop.getAllArticles();
+		} else {
+			// Wenn ein Suchbegriff eingegeben wurde
+			try {
+				// Versuche, Artikel basierend auf dem Titel zu suchen
+				suchErgebnis = eshop.searchByArticleTitle(suchbegriff);
+			} catch (ArticleNotFoundException e) {
+				// Wenn ein Artikel nicht gefunden wird, zeige eine Fehlermeldung an
+				JOptionPane.showMessageDialog(this, e.getMessage(), "Manage Stock Error", JOptionPane.ERROR_MESSAGE);
+				return;
 			}
 		}
+
+		// Das Suchergebnis an den searchResultListener übergeben
+		searchResultListener.onSearchResult(suchErgebnis);
 	}
 }

@@ -2,23 +2,16 @@ package shop.local.ui.gui.panels;
 
 import shop.local.domain.Shop;
 import shop.local.domain.exceptions.ArticleNotFoundException;
-import shop.local.entities.Article;
 import shop.local.entities.User;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import java.util.List;
 
 public class DeleteArticlePanel extends JPanel {
 
-    // Über dieses Interface übermittelt das AddArticlePanel
-    // ein neu hinzugefügten Article an einen Empfänger.
-    // In unserem Fall ist der Empfänger EmployeeBackEnd,
-    // die dieses Interface implementiert und auf ein neue hinzugefügtes
-    // Article reagiert, indem es die Articleliste aktualisiert.
     public interface DeleteArticleListener {
-        public void onDeleteResult(List<Article> articles);
+        public void updateArticleList();
     }
 
     private Shop eshop;
@@ -64,8 +57,8 @@ public class DeleteArticlePanel extends JPanel {
         // Abstandhalter ("Filler") zwischen letztem Element und Rand
         add(new Box.Filler(borderMinSize, borderPrefSize, borderMaxSize));
 
-        // Rahmen definieren
-        setBorder(BorderFactory.createTitledBorder("Delete Article"));
+        // Rahmen definieren mit Titel
+        //setBorder(BorderFactory.createTitledBorder("Delete Article"));
     }
 
     private void setupEvents() {
@@ -75,26 +68,26 @@ public class DeleteArticlePanel extends JPanel {
     private void ArticleLöschen() {
         String articleNumberText = numberTextFeld.getText();
 
-        if (!articleNumberText.isEmpty()) {
-            try {
-                int articleNumber = Integer.parseInt(articleNumberText);
+        if (articleNumberText.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Fill in all fields", "Delete Article Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        try {
+            int articleNumber = Integer.parseInt(articleNumberText);
 
-                eshop.deleteArticle(articleNumber, user);
+            eshop.deleteArticle(articleNumber, user);
+            JOptionPane.showMessageDialog(this, "Successfully deleted article with the number " + articleNumber + ".", "Add Article", JOptionPane.INFORMATION_MESSAGE);
 
-                numberTextFeld.setText("");
+            numberTextFeld.setText("");
 
-
-                List<Article> suchErgebnis;
-                suchErgebnis = eshop.getAllArticles();
-                // Am Ende Listener, d.h. unseren Frame benachrichtigen:
-                deleteArticleListener.onDeleteResult(suchErgebnis);
-            } catch (NumberFormatException nfe) {
-                JOptionPane.showMessageDialog(this, "Please enter an integer as value.", "Delete Article Error", JOptionPane.ERROR_MESSAGE);
-            } catch (ArticleNotFoundException anfe) {
-                JOptionPane.showMessageDialog(this, anfe.getMessage(), "Delete Article Error", JOptionPane.ERROR_MESSAGE);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            // Am Ende Listener, d.h. unseren Frame benachrichtigen:
+            deleteArticleListener.updateArticleList();
+        } catch (NumberFormatException nfe) {
+            JOptionPane.showMessageDialog(this, "Please enter an integer as value.", "Delete Article Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ArticleNotFoundException anfe) {
+            JOptionPane.showMessageDialog(this, anfe.getMessage(), "Delete Article Error", JOptionPane.ERROR_MESSAGE);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

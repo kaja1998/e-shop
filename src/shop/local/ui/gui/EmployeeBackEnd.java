@@ -11,7 +11,7 @@ import java.awt.event.*;
 import java.io.IOException;
 import java.util.List;
 
-public class EmployeeBackEnd extends JFrame implements AddArticlePanel.AddArticleListener, DeleteArticlePanel.DeleteArticleListener, SearchArticlesPanel.SearchResultListener {
+public class EmployeeBackEnd extends JFrame implements AddArticlePanel.AddArticleListener, DeleteArticlePanel.DeleteArticleListener, ManageArticleStockPanel.ManageArticleListener, SearchArticlesPanel.SearchResultListener {
 
 	private Shop eshop;
 	private User user;
@@ -44,7 +44,7 @@ public class EmployeeBackEnd extends JFrame implements AddArticlePanel.AddArticl
 		searchPanel = new SearchArticlesPanel(eshop, this);
 
 		// West
-		cardLayout = new CardLayoutEmployee(eshop, this, this, user);
+		cardLayout = new CardLayoutEmployee(eshop, this, this, this, user);
 
 		// Center
 		List<Article> articles = eshop.getAllArticles();
@@ -64,6 +64,7 @@ public class EmployeeBackEnd extends JFrame implements AddArticlePanel.AddArticl
 		// hinzugefügt.
 
 		this.setSize(640, 480);
+		setLocationRelativeTo(null); //Wo öffnet sich das fenster auf dem Bildschirm. Jetzt mittig
 		this.setVisible(true);
 	}
 
@@ -72,17 +73,12 @@ public class EmployeeBackEnd extends JFrame implements AddArticlePanel.AddArticl
 	 *
 	 * Listener, der Benachrichtungen erhält, wenn im AddArticlePanel ein Article eingefügt wurde.
 	 * (Als Reaktion soll die Articleliste aktualisiert werden.)
-	 * @see shop.local.ui.gui.panels.AddArticlePanel.AddArticleListener#onArticleAdded(shop.local.entities.Article)
+	 * @see shop.local.ui.gui.panels.AddArticlePanel.AddArticleListener#updateArticleList(shop.local.entities.Article)
 	 */
 	@Override
-	public void onArticleAdded(Article article) {
+	public void updateArticleList() {
 		// Ich lade hier einfach alle Article neu und lasse sie anzeigen
 		List<Article> articles = eshop.getAllArticles();
-		ArticlesPanel.updateArticlesList(articles);
-	}
-
-	@Override
-	public void onDeleteResult(List<Article> articles) {
 		ArticlesPanel.updateArticlesList(articles);
 	}
 
@@ -103,93 +99,11 @@ public class EmployeeBackEnd extends JFrame implements AddArticlePanel.AddArticl
 		// Menüleiste anlegen ...
 		JMenuBar mBar = new JMenuBar();
 
-		JMenu fileMenu = new FileMenu();
-		mBar.add(fileMenu);
-
-		JMenu helpMenu = new HelpMenu();
-		mBar.add(helpMenu);
-
 		JMenu LogoutMenu = new LogoutMenu();
 		mBar.add(LogoutMenu);
 
 		// ... und beim Fenster anmelden
 		this.setJMenuBar(mBar);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * Mitgliedsklasse für File-Menü
-	 *
-	 */
-	class FileMenu extends JMenu implements ActionListener {
-
-		public FileMenu() {
-			super("File");
-
-			JMenuItem saveItem = new JMenuItem("Save");
-			saveItem.addActionListener(this);
-			add(saveItem);
-
-			addSeparator();
-
-			JMenuItem quitItem = new JMenuItem("Quit");
-			quitItem.addActionListener(this);
-			add(quitItem);
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			System.out.println("Klick auf MenuItem " + e.getActionCommand());
-
-			switch (e.getActionCommand()) {
-				case "Save":
-					try {
-						eshop.writeArticleDataToAddArticle();
-					} catch (IOException ex) {
-						throw new RuntimeException(ex);
-					}
-					break;
-				case "Quit":
-					// Nur "this" ginge nicht, weil "this" auf das FileMenu-Objekt zeigt.
-					// "EmployeeBackEnd.this" zeigt auf das dieses (innere) FileMenu-Objekt
-					// umgebende Objekt der Klasse EmployeeBackEnd.
-					EmployeeBackEnd.this.setVisible(false);
-					EmployeeBackEnd.this.dispose();
-					System.exit(0);
-
-			}
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * Mitgliedsklasse für Help-Menü
-	 *
-	 */
-	class HelpMenu extends JMenu implements ActionListener {
-
-		public HelpMenu() {
-			super("Help");                                        // Titel des Menüs
-
-			// Nur zu Testzwecken: Menü mit Untermenü
-			JMenu m = new JMenu("About");                        // Untermenü mit dem Titel "About"
-			JMenuItem mi = new JMenuItem("Programmers");        // Menüelement mit dem Titel "Programmers"
-			mi.addActionListener(this);                            // ActionListener hinzufügen, um auf Klicks zu reagieren
-			m.add(mi);                                                // Menüelement zum Untermenü hinzufügen
-			mi = new JMenuItem("Stuff");                        // Ein weiteres Menüelement mit dem Titel "Stuff"
-			mi.addActionListener(this);                            // ActionListener hinzufügen, um auf Klicks zu reagieren
-			m.add(mi);                                                // Menüelement zum Untermenü hinzufügen
-			this.add(m);                                            // Untermenü zum Hauptmenü hinzufügen
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			System.out.println("Klick auf Menü '" + e.getActionCommand() + "'.");
-			// Aktion, die bei einem Klick auf ein Menüelement ausgeführt wird
-			// Hier wird einfach eine Meldung mit dem geklickten Menüelement ausgegeben
-		}
 	}
 
 	class LogoutMenu extends JMenu implements ActionListener {

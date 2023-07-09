@@ -16,15 +16,18 @@ public class CardLayoutEmployee extends JPanel{
     private AddArticlePanel.AddArticleListener addArticleListener;
 
     private DeleteArticlePanel.DeleteArticleListener deleteArticleListener;
+
+    private ManageArticleStockPanel.ManageArticleListener manageArticleListener;
     private CardLayout cardLayout;
     private JPanel cardPanel;
 
     private JComboBox<String> viewComboBox;
 
-    public CardLayoutEmployee(Shop shop, AddArticlePanel.AddArticleListener addArticleListener, DeleteArticlePanel.DeleteArticleListener deleteArticleListener, User user)  {
+    public CardLayoutEmployee(Shop shop, AddArticlePanel.AddArticleListener addArticleListener, DeleteArticlePanel.DeleteArticleListener deleteArticleListener, ManageArticleStockPanel.ManageArticleListener manageArticleListener, User user)  {
         eshop = shop;
         this.addArticleListener = addArticleListener;
         this.deleteArticleListener = deleteArticleListener;
+        this.manageArticleListener = manageArticleListener;
         this.user = user;
 
         cardLayout = new CardLayout();
@@ -34,27 +37,16 @@ public class CardLayoutEmployee extends JPanel{
     }
 
     private void setupUI() {
-//        // Ansicht "Delete Article"
-//        JPanel deletePanel = new JPanel();
-//        deletePanel.add(new JLabel("Delete Article"));
-//        JTextField deleteTextField = new JTextField();
-//        JButton deleteButton = new JButton("Delete");
-//        deletePanel.add(deleteTextField);
-//        deletePanel.add(deleteButton);
 
+        // Ansicht "Delete Article"
         DeleteArticlePanel deleteArticlePanel = new DeleteArticlePanel(eshop, deleteArticleListener, user);
         cardPanel.add(deleteArticlePanel, "delete");
         cardLayout.addLayoutComponent(deleteArticlePanel, "delete");
 
-        // Ansicht "Manage Stock"
-        JPanel stockPanel = new JPanel();
-        stockPanel.add(new JLabel("Manage Stock"));
-        JTextField stockTextField1 = new JTextField();
-        JTextField stockTextField2 = new JTextField();
-        JButton stockButton = new JButton("Manage");
-        stockPanel.add(stockTextField1);
-        stockPanel.add(stockTextField2);
-        stockPanel.add(stockButton);
+        // Ansicht "Manage Stock of an Article"
+        ManageArticleStockPanel manageArticleStockPanel = new ManageArticleStockPanel(eshop, manageArticleListener, user);
+        cardPanel.add(manageArticleStockPanel, "manage");
+        cardLayout.addLayoutComponent(manageArticleStockPanel, "manage");
 
         // Ansicht "Add Article"
         AddArticlePanel addArticlePanel = new AddArticlePanel(eshop, addArticleListener, user);
@@ -63,12 +55,12 @@ public class CardLayoutEmployee extends JPanel{
 
         // Hinzufügen der Ansichten zum Karten-Panel
         cardPanel.add(deleteArticlePanel, "delete");
-        cardPanel.add(stockPanel, "stock");
+        cardPanel.add(manageArticleStockPanel, "manage");
         cardPanel.add(addArticlePanel, "add");
 
         // Hinzufügen der Ansichten zum CardLayout
         cardLayout.addLayoutComponent(deleteArticlePanel, "delete");
-        cardLayout.addLayoutComponent(stockPanel, "stock");
+        cardLayout.addLayoutComponent(manageArticleStockPanel, "manage");
         cardLayout.addLayoutComponent(addArticlePanel, "add");
 
         // Ansichten zur JComboBox hinzufügen
@@ -92,7 +84,7 @@ public class CardLayoutEmployee extends JPanel{
                     cardLayout.show(cardPanel, "delete");
                 }
                 if (selectedView.equals("Manage Stock")) {
-                    cardLayout.show(cardPanel, "stock");
+                    cardLayout.show(cardPanel, "manage");
                 }
                 if (selectedView.equals("Add Article")) {
                     cardLayout.show(cardPanel, "add");

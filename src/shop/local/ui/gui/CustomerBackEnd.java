@@ -68,6 +68,7 @@ public class CustomerBackEnd extends JFrame implements AddArticlePanel.AddArticl
         // hinzugefügt.
 
         this.setSize(640, 480);
+        setLocationRelativeTo(null); //Wo öffnet sich das fenster auf dem Bildschirm. Jetzt mittig
         this.setVisible(true);
     }
 
@@ -79,7 +80,7 @@ public class CustomerBackEnd extends JFrame implements AddArticlePanel.AddArticl
      * @see shop.local.ui.gui.panels.AddArticlePanel.AddArticleListener#onArticleAdded(shop.local.entities.Article)
      */
     @Override
-    public void onArticleAdded(Article article) {
+    public void updateArticleList() {
         // Ich lade hier einfach alle Article neu und lasse sie anzeigen
         java.util.List<Article> articles = eshop.getAllArticles();
         ArticlesPanel.updateArticlesList(articles);

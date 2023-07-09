@@ -6,12 +6,12 @@ import javax.swing.*;
 import java.util.Collections;
 import java.util.Comparator;
 
-// Wichtig: Das ArticlesListPanel _ist eine_ JList und damit eine Component;
+// Wichtig: Das Löschen_ArticlesListPanel _ist eine_ JList und damit eine Component;
 // es kann daher in das Layout eines anderen Containers
 // (in unserer Anwendung des Frames) eingefügt werden.
-public class ArticlesListPanel extends JList<Article> {
+public class Löschen_ArticlesListPanel extends JList<Article> {
 
-	public ArticlesListPanel(java.util.List<Article> articles) {
+	public Löschen_ArticlesListPanel(java.util.List<Article> articles) {
 		super();
 
 		// ListModel erzeugen ...
