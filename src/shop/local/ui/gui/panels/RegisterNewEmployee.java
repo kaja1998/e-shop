@@ -14,7 +14,7 @@ public class RegisterNewEmployee extends JPanel {
 
     private JTextField nameTextFeld = null;
     private JTextField lastNameTextFeld = null;
-    private JTextField userNameTextFeld = null;
+    private JTextField usernameTextFeld = null;
     private JTextField passwordTextFeld = null;
 
     private JButton registerButton;
@@ -39,14 +39,14 @@ public class RegisterNewEmployee extends JPanel {
 
         nameTextFeld = new JTextField();
         lastNameTextFeld = new JTextField();
-        userNameTextFeld = new JTextField();
+        usernameTextFeld = new JTextField();
         passwordTextFeld = new JTextField();
         add(new JLabel("Name:"));
         add(nameTextFeld);
-        add(new JLabel("Last name:"));
+        add(new JLabel("Last Name:"));
         add(lastNameTextFeld);
-        add(new JLabel("User name:"));
-        add(userNameTextFeld);
+        add(new JLabel("Username:"));
+        add(usernameTextFeld);
         add(new JLabel("Password:"));
         add(passwordTextFeld);
 
@@ -74,21 +74,21 @@ public class RegisterNewEmployee extends JPanel {
     private void RegisterNewEmployee() {
         String name = nameTextFeld.getText();
         String lastname = lastNameTextFeld.getText();
-        String userName = userNameTextFeld.getText();
+        String username = usernameTextFeld.getText();
         String password = passwordTextFeld.getText();
 
-        if (name.isEmpty() || lastname.isEmpty() || userName.isEmpty() || password.isEmpty()) {
+        if (name.isEmpty() || lastname.isEmpty() || username.isEmpty() || password.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Fill in all fields", "Register Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         try {
-            eshop.registerEmployee(name, lastname, userName, password);
+            eshop.registerEmployee(name, lastname, username, password);
             JOptionPane.showMessageDialog(this, "Registration successful.", "Register new Employee", JOptionPane.INFORMATION_MESSAGE);
 
             nameTextFeld.setText("");
             lastNameTextFeld.setText("");
-            userNameTextFeld.setText("");
+            usernameTextFeld.setText("");
             passwordTextFeld.setText("");
 
         } catch (RegisterException r) {

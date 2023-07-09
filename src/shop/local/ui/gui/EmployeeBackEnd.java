@@ -20,7 +20,7 @@ public class EmployeeBackEnd extends JFrame implements AddArticlePanel.AddArticl
 	private ArticlesTablePanel ArticlesPanel;
 
 	public EmployeeBackEnd(Shop shop, User user) {
-		super("Kaja's Spice Shop");
+		super("Employee BackEnd of Kaja's Spice Shop");
 		this.user = user;
 		eshop = shop;
 		initialize();
