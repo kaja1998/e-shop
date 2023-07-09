@@ -20,7 +20,7 @@ public class LoginEmployeePanel extends JPanel {
 
     public LoginEmployeePanel(Shop shop, LoginStart loginStart) {
         this.loginStart = loginStart;
-        eshop = shop;
+        this.eshop = shop;
         setupUI();
         setupEvents();
     }

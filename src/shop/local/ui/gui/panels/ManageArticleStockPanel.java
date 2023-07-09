@@ -24,7 +24,7 @@ public class ManageArticleStockPanel extends JPanel{
     private JTextField quanitityTextFeld = null;
 
     public ManageArticleStockPanel(Shop shop, ManageArticleStockPanel.ManageArticleListener manageArticleListener, User user) {
-        eshop = shop;
+        this.eshop = shop;
         this.manageArticleListener = manageArticleListener;
         this.user = user;
         setupUI();

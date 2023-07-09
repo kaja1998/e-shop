@@ -24,7 +24,7 @@ public class CardLayoutEmployee extends JPanel{
     private JComboBox<String> viewComboBox;
 
     public CardLayoutEmployee(Shop shop, AddArticlePanel.AddArticleListener addArticleListener, DeleteArticlePanel.DeleteArticleListener deleteArticleListener, ManageArticleStockPanel.ManageArticleListener manageArticleListener, User user)  {
-        eshop = shop;
+        this.eshop = shop;
         this.addArticleListener = addArticleListener;
         this.deleteArticleListener = deleteArticleListener;
         this.manageArticleListener = manageArticleListener;
@@ -53,20 +53,28 @@ public class CardLayoutEmployee extends JPanel{
         cardPanel.add(addArticlePanel, "add");
         cardLayout.addLayoutComponent(addArticlePanel, "add");
 
+        // Ansicht "Add new Employee"
+        RegisterNewEmployee registerNewEmployee = new RegisterNewEmployee(eshop);
+        cardPanel.add(registerNewEmployee, "new");
+        cardLayout.addLayoutComponent(registerNewEmployee, "new");
+
         // Hinzufügen der Ansichten zum Karten-Panel
         cardPanel.add(deleteArticlePanel, "delete");
         cardPanel.add(manageArticleStockPanel, "manage");
         cardPanel.add(addArticlePanel, "add");
+        cardPanel.add(registerNewEmployee, "new");
 
         // Hinzufügen der Ansichten zum CardLayout
         cardLayout.addLayoutComponent(deleteArticlePanel, "delete");
         cardLayout.addLayoutComponent(manageArticleStockPanel, "manage");
         cardLayout.addLayoutComponent(addArticlePanel, "add");
+        cardLayout.addLayoutComponent(registerNewEmployee, "new");
 
         // Ansichten zur JComboBox hinzufügen
         viewComboBox.addItem("Delete Article");
         viewComboBox.addItem("Manage Stock");
         viewComboBox.addItem("Add Article");
+        viewComboBox.addItem("Register new Employee");
 
         // Standardansicht auswählen
         viewComboBox.setSelectedIndex(0);
@@ -88,6 +96,9 @@ public class CardLayoutEmployee extends JPanel{
                 }
                 if (selectedView.equals("Add Article")) {
                     cardLayout.show(cardPanel, "add");
+                }
+                if (selectedView.equals("Register new Employee")) {
+                    cardLayout.show(cardPanel, "new");
                 }
             }
         });

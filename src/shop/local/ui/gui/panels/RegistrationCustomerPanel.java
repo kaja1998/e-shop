@@ -28,7 +28,7 @@ public class RegistrationCustomerPanel extends JPanel {
 
     public RegistrationCustomerPanel(Shop shop, LoginStart loginStart) {
         this.loginStart = loginStart;
-        eshop = shop;
+        this.eshop = shop;
         setupUI();
         setupEvents();
     }

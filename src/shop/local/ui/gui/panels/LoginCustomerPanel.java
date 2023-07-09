@@ -20,7 +20,7 @@ public class LoginCustomerPanel extends JPanel {
 
     public LoginCustomerPanel(Shop shop, LoginStart loginStart) {
         this.loginStart = loginStart;
-        eshop = shop;
+        this.eshop = shop;
         setupUI();
         setupEvents();
     }

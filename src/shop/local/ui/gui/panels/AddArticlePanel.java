@@ -25,7 +25,7 @@ public class AddArticlePanel extends JPanel {
 	private JTextField packSizeTextFeld = null;
 
 	public AddArticlePanel(Shop shop, AddArticleListener addArticleListener, User user) {
-		eshop = shop;
+		this.eshop = shop;
 		this.addArticleListener = addArticleListener;
 		this.user = user;
 		setupUI();

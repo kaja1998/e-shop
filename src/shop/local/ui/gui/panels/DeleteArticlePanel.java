@@ -21,7 +21,7 @@ public class DeleteArticlePanel extends JPanel {
     private JTextField numberTextFeld = null;
 
     public DeleteArticlePanel(Shop shop, DeleteArticlePanel.DeleteArticleListener deleteArticleListener, User user) {
-        eshop = shop;
+        this.eshop = shop;
         this.deleteArticleListener = deleteArticleListener;
         this.user = user;
         setupUI();
