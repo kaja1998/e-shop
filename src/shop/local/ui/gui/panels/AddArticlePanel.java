@@ -92,6 +92,13 @@ public class AddArticlePanel extends JPanel {
 			JOptionPane.showMessageDialog(this, "Fill in all fields", "Add Article Error", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
+
+		// Überprüfen, ob articleType "single" oder "bulk" ist
+		if (!articleType.equals("single") && !articleType.equals("bulk")) {
+			JOptionPane.showMessageDialog(this, "Please enter 'single' or 'bulk' for article type", "Add Article Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+
 		try {
 			double price = Double.parseDouble(priceText);
 			int quantity = Integer.parseInt(quantityText);
