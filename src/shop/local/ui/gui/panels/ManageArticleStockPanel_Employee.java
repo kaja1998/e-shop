@@ -10,7 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
-public class ManageArticleStockPanel extends JPanel{
+public class ManageArticleStockPanel_Employee extends JPanel{
 
     public interface ManageArticleListener {
         public void updateArticleList();
@@ -18,12 +18,12 @@ public class ManageArticleStockPanel extends JPanel{
 
     private Shop eshop;
     private  User user;
-    private ManageArticleStockPanel.ManageArticleListener manageArticleListener;
+    private ManageArticleStockPanel_Employee.ManageArticleListener manageArticleListener;
     private JButton ManageButton;
     private JTextField articleNumberTextFeld = null;
     private JTextField quanitityTextFeld = null;
 
-    public ManageArticleStockPanel(Shop shop, ManageArticleStockPanel.ManageArticleListener manageArticleListener, User user) {
+    public ManageArticleStockPanel_Employee(Shop shop, ManageArticleStockPanel_Employee.ManageArticleListener manageArticleListener, User user) {
         this.eshop = shop;
         this.manageArticleListener = manageArticleListener;
         this.user = user;

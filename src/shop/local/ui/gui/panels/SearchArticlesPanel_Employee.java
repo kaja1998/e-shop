@@ -8,12 +8,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-// Das SearchArticlesPanel _ist ein_ Panel und damit auch eine Component;
+// Das SearchArticlesPanel_Employee _ist ein_ Panel und damit auch eine Component;
 // es kann daher in das Layout eines anderen Containers 
 // (in meiner Anwendung des EmployeeBackEnd Frames) eingefügt werden.
-public class SearchArticlesPanel extends JPanel {
+public class SearchArticlesPanel_Employee extends JPanel {
 
-	// Über dieses Interface übermittelt das SearchArticlesPanel
+	// Über dieses Interface übermittelt das SearchArticlesPanel_Employee
 	// Suchergebnisse an einen Empfänger.
 	// In unserem Fall ist der Empfänger das EmployeeBackEnd,
 	// welches dieses Interface implementiert und auf ein neues
@@ -28,7 +28,7 @@ public class SearchArticlesPanel extends JPanel {
 	private JButton searchButton = null;
 	private SearchResultListener searchResultListener;
 	
-	public SearchArticlesPanel(Shop bibliothek, SearchResultListener searchResultListener) {
+	public SearchArticlesPanel_Employee(Shop bibliothek, SearchResultListener searchResultListener) {
 		eshop = bibliothek;
 		this.searchResultListener = searchResultListener;
 

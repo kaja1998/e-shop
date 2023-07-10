@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
-public class AddArticlePanel extends JPanel {
+public class AddArticlePanel_Employee extends JPanel {
 
 	public interface AddArticleListener {
 		public void updateArticleList();
@@ -24,7 +24,7 @@ public class AddArticlePanel extends JPanel {
 	private JTextField articleTypeTextFeld = null;
 	private JTextField packSizeTextFeld = null;
 
-	public AddArticlePanel(Shop shop, AddArticleListener addArticleListener, User user) {
+	public AddArticlePanel_Employee(Shop shop, AddArticleListener addArticleListener, User user) {
 		this.eshop = shop;
 		this.addArticleListener = addArticleListener;
 		this.user = user;

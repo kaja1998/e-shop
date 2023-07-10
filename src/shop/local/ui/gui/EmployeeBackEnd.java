@@ -8,21 +8,20 @@ import shop.local.ui.gui.panels.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
 import java.util.List;
 
-public class EmployeeBackEnd extends JFrame implements AddArticlePanel.AddArticleListener, DeleteArticlePanel.DeleteArticleListener, ManageArticleStockPanel.ManageArticleListener, SearchArticlesPanel.SearchResultListener {
+public class EmployeeBackEnd extends JFrame implements AddArticlePanel_Employee.AddArticleListener, DeleteArticlePanel_Employee.DeleteArticleListener, ManageArticleStockPanel_Employee.ManageArticleListener, SearchArticlesPanel_Employee.SearchResultListener {
 
 	private Shop eshop;
 	private User user;
-	private SearchArticlesPanel searchPanel;
-	private CardLayoutEmployee cardLayout;
-	private ArticlesTablePanel ArticlesPanel;
+	private SearchArticlesPanel_Employee searchPanel;
+	private CardLayoutPanel_Employee cardLayout;
+	private ArticlesTablePanel_Employee ArticlesPanel;
 
 	public EmployeeBackEnd(Shop shop, User user) {
 		super("Employee BackEnd of Kaja's Spice Shop");
 		this.user = user;
-		eshop = shop;
+		this.eshop = shop;
 		initialize();
 	}
 
@@ -41,15 +40,15 @@ public class EmployeeBackEnd extends JFrame implements AddArticlePanel.AddArticl
 		this.setLayout(new BorderLayout());
 
 		// North
-		searchPanel = new SearchArticlesPanel(eshop, this);
+		searchPanel = new SearchArticlesPanel_Employee(eshop, this);
 
 		// West
-		cardLayout = new CardLayoutEmployee(eshop, this, this, this, user);
+		cardLayout = new CardLayoutPanel_Employee(eshop, this, this, this, user);
 
 		// Center
 		List<Article> articles = eshop.getAllArticles();
 		// (wahlweise Anzeige als Liste oder Tabelle)
-		ArticlesPanel = new ArticlesTablePanel(articles);
+		ArticlesPanel = new ArticlesTablePanel_Employee(articles);
 		JScrollPane scrollPane = new JScrollPane(ArticlesPanel);
 		scrollPane.setBorder(BorderFactory.createTitledBorder("Articles"));
 
@@ -71,9 +70,9 @@ public class EmployeeBackEnd extends JFrame implements AddArticlePanel.AddArticl
 	/*
 	 * (non-Javadoc)
 	 *
-	 * Listener, der Benachrichtungen erhält, wenn im AddArticlePanel ein Article eingefügt wurde.
+	 * Listener, der Benachrichtungen erhält, wenn im AddArticlePanel_Employee ein Article eingefügt wurde.
 	 * (Als Reaktion soll die Articleliste aktualisiert werden.)
-	 * @see shop.local.ui.gui.panels.AddArticlePanel.AddArticleListener#updateArticleList(shop.local.entities.Article)
+	 * @see shop.local.ui.gui.panels.AddArticlePanel_Employee.AddArticleListener#updateArticleList(shop.local.entities.Article)
 	 */
 	@Override
 	public void updateArticleList() {
@@ -85,9 +84,9 @@ public class EmployeeBackEnd extends JFrame implements AddArticlePanel.AddArticl
 	/*
 	 * (non-Javadoc)
 	 *
-	 * Listener, der Benachrichtungen erhält, wenn das SearchArticlesPanel ein Suchergebnis bereitstellen möchte.
+	 * Listener, der Benachrichtungen erhält, wenn das SearchArticlesPanel_Employee ein Suchergebnis bereitstellen möchte.
 	 * (Als Reaktion soll die Articleliste aktualisiert werden.)
-	 * @see shop.local.ui.gui.swing.panels.SearchArticlesPanel.SearchResultListener#onSearchResult(java.util.List)
+	 * @see shop.local.ui.gui.swing.panels.SearchArticlesPanel_Employee.SearchResultListener#onSearchResult(java.util.List)
 	 */
 	@Override
 	public void onSearchResult(List<Article> articles) {
@@ -118,7 +117,7 @@ public class EmployeeBackEnd extends JFrame implements AddArticlePanel.AddArticl
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("Klick auf MenuItem " + e.getActionCommand());
+			//System.out.println("Klick auf MenuItem " + e.getActionCommand());
 
 			switch (e.getActionCommand()) {
 				case "Logout":

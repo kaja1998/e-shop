@@ -1,18 +1,18 @@
 package shop.local.ui.gui.panels;
 
 import shop.local.entities.Article;
-import shop.local.ui.gui.models.ArticleTableModel;
+import shop.local.ui.gui.models.ArticleTableModel_Employee;
 
 import javax.swing.*;
 import java.util.Collections;
 
-public class ArticlesTablePanel extends JTable {
+public class ArticlesTablePanel_Employee extends JTable {
 
-	public ArticlesTablePanel(java.util.List<Article> articles) {
+	public ArticlesTablePanel_Employee(java.util.List<Article> articles) {
 		super();
 
 		// TableModel erzeugen ...
-		ArticleTableModel tableModel = new ArticleTableModel(articles);
+		ArticleTableModel_Employee tableModel = new ArticleTableModel_Employee(articles);
 		// ... bei JTable "anmelden" und ...
 		setModel(tableModel);
 		// ... Daten an Model übergeben (für Sortierung o.ä.)
@@ -26,7 +26,7 @@ public class ArticlesTablePanel extends JTable {
 		Collections.sort(articles, (a1, a2) -> a1.getNumber() - a2.getNumber());	// Sortierung nach Nummer
 
 		// TableModel von JTable holen und ...
-		ArticleTableModel tableModel = (ArticleTableModel) getModel();
+		ArticleTableModel_Employee tableModel = (ArticleTableModel_Employee) getModel();
 		// ... Inhalt aktualisieren
 		tableModel.setArticles(articles);
 	}

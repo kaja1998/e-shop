@@ -609,16 +609,19 @@ public class EshopClientCUI {
 		}
 	}
 
+	//Nur für die GUI!
+	private void getArticlesInCart(){
+		eshop.getAllCartItems((Customer)loggedinUser);
+	}
+
 	private void buyArticlesInCart() {
 		try {
 			if (loggedinUser instanceof Customer) {
-				Customer customer = (Customer) loggedinUser;
-				ShoppingCart shoppingCart = customer.getShoppingCart();
 				// The buyArticles(shoppingCart) method is called to carry out the purchase of the items in the shopping cart.
 				// The result is an invoice that is stored in the variable invoice.
 				Invoice invoice = null;
 				try {
-					invoice = eshop.buyArticles(shoppingCart, loggedinUser);
+					invoice = eshop.buyArticles((Customer)loggedinUser);
 
 					// print which articles couldn't be purchased
 					articlesCouldntPurchase(invoice);

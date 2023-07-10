@@ -13,7 +13,6 @@ public class RegistrationCustomerPanel extends JPanel {
 
     private Shop eshop;
     private LoginStart loginStart;
-    private User loggedinUser = null;
     private JButton registerButton;
     private JTextField nameField;
     private JTextField lastNameField;

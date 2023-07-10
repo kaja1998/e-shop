@@ -9,21 +9,21 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class CardLayoutEmployee extends JPanel{
+public class CardLayoutPanel_Employee extends JPanel{
 
     private Shop eshop;
     private  User user;
-    private AddArticlePanel.AddArticleListener addArticleListener;
+    private AddArticlePanel_Employee.AddArticleListener addArticleListener;
 
-    private DeleteArticlePanel.DeleteArticleListener deleteArticleListener;
+    private DeleteArticlePanel_Employee.DeleteArticleListener deleteArticleListener;
 
-    private ManageArticleStockPanel.ManageArticleListener manageArticleListener;
+    private ManageArticleStockPanel_Employee.ManageArticleListener manageArticleListener;
     private CardLayout cardLayout;
     private JPanel cardPanel;
 
     private JComboBox<String> viewComboBox;
 
-    public CardLayoutEmployee(Shop shop, AddArticlePanel.AddArticleListener addArticleListener, DeleteArticlePanel.DeleteArticleListener deleteArticleListener, ManageArticleStockPanel.ManageArticleListener manageArticleListener, User user)  {
+    public CardLayoutPanel_Employee(Shop shop, AddArticlePanel_Employee.AddArticleListener addArticleListener, DeleteArticlePanel_Employee.DeleteArticleListener deleteArticleListener, ManageArticleStockPanel_Employee.ManageArticleListener manageArticleListener, User user)  {
         this.eshop = shop;
         this.addArticleListener = addArticleListener;
         this.deleteArticleListener = deleteArticleListener;
@@ -39,36 +39,36 @@ public class CardLayoutEmployee extends JPanel{
     private void setupUI() {
 
         // Ansicht "Delete Article"
-        DeleteArticlePanel deleteArticlePanel = new DeleteArticlePanel(eshop, deleteArticleListener, user);
-        cardPanel.add(deleteArticlePanel, "delete");
-        cardLayout.addLayoutComponent(deleteArticlePanel, "delete");
+        DeleteArticlePanel_Employee deleteArticlePanelEmployee = new DeleteArticlePanel_Employee(eshop, deleteArticleListener, user);
+        cardPanel.add(deleteArticlePanelEmployee, "delete");
+        cardLayout.addLayoutComponent(deleteArticlePanelEmployee, "delete");
 
         // Ansicht "Manage Stock of an Article"
-        ManageArticleStockPanel manageArticleStockPanel = new ManageArticleStockPanel(eshop, manageArticleListener, user);
-        cardPanel.add(manageArticleStockPanel, "manage");
-        cardLayout.addLayoutComponent(manageArticleStockPanel, "manage");
+        ManageArticleStockPanel_Employee manageArticleStockPanelEmployee = new ManageArticleStockPanel_Employee(eshop, manageArticleListener, user);
+        cardPanel.add(manageArticleStockPanelEmployee, "manage");
+        cardLayout.addLayoutComponent(manageArticleStockPanelEmployee, "manage");
 
         // Ansicht "Add Article"
-        AddArticlePanel addArticlePanel = new AddArticlePanel(eshop, addArticleListener, user);
-        cardPanel.add(addArticlePanel, "add");
-        cardLayout.addLayoutComponent(addArticlePanel, "add");
+        AddArticlePanel_Employee addArticlePanelEmployee = new AddArticlePanel_Employee(eshop, addArticleListener, user);
+        cardPanel.add(addArticlePanelEmployee, "add");
+        cardLayout.addLayoutComponent(addArticlePanelEmployee, "add");
 
         // Ansicht "Add new Employee"
-        RegisterNewEmployee registerNewEmployee = new RegisterNewEmployee(eshop);
-        cardPanel.add(registerNewEmployee, "new");
-        cardLayout.addLayoutComponent(registerNewEmployee, "new");
+        RegisterNewEmployeePanel_Employee registerNewEmployeePanelEmployee = new RegisterNewEmployeePanel_Employee(eshop);
+        cardPanel.add(registerNewEmployeePanelEmployee, "new");
+        cardLayout.addLayoutComponent(registerNewEmployeePanelEmployee, "new");
 
         // Hinzufügen der Ansichten zum Karten-Panel
-        cardPanel.add(deleteArticlePanel, "delete");
-        cardPanel.add(manageArticleStockPanel, "manage");
-        cardPanel.add(addArticlePanel, "add");
-        cardPanel.add(registerNewEmployee, "new");
+        cardPanel.add(deleteArticlePanelEmployee, "delete");
+        cardPanel.add(manageArticleStockPanelEmployee, "manage");
+        cardPanel.add(addArticlePanelEmployee, "add");
+        cardPanel.add(registerNewEmployeePanelEmployee, "new");
 
         // Hinzufügen der Ansichten zum CardLayout
-        cardLayout.addLayoutComponent(deleteArticlePanel, "delete");
-        cardLayout.addLayoutComponent(manageArticleStockPanel, "manage");
-        cardLayout.addLayoutComponent(addArticlePanel, "add");
-        cardLayout.addLayoutComponent(registerNewEmployee, "new");
+        cardLayout.addLayoutComponent(deleteArticlePanelEmployee, "delete");
+        cardLayout.addLayoutComponent(manageArticleStockPanelEmployee, "manage");
+        cardLayout.addLayoutComponent(addArticlePanelEmployee, "add");
+        cardLayout.addLayoutComponent(registerNewEmployeePanelEmployee, "new");
 
         // Ansichten zur JComboBox hinzufügen
         viewComboBox.addItem("Delete Article");
@@ -103,10 +103,10 @@ public class CardLayoutEmployee extends JPanel{
             }
         });
 
-        // Layout des AddArticlePanel setzen
+        // Layout des AddArticlePanel_Employee setzen
         viewComboBox.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
-        // Layout des AddArticlePanel setzen
+        // Layout des AddArticlePanel_Employee setzen
         setLayout(new BorderLayout());
         add(viewComboBox, BorderLayout.NORTH);
         add(cardPanel, BorderLayout.CENTER);

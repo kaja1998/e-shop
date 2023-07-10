@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
-public class DeleteArticlePanel extends JPanel {
+public class DeleteArticlePanel_Employee extends JPanel {
 
     public interface DeleteArticleListener {
         public void updateArticleList();
@@ -16,11 +16,11 @@ public class DeleteArticlePanel extends JPanel {
 
     private Shop eshop;
     private User user;
-    private DeleteArticlePanel.DeleteArticleListener deleteArticleListener;
+    private DeleteArticlePanel_Employee.DeleteArticleListener deleteArticleListener;
     private JButton deleteButton;
     private JTextField numberTextFeld = null;
 
-    public DeleteArticlePanel(Shop shop, DeleteArticlePanel.DeleteArticleListener deleteArticleListener, User user) {
+    public DeleteArticlePanel_Employee(Shop shop, DeleteArticlePanel_Employee.DeleteArticleListener deleteArticleListener, User user) {
         this.eshop = shop;
         this.deleteArticleListener = deleteArticleListener;
         this.user = user;

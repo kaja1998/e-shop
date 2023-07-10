@@ -7,18 +7,18 @@ import javax.swing.table.AbstractTableModel;
 import java.util.List;
 import java.util.Vector;
 
-public class ArticleTableModel extends AbstractTableModel  {
+public class ArticleTableModel_Customer extends AbstractTableModel {
 
     private List<Article> articles;
-    private String[] spaltenNamen = { "Number", "Title", "Price", "Quantity", "Pack size"};
+    private String[] spaltenNamen = { "Number", "Title", "Price", "Pack size"};
 
-    
-    public ArticleTableModel(List<Article> aktuelleArticles) {
-    	super(); 
-    	// Ich erstelle eine Kopie der Bücherliste,
-    	// damit beim Aktualisieren (siehe Methode setBooks())
-    	// keine unerwarteten Seiteneffekte entstehen.
-    	articles = new Vector<Article>();
+
+    public ArticleTableModel_Customer(List<Article> aktuelleArticles) {
+        super();
+        // Ich erstelle eine Kopie der Artikelliste,
+        // damit beim Aktualisieren (siehe Methode setArticles())
+        // keine unerwarteten Seiteneffekte entstehen.
+        articles = new Vector<Article>();
         articles.addAll(aktuelleArticles);
     }
 
@@ -29,14 +29,14 @@ public class ArticleTableModel extends AbstractTableModel  {
     }
 
     /*
-     * Ab hier überschriebene Methoden mit Informationen, 
+     * Ab hier überschriebene Methoden mit Informationen,
      * die eine JTable von jedem TableModel erwartet:
      * - Anzahl der Zeilen
      * - Anzahl der Spalten
      * - Benennung der Spalten
      * - Wert einer Zelle in Zeile / Spalte
      */
-    
+
     @Override
     public int getRowCount() {
         return articles.size();
@@ -51,7 +51,7 @@ public class ArticleTableModel extends AbstractTableModel  {
     public String getColumnName(int col) {
         return spaltenNamen[col];
     }
-    
+
     @Override
     public Object getValueAt(int row, int col) {
         Article chosenArticle = articles.get(row);
@@ -63,8 +63,6 @@ public class ArticleTableModel extends AbstractTableModel  {
             case 2:
                 return chosenArticle.getPrice();
             case 3:
-                return chosenArticle.getQuantityInStock();
-            case 4:
                 if (chosenArticle instanceof BulkArticle) {
                     BulkArticle bulkArticle = (BulkArticle) chosenArticle;
                     return bulkArticle.getPackSize();

@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
-public class RegisterNewEmployee extends JPanel {
+public class RegisterNewEmployeePanel_Employee extends JPanel {
 
     private Shop eshop;
 
@@ -19,7 +19,7 @@ public class RegisterNewEmployee extends JPanel {
 
     private JButton registerButton;
 
-    public RegisterNewEmployee(Shop shop) {
+    public RegisterNewEmployeePanel_Employee(Shop shop) {
         this.eshop = shop;
         setupUI();
 

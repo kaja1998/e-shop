@@ -80,6 +80,15 @@ public class Shop {
 	}
 
 	/**
+	 * Method for getting all items in the logged in user's shopping cart
+	 *
+	 * @return List of all items in the logged in user's shopping cart
+	 */
+	public List<ShoppingCartItem> getAllCartItems(Customer customer) {
+		return customerAdministration.getUsersShoppingCart(customer);
+	}
+
+	/**
 	 * Method to search items by item name. There will be a list of items returned,
 	 * which contains all items with an exact matching item description.
 	 *
@@ -146,20 +155,14 @@ public class Shop {
 	}
 
 	/**
-	 * Method for getting all items in the logged in user's shopping cart
-	 *
-	 * @return List of all items in the logged in user's shopping cart
-	 */
-
-	/**
 	 * Method for purchasing articles in the shopping cart
 	 *
-	 * @param shoppingCart ShoppingCart of the customer
 	 * @return Invoice with a list of successfully purchased articles, a list of
 	 *         unavailable articles, date and total of purchase
 	 */
-	public Invoice buyArticles(ShoppingCart shoppingCart, User user) throws IOException, EmptyCartException, ArticleBuyingException {
-		return articleAdministration.buyArticles(shoppingCart, user);
+	public Invoice buyArticles(Customer customer) throws IOException, EmptyCartException, ArticleBuyingException {
+		ShoppingCart shoppingCart = customer.getShoppingCart();
+		return articleAdministration.buyArticles(shoppingCart, customer);
 	}
 
 	/**
