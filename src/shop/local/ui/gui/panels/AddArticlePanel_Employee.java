@@ -49,11 +49,11 @@ public class AddArticlePanel_Employee extends JPanel {
 		quanitityTextFeld = new JTextField();
 		articleTypeTextFeld = new JTextField();
 		packSizeTextFeld = new JTextField();
-		add(new JLabel("Title:"));
+		add(new JLabel("Article Title:"));
 		add(titelTextFeld);
 		add(new JLabel("Price:"));
 		add(priceTextFeld);
-		add(new JLabel("Initital quantity:"));
+		add(new JLabel("Initital Quantity:"));
 		add(quanitityTextFeld);
 		add(new JLabel("Type (bulk / single):"));
 		add(articleTypeTextFeld);
