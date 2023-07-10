@@ -74,7 +74,7 @@ public class CustomerAdministration {
                                 return user;
                         }
                 }
-                throw new LoginException("User with the username " + userName + " does not exist.");
+                throw new LoginException(null);
         }
 
         // Adds customer objects from file to ArrayList

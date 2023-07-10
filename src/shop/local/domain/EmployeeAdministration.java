@@ -60,7 +60,7 @@ public class EmployeeAdministration {
                                 return user;
                         }
                 }
-                throw new LoginException("User with the username " + username + " does not exist.");
+                throw new LoginException(null);
         }
 
         // Adds employee objects from file to ArrayList
