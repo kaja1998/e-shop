@@ -146,7 +146,7 @@ public class RegistrationCustomerPanel extends JPanel {
             String password = new String(passwordField.getPassword());
             String registerNow = agreeCheckBox.isSelected() ? "yes" : "no"; // Get the value as "yes" or "no" based on the check box
 
-        if (name.isEmpty() || password.isEmpty()) {
+        if (name.isEmpty() || lastName.isEmpty() || street.isEmpty() || postalCodeString.isEmpty() || city.isEmpty() || mail.isEmpty() || username.isEmpty() || password.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Fill in all fields", "Login Error", JOptionPane.ERROR_MESSAGE);
             return;
         }

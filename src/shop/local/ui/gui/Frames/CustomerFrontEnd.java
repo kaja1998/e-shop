@@ -16,7 +16,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
 
-public class CustomerBackEnd extends JFrame implements SearchArticlesPanel_Employee.SearchResultListener {
+public class CustomerFrontEnd extends JFrame implements SearchArticlesPanel_Employee.SearchResultListener {
     private Shop eshop;
     private User user;
     private SearchArticlesPanel_Employee searchPanel;
@@ -24,7 +24,7 @@ public class CustomerBackEnd extends JFrame implements SearchArticlesPanel_Emplo
     private ArticlesTablePanel_Customer ArticlesPanel;
     private CustomersCart customersCartPanel;
 
-    public CustomerBackEnd(Shop shop, User user) {
+    public CustomerFrontEnd(Shop shop, User user) {
         super("Kaja's Spice Shop");
         this.user = user;
         eshop = shop;
@@ -88,10 +88,10 @@ public class CustomerBackEnd extends JFrame implements SearchArticlesPanel_Emplo
         // Menüleiste anlegen ...
         JMenuBar mBar = new JMenuBar();
 
-        JMenu LogoutMenu = new CustomerBackEnd.LogoutMenu();
+        JMenu LogoutMenu = new CustomerFrontEnd.LogoutMenu();
         mBar.add(LogoutMenu);
 
-        JMenu ShoppingCartMenu = new CustomerBackEnd.ShoppingCartMenu();
+        JMenu ShoppingCartMenu = new CustomerFrontEnd.ShoppingCartMenu();
         mBar.add(ShoppingCartMenu);
 
         // ... und beim Fenster anmelden
@@ -179,7 +179,7 @@ public class CustomerBackEnd extends JFrame implements SearchArticlesPanel_Emplo
                 case "View Cart":
                     // Aktion für den "Cart" Menüpunkt
 
-                    customersCartPanel = new CustomersCart(CustomerBackEnd.this, eshop, user);
+                    customersCartPanel = new CustomersCart(CustomerFrontEnd.this, eshop, user);
             }
         }
     }

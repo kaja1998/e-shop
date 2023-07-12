@@ -13,10 +13,6 @@ import java.awt.*;
 
 public class AddArticleToCartPanel_Customer extends JPanel {
 
-//    public interface AddCartItemListener {
-//        public void updateCartItemsList();
-//    }
-
     private Shop eshop;
     private User user;
     private JButton addToCartButton;

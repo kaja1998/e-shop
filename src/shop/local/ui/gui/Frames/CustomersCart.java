@@ -139,7 +139,7 @@ public class CustomersCart extends JDialog implements ChangeArticleQuantityInCar
                     // Warenkorb aktualisieren
                     updateCartItemsList();
 
-                    // TODO: Artikelliste in CustomerBackEnd aktualisieren mit Interface?
+                    // TODO: Artikelliste in CustomerFrontEnd aktualisieren mit Interface?
                     //  Macht eventuell Sinn, wenn nun Artikel nicht mehr verfügbar sind oder neue hinzugekommen sind
 
                 } catch (IOException ex) {

@@ -3,14 +3,14 @@ package shop.local.ui.gui.panels;
 import shop.local.domain.Shop;
 import shop.local.domain.exceptions.LoginException;
 import shop.local.entities.User;
-import shop.local.ui.gui.Frames.CustomerBackEnd;
+import shop.local.ui.gui.Frames.CustomerFrontEnd;
 import shop.local.ui.gui.Frames.LoginStart;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class LoginCustomerPanel extends JPanel {
-    private User loggedinUser = null;
+    private User loggedinUser;
     private Shop eshop;
     private LoginStart loginStart;
     private JButton customerLoginButton;
@@ -73,8 +73,8 @@ public class LoginCustomerPanel extends JPanel {
         }
         try {
             loggedinUser = eshop.loginCustomer(userName, password);
-            CustomerBackEnd cbe = new CustomerBackEnd(eshop, loggedinUser);
-            cbe.setVisible(true);
+            CustomerFrontEnd cfe = new CustomerFrontEnd(eshop, loggedinUser);
+            cfe.setVisible(true);
             loginStart.dispose();
 
         } catch (LoginException e) {
