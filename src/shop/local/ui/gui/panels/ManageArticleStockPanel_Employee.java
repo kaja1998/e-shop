@@ -10,18 +10,27 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
+/**
+ * This class represents an item inventory management panel for employees.
+ * It contains input fields for the item number and the quantity to be added or removed, as well as an "manageButton" button.
+ * When the button is clicked, the article inventory is updated accordingly and the manageArticleListener listener is notified to update the article list.
+ * @author Sund
+ */
+
 public class ManageArticleStockPanel_Employee extends JPanel{
 
+    // Über dieses Interface benachrichtigt das ManageArticleStockPanel_Employee das
+    // EmployeeFrontEnd, die ArticleList bitte zu aktualisieren
     public interface ManageArticleListener {
-        public void updateArticleList();
+        void updateArticleList();
     }
 
     private Shop eshop;
     private  User user;
     private ManageArticleStockPanel_Employee.ManageArticleListener manageArticleListener;
     private JButton manageButton;
-    private JTextField articleNumberTextFeld = null;
-    private JTextField quanitityTextFeld = null;
+    private JTextField articleNumberTextField = null;
+    private JTextField quantityTextField = null;
 
     public ManageArticleStockPanel_Employee(Shop shop, ManageArticleStockPanel_Employee.ManageArticleListener manageArticleListener, User user) {
         this.eshop = shop;
@@ -42,12 +51,12 @@ public class ManageArticleStockPanel_Employee extends JPanel{
         Box.Filler filler = new Box.Filler(borderMinSize, borderPrefSize, borderMaxSize);
         add(filler);
 
-        articleNumberTextFeld = new JTextField();
-        quanitityTextFeld = new JTextField();
+        articleNumberTextField = new JTextField();
+        quantityTextField = new JTextField();
         add(new JLabel("Article number:"));
-        add(articleNumberTextFeld);
+        add(articleNumberTextField);
         add(new JLabel("<html>Quantity to<br>add / retrieve (+ / -):</html>"));
-        add(quanitityTextFeld);
+        add(quantityTextField);
 
         // Abstandhalter ("Filler") zwischen letztem Eingabefeld und Add-Button
         Dimension fillerMinSize = new Dimension(5, 20);
@@ -72,11 +81,11 @@ public class ManageArticleStockPanel_Employee extends JPanel{
     }
 
     private void ManageStock() {
-        String articleNumberText = articleNumberTextFeld.getText();
-        String quantityText = quanitityTextFeld.getText();
+        String articleNumberText = articleNumberTextField.getText();
+        String quantityText = quantityTextField.getText();
 
         if (articleNumberText.isEmpty() || quantityText.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Fill in all fields", "Manage Stock Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Fill in all fields.", "Manage Stock Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -113,13 +122,13 @@ public class ManageArticleStockPanel_Employee extends JPanel{
                 //System.out.println("Successfully increased article's stock.");
             }
 
-            articleNumberTextFeld.setText("");
-            quanitityTextFeld.setText("");
+            articleNumberTextField.setText("");
+            quantityTextField.setText("");
 
-            // Am Ende Listener, d.h. unseren Frame benachrichtigen:
+            // Am Ende Listener, d.h. Frame benachrichtigen:
             manageArticleListener.updateArticleList();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            JOptionPane.showMessageDialog(this, "Something went wrong.", "Manage Stock Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

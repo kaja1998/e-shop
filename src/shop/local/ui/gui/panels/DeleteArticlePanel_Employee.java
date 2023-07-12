@@ -8,17 +8,23 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
+/**
+ * Panel in which an article in the shop can be deleted
+ * Creates the necessary text boxes, buttons, and the ActionListener when the button "deleteButton" is clicked
+ * @author Sund
+ */
+
 public class DeleteArticlePanel_Employee extends JPanel {
 
     public interface DeleteArticleListener {
-        public void updateArticleList();
+        void updateArticleList();
     }
 
     private Shop eshop;
     private User user;
     private DeleteArticlePanel_Employee.DeleteArticleListener deleteArticleListener;
     private JButton deleteButton;
-    private JTextField numberTextFeld = null;
+    private JTextField numberTextField = null;
 
     public DeleteArticlePanel_Employee(Shop shop, DeleteArticlePanel_Employee.DeleteArticleListener deleteArticleListener, User user) {
         this.eshop = shop;
@@ -39,9 +45,9 @@ public class DeleteArticlePanel_Employee extends JPanel {
         Box.Filler filler = new Box.Filler(borderMinSize, borderPrefSize, borderMaxSize);
         add(filler);
 
-        numberTextFeld = new JTextField();
+        numberTextField = new JTextField();
         add(new JLabel("Article number:"));
-        add(numberTextFeld);
+        add(numberTextField);
 
         // Abstandhalter ("Filler") zwischen letztem Eingabefeld und Add-Button
         Dimension fillerMinSize = new Dimension(5, 20);
@@ -65,10 +71,10 @@ public class DeleteArticlePanel_Employee extends JPanel {
     }
 
     private void ArticleLöschen() {
-        String articleNumberText = numberTextFeld.getText();
+        String articleNumberText = numberTextField.getText();
 
         if (articleNumberText.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Fill in all fields", "Delete Article Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Fill in all fields.", "Delete Article Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         try {
@@ -77,7 +83,7 @@ public class DeleteArticlePanel_Employee extends JPanel {
             eshop.deleteArticle(articleNumber, user);
             JOptionPane.showMessageDialog(this, "Successfully deleted article with the number " + articleNumber + ".", "Add Article", JOptionPane.INFORMATION_MESSAGE);
 
-            numberTextFeld.setText("");
+            numberTextField.setText("");
 
             // Am Ende Listener, d.h. unseren Frame benachrichtigen:
             deleteArticleListener.updateArticleList();
@@ -86,7 +92,7 @@ public class DeleteArticlePanel_Employee extends JPanel {
         } catch (ArticleNotFoundException anfe) {
             JOptionPane.showMessageDialog(this, anfe.getMessage(), "Delete Article Error", JOptionPane.ERROR_MESSAGE);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            JOptionPane.showMessageDialog(this, "Something went wrong.", "Delete Article Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

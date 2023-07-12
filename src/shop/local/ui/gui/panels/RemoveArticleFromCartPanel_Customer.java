@@ -11,8 +11,17 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
+/**
+ * This panel allows the customer to remove items from the cart.
+ * It contains an input field for the item number and a "Remove" button that removes the selected item
+ * and notifies the CustomerFrontEnd to update the CartItem list.
+ * @author Sund
+ */
+
 public class RemoveArticleFromCartPanel_Customer extends JPanel{
 
+    // Über dieses Interface benachrichtigt das RemoveArticleFromCartPanel_Customer Panel das
+    // CustomerFrontEnd, die CartItem Liste bitte zu aktualisieren
     public interface RemoveCartItemFromCartListener {
         void updateCartItemsList();
     }
@@ -21,7 +30,7 @@ public class RemoveArticleFromCartPanel_Customer extends JPanel{
     private User user;
     private RemoveArticleFromCartPanel_Customer.RemoveCartItemFromCartListener removeCartItemFromCartListener;
     private JButton RemoveButton;
-    private JTextField articleNumberTextFeld = null;
+    private JTextField articleNumberTextField = null;
 
 
     public RemoveArticleFromCartPanel_Customer(Shop shop, User user, RemoveArticleFromCartPanel_Customer.RemoveCartItemFromCartListener removeCartItemFromCartListener) {
@@ -46,9 +55,9 @@ public class RemoveArticleFromCartPanel_Customer extends JPanel{
         Box.Filler filler = new Box.Filler(borderMinSize, borderPrefSize, borderMaxSize);
         add(filler);
 
-        articleNumberTextFeld = new JTextField();
+        articleNumberTextField = new JTextField();
         add(new JLabel("Article Nr.:"));
-        add(articleNumberTextFeld);
+        add(articleNumberTextField);
 
 
         // Abstandhalter ("Filler") zwischen letztem Eingabefeld und Add-Button
@@ -73,10 +82,10 @@ public class RemoveArticleFromCartPanel_Customer extends JPanel{
     }
 
     private void RemoveCartItem() {
-        String articleNumberText = articleNumberTextFeld.getText();
+        String articleNumberText = articleNumberTextField.getText();
 
         if (articleNumberText.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Fill in all fields", "Remove Article from Cart Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Fill in all fields.", "Remove Article from Cart Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -101,7 +110,7 @@ public class RemoveArticleFromCartPanel_Customer extends JPanel{
             eshop.removeArticleFromCART((Customer) user, article);
             JOptionPane.showMessageDialog(this, "Article successfully removed from Cart", "Remove Article from Cart", JOptionPane.INFORMATION_MESSAGE);
 
-            articleNumberTextFeld.setText("");
+            articleNumberTextField.setText("");
 
             // Am Ende Listener, d.h. Frame benachrichtigen:
             removeCartItemFromCartListener.updateCartItemsList();
@@ -109,7 +118,7 @@ public class RemoveArticleFromCartPanel_Customer extends JPanel{
         } catch (ArticleInCartNotFoundException e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Remove Article from Cart Error", JOptionPane.ERROR_MESSAGE);
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Something went wrong. Please try again.", "Remove Article from Cart Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Something went wrong.", "Remove Article from Cart Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

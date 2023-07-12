@@ -8,11 +8,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+/**
+ * Panel in which you can search for an item from the shop
+ * Creates the necessary text boxes, buttons, and the ActionListener when the button "Enter" is clicked
+ * @author Sund
+ */
+
 public class SearchArticlesPanel_Employee extends JPanel {
 
 	// Über dieses Interface übermittelt das SearchArticlesPanel_Employee
-	// Suchergebnisse an einen Empfänger.
-	// In unserem Fall ist der Empfänger das EmployeeBackEnd,
+	// Suchergebnisse an einen Empfänger. Hier das EmployeeBackEnd,
 	// welches dieses Interface implementiert und auf ein neues
 	// Suchergebnis reagiert, indem es die Articleliste aktualisiert.
 	public interface SearchResultListener {
@@ -24,8 +29,8 @@ public class SearchArticlesPanel_Employee extends JPanel {
 	private JButton searchButton = null;
 	private SearchResultListener searchResultListener;
 	
-	public SearchArticlesPanel_Employee(Shop bibliothek, SearchResultListener searchResultListener) {
-		eshop = bibliothek;
+	public SearchArticlesPanel_Employee(Shop shop, SearchResultListener searchResultListener) {
+		eshop = shop;
 		this.searchResultListener = searchResultListener;
 		setupUI();
 		setupEvents();

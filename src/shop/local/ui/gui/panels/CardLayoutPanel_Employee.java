@@ -9,6 +9,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * This class represents a panel with a map view for employees.
+ * It allows the employee to switch between different views such as "Delete item", "Inventory management of an item", "Add item" and "Register new employee".
+ * The panel contains a JComboBox for selecting the view and uses a CardLayout to display the appropriate views.
+ * @author Sund
+ */
+
 public class CardLayoutPanel_Employee extends JPanel{
 
     private Shop eshop;
@@ -52,7 +59,7 @@ public class CardLayoutPanel_Employee extends JPanel{
         cardPanel.add(addArticlePanelEmployee, "add");
         cardLayout.addLayoutComponent(addArticlePanelEmployee, "add");
 
-        // Ansicht "Add new Employee"
+        // Ansicht "Register new Employee"
         RegisterNewEmployeePanel_Employee registerNewEmployeePanelEmployee = new RegisterNewEmployeePanel_Employee(eshop);
         cardPanel.add(registerNewEmployeePanelEmployee, "new");
         cardLayout.addLayoutComponent(registerNewEmployeePanelEmployee, "new");
@@ -102,10 +109,10 @@ public class CardLayoutPanel_Employee extends JPanel{
             }
         });
 
-        // Layout setzen
+        // Border für die ComboBox
         viewComboBox.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
-        // Layout setzen
+        // Panel Layout wird auf ein BorderLayout gesetzt und fügen die JComboBox am oberen Rand (Norden) und das cardPanel in der Mitte des Panels (Zentrum) ein
         setLayout(new BorderLayout());
         add(viewComboBox, BorderLayout.NORTH);
         add(cardPanel, BorderLayout.CENTER);

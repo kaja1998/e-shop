@@ -9,6 +9,13 @@ import shop.local.ui.gui.Frames.LoginStart;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * This class represents a panel for the Employee login.
+ * It contains input fields for username and password, a login button and the logic for employee login.
+ * If the login is successful, the main window is displayed for employees, otherwise an error message is issued.
+ * @author Sund
+ */
+
 public class LoginEmployeePanel extends JPanel {
     private User loggedinUser = null;
     private Shop eshop;

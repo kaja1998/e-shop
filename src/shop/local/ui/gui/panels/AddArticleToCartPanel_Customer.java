@@ -11,13 +11,19 @@ import shop.local.entities.User;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Panel in which an article can be added to customers shopping cart
+ * Creates the necessary text boxes, buttons, and the ActionListener when the button "addToCartButton" is clicked
+ * @author Sund
+ */
+
 public class AddArticleToCartPanel_Customer extends JPanel {
 
     private Shop eshop;
     private User user;
     private JButton addToCartButton;
-    private JTextField articleNumberTextFeld = null;
-    private JTextField quanitityTextFeld = null;
+    private JTextField articleNumberTextField = null;
+    private JTextField quantityTextField = null;
 
 
     public AddArticleToCartPanel_Customer(Shop shop, User user) {
@@ -41,12 +47,12 @@ public class AddArticleToCartPanel_Customer extends JPanel {
         Box.Filler filler = new Box.Filler(borderMinSize, borderPrefSize, borderMaxSize);
         add(filler);
 
-        articleNumberTextFeld = new JTextField();
-        quanitityTextFeld = new JTextField();
+        articleNumberTextField = new JTextField();
+        quantityTextField = new JTextField();
         add(new JLabel("Article Nr.:"));
-        add(articleNumberTextFeld);
+        add(articleNumberTextField);
         add(new JLabel("Quantity:"));
-        add(quanitityTextFeld);
+        add(quantityTextField);
 
 
         // Abstandhalter ("Filler") zwischen letztem Eingabefeld und Add-Button
@@ -75,11 +81,11 @@ public class AddArticleToCartPanel_Customer extends JPanel {
     }
 
     private void AddArticleToCart() {
-        String articleNumberText = articleNumberTextFeld.getText();
-        String quantityText = quanitityTextFeld.getText();
+        String articleNumberText = articleNumberTextField.getText();
+        String quantityText = quantityTextField.getText();
 
         if (articleNumberText.isEmpty() || quantityText.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Fill in all fields", "Add Article to Cart Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Fill in all fields.", "Add Article to Cart Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -111,12 +117,10 @@ public class AddArticleToCartPanel_Customer extends JPanel {
             eshop.addArticleToCart(article, quantity, (Customer) user);
             JOptionPane.showMessageDialog(this, "Successfully added Article to Cart", "Add Article to Cart", JOptionPane.INFORMATION_MESSAGE);
 
-            articleNumberTextFeld.setText("");
-            quanitityTextFeld.setText("");
+            articleNumberTextField.setText("");
+            quantityTextField.setText("");
 
-        } catch (InsufficientStockException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Add Article to Cart Error", JOptionPane.ERROR_MESSAGE);
-        } catch (BulkArticleException e) {
+        } catch (InsufficientStockException | BulkArticleException e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Add Article to Cart Error", JOptionPane.ERROR_MESSAGE);
         }
     }

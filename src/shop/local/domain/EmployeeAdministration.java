@@ -73,7 +73,6 @@ public class EmployeeAdministration {
                 return employees;
         }
 
-
         public Employee getUserByID(int id){
            for (Employee employee : employees) {
                    if(id == employee.getId()){

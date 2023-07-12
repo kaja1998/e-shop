@@ -7,6 +7,12 @@ import shop.local.ui.gui.Frames.LoginStart;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Panel in which a customer can register himself to exit the shop
+ * Creates the necessary text boxes, buttons, agreeBox and the ActionListener when the button "registerButton" is clicked
+ * @author Sund
+ */
+
 public class RegistrationCustomerPanel extends JPanel {
 
     private Shop eshop;
@@ -147,7 +153,7 @@ public class RegistrationCustomerPanel extends JPanel {
             String registerNow = agreeCheckBox.isSelected() ? "yes" : "no"; // Get the value as "yes" or "no" based on the check box
 
         if (name.isEmpty() || lastName.isEmpty() || street.isEmpty() || postalCodeString.isEmpty() || city.isEmpty() || mail.isEmpty() || username.isEmpty() || password.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Fill in all fields", "Login Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Fill in all fields.", "Login Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         if (agreeCheckBox.isSelected()) {

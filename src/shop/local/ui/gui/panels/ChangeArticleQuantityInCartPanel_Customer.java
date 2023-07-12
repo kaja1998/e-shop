@@ -12,8 +12,16 @@ import shop.local.entities.User;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Panel in which an article's quantity in a customers shopping cart can be changed
+ * Creates the necessary text boxes, buttons, and the ActionListener when the button "changeQuantityButton" is clicked
+ * @author Sund
+ */
+
 public class ChangeArticleQuantityInCartPanel_Customer extends JPanel {
 
+    // Über dieses Interface benachrichtigt das ChangeArticleQuantityInCartPanel_Customer Panel das
+    // CustomerFrontEnd, die CartItem Liste bitte zu aktualisieren
     public interface ChangeCartItemQuantityListener {
         void updateCartItemsList();
     }
@@ -22,8 +30,8 @@ public class ChangeArticleQuantityInCartPanel_Customer extends JPanel {
     private User user;
     private ChangeCartItemQuantityListener changeCartItemQuantityListener;
     private JButton changeQuantityButton;
-    private JTextField articleNumberTextFeld = null;
-    private JTextField newQuanitityTextFeld = null;
+    private JTextField articleNumberTextField = null;
+    private JTextField newQuantityTextField = null;
 
 
     public ChangeArticleQuantityInCartPanel_Customer(Shop shop, User user, ChangeCartItemQuantityListener changeCartItemQuantityListener) {
@@ -48,12 +56,12 @@ public class ChangeArticleQuantityInCartPanel_Customer extends JPanel {
         Box.Filler filler = new Box.Filler(borderMinSize, borderPrefSize, borderMaxSize);
         add(filler);
 
-        articleNumberTextFeld = new JTextField();
-        newQuanitityTextFeld = new JTextField();
+        articleNumberTextField = new JTextField();
+        newQuantityTextField = new JTextField();
         add(new JLabel("Article Nr.:"));
-        add(articleNumberTextFeld);
+        add(articleNumberTextField);
         add(new JLabel("New Quantity:"));
-        add(newQuanitityTextFeld);
+        add(newQuantityTextField);
 
 
         // Abstandhalter ("Filler") zwischen letztem Eingabefeld und Add-Button
@@ -78,11 +86,11 @@ public class ChangeArticleQuantityInCartPanel_Customer extends JPanel {
     }
 
     private void ChangeQuantity() {
-        String articleNumberText = articleNumberTextFeld.getText();
-        String newQuantityText = newQuanitityTextFeld.getText();
+        String articleNumberText = articleNumberTextField.getText();
+        String newQuantityText = newQuantityTextField.getText();
 
         if (articleNumberText.isEmpty() || newQuantityText.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Fill in all fields", "Change Article Quantity in Cart Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Fill in all fields.", "Change Article Quantity in Cart Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -114,16 +122,12 @@ public class ChangeArticleQuantityInCartPanel_Customer extends JPanel {
             eshop.changeArticleQuantityInCart(newQuantity, article, (Customer) user);
             JOptionPane.showMessageDialog(this, "Quantity successfully changed", "Change Article Quantity in Cart", JOptionPane.INFORMATION_MESSAGE);
 
-            articleNumberTextFeld.setText("");
-            newQuanitityTextFeld.setText("");
+            articleNumberTextField.setText("");
+            newQuantityTextField.setText("");
 
-            // Am Ende Listener, d.h. unseren Frame benachrichtigen:
+            // Am Ende Listener, d.h. Frame benachrichtigen:
             changeCartItemQuantityListener.updateCartItemsList();
-        } catch (ArticleInCartNotFoundException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Change Article Quantity in Cart Error", JOptionPane.ERROR_MESSAGE);
-        } catch (InsufficientStockException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Change Article Quantity in Cart Error", JOptionPane.ERROR_MESSAGE);
-        } catch (BulkArticleException e) {
+        } catch (ArticleInCartNotFoundException | InsufficientStockException | BulkArticleException e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Change Article Quantity in Cart Error", JOptionPane.ERROR_MESSAGE);
         }
     }

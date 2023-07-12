@@ -6,6 +6,13 @@ import shop.local.ui.gui.models.ArticleTableModel_Employee;
 import javax.swing.*;
 import java.util.Collections;
 
+/**
+ * This class represents a panel that displays a table of articles for Employees.
+ * It inherits from the JTable class and uses a specific TableModel to display and sort the articles.
+ * The updateArticlesList method updates the displayed articles in the table and sorts them by article number.
+ * @author Sund
+ */
+
 public class ArticlesTablePanel_Employee extends JTable {
 
 	public ArticlesTablePanel_Employee(java.util.List<Article> articles) {
@@ -13,9 +20,9 @@ public class ArticlesTablePanel_Employee extends JTable {
 
 		// TableModel erzeugen ...
 		ArticleTableModel_Employee tableModel = new ArticleTableModel_Employee(articles);
-		// ... bei JTable "anmelden" und ...
+		// bei JTable "anmelden" und ...
 		setModel(tableModel);
-		// ... Daten an Model übergeben (für Sortierung o.ä.)
+		// Daten an Model übergeben (für Sortierung o.ä.)
 		updateArticlesList(articles);
 	}
 	
@@ -27,7 +34,7 @@ public class ArticlesTablePanel_Employee extends JTable {
 
 		// TableModel von JTable holen und ...
 		ArticleTableModel_Employee tableModel = (ArticleTableModel_Employee) getModel();
-		// ... Inhalt aktualisieren
+		// Inhalt aktualisieren
 		tableModel.setArticles(articles);
 	}
 }

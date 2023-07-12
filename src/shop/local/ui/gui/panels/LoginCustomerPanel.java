@@ -9,6 +9,13 @@ import shop.local.ui.gui.Frames.LoginStart;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * This class represents a panel for the customer login.
+ * It contains input fields for username and password, a login button and the logic for customer login.
+ * If the login is successful, the main window is displayed for customers, otherwise an error message is issued.
+ * @author Sund
+ */
+
 public class LoginCustomerPanel extends JPanel {
     private User loggedinUser;
     private Shop eshop;
@@ -64,15 +71,15 @@ public class LoginCustomerPanel extends JPanel {
     }
 
     private void LoginCustomer() {
-        String userName = usernameField.getText();
+        String username = usernameField.getText();
         String password = new String(passwordField.getPassword());
 
-        if (userName.isEmpty() || password.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Fill in all fields", "Login Error", JOptionPane.ERROR_MESSAGE);
+        if (username.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Fill in all fields.", "Login Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         try {
-            loggedinUser = eshop.loginCustomer(userName, password);
+            loggedinUser = eshop.loginCustomer(username, password);
             CustomerFrontEnd cfe = new CustomerFrontEnd(eshop, loggedinUser);
             cfe.setVisible(true);
             loginStart.dispose();

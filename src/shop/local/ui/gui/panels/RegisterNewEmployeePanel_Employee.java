@@ -3,19 +3,23 @@ package shop.local.ui.gui.panels;
 import shop.local.domain.Shop;
 import shop.local.domain.exceptions.RegisterException;
 
-
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
+/**
+ * Panel in which a new Employee can be registered by another employee
+ * Creates the necessary text boxes, buttons, and the ActionListener when the button "registerButton" is clicked
+ * @author Sund
+ */
+
 public class RegisterNewEmployeePanel_Employee extends JPanel {
 
     private Shop eshop;
-
-    private JTextField nameTextFeld = null;
-    private JTextField lastNameTextFeld = null;
-    private JTextField usernameTextFeld = null;
-    private JTextField passwordTextFeld = null;
+    private JTextField nameTextField = null;
+    private JTextField lastNameTextField = null;
+    private JTextField usernameTextField = null;
+    private JTextField passwordTextField = null;
 
     private JButton registerButton;
 
@@ -36,18 +40,18 @@ public class RegisterNewEmployeePanel_Employee extends JPanel {
         Box.Filler filler = new Box.Filler(borderMinSize, borderPrefSize, borderMaxSize);
         add(filler);
 
-        nameTextFeld = new JTextField();
-        lastNameTextFeld = new JTextField();
-        usernameTextFeld = new JTextField();
-        passwordTextFeld = new JTextField();
+        nameTextField = new JTextField();
+        lastNameTextField = new JTextField();
+        usernameTextField = new JTextField();
+        passwordTextField = new JTextField();
         add(new JLabel("Name:"));
-        add(nameTextFeld);
+        add(nameTextField);
         add(new JLabel("Last Name:"));
-        add(lastNameTextFeld);
+        add(lastNameTextField);
         add(new JLabel("Username:"));
-        add(usernameTextFeld);
+        add(usernameTextField);
         add(new JLabel("Password:"));
-        add(passwordTextFeld);
+        add(passwordTextField);
 
         // Abstandhalter ("Filler") zwischen letztem Eingabefeld und Add-Button
         Dimension fillerMinSize = new Dimension(5, 20);
@@ -71,13 +75,13 @@ public class RegisterNewEmployeePanel_Employee extends JPanel {
     }
 
     private void RegisterNewEmployee() {
-        String name = nameTextFeld.getText();
-        String lastname = lastNameTextFeld.getText();
-        String username = usernameTextFeld.getText();
-        String password = passwordTextFeld.getText();
+        String name = nameTextField.getText();
+        String lastname = lastNameTextField.getText();
+        String username = usernameTextField.getText();
+        String password = passwordTextField.getText();
 
         if (name.isEmpty() || lastname.isEmpty() || username.isEmpty() || password.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Fill in all fields", "Register Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Fill in all fields.", "Register Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -85,15 +89,15 @@ public class RegisterNewEmployeePanel_Employee extends JPanel {
             eshop.registerEmployee(name, lastname, username, password);
             JOptionPane.showMessageDialog(this, "Registration successful.", "Register new Employee", JOptionPane.INFORMATION_MESSAGE);
 
-            nameTextFeld.setText("");
-            lastNameTextFeld.setText("");
-            usernameTextFeld.setText("");
-            passwordTextFeld.setText("");
+            nameTextField.setText("");
+            lastNameTextField.setText("");
+            usernameTextField.setText("");
+            passwordTextField.setText("");
 
         } catch (RegisterException r) {
             JOptionPane.showMessageDialog(this, r.getMessage(), "Register Error", JOptionPane.ERROR_MESSAGE);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            JOptionPane.showMessageDialog(this, "Something went wrong.", "Register Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

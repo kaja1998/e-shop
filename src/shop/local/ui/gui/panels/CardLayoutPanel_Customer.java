@@ -8,6 +8,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * This class represents a panel with a map view for customers.
+ * It allows the customer to toggle between different views such as "Change the quantity of items in the cart" and "Remove an item from the cart".
+ * The panel contains a JComboBox for selecting the view and uses a CardLayout to display the appropriate views.
+ * @author Sund
+ */
+
 public class CardLayoutPanel_Customer extends JPanel {
 
     private Shop eshop;
@@ -74,10 +81,10 @@ public class CardLayoutPanel_Customer extends JPanel {
             }
         });
 
-        // Layout setzen
+        // Border für die ComboBox
         viewComboBox.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
-        // Layout setzen
+        // Panel Layout wird auf ein BorderLayout gesetzt und fügen die JComboBox am oberen Rand (Norden) und das cardPanel in der Mitte des Panels (Zentrum) ein
         setLayout(new BorderLayout());
         add(viewComboBox, BorderLayout.NORTH);
         add(cardPanel, BorderLayout.CENTER);
