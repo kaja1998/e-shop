@@ -1,8 +1,9 @@
-package shop.local.ui.gui;
+package shop.local.ui.gui.Frames;
 
 import shop.local.domain.Shop;
 import shop.local.entities.Article;
 import shop.local.entities.User;
+import shop.local.ui.gui.WindowCloser;
 import shop.local.ui.gui.panels.AddArticleToCartPanel_Customer;
 import shop.local.ui.gui.panels.ArticlesTablePanel_Customer;
 import shop.local.ui.gui.panels.SearchArticlesPanel_Employee;
@@ -177,7 +178,8 @@ public class CustomerBackEnd extends JFrame implements SearchArticlesPanel_Emplo
             switch (e.getActionCommand()) {
                 case "View Cart":
                     // Aktion für den "Cart" Menüpunkt
-                    customersCartPanel = new CustomersCart(eshop, user);
+
+                    customersCartPanel = new CustomersCart(CustomerBackEnd.this, eshop, user);
             }
         }
     }

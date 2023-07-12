@@ -1,4 +1,4 @@
-package shop.local.ui.gui;
+package shop.local.ui.gui.Frames;
 
 import shop.local.domain.Shop;
 import shop.local.domain.exceptions.ArticleBuyingException;
@@ -13,20 +13,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowFocusListener;
 import java.io.IOException;
 import java.util.List;
 
-public class CustomersCart extends JFrame implements ChangeArticleQuantityInCartPanel_Customer.ChangeCartItemQuantityListener, RemoveArticleFromCartPanel_Customer.RemoveCartItemFromCartListener {
+public class CustomersCart extends JDialog implements ChangeArticleQuantityInCartPanel_Customer.ChangeCartItemQuantityListener, RemoveArticleFromCartPanel_Customer.RemoveCartItemFromCartListener {
 
     private Shop eshop;
     private User user;
     private CardLayoutPanel_Customer cardLayout;
     private CartItemsTablePanel_Customer CartItemsPanel;
 
-    public CustomersCart(Shop shop, User user) {
-        super("Shopping Cart of " + user.getName());
+    public CustomersCart(JFrame owner, Shop shop, User user) {
+        super(owner, "Shopping Cart of " + user.getName(), true);
         this.user = user;
         this.eshop = shop;
         initialize();
@@ -35,19 +33,6 @@ public class CustomersCart extends JFrame implements ChangeArticleQuantityInCart
     private void initialize() {
         // Klick auf Kreuz / roten Kreis (Fenster schließen) behandeln lassen:
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-
-//        //Hinzufügen des WindowFocusListeners zum Frame, damit wird das Fenster geschlossen wenn der Nutzer neben das Fenster klickt.
-//        addWindowFocusListener(new WindowFocusListener() {
-//            @Override
-//            public void windowGainedFocus(WindowEvent e) {
-//                // Nichts tun, wenn der Fokus erhalten bleibt
-//            }
-//
-//            @Override
-//            public void windowLostFocus(WindowEvent e) {
-//                dispose(); // Schließe das Fenster, wenn der Fokus verloren geht
-//            }
-//        });
 
         // Layout des Frames: BorderLayout
         this.setLayout(new BorderLayout());
@@ -64,6 +49,7 @@ public class CustomersCart extends JFrame implements ChangeArticleQuantityInCart
 
         JButton clearCartButton = new JButton("Clear Cart");
         JButton buyButton = new JButton("Buy");
+        setupEvents(clearCartButton, buyButton);
 
         // Panel für die Buttons
         JPanel buttonPanel = new JPanel();
@@ -84,7 +70,9 @@ public class CustomersCart extends JFrame implements ChangeArticleQuantityInCart
         setResizable(false); // Fenster kann nicht in der Größe geändert werden;
         //setAlwaysOnTop(true); // Fenster bleibt im Vordergrund
         this.setVisible(true);
+    }
 
+    private void setupEvents(JButton clearCartButton, JButton buyButton) {
         // ActionListener für Clear Cart Button
         clearCartButton.addActionListener(new ActionListener() {
             @Override

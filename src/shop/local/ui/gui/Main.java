@@ -1,4 +1,6 @@
 package shop.local.ui.gui;
+import shop.local.ui.gui.Frames.LoginStart;
+
 import javax.swing.SwingUtilities;
 
 public class Main {

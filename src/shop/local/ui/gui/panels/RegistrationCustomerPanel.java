@@ -2,9 +2,7 @@ package shop.local.ui.gui.panels;
 
 import shop.local.domain.Shop;
 import shop.local.domain.exceptions.RegisterException;
-import shop.local.entities.User;
-import shop.local.ui.gui.CustomerBackEnd;
-import shop.local.ui.gui.LoginStart;
+import shop.local.ui.gui.Frames.LoginStart;
 
 import javax.swing.*;
 import java.awt.*;

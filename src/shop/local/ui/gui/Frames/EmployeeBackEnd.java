@@ -1,8 +1,9 @@
-package shop.local.ui.gui;
+package shop.local.ui.gui.Frames;
 
 import shop.local.domain.Shop;
 import shop.local.entities.Article;
 import shop.local.entities.User;
+import shop.local.ui.gui.WindowCloser;
 import shop.local.ui.gui.panels.*;
 
 import javax.swing.*;

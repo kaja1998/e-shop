@@ -4,7 +4,6 @@ package shop.local.domain;
 import shop.local.domain.exceptions.LoginException;
 import shop.local.domain.exceptions.RegisterException;
 import shop.local.entities.Customer;
-import shop.local.entities.Employee;
 import shop.local.entities.ShoppingCartItem;
 import shop.local.persistence.FilePersistenceManager;
 import shop.local.persistence.PersistenceManager;

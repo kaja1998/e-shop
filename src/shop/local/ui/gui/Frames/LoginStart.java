@@ -1,6 +1,7 @@
-package shop.local.ui.gui;
+package shop.local.ui.gui.Frames;
 
 import shop.local.domain.Shop;
+import shop.local.ui.gui.WindowCloser;
 import shop.local.ui.gui.panels.RegistrationCustomerPanel;
 import shop.local.ui.gui.panels.LoginCustomerPanel;
 import shop.local.ui.gui.panels.LoginEmployeePanel;

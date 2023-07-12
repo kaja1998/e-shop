@@ -3,8 +3,8 @@ package shop.local.ui.gui.panels;
 import shop.local.domain.Shop;
 import shop.local.domain.exceptions.LoginException;
 import shop.local.entities.User;
-import shop.local.ui.gui.EmployeeBackEnd;
-import shop.local.ui.gui.LoginStart;
+import shop.local.ui.gui.Frames.EmployeeBackEnd;
+import shop.local.ui.gui.Frames.LoginStart;
 
 import javax.swing.*;
 import java.awt.*;
