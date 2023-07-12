@@ -19,7 +19,7 @@ public class ManageArticleStockPanel_Employee extends JPanel{
     private Shop eshop;
     private  User user;
     private ManageArticleStockPanel_Employee.ManageArticleListener manageArticleListener;
-    private JButton ManageButton;
+    private JButton manageButton;
     private JTextField articleNumberTextFeld = null;
     private JTextField quanitityTextFeld = null;
 
@@ -28,7 +28,6 @@ public class ManageArticleStockPanel_Employee extends JPanel{
         this.manageArticleListener = manageArticleListener;
         this.user = user;
         setupUI();
-
         setupEvents();
     }
 
@@ -57,9 +56,9 @@ public class ManageArticleStockPanel_Employee extends JPanel{
         filler = new Box.Filler(fillerMinSize, fillerPrefSize, fillerMaxSize);
         add(filler);
 
-        ManageButton = new JButton("Update quantity");
+        manageButton = new JButton("Update quantity");
         //ManageButton.setMargin(new Insets(0, 0, 0, 1)); // Abstand nach rechts
-        add(ManageButton);
+        add(manageButton);
 
         // Abstandhalter ("Filler") zwischen letztem Element und Rand
         add(new Box.Filler(borderMinSize, borderPrefSize, borderMaxSize));
@@ -69,7 +68,7 @@ public class ManageArticleStockPanel_Employee extends JPanel{
     }
 
     private void setupEvents() {
-        ManageButton.addActionListener(e -> ManageStock());
+        manageButton.addActionListener(e -> ManageStock());
     }
 
     private void ManageStock() {

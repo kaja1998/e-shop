@@ -25,7 +25,6 @@ public class DeleteArticlePanel_Employee extends JPanel {
         this.deleteArticleListener = deleteArticleListener;
         this.user = user;
         setupUI();
-
         setupEvents();
     }
 

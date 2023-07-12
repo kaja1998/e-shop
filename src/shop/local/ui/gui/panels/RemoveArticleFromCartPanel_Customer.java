@@ -29,7 +29,6 @@ public class RemoveArticleFromCartPanel_Customer extends JPanel{
         this.user = user;
         this.removeCartItemFromCartListener = removeCartItemFromCartListener;
         setupUI();
-
         setupEvents();
     }
 
@@ -104,13 +103,13 @@ public class RemoveArticleFromCartPanel_Customer extends JPanel{
 
             articleNumberTextFeld.setText("");
 
-            // Am Ende Listener, d.h. unseren Frame benachrichtigen:
+            // Am Ende Listener, d.h. Frame benachrichtigen:
             removeCartItemFromCartListener.updateCartItemsList();
 
         } catch (ArticleInCartNotFoundException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Remove Article from Cart Error", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Remove Article from Cart Error", JOptionPane.ERROR_MESSAGE);
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Something went wrong. Please try again.", "Remove Article from Cart Error", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Something went wrong. Please try again.", "Remove Article from Cart Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

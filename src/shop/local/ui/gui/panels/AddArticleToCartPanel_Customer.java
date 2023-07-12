@@ -28,7 +28,6 @@ public class AddArticleToCartPanel_Customer extends JPanel {
         this.eshop = shop;
         this.user = user;
         setupUI();
-
         setupEvents();
     }
 

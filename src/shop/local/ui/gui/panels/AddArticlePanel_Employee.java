@@ -29,7 +29,6 @@ public class AddArticlePanel_Employee extends JPanel {
 		this.addArticleListener = addArticleListener;
 		this.user = user;
 		setupUI();
-
 		setupEvents();
 	}
 

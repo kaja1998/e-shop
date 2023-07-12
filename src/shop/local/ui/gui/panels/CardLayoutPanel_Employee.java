@@ -29,7 +29,6 @@ public class CardLayoutPanel_Employee extends JPanel{
         this.deleteArticleListener = deleteArticleListener;
         this.manageArticleListener = manageArticleListener;
         this.user = user;
-
         cardLayout = new CardLayout();
         cardPanel = new JPanel(cardLayout);
         viewComboBox = new JComboBox<>();
@@ -103,10 +102,10 @@ public class CardLayoutPanel_Employee extends JPanel{
             }
         });
 
-        // Layout des AddArticlePanel_Employee setzen
+        // Layout setzen
         viewComboBox.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
-        // Layout des AddArticlePanel_Employee setzen
+        // Layout setzen
         setLayout(new BorderLayout());
         add(viewComboBox, BorderLayout.NORTH);
         add(cardPanel, BorderLayout.CENTER);

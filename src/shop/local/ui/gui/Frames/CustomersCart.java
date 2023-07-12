@@ -21,7 +21,7 @@ public class CustomersCart extends JDialog implements ChangeArticleQuantityInCar
     private Shop eshop;
     private User user;
     private CardLayoutPanel_Customer cardLayout;
-    private CartItemsTablePanel_Customer CartItemsPanel;
+    private CartItemsTablePanel_Customer cartItemsPanel;
 
     public CustomersCart(JFrame owner, Shop shop, User user) {
         super(owner, "Shopping Cart of " + user.getName(), true);
@@ -43,12 +43,13 @@ public class CustomersCart extends JDialog implements ChangeArticleQuantityInCar
         // Center
         java.util.List<ShoppingCartItem> cartItems = eshop.getAllCartItems((Customer) user);
         // (wahlweise Anzeige als Liste oder Tabelle)
-        CartItemsPanel = new CartItemsTablePanel_Customer(cartItems);
-        JScrollPane scrollPane = new JScrollPane(CartItemsPanel);
+        cartItemsPanel = new CartItemsTablePanel_Customer(cartItems);
+        JScrollPane scrollPane = new JScrollPane(cartItemsPanel);
         scrollPane.setBorder(BorderFactory.createTitledBorder("Shopping Cart Items"));
 
         JButton clearCartButton = new JButton("Clear Cart");
         JButton buyButton = new JButton("Buy");
+        //ActionListener aufrufen
         setupEvents(clearCartButton, buyButton);
 
         // Panel für die Buttons
@@ -152,6 +153,6 @@ public class CustomersCart extends JDialog implements ChangeArticleQuantityInCar
     public void updateCartItemsList() {
         // Ich lade hier einfach alle Article neu und lasse sie anzeigen
         List<ShoppingCartItem> cartItems = eshop.getAllCartItems((Customer) user);
-        CartItemsPanel.updateCartItemsList(cartItems);
+        cartItemsPanel.updateCartItemsList(cartItems);
     }
 }

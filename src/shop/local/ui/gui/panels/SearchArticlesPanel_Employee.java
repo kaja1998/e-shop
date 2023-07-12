@@ -8,9 +8,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-// Das SearchArticlesPanel_Employee _ist ein_ Panel und damit auch eine Component;
-// es kann daher in das Layout eines anderen Containers 
-// (in meiner Anwendung des EmployeeBackEnd Frames) eingefügt werden.
 public class SearchArticlesPanel_Employee extends JPanel {
 
 	// Über dieses Interface übermittelt das SearchArticlesPanel_Employee
@@ -21,9 +18,8 @@ public class SearchArticlesPanel_Employee extends JPanel {
 	public interface SearchResultListener {
 		void onSearchResult(List<Article> articles);
 	}
-	
-	
-	private Shop eshop = null;
+
+	private Shop eshop;
 	private JTextField searchTextField;
 	private JButton searchButton = null;
 	private SearchResultListener searchResultListener;
@@ -31,17 +27,12 @@ public class SearchArticlesPanel_Employee extends JPanel {
 	public SearchArticlesPanel_Employee(Shop bibliothek, SearchResultListener searchResultListener) {
 		eshop = bibliothek;
 		this.searchResultListener = searchResultListener;
-
 		setupUI();
-		
 		setupEvents();
 	}
 	
 	private void setupUI() {
-		// GridBagLayout
-		// (Hinweis: Das ist schon ein komplexerer LayoutManager, der mehr kann als hier gezeigt.
-		//  Hervorzuheben ist hier die Idee, explizit Constraints (also Nebenbedindungen) für 
-		//  die Positionierung / Ausrichtung / Größe von GUI-Komponenten anzugeben.)
+
 		GridBagLayout gridBagLayout = new GridBagLayout(); 
 		this.setLayout(gridBagLayout);
 		GridBagConstraints c = new GridBagConstraints();

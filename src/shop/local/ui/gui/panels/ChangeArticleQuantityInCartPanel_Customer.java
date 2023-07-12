@@ -21,7 +21,7 @@ public class ChangeArticleQuantityInCartPanel_Customer extends JPanel {
     private Shop eshop;
     private User user;
     private ChangeCartItemQuantityListener changeCartItemQuantityListener;
-    private JButton ChangeQuantityButton;
+    private JButton changeQuantityButton;
     private JTextField articleNumberTextFeld = null;
     private JTextField newQuanitityTextFeld = null;
 
@@ -31,7 +31,6 @@ public class ChangeArticleQuantityInCartPanel_Customer extends JPanel {
         this.user = user;
         this.changeCartItemQuantityListener = changeCartItemQuantityListener;
         setupUI();
-
         setupEvents();
     }
 
@@ -64,8 +63,8 @@ public class ChangeArticleQuantityInCartPanel_Customer extends JPanel {
         filler = new Box.Filler(fillerMinSize, fillerPrefSize, fillerMaxSize);
         add(filler);
 
-        ChangeQuantityButton = new JButton("Change Quantity");
-        add(ChangeQuantityButton);
+        changeQuantityButton = new JButton("Change Quantity");
+        add(changeQuantityButton);
 
         // Abstandhalter ("Filler") zwischen letztem Element und Rand
         add(new Box.Filler(borderMinSize, borderPrefSize, borderMaxSize));
@@ -75,7 +74,7 @@ public class ChangeArticleQuantityInCartPanel_Customer extends JPanel {
     }
 
     private void setupEvents() {
-        ChangeQuantityButton.addActionListener(e -> ChangeQuantity());
+        changeQuantityButton.addActionListener(e -> ChangeQuantity());
     }
 
     private void ChangeQuantity() {

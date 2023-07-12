@@ -68,7 +68,7 @@ public class LoginEmployeePanel extends JPanel {
         String password = new String(passwordField.getPassword());
 
         if (userName.isEmpty() || password.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Fill in all fields", "Login Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Fill in all fields.", "Login Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         try {

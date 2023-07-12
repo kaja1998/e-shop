@@ -22,7 +22,6 @@ public class RegisterNewEmployeePanel_Employee extends JPanel {
     public RegisterNewEmployeePanel_Employee(Shop shop) {
         this.eshop = shop;
         setupUI();
-
         setupEvents();
     }
 

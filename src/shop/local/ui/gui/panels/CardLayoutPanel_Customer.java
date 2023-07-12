@@ -23,7 +23,6 @@ public class CardLayoutPanel_Customer extends JPanel {
         this.user = user;
         this.changeCartItemQuantityListener = changeCartItemQuantityListener;
         this.removeCartItemFromCartListener = removeCartItemFromCartListener;
-
         cardLayout = new CardLayout();
         cardPanel = new JPanel(cardLayout);
         viewComboBox = new JComboBox<>();
@@ -75,10 +74,10 @@ public class CardLayoutPanel_Customer extends JPanel {
             }
         });
 
-        // Layout des AddArticlePanel_Employee setzen
+        // Layout setzen
         viewComboBox.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
-        // Layout des AddArticlePanel_Employee setzen
+        // Layout setzen
         setLayout(new BorderLayout());
         add(viewComboBox, BorderLayout.NORTH);
         add(cardPanel, BorderLayout.CENTER);
