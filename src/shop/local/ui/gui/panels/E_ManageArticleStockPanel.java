@@ -17,9 +17,9 @@ import java.io.IOException;
  * @author Sund
  */
 
-public class ManageArticleStockPanel_Employee extends JPanel{
+public class E_ManageArticleStockPanel extends JPanel{
 
-    // Über dieses Interface benachrichtigt das ManageArticleStockPanel_Employee das
+    // Über dieses Interface benachrichtigt das E_ManageArticleStockPanel das
     // EmployeeFrontEnd, die ArticleList bitte zu aktualisieren
     public interface ManageArticleListener {
         void updateArticleList();
@@ -27,12 +27,12 @@ public class ManageArticleStockPanel_Employee extends JPanel{
 
     private Shop eshop;
     private  User user;
-    private ManageArticleStockPanel_Employee.ManageArticleListener manageArticleListener;
+    private E_ManageArticleStockPanel.ManageArticleListener manageArticleListener;
     private JButton manageButton;
     private JTextField articleNumberTextField = null;
     private JTextField quantityTextField = null;
 
-    public ManageArticleStockPanel_Employee(Shop shop, ManageArticleStockPanel_Employee.ManageArticleListener manageArticleListener, User user) {
+    public E_ManageArticleStockPanel(Shop shop, E_ManageArticleStockPanel.ManageArticleListener manageArticleListener, User user) {
         this.eshop = shop;
         this.manageArticleListener = manageArticleListener;
         this.user = user;

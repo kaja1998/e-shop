@@ -15,17 +15,17 @@ import java.awt.event.ActionListener;
  * @author Sund
  */
 
-public class CardLayoutPanel_Customer extends JPanel {
+public class C_CardLayoutPanel extends JPanel {
 
     private Shop eshop;
     private User user;
     private CardLayout cardLayout;
     private JPanel cardPanel;
-    private ChangeArticleQuantityInCartPanel_Customer.ChangeCartItemQuantityListener changeCartItemQuantityListener;
-    private RemoveArticleFromCartPanel_Customer.RemoveCartItemFromCartListener removeCartItemFromCartListener;
+    private C_ChangeArticleQuantityInCartPanel.ChangeCartItemQuantityListener changeCartItemQuantityListener;
+    private C_RemoveArticleFromCartPanel.RemoveCartItemFromCartListener removeCartItemFromCartListener;
     private JComboBox<String> viewComboBox;
 
-    public CardLayoutPanel_Customer(Shop shop, User user, ChangeArticleQuantityInCartPanel_Customer.ChangeCartItemQuantityListener changeCartItemQuantityListener, RemoveArticleFromCartPanel_Customer.RemoveCartItemFromCartListener removeCartItemFromCartListener)  {
+    public C_CardLayoutPanel(Shop shop, User user, C_ChangeArticleQuantityInCartPanel.ChangeCartItemQuantityListener changeCartItemQuantityListener, C_RemoveArticleFromCartPanel.RemoveCartItemFromCartListener removeCartItemFromCartListener)  {
         this.eshop = shop;
         this.user = user;
         this.changeCartItemQuantityListener = changeCartItemQuantityListener;
@@ -39,12 +39,12 @@ public class CardLayoutPanel_Customer extends JPanel {
     private void setupUI() {
 
         // Ansicht "Change CartItem Quantity"
-        ChangeArticleQuantityInCartPanel_Customer changeArticleQuantityPanel = new ChangeArticleQuantityInCartPanel_Customer(eshop, user, changeCartItemQuantityListener);
+        C_ChangeArticleQuantityInCartPanel changeArticleQuantityPanel = new C_ChangeArticleQuantityInCartPanel(eshop, user, changeCartItemQuantityListener);
         cardPanel.add(changeArticleQuantityPanel, "change");
         cardLayout.addLayoutComponent(changeArticleQuantityPanel, "change");
 
         // Ansicht "Remove Article from Cart"
-        RemoveArticleFromCartPanel_Customer removeArticleFromCartPanel = new RemoveArticleFromCartPanel_Customer(eshop, user, removeCartItemFromCartListener);
+        C_RemoveArticleFromCartPanel removeArticleFromCartPanel = new C_RemoveArticleFromCartPanel(eshop, user, removeCartItemFromCartListener);
         cardPanel.add(removeArticleFromCartPanel, "remove");
         cardLayout.addLayoutComponent(removeArticleFromCartPanel, "remove");
 

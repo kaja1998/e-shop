@@ -1,12 +1,12 @@
-package shop.local.ui.gui.Frames;
+package shop.local.ui.gui.frames;
 
 import shop.local.domain.Shop;
 import shop.local.entities.Article;
 import shop.local.entities.User;
 import shop.local.ui.gui.WindowCloser;
-import shop.local.ui.gui.panels.AddArticleToCartPanel_Customer;
-import shop.local.ui.gui.panels.ArticlesTablePanel_Customer;
-import shop.local.ui.gui.panels.SearchArticlesPanel_Employee;
+import shop.local.ui.gui.panels.C_AddArticleToCartPanel;
+import shop.local.ui.gui.panels.C_ArticlesTablePanel;
+import shop.local.ui.gui.panels.E_SearchArticlesPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,15 +16,15 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
 
-public class CustomerFrontEnd extends JFrame implements SearchArticlesPanel_Employee.SearchResultListener {
+public class C_CustomerFrontEnd extends JFrame implements E_SearchArticlesPanel.SearchResultListener {
     private Shop eshop;
     private User user;
-    private SearchArticlesPanel_Employee searchPanel;
-    private AddArticleToCartPanel_Customer addToCartPanel;
-    private ArticlesTablePanel_Customer ArticlesPanel;
-    private CustomersCart customersCartPanel;
+    private E_SearchArticlesPanel searchPanel;
+    private C_AddArticleToCartPanel addToCartPanel;
+    private C_ArticlesTablePanel ArticlesPanel;
+    private C_CustomersCart customersCartPanel;
 
-    public CustomerFrontEnd(Shop shop, User user) {
+    public C_CustomerFrontEnd(Shop shop, User user) {
         super("Kaja's Spice Shop");
         this.user = user;
         eshop = shop;
@@ -46,17 +46,17 @@ public class CustomerFrontEnd extends JFrame implements SearchArticlesPanel_Empl
         this.setLayout(new BorderLayout());
 
         // North
-        searchPanel = new SearchArticlesPanel_Employee(eshop, this);
+        searchPanel = new E_SearchArticlesPanel(eshop, this);
 
         // West
-        addToCartPanel = new AddArticleToCartPanel_Customer(eshop, user);
+        addToCartPanel = new C_AddArticleToCartPanel(eshop, user);
 
-        //cardLayout = new CardLayoutPanel_Employee(eshop, this, this, this, user);
+        //cardLayout = new E_CardLayoutPanel(eshop, this, this, this, user);
 
         // Center
         java.util.List<Article> articles = eshop.getAllArticles();
         // (wahlweise Anzeige als Liste oder Tabelle)
-        ArticlesPanel = new ArticlesTablePanel_Customer(articles);
+        ArticlesPanel = new C_ArticlesTablePanel(articles);
         JScrollPane scrollPane = new JScrollPane(ArticlesPanel);
         scrollPane.setBorder(BorderFactory.createTitledBorder("Articles"));
 
@@ -74,9 +74,9 @@ public class CustomerFrontEnd extends JFrame implements SearchArticlesPanel_Empl
     /*
      * (non-Javadoc)
      *
-     * Listener, der Benachrichtungen erhält, wenn das SearchArticlesPanel_Employee ein Suchergebnis bereitstellen möchte.
+     * Listener, der Benachrichtungen erhält, wenn das E_SearchArticlesPanel ein Suchergebnis bereitstellen möchte.
      * (Als Reaktion soll die Articleliste aktualisiert werden.)
-     * @see shop.local.ui.gui.swing.panels.SearchArticlesPanel_Employee.SearchResultListener#onSearchResult(java.util.List)
+     * @see shop.local.ui.gui.swing.panels.E_SearchArticlesPanel.SearchResultListener#onSearchResult(java.util.List)
      */
     @Override
     public void onSearchResult(List<Article> articles) {
@@ -88,10 +88,10 @@ public class CustomerFrontEnd extends JFrame implements SearchArticlesPanel_Empl
         // Menüleiste anlegen ...
         JMenuBar mBar = new JMenuBar();
 
-        JMenu LogoutMenu = new CustomerFrontEnd.LogoutMenu();
+        JMenu LogoutMenu = new C_CustomerFrontEnd.LogoutMenu();
         mBar.add(LogoutMenu);
 
-        JMenu ShoppingCartMenu = new CustomerFrontEnd.ShoppingCartMenu();
+        JMenu ShoppingCartMenu = new C_CustomerFrontEnd.ShoppingCartMenu();
         mBar.add(ShoppingCartMenu);
 
         // ... und beim Fenster anmelden
@@ -122,7 +122,7 @@ public class CustomerFrontEnd extends JFrame implements SearchArticlesPanel_Empl
                         customersCartPanel.dispose();
                     }
 
-                    // Schließe das EmployeeBackEnd-Fenster
+                    // Schließe das E_EmployeeFrontEnd-Fenster
                     Window window = SwingUtilities.windowForComponent(this);
                     if (window instanceof JFrame) {
                         JFrame frame = (JFrame) window;
@@ -138,8 +138,8 @@ public class CustomerFrontEnd extends JFrame implements SearchArticlesPanel_Empl
                         @Override
                         public void actionPerformed(ActionEvent evt) {
                             dialog.dispose();
-                            // Öffne das LoginStart-Fenster
-                            LoginStart loginStart = new LoginStart();
+                            // Öffne das L_LoginStart-Fenster
+                            L_LoginStart loginStart = new L_LoginStart();
                             loginStart.setVisible(true);
                         }
                     });
@@ -179,7 +179,7 @@ public class CustomerFrontEnd extends JFrame implements SearchArticlesPanel_Empl
                 case "View Cart":
                     // Aktion für den "Cart" Menüpunkt
 
-                    customersCartPanel = new CustomersCart(CustomerFrontEnd.this, eshop, user);
+                    customersCartPanel = new C_CustomersCart(C_CustomerFrontEnd.this, eshop, user);
             }
         }
     }

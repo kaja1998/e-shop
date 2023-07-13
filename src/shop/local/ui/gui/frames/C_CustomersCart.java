@@ -1,13 +1,13 @@
-package shop.local.ui.gui.Frames;
+package shop.local.ui.gui.frames;
 
 import shop.local.domain.Shop;
 import shop.local.domain.exceptions.ArticleBuyingException;
 import shop.local.domain.exceptions.EmptyCartException;
 import shop.local.entities.*;
-import shop.local.ui.gui.panels.CardLayoutPanel_Customer;
-import shop.local.ui.gui.panels.CartItemsTablePanel_Customer;
-import shop.local.ui.gui.panels.ChangeArticleQuantityInCartPanel_Customer;
-import shop.local.ui.gui.panels.RemoveArticleFromCartPanel_Customer;
+import shop.local.ui.gui.panels.C_CardLayoutPanel;
+import shop.local.ui.gui.panels.C_ChangeArticleQuantityInCartPanel;
+import shop.local.ui.gui.panels.C_CartItemsTablePanel;
+import shop.local.ui.gui.panels.C_RemoveArticleFromCartPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,14 +16,14 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.List;
 
-public class CustomersCart extends JDialog implements ChangeArticleQuantityInCartPanel_Customer.ChangeCartItemQuantityListener, RemoveArticleFromCartPanel_Customer.RemoveCartItemFromCartListener {
+public class C_CustomersCart extends JDialog implements C_ChangeArticleQuantityInCartPanel.ChangeCartItemQuantityListener, C_RemoveArticleFromCartPanel.RemoveCartItemFromCartListener {
 
     private Shop eshop;
     private User user;
-    private CardLayoutPanel_Customer cardLayout;
-    private CartItemsTablePanel_Customer cartItemsPanel;
+    private C_CardLayoutPanel cardLayout;
+    private C_CartItemsTablePanel cartItemsPanel;
 
-    public CustomersCart(JFrame owner, Shop shop, User user) {
+    public C_CustomersCart(JFrame owner, Shop shop, User user) {
         super(owner, "Shopping Cart of " + user.getName(), true);
         this.user = user;
         this.eshop = shop;
@@ -38,12 +38,12 @@ public class CustomersCart extends JDialog implements ChangeArticleQuantityInCar
         this.setLayout(new BorderLayout());
 
         // West
-        cardLayout = new CardLayoutPanel_Customer (eshop, user, this, this);
+        cardLayout = new C_CardLayoutPanel(eshop, user, this, this);
 
         // Center
         java.util.List<ShoppingCartItem> cartItems = eshop.getAllCartItems((Customer) user);
         // (wahlweise Anzeige als Liste oder Tabelle)
-        cartItemsPanel = new CartItemsTablePanel_Customer(cartItems);
+        cartItemsPanel = new C_CartItemsTablePanel(cartItems);
         JScrollPane scrollPane = new JScrollPane(cartItemsPanel);
         scrollPane.setBorder(BorderFactory.createTitledBorder("Shopping Cart Items"));
 
@@ -81,7 +81,7 @@ public class CustomersCart extends JDialog implements ChangeArticleQuantityInCar
                 try {
                     eshop.deleteAllArticlesInCart((Customer) user);
                 } catch (EmptyCartException ex) {
-                    JOptionPane.showMessageDialog(CustomersCart.this, ex.getMessage(), "Clear Cart Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(C_CustomersCart.this, ex.getMessage(), "Clear Cart Error", JOptionPane.ERROR_MESSAGE);
                 }
                 updateCartItemsList();
             }
@@ -97,10 +97,10 @@ public class CustomersCart extends JDialog implements ChangeArticleQuantityInCar
                     try {
                         invoice = eshop.buyArticles((Customer) user);
                     } catch (EmptyCartException ex) {
-                        JOptionPane.showMessageDialog(CustomersCart.this, ex.getMessage(), "Buy Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(C_CustomersCart.this, ex.getMessage(), "Buy Error", JOptionPane.ERROR_MESSAGE);
                         return; // Beende die Methode, wenn ein Fehler auftritt
                     } catch (ArticleBuyingException ex) {
-                        JOptionPane.showMessageDialog(CustomersCart.this, ex.getMessage(), "Buy Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(C_CustomersCart.this, ex.getMessage(), "Buy Error", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
 
@@ -134,12 +134,12 @@ public class CustomersCart extends JDialog implements ChangeArticleQuantityInCar
                     invoiceText.append("Spice Shop\nDE35 1511 0000 1998 1997 29\nBIC: SCFBDE33");
 
                     // Rechnung ausgeben
-                    JOptionPane.showMessageDialog(CustomersCart.this, invoiceText.toString(), "Invoice", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(C_CustomersCart.this, invoiceText.toString(), "Invoice", JOptionPane.INFORMATION_MESSAGE);
 
                     // Warenkorb aktualisieren
                     updateCartItemsList();
 
-                    // TODO: Artikelliste in CustomerFrontEnd aktualisieren mit Interface?
+                    // TODO: Artikelliste in C_CustomerFrontEnd aktualisieren mit Interface?
                     //  Macht eventuell Sinn, wenn nun Artikel nicht mehr verfügbar sind oder neue hinzugekommen sind
 
                 } catch (IOException ex) {

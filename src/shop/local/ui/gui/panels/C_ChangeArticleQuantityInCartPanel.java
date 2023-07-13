@@ -18,10 +18,10 @@ import java.awt.*;
  * @author Sund
  */
 
-public class ChangeArticleQuantityInCartPanel_Customer extends JPanel {
+public class C_ChangeArticleQuantityInCartPanel extends JPanel {
 
-    // Über dieses Interface benachrichtigt das ChangeArticleQuantityInCartPanel_Customer Panel das
-    // CustomerFrontEnd, die CartItem Liste bitte zu aktualisieren
+    // Über dieses Interface benachrichtigt das C_ChangeArticleQuantityInCartPanel Panel das
+    // C_CustomerFrontEnd, die CartItem Liste bitte zu aktualisieren
     public interface ChangeCartItemQuantityListener {
         void updateCartItemsList();
     }
@@ -34,7 +34,7 @@ public class ChangeArticleQuantityInCartPanel_Customer extends JPanel {
     private JTextField newQuantityTextField = null;
 
 
-    public ChangeArticleQuantityInCartPanel_Customer(Shop shop, User user, ChangeCartItemQuantityListener changeCartItemQuantityListener) {
+    public C_ChangeArticleQuantityInCartPanel(Shop shop, User user, ChangeCartItemQuantityListener changeCartItemQuantityListener) {
         this.eshop = shop;
         this.user = user;
         this.changeCartItemQuantityListener = changeCartItemQuantityListener;

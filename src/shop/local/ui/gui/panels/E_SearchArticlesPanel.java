@@ -14,10 +14,10 @@ import java.util.List;
  * @author Sund
  */
 
-public class SearchArticlesPanel_Employee extends JPanel {
+public class E_SearchArticlesPanel extends JPanel {
 
-	// Über dieses Interface übermittelt das SearchArticlesPanel_Employee
-	// Suchergebnisse an einen Empfänger. Hier das EmployeeBackEnd,
+	// Über dieses Interface übermittelt das E_SearchArticlesPanel
+	// Suchergebnisse an einen Empfänger. Hier das E_EmployeeFrontEnd,
 	// welches dieses Interface implementiert und auf ein neues
 	// Suchergebnis reagiert, indem es die Articleliste aktualisiert.
 	public interface SearchResultListener {
@@ -29,7 +29,7 @@ public class SearchArticlesPanel_Employee extends JPanel {
 	private JButton searchButton = null;
 	private SearchResultListener searchResultListener;
 	
-	public SearchArticlesPanel_Employee(Shop shop, SearchResultListener searchResultListener) {
+	public E_SearchArticlesPanel(Shop shop, SearchResultListener searchResultListener) {
 		eshop = shop;
 		this.searchResultListener = searchResultListener;
 		setupUI();

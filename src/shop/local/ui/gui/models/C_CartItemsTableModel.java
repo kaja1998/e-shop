@@ -6,13 +6,13 @@ import javax.swing.table.AbstractTableModel;
 import java.util.List;
 import java.util.Vector;
 
-public class CartItemsTableModel_Customer extends AbstractTableModel {
+public class C_CartItemsTableModel extends AbstractTableModel {
 
     private List<ShoppingCartItem> cartItems;
     private String[] spaltenNamen = { "Number", "Title", "Price", "Quantity"};
 
 
-    public CartItemsTableModel_Customer(List<ShoppingCartItem> currentCartItems) {
+    public C_CartItemsTableModel(List<ShoppingCartItem> currentCartItems) {
         super();
         // Ich erstelle eine Kopie der CartItemsliste,
         // damit beim Aktualisieren (siehe Methode setArticles())

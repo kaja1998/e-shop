@@ -1,7 +1,7 @@
 package shop.local.ui.gui.panels;
 
 import shop.local.entities.ShoppingCartItem;
-import shop.local.ui.gui.models.CartItemsTableModel_Customer;
+import shop.local.ui.gui.models.C_CartItemsTableModel;
 
 import javax.swing.*;
 import java.util.Collections;
@@ -13,13 +13,13 @@ import java.util.Collections;
  * @author Sund
  */
 
-public class CartItemsTablePanel_Customer extends JTable {
+public class C_CartItemsTablePanel extends JTable {
 
-    public CartItemsTablePanel_Customer(java.util.List<ShoppingCartItem> cartItems) {
+    public C_CartItemsTablePanel(java.util.List<ShoppingCartItem> cartItems) {
         super();
 
         // TableModel erzeugen ...
-        CartItemsTableModel_Customer tableModel = new CartItemsTableModel_Customer(cartItems);
+        C_CartItemsTableModel tableModel = new C_CartItemsTableModel(cartItems);
         // bei JTable "anmelden" und ...
         setModel(tableModel);
         // Daten an Model übergeben (für Sortierung o.ä.)
@@ -32,7 +32,7 @@ public class CartItemsTablePanel_Customer extends JTable {
         Collections.sort(cartItems, (a1, a2) -> a1.getArticle().getNumber() - a2.getArticle().getNumber());
 
         // TableModel von JTable holen und ...
-        CartItemsTableModel_Customer tableModel = (CartItemsTableModel_Customer) getModel();
+        C_CartItemsTableModel tableModel = (C_CartItemsTableModel) getModel();
         // Inhalt aktualisieren
         tableModel.setCartItems(cartItems);
     }

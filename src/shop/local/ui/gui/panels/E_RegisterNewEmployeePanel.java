@@ -13,7 +13,7 @@ import java.io.IOException;
  * @author Sund
  */
 
-public class RegisterNewEmployeePanel_Employee extends JPanel {
+public class E_RegisterNewEmployeePanel extends JPanel {
 
     private Shop eshop;
     private JTextField nameTextField = null;
@@ -23,7 +23,7 @@ public class RegisterNewEmployeePanel_Employee extends JPanel {
 
     private JButton registerButton;
 
-    public RegisterNewEmployeePanel_Employee(Shop shop) {
+    public E_RegisterNewEmployeePanel(Shop shop) {
         this.eshop = shop;
         setupUI();
         setupEvents();

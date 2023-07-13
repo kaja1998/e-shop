@@ -3,29 +3,29 @@ package shop.local.ui.gui.panels;
 import shop.local.domain.Shop;
 import shop.local.domain.exceptions.LoginException;
 import shop.local.entities.User;
-import shop.local.ui.gui.Frames.CustomerFrontEnd;
-import shop.local.ui.gui.Frames.LoginStart;
+import shop.local.ui.gui.frames.E_EmployeeFrontEnd;
+import shop.local.ui.gui.frames.L_LoginStart;
 
 import javax.swing.*;
 import java.awt.*;
 
 /**
- * This class represents a panel for the customer login.
- * It contains input fields for username and password, a login button and the logic for customer login.
- * If the login is successful, the main window is displayed for customers, otherwise an error message is issued.
+ * This class represents a panel for the Employee login.
+ * It contains input fields for username and password, a login button and the logic for employee login.
+ * If the login is successful, the main window is displayed for employees, otherwise an error message is issued.
  * @author Sund
  */
 
-public class LoginCustomerPanel extends JPanel {
-    private User loggedinUser;
+public class L_EmployeeLoginPanel extends JPanel {
+    private User loggedinUser = null;
     private Shop eshop;
-    private LoginStart loginStart;
-    private JButton customerLoginButton;
+    private L_LoginStart loginStart;
+    private JButton employeeLoginButton;
     private JTextField usernameField;
     private JPasswordField passwordField;
 
 
-    public LoginCustomerPanel(Shop shop, LoginStart loginStart) {
+    public L_EmployeeLoginPanel(Shop shop, L_LoginStart loginStart) {
         this.loginStart = loginStart;
         this.eshop = shop;
         setupUI();
@@ -58,30 +58,30 @@ public class LoginCustomerPanel extends JPanel {
         constraints.gridy = 1;
         add(passwordField, constraints);
 
-        customerLoginButton = new JButton("Login");
+        employeeLoginButton = new JButton("Login");
 
         constraints.gridx = 0;
         constraints.gridy = 2;
         constraints.gridwidth = 2;
-        add(customerLoginButton, constraints);
+        add(employeeLoginButton, constraints);
     }
 
     private void setupEvents() {
-        customerLoginButton.addActionListener(e -> LoginCustomer());
+        employeeLoginButton.addActionListener(e -> LoginEmployee());
     }
 
-    private void LoginCustomer() {
-        String username = usernameField.getText();
+    private void LoginEmployee() {
+        String userName = usernameField.getText();
         String password = new String(passwordField.getPassword());
 
-        if (username.isEmpty() || password.isEmpty()) {
+        if (userName.isEmpty() || password.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Fill in all fields.", "Login Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         try {
-            loggedinUser = eshop.loginCustomer(username, password);
-            CustomerFrontEnd cfe = new CustomerFrontEnd(eshop, loggedinUser);
-            cfe.setVisible(true);
+            loggedinUser = eshop.loginEmployee(userName, password);
+            E_EmployeeFrontEnd ebe = new E_EmployeeFrontEnd(eshop, loggedinUser);
+            ebe.setVisible(true);
             loginStart.dispose();
 
         } catch (LoginException e) {
@@ -90,5 +90,4 @@ public class LoginCustomerPanel extends JPanel {
             passwordField.setText("");
         }
     }
-
 }

@@ -17,7 +17,7 @@ import java.awt.*;
  * @author Sund
  */
 
-public class AddArticleToCartPanel_Customer extends JPanel {
+public class C_AddArticleToCartPanel extends JPanel {
 
     private Shop eshop;
     private User user;
@@ -26,7 +26,7 @@ public class AddArticleToCartPanel_Customer extends JPanel {
     private JTextField quantityTextField = null;
 
 
-    public AddArticleToCartPanel_Customer(Shop shop, User user) {
+    public C_AddArticleToCartPanel(Shop shop, User user) {
         this.eshop = shop;
         this.user = user;
         setupUI();

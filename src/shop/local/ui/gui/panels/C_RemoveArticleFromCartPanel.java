@@ -14,26 +14,26 @@ import java.io.IOException;
 /**
  * This panel allows the customer to remove items from the cart.
  * It contains an input field for the item number and a "Remove" button that removes the selected item
- * and notifies the CustomerFrontEnd to update the CartItem list.
+ * and notifies the C_CustomerFrontEnd to update the CartItem list.
  * @author Sund
  */
 
-public class RemoveArticleFromCartPanel_Customer extends JPanel{
+public class C_RemoveArticleFromCartPanel extends JPanel{
 
-    // Über dieses Interface benachrichtigt das RemoveArticleFromCartPanel_Customer Panel das
-    // CustomerFrontEnd, die CartItem Liste bitte zu aktualisieren
+    // Über dieses Interface benachrichtigt das C_RemoveArticleFromCartPanel Panel das
+    // C_CustomerFrontEnd, die CartItem Liste bitte zu aktualisieren
     public interface RemoveCartItemFromCartListener {
         void updateCartItemsList();
     }
 
     private Shop eshop;
     private User user;
-    private RemoveArticleFromCartPanel_Customer.RemoveCartItemFromCartListener removeCartItemFromCartListener;
+    private C_RemoveArticleFromCartPanel.RemoveCartItemFromCartListener removeCartItemFromCartListener;
     private JButton RemoveButton;
     private JTextField articleNumberTextField = null;
 
 
-    public RemoveArticleFromCartPanel_Customer(Shop shop, User user, RemoveArticleFromCartPanel_Customer.RemoveCartItemFromCartListener removeCartItemFromCartListener) {
+    public C_RemoveArticleFromCartPanel(Shop shop, User user, C_RemoveArticleFromCartPanel.RemoveCartItemFromCartListener removeCartItemFromCartListener) {
         this.eshop = shop;
         this.user = user;
         this.removeCartItemFromCartListener = removeCartItemFromCartListener;

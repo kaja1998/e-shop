@@ -1,5 +1,5 @@
 package shop.local.ui.gui;
-import shop.local.ui.gui.Frames.LoginStart;
+import shop.local.ui.gui.frames.L_LoginStart;
 
 import javax.swing.SwingUtilities;
 
@@ -12,7 +12,7 @@ public class Main {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                LoginStart loginStart = new LoginStart();
+                L_LoginStart loginStart = new L_LoginStart();
                 loginStart.setVisible(true);
             }
         });

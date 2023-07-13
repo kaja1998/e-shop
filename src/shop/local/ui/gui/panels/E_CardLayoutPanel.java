@@ -16,21 +16,21 @@ import java.awt.event.ActionListener;
  * @author Sund
  */
 
-public class CardLayoutPanel_Employee extends JPanel{
+public class E_CardLayoutPanel extends JPanel{
 
     private Shop eshop;
     private  User user;
-    private AddArticlePanel_Employee.AddArticleListener addArticleListener;
+    private E_AddArticlePanel.AddArticleListener addArticleListener;
 
-    private DeleteArticlePanel_Employee.DeleteArticleListener deleteArticleListener;
+    private E_DeleteArticlePanel.DeleteArticleListener deleteArticleListener;
 
-    private ManageArticleStockPanel_Employee.ManageArticleListener manageArticleListener;
+    private E_ManageArticleStockPanel.ManageArticleListener manageArticleListener;
     private CardLayout cardLayout;
     private JPanel cardPanel;
 
     private JComboBox<String> viewComboBox;
 
-    public CardLayoutPanel_Employee(Shop shop, AddArticlePanel_Employee.AddArticleListener addArticleListener, DeleteArticlePanel_Employee.DeleteArticleListener deleteArticleListener, ManageArticleStockPanel_Employee.ManageArticleListener manageArticleListener, User user)  {
+    public E_CardLayoutPanel(Shop shop, E_AddArticlePanel.AddArticleListener addArticleListener, E_DeleteArticlePanel.DeleteArticleListener deleteArticleListener, E_ManageArticleStockPanel.ManageArticleListener manageArticleListener, User user)  {
         this.eshop = shop;
         this.addArticleListener = addArticleListener;
         this.deleteArticleListener = deleteArticleListener;
@@ -45,22 +45,22 @@ public class CardLayoutPanel_Employee extends JPanel{
     private void setupUI() {
 
         // Ansicht "Delete Article"
-        DeleteArticlePanel_Employee deleteArticlePanelEmployee = new DeleteArticlePanel_Employee(eshop, deleteArticleListener, user);
+        E_DeleteArticlePanel deleteArticlePanelEmployee = new E_DeleteArticlePanel(eshop, deleteArticleListener, user);
         cardPanel.add(deleteArticlePanelEmployee, "delete");
         cardLayout.addLayoutComponent(deleteArticlePanelEmployee, "delete");
 
         // Ansicht "Manage Stock of an Article"
-        ManageArticleStockPanel_Employee manageArticleStockPanelEmployee = new ManageArticleStockPanel_Employee(eshop, manageArticleListener, user);
+        E_ManageArticleStockPanel manageArticleStockPanelEmployee = new E_ManageArticleStockPanel(eshop, manageArticleListener, user);
         cardPanel.add(manageArticleStockPanelEmployee, "manage");
         cardLayout.addLayoutComponent(manageArticleStockPanelEmployee, "manage");
 
         // Ansicht "Add Article"
-        AddArticlePanel_Employee addArticlePanelEmployee = new AddArticlePanel_Employee(eshop, addArticleListener, user);
+        E_AddArticlePanel addArticlePanelEmployee = new E_AddArticlePanel(eshop, addArticleListener, user);
         cardPanel.add(addArticlePanelEmployee, "add");
         cardLayout.addLayoutComponent(addArticlePanelEmployee, "add");
 
         // Ansicht "Register new Employee"
-        RegisterNewEmployeePanel_Employee registerNewEmployeePanelEmployee = new RegisterNewEmployeePanel_Employee(eshop);
+        E_RegisterNewEmployeePanel registerNewEmployeePanelEmployee = new E_RegisterNewEmployeePanel(eshop);
         cardPanel.add(registerNewEmployeePanelEmployee, "new");
         cardLayout.addLayoutComponent(registerNewEmployeePanelEmployee, "new");
 

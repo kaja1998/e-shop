@@ -2,7 +2,7 @@ package shop.local.ui.gui.panels;
 
 import shop.local.domain.Shop;
 import shop.local.domain.exceptions.RegisterException;
-import shop.local.ui.gui.Frames.LoginStart;
+import shop.local.ui.gui.frames.L_LoginStart;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,10 +13,10 @@ import java.awt.*;
  * @author Sund
  */
 
-public class RegistrationCustomerPanel extends JPanel {
+public class L_CustomerRegistrationPanel extends JPanel {
 
     private Shop eshop;
-    private LoginStart loginStart;
+    private L_LoginStart loginStart;
     private JButton registerButton;
     private JTextField nameField;
     private JTextField lastNameField;
@@ -29,7 +29,7 @@ public class RegistrationCustomerPanel extends JPanel {
     private JCheckBox agreeCheckBox;
 
 
-    public RegistrationCustomerPanel(Shop shop, LoginStart loginStart) {
+    public L_CustomerRegistrationPanel(Shop shop, L_LoginStart loginStart) {
         this.loginStart = loginStart;
         this.eshop = shop;
         setupUI();
@@ -150,7 +150,7 @@ public class RegistrationCustomerPanel extends JPanel {
             String mail = emailField.getText();
             String username = usernameField.getText();
             String password = new String(passwordField.getPassword());
-            String registerNow = agreeCheckBox.isSelected() ? "yes" : "no"; // Get the value as "yes" or "no" based on the check box
+            String registerNow = agreeCheckBox.isSelected() ? "yes" : "no"; // Get the value as "yes" or "no" based on the checkbox
 
         if (name.isEmpty() || lastName.isEmpty() || street.isEmpty() || postalCodeString.isEmpty() || city.isEmpty() || mail.isEmpty() || username.isEmpty() || password.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Fill in all fields.", "Login Error", JOptionPane.ERROR_MESSAGE);

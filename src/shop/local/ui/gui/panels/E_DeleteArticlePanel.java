@@ -14,7 +14,7 @@ import java.io.IOException;
  * @author Sund
  */
 
-public class DeleteArticlePanel_Employee extends JPanel {
+public class E_DeleteArticlePanel extends JPanel {
 
     public interface DeleteArticleListener {
         void updateArticleList();
@@ -22,11 +22,11 @@ public class DeleteArticlePanel_Employee extends JPanel {
 
     private Shop eshop;
     private User user;
-    private DeleteArticlePanel_Employee.DeleteArticleListener deleteArticleListener;
+    private E_DeleteArticlePanel.DeleteArticleListener deleteArticleListener;
     private JButton deleteButton;
     private JTextField numberTextField = null;
 
-    public DeleteArticlePanel_Employee(Shop shop, DeleteArticlePanel_Employee.DeleteArticleListener deleteArticleListener, User user) {
+    public E_DeleteArticlePanel(Shop shop, E_DeleteArticlePanel.DeleteArticleListener deleteArticleListener, User user) {
         this.eshop = shop;
         this.deleteArticleListener = deleteArticleListener;
         this.user = user;
@@ -67,10 +67,10 @@ public class DeleteArticlePanel_Employee extends JPanel {
     }
 
     private void setupEvents() {
-        deleteButton.addActionListener(e -> ArticleLöschen());
+        deleteButton.addActionListener(e -> DeleteArticle());
     }
 
-    private void ArticleLöschen() {
+    private void DeleteArticle() {
         String articleNumberText = numberTextField.getText();
 
         if (articleNumberText.isEmpty()) {

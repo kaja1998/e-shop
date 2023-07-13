@@ -1,7 +1,7 @@
 package shop.local.ui.gui.panels;
 
 import shop.local.entities.Article;
-import shop.local.ui.gui.models.ArticleTableModel_Customer;
+import shop.local.ui.gui.models.C_ArticleTableModel;
 
 import javax.swing.*;
 import java.util.Collections;
@@ -13,13 +13,13 @@ import java.util.Collections;
  * @author Sund
  */
 
-public class ArticlesTablePanel_Customer  extends JTable {
+public class C_ArticlesTablePanel extends JTable {
 
-    public ArticlesTablePanel_Customer(java.util.List<Article> articles) {
+    public C_ArticlesTablePanel(java.util.List<Article> articles) {
         super();
 
         // TableModel erzeugen ...
-        ArticleTableModel_Customer tableModel = new ArticleTableModel_Customer(articles);
+        C_ArticleTableModel tableModel = new C_ArticleTableModel(articles);
         // bei JTable "anmelden" und ...
         setModel(tableModel);
         // Daten an Model übergeben (für Sortierung o.ä.)
@@ -33,7 +33,7 @@ public class ArticlesTablePanel_Customer  extends JTable {
         Collections.sort(articles, (a1, a2) -> a1.getNumber() - a2.getNumber());	// Sortierung nach Nummer
 
         // TableModel von JTable holen und ...
-        ArticleTableModel_Customer tableModel = (ArticleTableModel_Customer) getModel();
+        C_ArticleTableModel tableModel = (C_ArticleTableModel) getModel();
         // Inhalt aktualisieren
         tableModel.setArticles(articles);
     }

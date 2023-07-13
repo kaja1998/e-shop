@@ -1,4 +1,4 @@
-package shop.local.ui.gui.Frames;
+package shop.local.ui.gui.frames;
 
 import shop.local.domain.Shop;
 import shop.local.entities.Article;
@@ -11,15 +11,15 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
 
-public class EmployeeBackEnd extends JFrame implements AddArticlePanel_Employee.AddArticleListener, DeleteArticlePanel_Employee.DeleteArticleListener, ManageArticleStockPanel_Employee.ManageArticleListener, SearchArticlesPanel_Employee.SearchResultListener {
+public class E_EmployeeFrontEnd extends JFrame implements E_AddArticlePanel.AddArticleListener, E_DeleteArticlePanel.DeleteArticleListener, E_ManageArticleStockPanel.ManageArticleListener, E_SearchArticlesPanel.SearchResultListener {
 
 	private Shop eshop;
 	private User user;
-	private SearchArticlesPanel_Employee searchPanel;
-	private CardLayoutPanel_Employee cardLayout;
-	private ArticlesTablePanel_Employee ArticlesPanel;
+	private E_SearchArticlesPanel searchPanel;
+	private E_CardLayoutPanel cardLayout;
+	private E_ArticlesTablePanel ArticlesPanel;
 
-	public EmployeeBackEnd(Shop shop, User user) {
+	public E_EmployeeFrontEnd(Shop shop, User user) {
 		super("Employee BackEnd of Kaja's Spice Shop");
 		this.user = user;
 		this.eshop = shop;
@@ -41,15 +41,15 @@ public class EmployeeBackEnd extends JFrame implements AddArticlePanel_Employee.
 		this.setLayout(new BorderLayout());
 
 		// North
-		searchPanel = new SearchArticlesPanel_Employee(eshop, this);
+		searchPanel = new E_SearchArticlesPanel(eshop, this);
 
 		// West
-		cardLayout = new CardLayoutPanel_Employee(eshop, this, this, this, user);
+		cardLayout = new E_CardLayoutPanel(eshop, this, this, this, user);
 
 		// Center
 		List<Article> articles = eshop.getAllArticles();
 		// (wahlweise Anzeige als Liste oder Tabelle)
-		ArticlesPanel = new ArticlesTablePanel_Employee(articles);
+		ArticlesPanel = new E_ArticlesTablePanel(articles);
 		JScrollPane scrollPane = new JScrollPane(ArticlesPanel);
 		scrollPane.setBorder(BorderFactory.createTitledBorder("Articles"));
 
@@ -71,9 +71,9 @@ public class EmployeeBackEnd extends JFrame implements AddArticlePanel_Employee.
 	/*
 	 * (non-Javadoc)
 	 *
-	 * Listener, der Benachrichtungen erhält, wenn im AddArticlePanel_Employee ein Article eingefügt wurde.
+	 * Listener, der Benachrichtungen erhält, wenn im E_AddArticlePanel ein Article eingefügt wurde.
 	 * (Als Reaktion soll die Articleliste aktualisiert werden.)
-	 * @see shop.local.ui.gui.panels.AddArticlePanel_Employee.AddArticleListener#updateArticleList(shop.local.entities.Article)
+	 * @see shop.local.ui.gui.panels.E_AddArticlePanel.AddArticleListener#updateArticleList(shop.local.entities.Article)
 	 */
 	@Override
 	public void updateArticleList() {
@@ -85,9 +85,9 @@ public class EmployeeBackEnd extends JFrame implements AddArticlePanel_Employee.
 	/*
 	 * (non-Javadoc)
 	 *
-	 * Listener, der Benachrichtungen erhält, wenn das SearchArticlesPanel_Employee ein Suchergebnis bereitstellen möchte.
+	 * Listener, der Benachrichtungen erhält, wenn das E_SearchArticlesPanel ein Suchergebnis bereitstellen möchte.
 	 * (Als Reaktion soll die Articleliste aktualisiert werden.)
-	 * @see shop.local.ui.gui.swing.panels.SearchArticlesPanel_Employee.SearchResultListener#onSearchResult(java.util.List)
+	 * @see shop.local.ui.gui.swing.panels.E_SearchArticlesPanel.SearchResultListener#onSearchResult(java.util.List)
 	 */
 	@Override
 	public void onSearchResult(List<Article> articles) {
@@ -125,7 +125,7 @@ public class EmployeeBackEnd extends JFrame implements AddArticlePanel_Employee.
 					// Aktion für den "Logout" Menüpunkt
 					eshop.logout(user); // Aufruf der eshop.logout() Methode
 
-					// Schließe das EmployeeBackEnd-Fenster
+					// Schließe das E_EmployeeFrontEnd-Fenster
 					Window window = SwingUtilities.windowForComponent(this);
 					if (window instanceof JFrame) {
 						JFrame frame = (JFrame) window;
@@ -141,8 +141,8 @@ public class EmployeeBackEnd extends JFrame implements AddArticlePanel_Employee.
 						@Override
 						public void actionPerformed(ActionEvent evt) {
 							dialog.dispose();
-							// Öffne das LoginStart-Fenster
-							LoginStart loginStart = new LoginStart();
+							// Öffne das L_LoginStart-Fenster
+							L_LoginStart loginStart = new L_LoginStart();
 							loginStart.setVisible(true);
 						}
 					});
