@@ -51,8 +51,6 @@ public class C_CustomerFrontEnd extends JFrame implements E_SearchArticlesPanel.
         // West
         addToCartPanel = new C_AddArticleToCartPanel(eshop, user);
 
-        //cardLayout = new E_CardLayoutPanel(eshop, this, this, this, user);
-
         // Center
         java.util.List<Article> articles = eshop.getAllArticles();
         // (wahlweise Anzeige als Liste oder Tabelle)
@@ -115,14 +113,14 @@ public class C_CustomerFrontEnd extends JFrame implements E_SearchArticlesPanel.
             switch (e.getActionCommand()) {
                 case "Logout":
                     // Aktion für den "Logout" Menüpunkt
-                    eshop.logout(user); // Aufruf der eshop.logout() Methode
+                    user = null;
 
                     // Schließe das Shoppingcart-Fenster, falls geöffnet
                     if (customersCartPanel != null) {
                         customersCartPanel.dispose();
                     }
 
-                    // Schließe das E_EmployeeFrontEnd-Fenster
+                    // Schließe das Fenster
                     Window window = SwingUtilities.windowForComponent(this);
                     if (window instanceof JFrame) {
                         JFrame frame = (JFrame) window;

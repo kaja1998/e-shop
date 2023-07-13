@@ -96,13 +96,16 @@ public class E_EmployeeFrontEnd extends JFrame implements E_AddArticlePanel.AddA
 
 
 	private void setupMenu() {
-		// Menüleiste anlegen ...
+		// Menüleiste anlegen
 		JMenuBar mBar = new JMenuBar();
 
 		JMenu LogoutMenu = new LogoutMenu();
 		mBar.add(LogoutMenu);
 
-		// ... und beim Fenster anmelden
+		JMenu sortArticlesMenu = new SortArticlesMenu();
+		mBar.add(sortArticlesMenu);
+
+		// beim Fenster anmelden
 		this.setJMenuBar(mBar);
 	}
 
@@ -123,7 +126,7 @@ public class E_EmployeeFrontEnd extends JFrame implements E_AddArticlePanel.AddA
 			switch (e.getActionCommand()) {
 				case "Logout":
 					// Aktion für den "Logout" Menüpunkt
-					eshop.logout(user); // Aufruf der eshop.logout() Methode
+					user = null;
 
 					// Schließe das E_EmployeeFrontEnd-Fenster
 					Window window = SwingUtilities.windowForComponent(this);
@@ -159,6 +162,38 @@ public class E_EmployeeFrontEnd extends JFrame implements E_AddArticlePanel.AddA
 
 					// Zeige das Erfolgsfenster an
 					dialog.setVisible(true);
+					break;
+			}
+		}
+	}
+
+	class SortArticlesMenu extends JMenu implements ActionListener {
+
+		public SortArticlesMenu() {
+			super("Sort Articles");
+
+			JMenuItem sortByNumberItem = new JMenuItem("Sort by Number");
+			JMenuItem sortByTitleItem = new JMenuItem("Sort by Title");
+			sortByNumberItem.addActionListener(this);
+			sortByTitleItem.addActionListener(this);
+
+			add(sortByNumberItem);
+			add(sortByTitleItem);
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+
+			List<Article> articles = eshop.getAllArticles();
+
+			switch (e.getActionCommand()) {
+				case "Sort by Number":
+					ArticlesPanel.toggleSortOrderByNumber();
+					ArticlesPanel.updateArticlesList(articles);
+					break;
+				case "Sort by Title":
+					ArticlesPanel.toggleSortOrderByTitle();
+					ArticlesPanel.updateArticlesList(articles);
 					break;
 			}
 		}

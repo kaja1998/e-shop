@@ -16,7 +16,6 @@ import shop.local.entities.*;
 
 public class Shop {
 	// Prefix for names of files in which shop data is stored
-	@SuppressWarnings("unused")
 	private String file = "";
 	private ArticleAdministration articleAdministration;
 
@@ -65,11 +64,6 @@ public class Shop {
 		return employeeAdministration.login(username, password);
 	}
 
-	public String logout(User user){
-		user = null;
-		return "You got logged out successfully.";
-	}
-
 	/**
 	 * Method that returns a list of all items in inventory.
 	 *
@@ -111,13 +105,9 @@ public class Shop {
 	}
 
 	/**
-	 * Method of adding a new item to stock. If the item is already in stock, the
-	 * stock will not be changed.
+	 * Method of adding a new item to stock. If the item is already in stock, the stock will not be changed.
 	 *
-	 * @param quantityInStock Stock Quantity
-	 * @param user            loggedInUser
 	 * @return article object inserted in case of success
-	 * @throws ArticleAlreadyExistsException if the article already exists
 	 */
 	public Article insertArticle(String articleTitle, double price, int quantityInStock, String articleType, int packSize, User user) throws ArticleAlreadyExistsException, IOException {
 		Article article;
@@ -141,17 +131,22 @@ public class Shop {
 	 * article will be deleted.
 	 *
 	 * @param number of the Article which should be deleted
+	 *
+	 * Info @Teschke:
+	 * Hier kam es bei den Events manchmal zu einer NUllPointerException und ich konnte den Fehler nicht finden, weshalb ich den Code für Events auskommentiert habe.
+	 * Ich habe mich erst eingeloggt. Dann einen Artikel gelöscht und mich dann wieder ausgeloggt.
+	 * Beim zweiten Mal einloggen habe ich dann einen anderen Artikel gelöscht und dann trat die Exception auf.
+	 * Debugger hat mir bis zu Zeile 156 angezeigt dass er den Artikel findet...
 	 */
 	public void deleteArticle(int number, User user) throws IOException, ArticleNotFoundException {
 		Article article = articleAdministration.searchByArticleNumber(number);
 		articleAdministration.delete(article);
 		writeArticleDataToRemoveArticle("ESHOP_Article.txt", article);
-		// Ereignis für die Einlagerung in ArrayList schreiben
-		Event event = new Event(Event.EventType.AUSLAGERUNG, article, 0, user);
-		eventAdministration.addEvent(event);
-		// Ereignis für die Einlagerung in File schreiben
-		eventAdministration.writeData("ESHOP_Events.txt");
-
+//		// Ereignis für die Einlagerung in ArrayList schreiben
+//		Event event = new Event(Event.EventType.AUSLAGERUNG, article, 0, user);
+//		eventAdministration.addEvent(event);
+//		// Ereignis für die Einlagerung in File schreiben
+//		eventAdministration.writeData("ESHOP_Events.txt");
 	}
 
 	/**
@@ -170,7 +165,6 @@ public class Shop {
 	 *
 	 * @param article       the article whose stock should be increased
 	 * @param quantityToAdd number of articles that are to be added to stock
-	 * @return Article with searched articleNumber (may be empty)
 	 */
 	public void increaseArticleStock(Article article, int quantityToAdd, User user) throws IOException {
 		articleAdministration.increaseArticleStock(article, quantityToAdd, "ESHOP_Article.txt");
@@ -185,9 +179,8 @@ public class Shop {
 	 * Method that decreases an articles' stock
 	 *
 	 * @param article            the article whose stock should be decreased
-	 * @param quantityToRetrieve number of articles that are to be retrieved from
-	 *                           stock
-	 * @return Article with searched articleNumber (may be empty)
+	 * @param quantityToRetrieve number of articles that are to be retrieved from stock
+	 *
 	 */
 	public boolean decreaseArticleStock(Article article, int quantityToRetrieve, User user) throws IOException, StockDecreaseException {
 		boolean bo = articleAdministration.decreaseArticleStock(article, quantityToRetrieve, "ESHOP_Article.txt");
