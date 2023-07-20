@@ -7,7 +7,6 @@ import eshop.common.exceptions.ArticleNotFoundException;
 import eshop.common.exceptions.BulkArticleException;
 import eshop.common.exceptions.InsufficientStockException;
 import eshop.common.interfaces.ShopInterface;
-import eshop.server.domain.Shop;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,53 +29,53 @@ public class C_AddArticleToCartPanel extends JPanel {
     public C_AddArticleToCartPanel(ShopInterface shop, User user) {
         this.eshop = shop;
         this.user = user;
-//        setupUI();
+        setupUI();
 //        setupEvents();
     }
-//
-//    private void setupUI() {
-//
-//        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-//
-//        // Abstandhalter ("Filler") zwischen Rand und erstem Element
-//        add(Box.createRigidArea(new Dimension(5, 0)));
-//
-//        // Abstandhalter ("Filler") zwischen Rand und erstem Element
-//        Dimension borderMinSize = new Dimension(5, 10);
-//        Dimension borderPrefSize = new Dimension(5, 10);
-//        Dimension borderMaxSize = new Dimension(5, 10);
-//        Box.Filler filler = new Box.Filler(borderMinSize, borderPrefSize, borderMaxSize);
-//        add(filler);
-//
-//        articleNumberTextField = new JTextField();
-//        quantityTextField = new JTextField();
-//        add(new JLabel("Article Nr.:"));
-//        add(articleNumberTextField);
-//        add(new JLabel("Quantity:"));
-//        add(quantityTextField);
-//
-//
-//        // Abstandhalter ("Filler") zwischen letztem Eingabefeld und Add-Button
-//        Dimension fillerMinSize = new Dimension(5, 20);
-//        Dimension fillerPrefSize = new Dimension(5, Short.MAX_VALUE);
-//        Dimension fillerMaxSize = new Dimension(5, Short.MAX_VALUE);
-//        filler = new Box.Filler(fillerMinSize, fillerPrefSize, fillerMaxSize);
-//        add(filler);
-//
-//        addToCartButton = new JButton("Add to Cart");
-//        add(addToCartButton);
-//
-//        // Abstandhalter ("Filler") zwischen letztem Element und Rand
-//        add(new Box.Filler(borderMinSize, borderPrefSize, borderMaxSize));
-//
-//        // Rahmen definieren
-//        setBorder(BorderFactory.createTitledBorder("Add Article to Cart"));
-//
-//        // Bevorzugte Größe des Panels anpassen
-//        Dimension preferredSize = new Dimension(170, getPreferredSize().height);
-//        setPreferredSize(preferredSize);
-//    }
-//
+
+    private void setupUI() {
+
+        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+
+        // Abstandhalter ("Filler") zwischen Rand und erstem Element
+        add(Box.createRigidArea(new Dimension(5, 0)));
+
+        // Abstandhalter ("Filler") zwischen Rand und erstem Element
+        Dimension borderMinSize = new Dimension(5, 10);
+        Dimension borderPrefSize = new Dimension(5, 10);
+        Dimension borderMaxSize = new Dimension(5, 10);
+        Box.Filler filler = new Box.Filler(borderMinSize, borderPrefSize, borderMaxSize);
+        add(filler);
+
+        articleNumberTextField = new JTextField();
+        quantityTextField = new JTextField();
+        add(new JLabel("Article Nr.:"));
+        add(articleNumberTextField);
+        add(new JLabel("Quantity:"));
+        add(quantityTextField);
+
+
+        // Abstandhalter ("Filler") zwischen letztem Eingabefeld und Add-Button
+        Dimension fillerMinSize = new Dimension(5, 20);
+        Dimension fillerPrefSize = new Dimension(5, Short.MAX_VALUE);
+        Dimension fillerMaxSize = new Dimension(5, Short.MAX_VALUE);
+        filler = new Box.Filler(fillerMinSize, fillerPrefSize, fillerMaxSize);
+        add(filler);
+
+        addToCartButton = new JButton("Add to Cart");
+        add(addToCartButton);
+
+        // Abstandhalter ("Filler") zwischen letztem Element und Rand
+        add(new Box.Filler(borderMinSize, borderPrefSize, borderMaxSize));
+
+        // Rahmen definieren
+        setBorder(BorderFactory.createTitledBorder("Add Article to Cart"));
+
+        // Bevorzugte Größe des Panels anpassen
+        Dimension preferredSize = new Dimension(170, getPreferredSize().height);
+        setPreferredSize(preferredSize);
+    }
+
 //    private void setupEvents() {
 //        addToCartButton.addActionListener(e -> AddArticleToCart());
 //    }

@@ -3,7 +3,6 @@ package eshop.client.ui.gui.panels;
 import eshop.common.entities.User;
 import eshop.common.exceptions.ArticleNotFoundException;
 import eshop.common.interfaces.ShopInterface;
-import eshop.server.domain.Shop;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,43 +29,43 @@ public class E_DeleteArticlePanel extends JPanel {
     public E_DeleteArticlePanel(ShopInterface shop, E_DeleteArticlePanel.DeleteArticleListener deleteArticleListener, User user) {
         this.eshop = shop;
         this.deleteArticleListener = deleteArticleListener;
-//        this.user = user;
-//        setupUI();
+        this.user = user;
+        setupUI();
 //        setupEvents();
     }
-//
-//    private void setupUI() {
-//
-//        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-//
-//        // Abstandhalter ("Filler") zwischen Rand und erstem Element
-//        Dimension borderMinSize = new Dimension(5, 10);
-//        Dimension borderPrefSize = new Dimension(5, 10);
-//        Dimension borderMaxSize = new Dimension(5, 10);
-//        Box.Filler filler = new Box.Filler(borderMinSize, borderPrefSize, borderMaxSize);
-//        add(filler);
-//
-//        numberTextField = new JTextField();
-//        add(new JLabel("Article number:"));
-//        add(numberTextField);
-//
-//        // Abstandhalter ("Filler") zwischen letztem Eingabefeld und Add-Button
-//        Dimension fillerMinSize = new Dimension(5, 20);
-//        Dimension fillerPrefSize = new Dimension(5, Short.MAX_VALUE);
-//        Dimension fillerMaxSize = new Dimension(5, Short.MAX_VALUE);
-//        filler = new Box.Filler(fillerMinSize, fillerPrefSize, fillerMaxSize);
-//        add(filler);
-//
-//        deleteButton = new JButton("Delete");
-//        add(deleteButton);
-//
-//        // Abstandhalter ("Filler") zwischen letztem Element und Rand
-//        add(new Box.Filler(borderMinSize, borderPrefSize, borderMaxSize));
-//
-//        // Rahmen definieren mit Titel
-//        //setBorder(BorderFactory.createTitledBorder("Delete Article"));
-//    }
-//
+
+    private void setupUI() {
+
+        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+
+        // Abstandhalter ("Filler") zwischen Rand und erstem Element
+        Dimension borderMinSize = new Dimension(5, 10);
+        Dimension borderPrefSize = new Dimension(5, 10);
+        Dimension borderMaxSize = new Dimension(5, 10);
+        Box.Filler filler = new Box.Filler(borderMinSize, borderPrefSize, borderMaxSize);
+        add(filler);
+
+        numberTextField = new JTextField();
+        add(new JLabel("Article number:"));
+        add(numberTextField);
+
+        // Abstandhalter ("Filler") zwischen letztem Eingabefeld und Add-Button
+        Dimension fillerMinSize = new Dimension(5, 20);
+        Dimension fillerPrefSize = new Dimension(5, Short.MAX_VALUE);
+        Dimension fillerMaxSize = new Dimension(5, Short.MAX_VALUE);
+        filler = new Box.Filler(fillerMinSize, fillerPrefSize, fillerMaxSize);
+        add(filler);
+
+        deleteButton = new JButton("Delete");
+        add(deleteButton);
+
+        // Abstandhalter ("Filler") zwischen letztem Element und Rand
+        add(new Box.Filler(borderMinSize, borderPrefSize, borderMaxSize));
+
+        // Rahmen definieren mit Titel
+        //setBorder(BorderFactory.createTitledBorder("Delete Article"));
+    }
+
 //    private void setupEvents() {
 //        deleteButton.addActionListener(e -> DeleteArticle());
 //    }

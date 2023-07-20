@@ -22,7 +22,6 @@ import java.net.Socket;
 public class EshopServer {
 
     public final static int DEFAULT_PORT = 6779;
-
     protected int port;
     protected ServerSocket serverSocket;
     private ShopInterface shop;

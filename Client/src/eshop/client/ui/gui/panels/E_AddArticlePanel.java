@@ -3,7 +3,6 @@ package eshop.client.ui.gui.panels;
 import eshop.common.entities.User;
 import eshop.common.exceptions.ArticleAlreadyExistsException;
 import eshop.common.interfaces.ShopInterface;
-import eshop.server.domain.Shop;
 
 import javax.swing.*;
 import java.awt.*;
@@ -37,52 +36,52 @@ public class E_AddArticlePanel extends JPanel {
 		this.eshop = shop;
 		this.addArticleListener = addArticleListener;
 		this.user = user;
-//		setupUI();
+		setupUI();
 //		setupEvents();
 	}
-//
-//	private void setupUI() {
-//
-//		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-//
-//		// Abstandhalter ("Filler") zwischen Rand und erstem Element
-//		Dimension borderMinSize = new Dimension(5, 10);
-//		Dimension borderPrefSize = new Dimension(5, 10);
-//		Dimension borderMaxSize = new Dimension(5, 10);
-//		Box.Filler filler = new Box.Filler(borderMinSize, borderPrefSize, borderMaxSize);
-//		add(filler);
-//
-//		titleTextField = new JTextField();
-//		priceTextField = new JTextField();
-//		quantityTextField = new JTextField();
-//		articleTypeTextField = new JTextField();
-//		packSizeTextField = new JTextField();
-//		add(new JLabel("Article Title:"));
-//		add(titleTextField);
-//		add(new JLabel("Price:"));
-//		add(priceTextField);
-//		add(new JLabel("Initital Quantity:"));
-//		add(quantityTextField);
-//		add(new JLabel("Type (bulk / single):"));
-//		add(articleTypeTextField);
-//		add(new JLabel("Pack size:"));
-//		add(packSizeTextField);
-//
-//		// Abstandhalter ("Filler") zwischen letztem Eingabefeld und Add-Button
-//		Dimension fillerMinSize = new Dimension(5, 20);
-//		Dimension fillerPrefSize = new Dimension(5, Short.MAX_VALUE);
-//		Dimension fillerMaxSize = new Dimension(5, Short.MAX_VALUE);
-//		filler = new Box.Filler(fillerMinSize, fillerPrefSize, fillerMaxSize);
-//		add(filler);
-//
-//		addButton = new JButton("Add");
-//		add(addButton);
-//
-//		// Abstandhalter ("Filler") zwischen letztem Element und Rand
-//		add(new Box.Filler(borderMinSize, borderPrefSize, borderMaxSize));
-//
-//	}
-//
+
+	private void setupUI() {
+
+		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+
+		// Abstandhalter ("Filler") zwischen Rand und erstem Element
+		Dimension borderMinSize = new Dimension(5, 10);
+		Dimension borderPrefSize = new Dimension(5, 10);
+		Dimension borderMaxSize = new Dimension(5, 10);
+		Box.Filler filler = new Box.Filler(borderMinSize, borderPrefSize, borderMaxSize);
+		add(filler);
+
+		titleTextField = new JTextField();
+		priceTextField = new JTextField();
+		quantityTextField = new JTextField();
+		articleTypeTextField = new JTextField();
+		packSizeTextField = new JTextField();
+		add(new JLabel("Article Title:"));
+		add(titleTextField);
+		add(new JLabel("Price:"));
+		add(priceTextField);
+		add(new JLabel("Initital Quantity:"));
+		add(quantityTextField);
+		add(new JLabel("Type (bulk / single):"));
+		add(articleTypeTextField);
+		add(new JLabel("Pack size:"));
+		add(packSizeTextField);
+
+		// Abstandhalter ("Filler") zwischen letztem Eingabefeld und Add-Button
+		Dimension fillerMinSize = new Dimension(5, 20);
+		Dimension fillerPrefSize = new Dimension(5, Short.MAX_VALUE);
+		Dimension fillerMaxSize = new Dimension(5, Short.MAX_VALUE);
+		filler = new Box.Filler(fillerMinSize, fillerPrefSize, fillerMaxSize);
+		add(filler);
+
+		addButton = new JButton("Add");
+		add(addButton);
+
+		// Abstandhalter ("Filler") zwischen letztem Element und Rand
+		add(new Box.Filler(borderMinSize, borderPrefSize, borderMaxSize));
+
+	}
+
 //	private void setupEvents() {
 //		addButton.addActionListener(e -> AddArticle());
 //	}

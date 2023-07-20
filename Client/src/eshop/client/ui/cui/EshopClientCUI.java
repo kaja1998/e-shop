@@ -13,7 +13,6 @@ import eshop.client.net.ShopFassade;
 import eshop.common.entities.*;
 import eshop.common.exceptions.*;
 import eshop.common.interfaces.ShopInterface;
-import eshop.server.domain.Shop;
 
 /**
  * Very simple user interface class for the eshop. The user interface is based
@@ -24,16 +23,28 @@ import eshop.server.domain.Shop;
  * @version 1
  */
 public class EshopClientCUI {
-
-	public static final int DEFAULT_PORT = 6789;
-
+	public static final int DEFAULT_PORT = 6779;
 	private static ShopInterface eshop;
 	private static BufferedReader in;
 	private User loggedinUser = null;
 
-	public static BufferedReader getIn() {
-		return in;
-	}
+	//dieser BufferedReader kann eigentlich auch gelöscht werden...
+//	public static BufferedReader getIn() {
+//		return in;
+//	}
+
+//	public EshopClientCUI(String file) {
+//		// the shop administration handles the tasks that have nothing to do with
+//		// input/output
+//		//Datei existiert nicht exception
+//		try {
+//			eshop = new Shop(file);
+//			// Create Stream object for text input via console window
+//			in = new BufferedReader(new InputStreamReader(System.in));
+//		} catch (Exception e) {
+//			System.out.println("File doesn't exist or could not be found.");
+//		}
+//	}
 
 	public EshopClientCUI(String host, int port) {
 		// the shop administration handles the tasks that have nothing to do with
@@ -100,10 +111,10 @@ public class EshopClientCUI {
 		case "cr":
 			registerCustomer();
 			return true;
-//		case "cl":
-//			return !customerLogin();
-//		case "el":
-//			return !employeeLogin();
+		case "cl":
+			return !customerLogin();
+		case "el":
+			return !employeeLogin();
 		case "q":
 			return false;
 		}
@@ -111,13 +122,13 @@ public class EshopClientCUI {
 	}
 
 	private void processInputForEmployeeMenu(String line) {
-//		// Get input
-//		switch (line) {
-//		// Output articles
-//		case "a":
-//			ArrayList<Article> articleList = eshop.getAllArticles();
-//			printArticleList(articleList);
-//			break;
+		// Get input
+		switch (line) {
+		// Output articles
+		case "a":
+			ArrayList<Article> articleList = eshop.getAllArticles();
+			printArticleList(articleList);
+			break;
 //		// Delete article:
 //		case "b":
 //			deleteArticle();
@@ -142,23 +153,23 @@ public class EshopClientCUI {
 //		case "g":
 //			showHistory();
 //			break;
-//		// logout
-//		case "l":
-//			logout();
-//			break;
-//		}
+		// logout
+		case "l":
+			logout();
+			break;
+		}
 	}
 
 	private void processInputForCustomerMenu(String line) {
-//		ArrayList<Article> articleList;
-//		// Get input
-//		switch (line) {
-//		// Output articles
-//		case "a":
-//			articleList = eshop.getAllArticles();
-//			printArticleList(articleList);
-//			break;
-//		// Add to SC
+		ArrayList<Article> articleList;
+		// Get input
+		switch (line) {
+		// Output articles
+		case "a":
+			articleList = eshop.getAllArticles();
+			printArticleList(articleList);
+			break;
+		// Add to SC
 //		case "b":
 //			addArticleToCart();
 //			break;
@@ -182,11 +193,11 @@ public class EshopClientCUI {
 //		case "g":
 //			deleteAllArticlesInCart();
 //			break;
-//		// Logout
-//		case "l":
-//			logout();
-//			break;
-//		}
+		// Logout
+		case "l":
+			logout();
+			break;
+		}
 	}
 
 	private String readInput() throws IOException {
@@ -302,53 +313,53 @@ public class EshopClientCUI {
 //			e.printStackTrace();
 //		}
 //	}
-//
-//	private boolean customerLogin() {
-//		try {
-//			System.out.println("Please enter your login data:");
-//			String username = readString("Username > ");
-//			String password = readString("Password > ");
-//
-//			try {
-//				loggedinUser = eshop.loginCustomer(username, password);
-//				System.out.println("You´re successfully logged in. Hello, Mr. / Mrs. " + loggedinUser.getLastName());
-//				return true;
-//			} catch (LoginException e) {
-//				System.out.println("\n" + e.getMessage() + "\n");
-//			}
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		return false;
-//	}
-//
-//	private boolean employeeLogin() {
-//		try {
-//			System.out.println("Please enter your login data:");
-//			String username = readString("Username > ");
-//			String password = readString("Password > ");
-//
-//			try {
-//				loggedinUser = eshop.loginEmployee(username, password);
-//				System.out.println("You´re successfully logged in. Hello, Mr. / Mrs. " + loggedinUser.getLastName());
-//				return true;
-//			} catch (LoginException e) {
-//				System.out.println("\n" + e.getMessage() + "\n");
-//			}
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		return false;
-//	}
-//
-//	public void logout() {
-//		loggedinUser = null;
-//		System.out.println("You got logged out successfully.");
-//	}
-//
-//	/*
-//	 * methods for the employee
-//	 */
+
+	private boolean customerLogin() {
+		try {
+			System.out.println("Please enter your login data:");
+			String username = readString("Username > ");
+			String password = readString("Password > ");
+
+			try {
+				loggedinUser = eshop.loginCustomer(username, password);
+				System.out.println("You´re successfully logged in. Hello, Mr. / Mrs. " + loggedinUser.getLastName());
+				return true;
+			} catch (LoginException e) {
+				System.out.println("\n" + e.getMessage() + "\n");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	private boolean employeeLogin() {
+		try {
+			System.out.println("Please enter your login data:");
+			String username = readString("Username > ");
+			String password = readString("Password > ");
+
+			try {
+				loggedinUser = eshop.loginEmployee(username, password);
+				System.out.println("You´re successfully logged in. Hello, Mr. / Mrs. " + loggedinUser.getLastName());
+				return true;
+			} catch (LoginException e) {
+				System.out.println("\n" + e.getMessage() + "\n");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public void logout() {
+		loggedinUser = null;
+		System.out.println("You got logged out successfully.");
+	}
+
+	/*
+	 * methods for the employee
+	 */
 //	private void deleteArticle() {
 //		try {
 //			int number = readInt("Article number > ", "Invalid input. Please enter an integer value for Article number.");
@@ -497,16 +508,16 @@ public class EshopClientCUI {
 //			e.printStackTrace();
 //		}
 //	}
-//
-//	/*
-//	 * methods for the customer
-//	 */
-//
-//	private void printArticleList(ArrayList<Article> list) {
-//		for (Article article : list)
-//			System.out.println(article);
-//	}
-//
+
+	/*
+	 * methods for the customer
+	 */
+
+	private void printArticleList(ArrayList<Article> list) {
+		for (Article article : list)
+			System.out.println(article);
+	}
+
 //	private void addArticleToCart() {
 //		try {
 //			if (loggedinUser instanceof Customer) {
@@ -642,36 +653,36 @@ public class EshopClientCUI {
 //			e.printStackTrace();
 //		}
 //	}
-//
-//	public void articlesCouldntPurchase(Invoice invoice) {
-//		if (invoice.getUnavailableItems() != null && invoice.getUnavailableItems().size() > 0) {
-//			System.out.println("Unfortunately some of the items you wished to purchase became unavailable:");
-//			// If this is the case, a loop is used to iterate over each unavailable item in
-//			// the list invoice.getUnavailableItems()
-//			for (ShoppingCartItem item : invoice.getUnavailableItems()) {
-//				// The unavailable articles are printed on the console
-//				System.out.println(item.toString());
-//			}
-//		}
-//	}
-//
-//	public void articlePurchaseSuccessfully(Invoice invoice) {
-//		if (invoice.getPositions() != null && invoice.getPositions().size() > 0) {
-//			System.out.println("You successfully purchased:");
-//			// With a loop, iterates over each successfully purchased item.
-//			for (ShoppingCartItem item : invoice.getPositions()) {
-//				// Articles are displayed on the console
-//				System.out.println(item.toString());
-//			}
-//			// print date and total
-//			System.out.println("\nTotal: " + invoice.getTotal() + " EUR\n");
-//			System.out.println("Date: " + invoice.getFormattedDate() + " Uhr" + "\n");
-//			invoice.setCustomer((Customer) loggedinUser);
-//			System.out.println("Your delivery address: \n" + invoice.getCustomerAddress() + "\n");
-//			System.out.println("Please transfer the full amount to the following bank account: \nSpice Shop \nDE35 1511 0000 1998 1997 29 \nBIC: SCFBDE33 \n");
-//		}
-//	}
-//
+
+	public void articlesCouldntPurchase(Invoice invoice) {
+		if (invoice.getUnavailableItems() != null && invoice.getUnavailableItems().size() > 0) {
+			System.out.println("Unfortunately some of the items you wished to purchase became unavailable:");
+			// If this is the case, a loop is used to iterate over each unavailable item in
+			// the list invoice.getUnavailableItems()
+			for (ShoppingCartItem item : invoice.getUnavailableItems()) {
+				// The unavailable articles are printed on the console
+				System.out.println(item.toString());
+			}
+		}
+	}
+
+	public void articlePurchaseSuccessfully(Invoice invoice) {
+		if (invoice.getPositions() != null && invoice.getPositions().size() > 0) {
+			System.out.println("You successfully purchased:");
+			// With a loop, iterates over each successfully purchased item.
+			for (ShoppingCartItem item : invoice.getPositions()) {
+				// Articles are displayed on the console
+				System.out.println(item.toString());
+			}
+			// print date and total
+			System.out.println("\nTotal: " + invoice.getTotal() + " EUR\n");
+			System.out.println("Date: " + invoice.getFormattedDate() + " Uhr" + "\n");
+			invoice.setCustomer((Customer) loggedinUser);
+			System.out.println("Your delivery address: \n" + invoice.getCustomerAddress() + "\n");
+			System.out.println("Please transfer the full amount to the following bank account: \nSpice Shop \nDE35 1511 0000 1998 1997 29 \nBIC: SCFBDE33 \n");
+		}
+	}
+
 //	private void deleteAllArticlesInCart() {
 //		if (loggedinUser instanceof Customer) {
 //			Customer customer = (Customer) loggedinUser;
@@ -728,6 +739,17 @@ public class EshopClientCUI {
 		}
 	}
 
+//	public static void main(String[] args) {
+//		// Variable of type "EshopClientCUI" is declared but not yet initialized!
+//		EshopClientCUI cui;
+//		// A new object of "EshopClientCUI" is created. The file and the string "ESHOP"
+//		// are passed as parameters or only the file named "ESHOP" is passed
+//		cui = new EshopClientCUI("ESHOP");
+//		// The "run" method is called on the "cui" object to run the program
+//		cui.run();
+//		// If an error occurs during this, an "IOException" is thrown
+//	}
+
 	public static void main(String[] args) {
 		int port = 0;
 		String host = null;
@@ -769,4 +791,6 @@ public class EshopClientCUI {
 		cui = new EshopClientCUI(host, port);
 		cui.run();
 	}
+
+
 }

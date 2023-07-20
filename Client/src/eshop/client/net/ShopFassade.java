@@ -10,7 +10,6 @@ import eshop.common.interfaces.ShopInterface;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ShopFassade implements ShopInterface {
 
@@ -51,8 +50,8 @@ public class ShopFassade implements ShopInterface {
      *
      * @return Liste aller Artikel im Bestand vom Shop
      */
-    public List<Article> getAllArticles() {
-        List<Article> list = new ArrayList<Article>();
+    public ArrayList<Article> getAllArticles() {
+        ArrayList<Article> list = new ArrayList<Article>();
 
         // Kennzeichen für gewählte Aktion senden
         sout.println("a");

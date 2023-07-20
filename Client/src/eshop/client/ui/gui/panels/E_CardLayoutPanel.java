@@ -2,7 +2,6 @@ package eshop.client.ui.gui.panels;
 
 import eshop.common.entities.User;
 import eshop.common.interfaces.ShopInterface;
-import eshop.server.domain.Shop;
 
 import javax.swing.*;
 import java.awt.*;

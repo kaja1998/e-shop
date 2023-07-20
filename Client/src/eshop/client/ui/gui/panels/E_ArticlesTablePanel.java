@@ -58,7 +58,7 @@ public class E_ArticlesTablePanel extends JTable {
 }
 
 
-// Klasse ohne Sortierung
+// Klasse ohne Sortierung - nur als Backup, falls später Fehler auftreten
 
 //public class E_ArticlesTablePanel extends JTable {
 //

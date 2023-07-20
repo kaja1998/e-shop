@@ -8,7 +8,6 @@ import eshop.client.ui.gui.WindowCloser;
 import eshop.common.entities.Article;
 import eshop.common.entities.User;
 import eshop.common.interfaces.ShopInterface;
-import eshop.server.domain.Shop;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 public class C_CustomerFrontEnd extends JFrame implements E_SearchArticlesPanel.SearchResultListener {
@@ -54,7 +54,7 @@ public class C_CustomerFrontEnd extends JFrame implements E_SearchArticlesPanel.
         //addToCartPanel = new C_AddArticleToCartPanel(eshop, user);
 
         // Center
-        java.util.List<Article> articles = eshop.getAllArticles();
+        ArrayList<Article> articles = eshop.getAllArticles();
         // (wahlweise Anzeige als Liste oder Tabelle)
         ArticlesPanel = new C_ArticlesTablePanel(articles);
         JScrollPane scrollPane = new JScrollPane(ArticlesPanel);

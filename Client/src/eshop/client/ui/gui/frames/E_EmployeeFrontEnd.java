@@ -6,11 +6,11 @@ import eshop.common.entities.Article;
 import eshop.common.entities.User;
 import eshop.client.ui.gui.WindowCloser;
 import eshop.common.interfaces.ShopInterface;
-import eshop.server.domain.Shop;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class E_EmployeeFrontEnd extends JFrame implements E_AddArticlePanel.AddArticleListener, E_DeleteArticlePanel.DeleteArticleListener, E_ManageArticleStockPanel.ManageArticleListener, E_SearchArticlesPanel.SearchResultListener {
@@ -49,7 +49,7 @@ public class E_EmployeeFrontEnd extends JFrame implements E_AddArticlePanel.AddA
 		cardLayout = new E_CardLayoutPanel(eshop, this, this, this, user);
 
 		// Center
-		List<Article> articles = eshop.getAllArticles();
+		ArrayList<Article> articles = eshop.getAllArticles();
 		// (wahlweise Anzeige als Liste oder Tabelle)
 		ArticlesPanel = new E_ArticlesTablePanel(articles);
 		JScrollPane scrollPane = new JScrollPane(ArticlesPanel);
@@ -80,7 +80,7 @@ public class E_EmployeeFrontEnd extends JFrame implements E_AddArticlePanel.AddA
 	@Override
 	public void updateArticleList() {
 		// Ich lade hier einfach alle Article neu und lasse sie anzeigen
-		List<Article> articles = eshop.getAllArticles();
+		ArrayList<Article> articles = eshop.getAllArticles();
 		ArticlesPanel.updateArticlesList(articles);
 	}
 
@@ -187,7 +187,7 @@ public class E_EmployeeFrontEnd extends JFrame implements E_AddArticlePanel.AddA
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
-			List<Article> articles = eshop.getAllArticles();
+			ArrayList<Article> articles = eshop.getAllArticles();
 
 			switch (e.getActionCommand()) {
 				case "Sort by Number":

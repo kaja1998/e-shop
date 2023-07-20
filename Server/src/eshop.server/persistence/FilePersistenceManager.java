@@ -4,13 +4,8 @@ import eshop.server.domain.ArticleAdministration;
 import eshop.server.domain.CustomerAdministration;
 import eshop.server.domain.EmployeeAdministration;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,18 +31,28 @@ public class FilePersistenceManager implements PersistenceManager {
 	//The method creates a BufferedReader that can read the contents of the file.
 	//If the specified file is not found, a FileNotFoundException is thrown.
 	public void openForReading(String dataSource) throws FileNotFoundException {
-		reader = new BufferedReader(new FileReader("C:/Users/Kaja/IdeaProjects/eshop-26-06/Server/resources/" + dataSource));
+		//Neuer Code, jetzt klappts
+		InputStream is = this.getClass().getResourceAsStream("/" + dataSource);
+		InputStreamReader isr = new InputStreamReader(is);
+		reader = new BufferedReader(isr);
 
 		//Fehlerhaft, er findet die File nicht
 		//reader = new BufferedReader(new FileReader(dataSource));
 	}
 
 	public void openForWriting(String dataSource) throws IOException {
+		//Neuer Code, jetzt klappts
+		URL url = this.getClass().getResource("/" + dataSource);
+		File file = new File(url.getPath());
+
+		writer = new PrintWriter(new BufferedWriter(new FileWriter(file)));
+
+		//Fehlerhaft, er erstellt eine neue Datei unter eshop-26-06
 		//The PrintWriter object is assigned to the writer variable
 		//new PrintWriter(new BufferedWriter(new FileWriter(dataSource))): A PrintWriter is created and takes the BufferedWriter as an argument. The PrintWriter provides methods for writing formatted data.
 		//new BufferedWriter(new FileWriter(dataSource)): A BufferedWriter is created and takes the FileWriter as an argument. The BufferedWriter allows data to be written to memory efficiently.
 		//FileWriter is created, which opens the file for writing. The dataSource parameter specifies the path or name of the file to write to.
-		writer = new PrintWriter(new BufferedWriter(new FileWriter(dataSource)));
+//		writer = new PrintWriter(new BufferedWriter(new FileWriter(dataSource)));
 	}
 
 	//The close() method is a method for closing a writer and/or reader object stored in a writer or reader field, respectively.

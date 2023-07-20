@@ -5,7 +5,6 @@ import eshop.client.ui.gui.frames.L_LoginStart;
 import eshop.common.entities.User;
 import eshop.common.exceptions.LoginException;
 import eshop.common.interfaces.ShopInterface;
-import eshop.server.domain.Shop;
 
 import javax.swing.*;
 import java.awt.*;

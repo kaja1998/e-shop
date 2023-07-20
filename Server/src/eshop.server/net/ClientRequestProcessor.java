@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Class for processing communication between a client and the server.
@@ -102,13 +102,13 @@ public class ClientRequestProcessor implements Runnable {
 
     private void getAllArticles() {
         // Die Arbeit soll wieder das Bibliotheksverwaltungsobjekt machen:
-        List<Article> articles = null;
+        ArrayList<Article> articles = null;
         articles = eshop.getAllArticles();
 
         sentArticlesToClient(articles);
     }
 
-    private void sentArticlesToClient(List<Article> articles) {
+    private void sentArticlesToClient(ArrayList<Article> articles) {
         // Anzahl der gefundenen Artikel senden
         out.println(articles.size());
         for (Article article: articles) {

@@ -3,7 +3,6 @@ package eshop.client.ui.gui.panels;
 import eshop.client.ui.gui.frames.L_LoginStart;
 import eshop.common.exceptions.RegisterException;
 import eshop.common.interfaces.ShopInterface;
-import eshop.server.domain.Shop;
 
 import javax.swing.*;
 import java.awt.*;

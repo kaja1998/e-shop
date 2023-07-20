@@ -4,7 +4,7 @@ import eshop.common.entities.*;
 import eshop.common.exceptions.LoginException;
 import eshop.common.exceptions.RegisterException;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public interface ShopInterface {
 
@@ -13,7 +13,7 @@ public interface ShopInterface {
      *
      * @return Liste aller Artikel im Bestand des Shops
      */
-    public abstract List<Article> getAllArticles();
+    public abstract ArrayList<Article> getAllArticles();
 
     /**
      * Methode, um einen neuen Kunden zu registrieren

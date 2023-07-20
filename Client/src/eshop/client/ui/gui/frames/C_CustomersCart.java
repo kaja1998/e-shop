@@ -11,7 +11,6 @@ import eshop.common.entities.User;
 import eshop.common.exceptions.ArticleBuyingException;
 import eshop.common.exceptions.EmptyCartException;
 import eshop.common.interfaces.ShopInterface;
-import eshop.server.domain.Shop;
 
 import javax.swing.*;
 import java.awt.*;

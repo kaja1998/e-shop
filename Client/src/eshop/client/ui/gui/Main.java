@@ -12,7 +12,7 @@ import java.net.InetAddress;
 
 public class Main {
 
-    public static final int DEFAULT_PORT = 6789;
+    public static final int DEFAULT_PORT = 6779;
 
     public static void main(String[] args) {
         int portArg = 0;

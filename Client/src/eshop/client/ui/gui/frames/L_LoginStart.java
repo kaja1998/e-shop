@@ -4,7 +4,6 @@ import eshop.client.net.ShopFassade;
 import eshop.client.ui.gui.panels.L_CustomerLoginPanel;
 import eshop.client.ui.gui.panels.L_CustomerRegistrationPanel;
 import eshop.common.interfaces.ShopInterface;
-import eshop.server.domain.Shop;
 import eshop.client.ui.gui.WindowCloser;
 import eshop.client.ui.gui.panels.L_EmployeeLoginPanel;
 
