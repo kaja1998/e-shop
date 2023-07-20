@@ -17,7 +17,7 @@ import java.awt.*;
  */
 
 public class L_CustomerLoginPanel extends JPanel {
-    private User loggedinUser;
+    //private User loggedinUser;
     private ShopInterface eshop;
     private L_LoginStart loginStart;
     private JButton customerLoginButton;
@@ -79,7 +79,7 @@ public class L_CustomerLoginPanel extends JPanel {
             return;
         }
         try {
-            loggedinUser = eshop.loginCustomer(username, password);
+            User loggedinUser = eshop.loginCustomer(username, password);
             C_CustomerFrontEnd cfe = new C_CustomerFrontEnd(eshop, loggedinUser);
             cfe.setVisible(true);
             loginStart.dispose();

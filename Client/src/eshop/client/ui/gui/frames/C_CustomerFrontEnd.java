@@ -48,10 +48,10 @@ public class C_CustomerFrontEnd extends JFrame implements E_SearchArticlesPanel.
         this.setLayout(new BorderLayout());
 
         // North
-        //searchPanel = new E_SearchArticlesPanel(eshop, this);
+        searchPanel = new E_SearchArticlesPanel(eshop, this);
 
         // West
-        //addToCartPanel = new C_AddArticleToCartPanel(eshop, user);
+        addToCartPanel = new C_AddArticleToCartPanel(eshop, user);
 
         // Center
         ArrayList<Article> articles = eshop.getAllArticles();
@@ -79,7 +79,7 @@ public class C_CustomerFrontEnd extends JFrame implements E_SearchArticlesPanel.
      * @see shop.local.ui.gui.swing.panels.E_SearchArticlesPanel.SearchResultListener#onSearchResult(java.util.List)
      */
     @Override
-    public void onSearchResult(List<Article> articles) {
+    public void onSearchResult(ArrayList<Article> articles) {
         ArticlesPanel.updateArticlesList(articles);
     }
 

@@ -87,10 +87,10 @@ public class ShopFassade implements ShopInterface {
 
         // Weitere Attribute des Artikels vom Server einlesen
         reply = sin.readLine();
-        int quantityInStock = Integer.parseInt(reply);
+        double price = Double.parseDouble(reply);
 
         reply = sin.readLine();
-        double price = Double.parseDouble(reply);
+        int quantityInStock = Integer.parseInt(reply);
 
         // Neues Article-Objekt erzeugen und zurückgeben
         Article article = new Article(nummer, articleTitel, quantityInStock, price);
@@ -162,26 +162,15 @@ public class ShopFassade implements ShopInterface {
 
     private Customer liesCustomerVomServer() throws IOException {
 
-        String reply;
-
-        reply = sin.readLine();
-        int id = Integer.parseInt(reply);
-
+        // Attribute des loggedinUser einzeln empfangen
+        int id = Integer.parseInt(sin.readLine());
         String name = sin.readLine();
-
         String lastName = sin.readLine();
-
         String street = sin.readLine();
-
-        reply = sin.readLine();
-        int postalCode = Integer.parseInt(reply);
-
+        int postalCode = Integer.parseInt(sin.readLine());
         String city = sin.readLine();
-
         String email = sin.readLine();
-
         String username = sin.readLine();
-
         String password = sin.readLine();
 
         // Neues Customer-Objekt erzeugen und zurückgeben

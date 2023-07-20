@@ -5,6 +5,7 @@ import eshop.common.entities.ShoppingCartItem;
 
 import javax.swing.*;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * This class represents a panel that displays a table of cart items for customers.
@@ -15,7 +16,7 @@ import java.util.Collections;
 
 public class C_CartItemsTablePanel extends JTable {
 
-    public C_CartItemsTablePanel(java.util.List<ShoppingCartItem> cartItems) {
+    public C_CartItemsTablePanel(List<ShoppingCartItem> cartItems) {
         super();
 
         // TableModel erzeugen ...

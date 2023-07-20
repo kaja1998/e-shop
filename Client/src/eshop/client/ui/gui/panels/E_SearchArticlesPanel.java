@@ -6,6 +6,7 @@ import eshop.common.interfaces.ShopInterface;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,7 +22,7 @@ public class E_SearchArticlesPanel extends JPanel {
 	// welches dieses Interface implementiert und auf ein neues
 	// Suchergebnis reagiert, indem es die Articleliste aktualisiert.
 	public interface SearchResultListener {
-		void onSearchResult(List<Article> articles);
+		void onSearchResult(ArrayList<Article> articles);
 	}
 
 	private ShopInterface eshop;

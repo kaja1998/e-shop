@@ -92,7 +92,7 @@ public class E_EmployeeFrontEnd extends JFrame implements E_AddArticlePanel.AddA
 	 * @see shop.local.ui.gui.swing.panels.E_SearchArticlesPanel.SearchResultListener#onSearchResult(java.util.List)
 	 */
 	@Override
-	public void onSearchResult(List<Article> articles) {
+	public void onSearchResult(ArrayList<Article> articles) {
 		ArticlesPanel.updateArticlesList(articles);
 	}
 

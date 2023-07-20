@@ -1,6 +1,7 @@
 package eshop.server.net;
 
 import eshop.common.entities.Article;
+import eshop.common.entities.Customer;
 import eshop.common.entities.User;
 import eshop.common.exceptions.LoginException;
 import eshop.common.exceptions.RegisterException;
@@ -233,9 +234,17 @@ public class ClientRequestProcessor implements Runnable {
         String password = new String(input);
 
         try {
-            User loggedinUser = eshop.loginCustomer(username, password);
+            Customer loggedinUser = eshop.loginCustomer(username, password);
             out.println("Erfolg");
-            out.println(loggedinUser);
+            out.println(loggedinUser.getId());
+            out.println(loggedinUser.getName());
+            out.println(loggedinUser.getLastName());
+            out.println(loggedinUser.getStreet());
+            out.println(loggedinUser.getPostalCode());
+            out.println(loggedinUser.getCity());
+            out.println(loggedinUser.getEmail());
+            out.println(loggedinUser.getUsername());
+            out.println(loggedinUser.getPassword());
         } catch (LoginException e) {
             out.println("Fehler");
             out.println(e.getMessage());
