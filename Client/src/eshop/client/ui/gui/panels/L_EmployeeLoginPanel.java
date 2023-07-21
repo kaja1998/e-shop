@@ -75,15 +75,15 @@ public class L_EmployeeLoginPanel extends JPanel {
     }
 
     private void LoginEmployee() {
-        String userName = usernameField.getText();
+        String username = usernameField.getText();
         String password = new String(passwordField.getPassword());
 
-        if (userName.isEmpty() || password.isEmpty()) {
+        if (username.isEmpty() || password.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Fill in all fields.", "Login Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         try {
-            loggedinUser = eshop.loginEmployee(userName, password);
+            loggedinUser = eshop.loginEmployee(username, password);
             E_EmployeeFrontEnd ebe = new E_EmployeeFrontEnd(eshop, loggedinUser,host, port);
             ebe.setVisible(true);
             loginStart.dispose();

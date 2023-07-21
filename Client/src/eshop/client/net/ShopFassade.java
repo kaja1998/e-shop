@@ -63,9 +63,9 @@ public class ShopFassade implements ShopInterface {
             reply = sin.readLine();
             int anzahl = Integer.parseInt(reply);
             for (int i=0; i<anzahl; i++) {
-                // Artikel vom Server lesen ...
+                // Artikel vom Server lesen
                 Article article = readArticleFromServer();
-                // ... und in Liste eintragen
+                // in Liste eintragen
                 list.add(article);
             }
         } catch (Exception e) {
@@ -112,19 +112,19 @@ public class ShopFassade implements ShopInterface {
         sout.println(registerNow);
 
         // Antwort vom Server lesen:
-        String antwort = "Error";
+        String reply = "Error";
 
         try {
-            antwort = sin.readLine();
-            if (antwort.equals("Success")) {
-                // message vom Server lesen ...
+            reply = sin.readLine();
+            if (reply.equals("Success")) {
                 String messageSuccess = sin.readLine();
-                // ... und zurückgeben
                 return messageSuccess;
             } else {
                 // Error: Exception (re-)konstruieren
                 String messageError = sin.readLine();
-                throw new RegisterException(null ,null);
+                //Customer erstellen, um diesen an die Exception zu übergeben
+                Customer customer = new Customer(name, lastName, street, postalCode, city, mail, username, password);
+                throw new RegisterException(customer, messageError);
             }
         } catch (IOException e) {
             System.err.println(e.getMessage());
@@ -141,13 +141,11 @@ public class ShopFassade implements ShopInterface {
 
 
         // Antwort vom Server lesen:
-        String antwort = "Error";
+        String reply = "Error";
         try {
-            antwort = sin.readLine();
-            if (antwort.equals("Success")) {
-                // Custumer vom Server lesen ...
+            reply = sin.readLine();
+            if (reply.equals("Success")) {
                 Customer customer = liesCustomerVomServer();
-                // ... und zurückgeben
                 return customer;
             } else {
                 // Error: Exception (re-)konstruieren
@@ -181,7 +179,41 @@ public class ShopFassade implements ShopInterface {
     public Employee loginEmployee(String username, String password) throws LoginException {
         // Kennzeichen für gewählte Aktion senden
         sout.println("le");
-        return null;
+
+        sout.println(username);
+        sout.println(password);
+
+
+        // Antwort vom Server lesen:
+        String reply = "Error";
+        try {
+            reply = sin.readLine();
+            if (reply.equals("Success")) {
+                Employee employee = liesEmployeeVomServer();
+                return employee;
+            } else {
+                // Error: Exception (re-)konstruieren
+                String message = sin.readLine();
+                throw new LoginException(message);
+            }
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+            return null;
+        }
+    }
+
+    private Employee liesEmployeeVomServer() throws IOException {
+
+        // Attribute des loggedinUser einzeln empfangen
+        int id = Integer.parseInt(sin.readLine());
+        String name = sin.readLine();
+        String lastName = sin.readLine();
+        String username = sin.readLine();
+        String password = sin.readLine();
+
+        // Neues Employee-Objekt erzeugen und zurückgeben
+        Employee employee = new Employee(id, name, lastName, username, password);
+        return employee;
     }
 
 }

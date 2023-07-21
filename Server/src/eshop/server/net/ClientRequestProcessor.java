@@ -2,6 +2,7 @@ package eshop.server.net;
 
 import eshop.common.entities.Article;
 import eshop.common.entities.Customer;
+import eshop.common.entities.Employee;
 import eshop.common.exceptions.LoginException;
 import eshop.common.exceptions.RegisterException;
 import eshop.common.interfaces.ShopInterface;
@@ -214,23 +215,16 @@ public class ClientRequestProcessor implements Runnable {
     }
 
     private void loginCustomer(){
-        String input = null;
+        String username = null;
+        String password = null;
 
         try {
-            input = in.readLine();
-        } catch (Exception e) {
-            System.out.println("--->Error reading from client (username): ");
+            username = in.readLine();
+            password = in.readLine();
+        } catch (IOException e) {
+            System.out.println("--->Error reading from client (username or password): ");
             System.out.println(e.getMessage());
         }
-        String username = new String(input);
-
-        try {
-            input = in.readLine();
-        } catch (Exception e) {
-            System.out.println("--->Error reading from client (password): ");
-            System.out.println(e.getMessage());
-        }
-        String password = new String(input);
 
         try {
             Customer loggedinUser = eshop.loginCustomer(username, password);
@@ -251,7 +245,36 @@ public class ClientRequestProcessor implements Runnable {
     }
 
     private void loginEmployee(){
+        String input = null;
 
+        try {
+            input = in.readLine();
+        } catch (Exception e) {
+            System.out.println("--->Error reading from client (username): ");
+            System.out.println(e.getMessage());
+        }
+        String username = new String(input);
+
+        try {
+            input = in.readLine();
+        } catch (Exception e) {
+            System.out.println("--->Error reading from client (password): ");
+            System.out.println(e.getMessage());
+        }
+        String password = new String(input);
+
+        try {
+            Employee loggedinUser = eshop.loginEmployee(username, password);
+            out.println("Success");
+            out.println(loggedinUser.getId());
+            out.println(loggedinUser.getName());
+            out.println(loggedinUser.getLastName());
+            out.println(loggedinUser.getUsername());
+            out.println(loggedinUser.getPassword());
+        } catch (LoginException ex) {
+            out.println("Error");
+            out.println(ex.getMessage());
+        }
     }
 
 

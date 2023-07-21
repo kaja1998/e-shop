@@ -182,8 +182,16 @@ public class L_CustomerRegistrationPanel extends JPanel {
                 JOptionPane.showMessageDialog(this, "Invalid postal code. Please enter an integer value.", "Registration Error", JOptionPane.ERROR_MESSAGE);
             } catch (RegisterException e) {
                 JOptionPane.showMessageDialog(this, e.getMessage(), "Register Error", JOptionPane.ERROR_MESSAGE);
+
+                nameField.setText("");
+                lastNameField.setText("");
+                streetField.setText("");
+                postalCodeField.setText("");
+                cityField.setText("");
+                emailField.setText("");
                 usernameField.setText("");
                 passwordField.setText("");
+                agreeCheckBox.setSelected(false);
             }
         } else {
             JOptionPane.showMessageDialog(this, "Please accept the terms and conditions", "Registration Error", JOptionPane.ERROR_MESSAGE);
