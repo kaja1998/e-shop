@@ -1,6 +1,5 @@
 package eshop.client.ui.gui.frames;
 
-import eshop.client.ui.gui.Main;
 import eshop.client.ui.gui.panels.C_AddArticleToCartPanel;
 import eshop.client.ui.gui.panels.C_ArticlesTablePanel;
 import eshop.client.ui.gui.panels.E_SearchArticlesPanel;
@@ -15,21 +14,25 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class C_CustomerFrontEnd extends JFrame implements E_SearchArticlesPanel.SearchResultListener {
     private ShopInterface eshop;
     private User user;
+    private String host;
+    private int port;
     private E_SearchArticlesPanel searchPanel;
     private C_AddArticleToCartPanel addToCartPanel;
     private C_ArticlesTablePanel ArticlesPanel;
     private C_CustomersCart customersCartPanel;
 
-    public C_CustomerFrontEnd(ShopInterface shop, User user) {
+    public C_CustomerFrontEnd(ShopInterface shop, User user,String host, int port) {
         super("Kaja's Spice Shop");
         this.user = user;
         eshop = shop;
+        this.host = host;
+        this.port = port;
         initialize();
     }
 
@@ -138,10 +141,19 @@ public class C_CustomerFrontEnd extends JFrame implements E_SearchArticlesPanel.
                         @Override
                         public void actionPerformed(ActionEvent evt) {
                             dialog.dispose();
-                            Main main = new Main();
                             // Öffne das L_LoginStart-Fenster
-//                            L_LoginStart loginStart = new L_LoginStart();
-//                            loginStart.setVisible(true);
+                            L_LoginStart loginStart = null;
+                            try {
+                                loginStart = new L_LoginStart(host, port);
+                            } catch (IOException ex) {
+                                // Fehler protokollieren
+                                // Hier wird der Stacktrace in die Konsole geschrieben.
+                                ex.printStackTrace();
+
+                                // Benutzer informieren
+                                JOptionPane.showMessageDialog(null, "There has been occurred an error. Please try again or contact support.");
+                            }
+                            loginStart.setVisible(true);
                         }
                     });
                     timer.setRepeats(false); // Der Timer wird nur einmal ausgeführt

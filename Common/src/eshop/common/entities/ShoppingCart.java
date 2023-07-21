@@ -1,8 +1,8 @@
 package eshop.common.entities;
 import eshop.common.exceptions.ArticleInCartNotFoundException;
-import eshop.common.exceptions.BulkArticleException;
 import eshop.common.exceptions.EmptyCartException;
 import eshop.common.exceptions.InsufficientStockException;
+import eshop.common.exceptions.BulkArticleException;
 
 import java.util.ArrayList;
 

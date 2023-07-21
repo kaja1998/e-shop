@@ -4,14 +4,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Map;
 
+import eshop.common.exceptions.LoginException;
+import eshop.common.exceptions.RegisterException;
 import eshop.client.net.ShopFassade;
 import eshop.common.entities.*;
-import eshop.common.exceptions.*;
 import eshop.common.interfaces.ShopInterface;
 
 /**

@@ -1,13 +1,11 @@
 package eshop.client.ui.gui.panels;
 
 import eshop.common.entities.Article;
-import eshop.common.exceptions.ArticleNotFoundException;
 import eshop.common.interfaces.ShopInterface;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Panel in which you can search for an item from the shop

@@ -1,7 +1,5 @@
 package eshop.common.entities;
 
-import eshop.common.exceptions.StockDecreaseException;
-
 /**
  * Class for representing bulk articles.
  * @author Sund

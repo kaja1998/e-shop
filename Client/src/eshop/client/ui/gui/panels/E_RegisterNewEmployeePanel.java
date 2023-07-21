@@ -1,11 +1,9 @@
 package eshop.client.ui.gui.panels;
 
-import eshop.common.exceptions.RegisterException;
 import eshop.common.interfaces.ShopInterface;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
 
 /**
  * Panel in which a new Employee can be registered by another employee

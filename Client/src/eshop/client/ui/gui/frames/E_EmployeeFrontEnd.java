@@ -1,6 +1,5 @@
 package eshop.client.ui.gui.frames;
 
-import eshop.client.ui.gui.Main;
 import eshop.client.ui.gui.panels.*;
 import eshop.common.entities.Article;
 import eshop.common.entities.User;
@@ -10,21 +9,25 @@ import eshop.common.interfaces.ShopInterface;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class E_EmployeeFrontEnd extends JFrame implements E_AddArticlePanel.AddArticleListener, E_DeleteArticlePanel.DeleteArticleListener, E_ManageArticleStockPanel.ManageArticleListener, E_SearchArticlesPanel.SearchResultListener {
 
 	private ShopInterface eshop;
 	private User user;
+	private String host;
+	private int port;
 	private E_SearchArticlesPanel searchPanel;
 	private E_CardLayoutPanel cardLayout;
 	private E_ArticlesTablePanel ArticlesPanel;
 
-	public E_EmployeeFrontEnd(ShopInterface shop, User user) {
+	public E_EmployeeFrontEnd(ShopInterface shop, User user,String host, int port) {
 		super("Employee BackEnd of Kaja's Spice Shop");
 		this.user = user;
 		this.eshop = shop;
+		this.host = host;
+		this.port = port;
 		initialize();
 	}
 
@@ -146,10 +149,19 @@ public class E_EmployeeFrontEnd extends JFrame implements E_AddArticlePanel.AddA
 						@Override
 						public void actionPerformed(ActionEvent evt) {
 							dialog.dispose();
-							Main main = new Main();
 							// Öffne das L_LoginStart-Fenster
-//							L_LoginStart loginStart = new L_LoginStart();
-//							loginStart.setVisible(true);
+							L_LoginStart loginStart = null;
+							try {
+								loginStart = new L_LoginStart(host, port);
+							} catch (IOException ex) {
+								// Fehler protokollieren
+								// Hier wird der Stacktrace in die Konsole geschrieben.
+								ex.printStackTrace();
+
+								// Benutzer informieren
+								JOptionPane.showMessageDialog(null, "There has been occurred an error. Please try again or contact support.");
+							}
+							loginStart.setVisible(true);
 						}
 					});
 					timer.setRepeats(false); // Der Timer wird nur einmal ausgeführt

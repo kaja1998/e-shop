@@ -1,12 +1,6 @@
 package eshop.client.ui.gui.panels;
 
-import eshop.common.entities.Article;
-import eshop.common.entities.Customer;
 import eshop.common.entities.User;
-import eshop.common.exceptions.ArticleInCartNotFoundException;
-import eshop.common.exceptions.ArticleNotFoundException;
-import eshop.common.exceptions.BulkArticleException;
-import eshop.common.exceptions.InsufficientStockException;
 import eshop.common.interfaces.ShopInterface;
 
 import javax.swing.*;

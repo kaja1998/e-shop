@@ -4,20 +4,10 @@ import eshop.client.ui.gui.panels.C_CardLayoutPanel;
 import eshop.client.ui.gui.panels.C_ChangeArticleQuantityInCartPanel;
 import eshop.client.ui.gui.panels.C_CartItemsTablePanel;
 import eshop.client.ui.gui.panels.C_RemoveArticleFromCartPanel;
-import eshop.common.entities.Customer;
-import eshop.common.entities.Invoice;
-import eshop.common.entities.ShoppingCartItem;
 import eshop.common.entities.User;
-import eshop.common.exceptions.ArticleBuyingException;
-import eshop.common.exceptions.EmptyCartException;
 import eshop.common.interfaces.ShopInterface;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.util.List;
 
 public class C_CustomersCart extends JDialog implements C_ChangeArticleQuantityInCartPanel.ChangeCartItemQuantityListener, C_RemoveArticleFromCartPanel.RemoveCartItemFromCartListener {
 

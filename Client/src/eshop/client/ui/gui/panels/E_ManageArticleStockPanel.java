@@ -1,14 +1,10 @@
 package eshop.client.ui.gui.panels;
 
-import eshop.common.entities.Article;
 import eshop.common.entities.User;
-import eshop.common.exceptions.ArticleNotFoundException;
-import eshop.common.exceptions.StockDecreaseException;
 import eshop.common.interfaces.ShopInterface;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
 
 /**
  * This class represents an item inventory management panel for employees.

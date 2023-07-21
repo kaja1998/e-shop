@@ -17,17 +17,21 @@ import java.awt.*;
  */
 
 public class L_CustomerLoginPanel extends JPanel {
-    //private User loggedinUser;
+    private User loggedinUser;
     private ShopInterface eshop;
+    private String host;
+    private int port;
     private L_LoginStart loginStart;
     private JButton customerLoginButton;
     private JTextField usernameField;
     private JPasswordField passwordField;
 
 
-    public L_CustomerLoginPanel(ShopInterface shop, L_LoginStart loginStart) {
+    public L_CustomerLoginPanel(ShopInterface shop, L_LoginStart loginStart, String host, int port) {
         this.loginStart = loginStart;
         this.eshop = shop;
+        this.host = host;
+        this.port = port;
         setupUI();
         setupEvents();
     }
@@ -79,8 +83,8 @@ public class L_CustomerLoginPanel extends JPanel {
             return;
         }
         try {
-            User loggedinUser = eshop.loginCustomer(username, password);
-            C_CustomerFrontEnd cfe = new C_CustomerFrontEnd(eshop, loggedinUser);
+            loggedinUser = eshop.loginCustomer(username, password);
+            C_CustomerFrontEnd cfe = new C_CustomerFrontEnd(eshop, loggedinUser,host, port);
             cfe.setVisible(true);
             loginStart.dispose();
 

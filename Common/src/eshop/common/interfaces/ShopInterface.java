@@ -1,6 +1,8 @@
 package eshop.common.interfaces;
 
-import eshop.common.entities.*;
+import eshop.common.entities.Article;
+import eshop.common.entities.Customer;
+import eshop.common.entities.Employee;
 import eshop.common.exceptions.LoginException;
 import eshop.common.exceptions.RegisterException;
 

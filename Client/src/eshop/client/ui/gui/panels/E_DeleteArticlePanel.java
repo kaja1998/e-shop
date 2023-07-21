@@ -1,12 +1,10 @@
 package eshop.client.ui.gui.panels;
 
 import eshop.common.entities.User;
-import eshop.common.exceptions.ArticleNotFoundException;
 import eshop.common.interfaces.ShopInterface;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
 
 /**
  * Panel in which an article in the shop can be deleted

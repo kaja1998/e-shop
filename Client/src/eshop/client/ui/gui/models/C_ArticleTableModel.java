@@ -5,8 +5,6 @@ import eshop.common.entities.BulkArticle;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
 
 public class C_ArticleTableModel extends AbstractTableModel {
 

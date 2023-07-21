@@ -1,15 +1,10 @@
 package eshop.client.ui.gui.panels;
 
-import eshop.common.entities.Article;
-import eshop.common.entities.Customer;
 import eshop.common.entities.User;
-import eshop.common.exceptions.ArticleInCartNotFoundException;
-import eshop.common.exceptions.ArticleNotFoundException;
 import eshop.common.interfaces.ShopInterface;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
 
 /**
  * This panel allows the customer to remove items from the cart.

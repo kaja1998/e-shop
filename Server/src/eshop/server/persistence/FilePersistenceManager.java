@@ -32,27 +32,26 @@ public class FilePersistenceManager implements PersistenceManager {
 	//If the specified file is not found, a FileNotFoundException is thrown.
 	public void openForReading(String dataSource) throws FileNotFoundException {
 		//Neuer Code, jetzt klappts
-		InputStream is = this.getClass().getResourceAsStream("/" + dataSource);
-		InputStreamReader isr = new InputStreamReader(is);
-		reader = new BufferedReader(isr);
+		//InputStream is = this.getClass().getResourceAsStream("/" + dataSource);
+		//InputStreamReader isr = new InputStreamReader(is);
+		//reader = new BufferedReader(isr);
 
 		//Fehlerhaft, er findet die File nicht
-		//reader = new BufferedReader(new FileReader(dataSource));
+		reader = new BufferedReader(new FileReader(dataSource));
 	}
 
 	public void openForWriting(String dataSource) throws IOException {
 		//Neuer Code, jetzt klappts
-		URL url = this.getClass().getResource("/" + dataSource);
-		File file = new File(url.getPath());
-
-		writer = new PrintWriter(new BufferedWriter(new FileWriter(file)));
+		//URL url = this.getClass().getResource("/" + dataSource);
+		//File file = new File(url.getPath());
+		//writer = new PrintWriter(new BufferedWriter(new FileWriter(file)));
 
 		//Fehlerhaft, er erstellt eine neue Datei unter eshop-26-06
 		//The PrintWriter object is assigned to the writer variable
 		//new PrintWriter(new BufferedWriter(new FileWriter(dataSource))): A PrintWriter is created and takes the BufferedWriter as an argument. The PrintWriter provides methods for writing formatted data.
 		//new BufferedWriter(new FileWriter(dataSource)): A BufferedWriter is created and takes the FileWriter as an argument. The BufferedWriter allows data to be written to memory efficiently.
 		//FileWriter is created, which opens the file for writing. The dataSource parameter specifies the path or name of the file to write to.
-//		writer = new PrintWriter(new BufferedWriter(new FileWriter(dataSource)));
+		writer = new PrintWriter(new BufferedWriter(new FileWriter(dataSource)));
 	}
 
 	//The close() method is a method for closing a writer and/or reader object stored in a writer or reader field, respectively.

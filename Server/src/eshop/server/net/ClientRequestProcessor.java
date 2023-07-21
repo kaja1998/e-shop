@@ -2,7 +2,6 @@ package eshop.server.net;
 
 import eshop.common.entities.Article;
 import eshop.common.entities.Customer;
-import eshop.common.entities.User;
 import eshop.common.exceptions.LoginException;
 import eshop.common.exceptions.RegisterException;
 import eshop.common.interfaces.ShopInterface;
@@ -44,11 +43,11 @@ public class ClientRequestProcessor implements Runnable {
                 clientSocket.close();
             } catch (IOException e2) {
             }
-            System.err.println("Ausnahme bei Bereitstellung des Streams: " + e);
+            System.err.println("Exception while delivering the stream: " + e);
             return;
         }
 
-        System.out.println("Verbunden mit " + clientSocket.getInetAddress()
+        System.out.println("Connected with " + clientSocket.getInetAddress()
                 + ":" + clientSocket.getPort());
     }
 
@@ -62,7 +61,7 @@ public class ClientRequestProcessor implements Runnable {
         String input = "";
 
         // Begrüßungsnachricht an den Client senden
-        out.println("Server an Client: Bin bereit für Deine Anfragen!");
+        out.println("Server to client: I'm ready for your requests!");
 
         // Hauptschleife zur wiederholten Abwicklung der Kommunikation
         do {
@@ -71,7 +70,7 @@ public class ClientRequestProcessor implements Runnable {
             try {
                 input = in.readLine();
             } catch (Exception e) {
-                System.out.println("--->Fehler beim Lesen vom Client (Aktion): ");
+                System.out.println("--->Error reading from client (action): ");
                 System.out.println(e.getMessage());
                 continue;
             }
@@ -206,7 +205,7 @@ public class ClientRequestProcessor implements Runnable {
 
         try {
             String message = eshop.registerCustomer(name, lastName, street, postalCode, city, mail, username, password, registerNow);
-            out.println("Erfolg");
+            out.println("Success");
             out.println(message);
         } catch (RegisterException e) {
             out.println("Error");
@@ -235,7 +234,7 @@ public class ClientRequestProcessor implements Runnable {
 
         try {
             Customer loggedinUser = eshop.loginCustomer(username, password);
-            out.println("Erfolg");
+            out.println("Success");
             out.println(loggedinUser.getId());
             out.println(loggedinUser.getName());
             out.println(loggedinUser.getLastName());
@@ -246,7 +245,7 @@ public class ClientRequestProcessor implements Runnable {
             out.println(loggedinUser.getUsername());
             out.println(loggedinUser.getPassword());
         } catch (LoginException e) {
-            out.println("Fehler");
+            out.println("Error");
             out.println(e.getMessage());
         }
     }

@@ -1,7 +1,7 @@
 package eshop.client.ui.gui;
 import eshop.client.ui.gui.frames.L_LoginStart;
 
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import java.io.IOException;
 import java.net.InetAddress;
 
@@ -63,8 +63,12 @@ public class Main {
                     L_LoginStart loginStart = new L_LoginStart(host, port);
                     loginStart.setVisible(true);
                 } catch (IOException e) {
-                    // TODO Auto-generated catch block
+                    // Fehler protokollieren
+                    // Hier wird der Stacktrace in die Konsole geschrieben.
                     e.printStackTrace();
+
+                    // Benutzer informieren
+                    JOptionPane.showMessageDialog(null, "There has been occurred an error. Please try again or contact support.");
                 }
             }
         });

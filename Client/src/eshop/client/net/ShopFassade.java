@@ -112,18 +112,18 @@ public class ShopFassade implements ShopInterface {
         sout.println(registerNow);
 
         // Antwort vom Server lesen:
-        String antwort = "Fehler";
+        String antwort = "Error";
 
         try {
             antwort = sin.readLine();
-            if (antwort.equals("Erfolg")) {
+            if (antwort.equals("Success")) {
                 // message vom Server lesen ...
-                String messageErfolgreich = sin.readLine();
+                String messageSuccess = sin.readLine();
                 // ... und zurückgeben
-                return messageErfolgreich;
+                return messageSuccess;
             } else {
-                // Fehler: Exception (re-)konstruieren
-                String message = sin.readLine();
+                // Error: Exception (re-)konstruieren
+                String messageError = sin.readLine();
                 throw new RegisterException(null ,null);
             }
         } catch (IOException e) {
@@ -141,16 +141,16 @@ public class ShopFassade implements ShopInterface {
 
 
         // Antwort vom Server lesen:
-        String antwort = "Fehler";
+        String antwort = "Error";
         try {
             antwort = sin.readLine();
-            if (antwort.equals("Erfolg")) {
+            if (antwort.equals("Success")) {
                 // Custumer vom Server lesen ...
                 Customer customer = liesCustomerVomServer();
                 // ... und zurückgeben
                 return customer;
             } else {
-                // Fehler: Exception (re-)konstruieren
+                // Error: Exception (re-)konstruieren
                 String message = sin.readLine();
                 throw new LoginException(message);
             }

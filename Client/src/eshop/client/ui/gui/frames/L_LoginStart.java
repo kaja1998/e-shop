@@ -17,11 +17,17 @@ public class L_LoginStart extends JFrame {
     private L_CustomerRegistrationPanel customerRegistrationPanel;
     private L_CustomerLoginPanel customerLoginPanel;
     private L_EmployeeLoginPanel employeeLoginPanel;
+    private String host;
+    private int port;
 
 
         public L_LoginStart(String host, int port) throws HeadlessException, IOException {
             super("Login");
-            eshop = new ShopFassade(host, port);
+            this.host = host;
+            this.port = port;
+            if (eshop == null){
+                eshop = new ShopFassade(host, port);
+            }
             initialize();
         }
 
@@ -34,10 +40,10 @@ public class L_LoginStart extends JFrame {
             customerRegistrationPanel = new L_CustomerRegistrationPanel(eshop, this);
             tabbedPane.addTab("Customer Registration", customerRegistrationPanel);
 
-            customerLoginPanel = new L_CustomerLoginPanel(eshop, this);
+            customerLoginPanel = new L_CustomerLoginPanel(eshop, this, host, port);
             tabbedPane.addTab("Customer Login", customerLoginPanel);
 
-            employeeLoginPanel = new L_EmployeeLoginPanel(eshop, this);
+            employeeLoginPanel = new L_EmployeeLoginPanel(eshop, this, host, port);
             tabbedPane.addTab("Employee Login", employeeLoginPanel);
 
             getContentPane().add(tabbedPane);

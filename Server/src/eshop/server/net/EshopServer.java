@@ -24,7 +24,7 @@ public class EshopServer {
     public final static int DEFAULT_PORT = 6779;
     protected int port;
     protected ServerSocket serverSocket;
-    private ShopInterface shop;
+    private ShopInterface eshop;
 
     /**
      * Constructor for creating the E-shop server.
@@ -34,7 +34,7 @@ public class EshopServer {
      */
     public EshopServer(int port) throws IOException {
 
-        shop = new Shop("ESHOP");
+        eshop = new Shop("ESHOP");
 
         if (port == 0)
             port = DEFAULT_PORT;
@@ -64,7 +64,7 @@ public class EshopServer {
         try {
             while (true) {
                 Socket clientSocket = serverSocket.accept();
-                ClientRequestProcessor c = new ClientRequestProcessor(clientSocket, shop);
+                ClientRequestProcessor c = new ClientRequestProcessor(clientSocket, eshop);
                 Thread t = new Thread(c);
                 t.start();
             }
