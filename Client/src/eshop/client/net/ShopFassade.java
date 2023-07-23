@@ -156,10 +156,10 @@ public class ShopFassade implements ShopInterface {
             return messageSuccess;
         } else {
             // Error: Exception (re-)konstruieren
-            String messageError = readStringInput("messageError");
+            String additionalMessage = readStringInput("messageError");
             //Customer erstellen, um diesen an die Exception zu übergeben
             Customer customer = new Customer(name, lastName, street, postalCode, city, mail, username, password);
-            throw new RegisterException(customer, messageError);
+            throw new RegisterException(customer, additionalMessage);
         }
     }
 
@@ -183,8 +183,7 @@ public class ShopFassade implements ShopInterface {
             return customer;
         } else {
             // Error: Exception (re-)konstruieren
-            String message = readStringInput("message");
-            throw new LoginException(message);
+            throw new LoginException(null);
         }
     }
 
@@ -230,8 +229,7 @@ public class ShopFassade implements ShopInterface {
             return employee;
         } else {
             // Error: Exception (re-)konstruieren
-            String message = readStringInput("message");
-            throw new LoginException(message);
+            throw new LoginException(null);
         }
     }
 

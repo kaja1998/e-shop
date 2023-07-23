@@ -184,7 +184,7 @@ public class ClientRequestProcessor implements Runnable {
             out.println(message);
         } catch (RegisterException e) {
             out.println("Error");
-            out.println(e.getMessage());
+            out.println("A User with this Name already exist. Please choose another one.");
         }
     }
 
@@ -212,7 +212,6 @@ public class ClientRequestProcessor implements Runnable {
             out.println(loggedinUser.getPassword());
         } catch (LoginException e) {
             out.println("Error");
-            out.println(e.getMessage());
         }
     }
 
@@ -236,7 +235,6 @@ public class ClientRequestProcessor implements Runnable {
             out.println(loggedinUser.getPassword());
         } catch (LoginException ex) {
             out.println("Error");
-            out.println(ex.getMessage());
         }
     }
 
