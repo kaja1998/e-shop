@@ -3,8 +3,8 @@ package shop.local.ui.gui.models;
 import shop.local.entities.ShoppingCartItem;
 
 import javax.swing.table.AbstractTableModel;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 public class C_CartItemsTableModel extends AbstractTableModel {
 
@@ -17,7 +17,7 @@ public class C_CartItemsTableModel extends AbstractTableModel {
         // Ich erstelle eine Kopie der CartItemsliste,
         // damit beim Aktualisieren (siehe Methode setArticles())
         // keine unerwarteten Seiteneffekte entstehen.
-        cartItems = new Vector<ShoppingCartItem>();
+        cartItems = new ArrayList<>();
         cartItems.addAll(currentCartItems);
     }
 

@@ -6,7 +6,7 @@ import shop.local.entities.Article;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Panel in which you can search for an item from the shop
@@ -21,7 +21,7 @@ public class E_SearchArticlesPanel extends JPanel {
 	// welches dieses Interface implementiert und auf ein neues
 	// Suchergebnis reagiert, indem es die Articleliste aktualisiert.
 	public interface SearchResultListener {
-		void onSearchResult(List<Article> articles);
+		void onSearchResult(ArrayList<Article> articles);
 	}
 
 	private Shop eshop;
@@ -81,7 +81,7 @@ public class E_SearchArticlesPanel extends JPanel {
 		String suchbegriff = searchTextField.getText();
 
 		// Liste für das Suchergebnis deklarieren
-		List<Article> suchErgebnis;
+		ArrayList<Article> suchErgebnis;
 
 		// Überprüfen, ob das Suchfeld leer ist
 		if (suchbegriff.isEmpty()) {

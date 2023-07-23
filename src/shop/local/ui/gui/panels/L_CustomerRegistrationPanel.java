@@ -159,7 +159,7 @@ public class L_CustomerRegistrationPanel extends JPanel {
         if (agreeCheckBox.isSelected()) {
             try {
                 int postalCode = Integer.parseInt(postalCodeString);
-                eshop.registerCustomer(name, lastName, street, postalCode, city, mail, username, password, registerNow);
+                String message = eshop.registerCustomer(name, lastName, street, postalCode, city, mail, username, password, registerNow);
 
                 // Felder leeren
                 nameField.setText("");
@@ -173,7 +173,7 @@ public class L_CustomerRegistrationPanel extends JPanel {
                 agreeCheckBox.setSelected(false);
 
                 // Erfolgreiche Registrierungsnachricht anzeigen
-                JOptionPane.showMessageDialog(this, "Successfully registered");
+                JOptionPane.showMessageDialog(this, message);
 
                 // Öffne den Reiter "Customer Login"
                 loginStart.openCustomerLogin();
@@ -182,8 +182,16 @@ public class L_CustomerRegistrationPanel extends JPanel {
                 JOptionPane.showMessageDialog(this, "Invalid postal code. Please enter an integer value.", "Registration Error", JOptionPane.ERROR_MESSAGE);
             } catch (RegisterException e) {
                 JOptionPane.showMessageDialog(this, e.getMessage(), "Register Error", JOptionPane.ERROR_MESSAGE);
+
+                nameField.setText("");
+                lastNameField.setText("");
+                streetField.setText("");
+                postalCodeField.setText("");
+                cityField.setText("");
+                emailField.setText("");
                 usernameField.setText("");
                 passwordField.setText("");
+                agreeCheckBox.setSelected(false);
             }
         } else {
             JOptionPane.showMessageDialog(this, "Please accept the terms and conditions", "Registration Error", JOptionPane.ERROR_MESSAGE);

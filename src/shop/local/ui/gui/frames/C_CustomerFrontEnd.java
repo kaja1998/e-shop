@@ -14,7 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.List;
+import java.util.ArrayList;
 
 public class C_CustomerFrontEnd extends JFrame implements E_SearchArticlesPanel.SearchResultListener {
     private Shop eshop;
@@ -52,7 +52,7 @@ public class C_CustomerFrontEnd extends JFrame implements E_SearchArticlesPanel.
         addToCartPanel = new C_AddArticleToCartPanel(eshop, user);
 
         // Center
-        java.util.List<Article> articles = eshop.getAllArticles();
+        ArrayList<Article> articles = eshop.getAllArticles();
         // (wahlweise Anzeige als Liste oder Tabelle)
         ArticlesPanel = new C_ArticlesTablePanel(articles);
         JScrollPane scrollPane = new JScrollPane(ArticlesPanel);
@@ -77,7 +77,7 @@ public class C_CustomerFrontEnd extends JFrame implements E_SearchArticlesPanel.
      * @see shop.local.ui.gui.swing.panels.E_SearchArticlesPanel.SearchResultListener#onSearchResult(java.util.List)
      */
     @Override
-    public void onSearchResult(List<Article> articles) {
+    public void onSearchResult(ArrayList<Article> articles) {
         ArticlesPanel.updateArticlesList(articles);
     }
 

@@ -4,6 +4,7 @@ import shop.local.entities.Article;
 import shop.local.ui.gui.models.C_ArticleTableModel;
 
 import javax.swing.*;
+import java.util.ArrayList;
 import java.util.Collections;
 
 /**
@@ -15,7 +16,7 @@ import java.util.Collections;
 
 public class C_ArticlesTablePanel extends JTable {
 
-    public C_ArticlesTablePanel(java.util.List<Article> articles) {
+    public C_ArticlesTablePanel(ArrayList<Article> articles) {
         super();
 
         // TableModel erzeugen ...
@@ -26,7 +27,7 @@ public class C_ArticlesTablePanel extends JTable {
         updateArticlesList(articles);
     }
 
-    public void updateArticlesList(java.util.List<Article> articles) {
+    public void updateArticlesList(ArrayList<Article> articles) {
 
         // Sortierung (mit Lambda-Expression)
 //		Collections.sort(articles, (a1, a2) -> a1.getTitel().compareTo(a2.getTitel()));	// Sortierung nach Titel

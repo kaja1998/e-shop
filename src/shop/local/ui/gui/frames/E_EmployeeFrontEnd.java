@@ -9,6 +9,7 @@ import shop.local.ui.gui.panels.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class E_EmployeeFrontEnd extends JFrame implements E_AddArticlePanel.AddArticleListener, E_DeleteArticlePanel.DeleteArticleListener, E_ManageArticleStockPanel.ManageArticleListener, E_SearchArticlesPanel.SearchResultListener {
@@ -47,7 +48,7 @@ public class E_EmployeeFrontEnd extends JFrame implements E_AddArticlePanel.AddA
 		cardLayout = new E_CardLayoutPanel(eshop, this, this, this, user);
 
 		// Center
-		List<Article> articles = eshop.getAllArticles();
+		ArrayList<Article> articles = eshop.getAllArticles();
 		// (wahlweise Anzeige als Liste oder Tabelle)
 		ArticlesPanel = new E_ArticlesTablePanel(articles);
 		JScrollPane scrollPane = new JScrollPane(ArticlesPanel);
@@ -78,7 +79,7 @@ public class E_EmployeeFrontEnd extends JFrame implements E_AddArticlePanel.AddA
 	@Override
 	public void updateArticleList() {
 		// Ich lade hier einfach alle Article neu und lasse sie anzeigen
-		List<Article> articles = eshop.getAllArticles();
+		ArrayList<Article> articles = eshop.getAllArticles();
 		ArticlesPanel.updateArticlesList(articles);
 	}
 
@@ -90,7 +91,7 @@ public class E_EmployeeFrontEnd extends JFrame implements E_AddArticlePanel.AddA
 	 * @see shop.local.ui.gui.swing.panels.E_SearchArticlesPanel.SearchResultListener#onSearchResult(java.util.List)
 	 */
 	@Override
-	public void onSearchResult(List<Article> articles) {
+	public void onSearchResult(ArrayList<Article> articles) {
 		ArticlesPanel.updateArticlesList(articles);
 	}
 
