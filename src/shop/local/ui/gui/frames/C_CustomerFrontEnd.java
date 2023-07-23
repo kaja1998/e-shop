@@ -6,7 +6,7 @@ import shop.local.entities.User;
 import shop.local.ui.gui.WindowCloser;
 import shop.local.ui.gui.panels.C_AddArticleToCartPanel;
 import shop.local.ui.gui.panels.C_ArticlesTablePanel;
-import shop.local.ui.gui.panels.E_SearchArticlesPanel;
+import shop.local.ui.gui.panels.C_SearchArticlesPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,10 +16,10 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
-public class C_CustomerFrontEnd extends JFrame implements E_SearchArticlesPanel.SearchResultListener {
+public class C_CustomerFrontEnd extends JFrame implements C_SearchArticlesPanel.SearchResultListener {
     private Shop eshop;
     private User user;
-    private E_SearchArticlesPanel searchPanel;
+    private C_SearchArticlesPanel searchPanel;
     private C_AddArticleToCartPanel addToCartPanel;
     private C_ArticlesTablePanel ArticlesPanel;
     private C_CustomersCart customersCartPanel;
@@ -46,7 +46,7 @@ public class C_CustomerFrontEnd extends JFrame implements E_SearchArticlesPanel.
         this.setLayout(new BorderLayout());
 
         // North
-        searchPanel = new E_SearchArticlesPanel(eshop, this);
+        searchPanel = new C_SearchArticlesPanel(eshop, this);
 
         // West
         addToCartPanel = new C_AddArticleToCartPanel(eshop, user);
