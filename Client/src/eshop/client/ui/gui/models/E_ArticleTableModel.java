@@ -4,8 +4,8 @@ import eshop.common.entities.Article;
 import eshop.common.entities.BulkArticle;
 
 import javax.swing.table.AbstractTableModel;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 public class E_ArticleTableModel extends AbstractTableModel  {
 
@@ -18,7 +18,7 @@ public class E_ArticleTableModel extends AbstractTableModel  {
     	// Ich erstelle eine Kopie der Artikelliste,
     	// damit beim Aktualisieren (siehe Methode setArticles())
     	// keine unerwarteten Seiteneffekte entstehen.
-    	articles = new Vector<Article>();
+    	articles = new ArrayList<>();
         articles.addAll(aktuelleArticles);
     }
 

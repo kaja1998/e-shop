@@ -34,7 +34,7 @@ public class C_CustomersCart extends JDialog implements C_ChangeArticleQuantityI
 //        cardLayout = new C_CardLayoutPanel(eshop, user, this, this);
 //
 //        // Center
-//        java.util.List<ShoppingCartItem> cartItems = eshop.getAllCartItems((Customer) user);
+//        List<ShoppingCartItem> cartItems = eshop.getAllCartItems((Customer) user);
 //        // (wahlweise Anzeige als Liste oder Tabelle)
 //        cartItemsPanel = new C_CartItemsTablePanel(cartItems);
 //        JScrollPane scrollPane = new JScrollPane(cartItemsPanel);
@@ -131,9 +131,6 @@ public class C_CustomersCart extends JDialog implements C_ChangeArticleQuantityI
 //
 //                    // Warenkorb aktualisieren
 //                    updateCartItemsList();
-//
-//                    // TODO: Artikelliste in C_CustomerFrontEnd aktualisieren mit Interface?
-//                    //  Macht eventuell Sinn, wenn nun Artikel nicht mehr verfügbar sind oder neue hinzugekommen sind
 //
 //                } catch (IOException ex) {
 //                    ex.printStackTrace();

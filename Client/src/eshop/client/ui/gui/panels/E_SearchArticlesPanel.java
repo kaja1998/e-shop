@@ -80,7 +80,7 @@ public class E_SearchArticlesPanel extends JPanel {
 //		String suchbegriff = searchTextField.getText();
 //
 //		// Liste für das Suchergebnis deklarieren
-//		List<Article> suchErgebnis;
+//		ArrayList<Article> suchErgebnis;
 //
 //		// Überprüfen, ob das Suchfeld leer ist
 //		if (suchbegriff.isEmpty()) {
