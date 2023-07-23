@@ -1,6 +1,7 @@
 package eshop.client.net;
 
 import eshop.common.entities.Article;
+import eshop.common.entities.BulkArticle;
 import eshop.common.entities.Customer;
 import eshop.common.entities.Employee;
 import eshop.common.exceptions.LoginException;
@@ -18,6 +19,13 @@ public class ShopFassade implements ShopInterface {
     private BufferedReader sin; // server-input stream
     private PrintStream sout; // server-output stream
 
+
+    /**
+     * Creates a new instance of ShopFassade that connects to the specified host and port.
+     *
+     * @throws IOException If an I/O error occurs while establishing the connection.
+     * @author: sund
+     */
     public ShopFassade(String host, int port) throws IOException {
         try {
             // Socket-Objekt fuer die Kommunikation mit Host/Port erstellen
@@ -41,66 +49,96 @@ public class ShopFassade implements ShopInterface {
                 + socket.getPort());
 
         // Begrüßungsmeldung vom Server lesen
-        String message = sin.readLine();
+        String message = readStringInput("message");
         System.out.println(message);
     }
 
+
+
     /**
-     * Methode, die eine Liste aller im Bestand befindlichen Artikel zurückgibt.
+     * Method that returns a list of all items in inventory.
      *
-     * @return Liste aller Artikel im Bestand vom Shop
+     * @return List of all items in stock of the shop
      */
     public ArrayList<Article> getAllArticles() {
-        ArrayList<Article> list = new ArrayList<Article>();
-
         // Kennzeichen für gewählte Aktion senden
         sout.println("a");
 
-        // Antwort vom Server lesen und im info-Feld darstellen:
-        String reply = "?";
-        try {
-            // Anzahl gefundener Artikel einlesen
-            reply = sin.readLine();
-            int anzahl = Integer.parseInt(reply);
-            for (int i=0; i<anzahl; i++) {
-                // Artikel vom Server lesen
+        ArrayList<Article> list = new ArrayList<>();
+
+        // Antwort vom Server lesen:
+        // Anzahl gefundener Artikel einlesen
+        String reply = readStringInput("reply");
+        int anzahl = Integer.parseInt(reply);
+
+        for (int i = 0; i < anzahl; i++) {
+            // Artikeltyp vom Server einlesen (BulkArticle oder Article)
+            String articleType = readStringInput("articleType");
+            if (articleType.equals("BulkArticle")) {
+                BulkArticle bulkArticle = (BulkArticle) readBulkArticleFromServer();
+                // in Liste eintragen
+                list.add(bulkArticle);
+            } else if (articleType.equals("Article")) {
                 Article article = readArticleFromServer();
                 // in Liste eintragen
                 list.add(article);
+            } else {
+                System.err.println("Got Unknown ArticleType: " + articleType);
             }
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-            return null;
         }
         return list;
     }
 
-    private Article readArticleFromServer() throws IOException {
-        String reply;
-
+    /**
+     * Method that reads articles from server
+     *
+     * @return normal article to getAllArticles() methode
+     */
+    private Article readArticleFromServer() {
         // Nummer vom Artikel i einlesen
-        reply = sin.readLine();
-        int nummer = Integer.parseInt(reply);
+        int number = readIntInput("number");
 
         // Titel vom Artikel i einlesen
-        String articleTitel = sin.readLine();
+        String articleTitle = readStringInput("articleTitle");
 
-        // Weitere Attribute des Artikels vom Server einlesen
-        reply = sin.readLine();
-        double price = Double.parseDouble(reply);
+        // price vom Artikel i einlesen
+        double price = readDoubleInput("price");
 
-        reply = sin.readLine();
-        int quantityInStock = Integer.parseInt(reply);
+        // quanity vom Artikel i einlesen
+        int quantityInStock = readIntInput("quantityInStock");
 
         // Neues Article-Objekt erzeugen und zurückgeben
-        Article article = new Article(nummer, articleTitel, quantityInStock, price);
+        Article article = new Article(number, articleTitle, quantityInStock, price);
         return article;
     }
 
-    public String registerCustomer(String name, String lastName, String street, int postalCode, String city, String mail, String username, String password, String registerNow) throws RegisterException {
-        // Kennzeichen für gewählte Aktion senden
-        sout.println("rc");
+    /**
+     * Method that reads Bulkarticles from server
+     *
+     * @return Bulkarticle to getAllArticles() methode
+     */
+    private Article readBulkArticleFromServer() {
+        // Artikel vom Server einlesen
+        Article article = readArticleFromServer();
 
+        // PackSize vom BulkArticle einlesen
+        int packSize = readIntInput("packSize");
+
+        // Neues BulkArticle-Objekt erzeugen und zurückgeben
+        BulkArticle bulkArticle = new BulkArticle(article.getNumber(), article.getArticleTitle(), article.getQuantityInStock(), article.getPrice(), packSize);
+        return bulkArticle;
+    }
+
+
+
+    /**
+     * Method that Sends flag for selected action (registerCustomer) and parameters of the new customer to the Server
+     * Moreover it receives reply from Server
+     * @return success message if success and if Error it throws RegisterException
+     */
+    public String registerCustomer(String name, String lastName, String street, int postalCode, String city, String mail, String username, String password, String registerNow) throws RegisterException {
+        // Kennzeichen für gewählte Aktion und Parameter senden
+        sout.println("rc");
         sout.println(name);
         sout.println(lastName);
         sout.println(street);
@@ -112,108 +150,152 @@ public class ShopFassade implements ShopInterface {
         sout.println(registerNow);
 
         // Antwort vom Server lesen:
-        String reply = "Error";
-
-        try {
-            reply = sin.readLine();
-            if (reply.equals("Success")) {
-                String messageSuccess = sin.readLine();
-                return messageSuccess;
-            } else {
-                // Error: Exception (re-)konstruieren
-                String messageError = sin.readLine();
-                //Customer erstellen, um diesen an die Exception zu übergeben
-                Customer customer = new Customer(name, lastName, street, postalCode, city, mail, username, password);
-                throw new RegisterException(customer, messageError);
-            }
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
-            return null;
+        String reply = readStringInput("reply");
+        if (reply.equals("Success")) {
+            String messageSuccess = readStringInput("messageSuccess");
+            return messageSuccess;
+        } else {
+            // Error: Exception (re-)konstruieren
+            String messageError = readStringInput("messageError");
+            //Customer erstellen, um diesen an die Exception zu übergeben
+            Customer customer = new Customer(name, lastName, street, postalCode, city, mail, username, password);
+            throw new RegisterException(customer, messageError);
         }
     }
 
-    public Customer loginCustomer(String username, String password) throws LoginException {
-        // Kennzeichen für gewählte Aktion senden
-        sout.println("lc");
 
+
+    /**
+     * Method that Sends flag for selected action (loginCustomer) and parameters of the customer to the Server
+     * Moreover it receives reply from Server
+     * @return customer if success. If Error it throws LoginException
+     */
+    public Customer loginCustomer(String username, String password) throws LoginException {
+        // Kennzeichen für gewählte Aktion und Parameter senden
+        sout.println("lc");
         sout.println(username);
         sout.println(password);
 
-
         // Antwort vom Server lesen:
-        String reply = "Error";
-        try {
-            reply = sin.readLine();
-            if (reply.equals("Success")) {
-                Customer customer = liesCustomerVomServer();
-                return customer;
-            } else {
-                // Error: Exception (re-)konstruieren
-                String message = sin.readLine();
-                throw new LoginException(message);
-            }
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
-            return null;
+        String reply = readStringInput("reply");
+        if (reply.equals("Success")) {
+            Customer customer = liesCustomerVomServer();
+            return customer;
+        } else {
+            // Error: Exception (re-)konstruieren
+            String message = readStringInput("message");
+            throw new LoginException(message);
         }
     }
 
-    private Customer liesCustomerVomServer() throws IOException {
-
+    /**
+     * Method that reads a customer from server + Creates new customer to...
+     *
+     * @return customer to loginCustomer() Methode
+     */
+    private Customer liesCustomerVomServer() {
         // Attribute des loggedinUser einzeln empfangen
-        int id = Integer.parseInt(sin.readLine());
-        String name = sin.readLine();
-        String lastName = sin.readLine();
-        String street = sin.readLine();
-        int postalCode = Integer.parseInt(sin.readLine());
-        String city = sin.readLine();
-        String email = sin.readLine();
-        String username = sin.readLine();
-        String password = sin.readLine();
+        int id = readIntInput("id");
+        String name = readStringInput("name");
+        String lastName = readStringInput("lastName");
+        String street = readStringInput("street");
+        int postalCode = readIntInput("postalCode");
+        String city = readStringInput("city");
+        String email = readStringInput("email");
+        String username = readStringInput("username");
+        String password = readStringInput("password");
 
         // Neues Customer-Objekt erzeugen und zurückgeben
         Customer customer = new Customer(id, name, lastName, street, postalCode, city, email, username, password);
         return customer;
     }
 
-    public Employee loginEmployee(String username, String password) throws LoginException {
-        // Kennzeichen für gewählte Aktion senden
-        sout.println("le");
 
+
+    /**
+     * Method that Sends flag for selected action (loginEmployee) and parameters of the employee to the Server
+     * Moreover it receives reply from Server
+     * @return employee if success. If Error it throws LoginException
+     */
+    public Employee loginEmployee(String username, String password) throws LoginException {
+        // Kennzeichen für gewählte Aktion und Parameter senden
+        sout.println("le");
         sout.println(username);
         sout.println(password);
 
-
         // Antwort vom Server lesen:
-        String reply = "Error";
-        try {
-            reply = sin.readLine();
-            if (reply.equals("Success")) {
-                Employee employee = liesEmployeeVomServer();
-                return employee;
-            } else {
-                // Error: Exception (re-)konstruieren
-                String message = sin.readLine();
-                throw new LoginException(message);
-            }
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
-            return null;
+        String reply = readStringInput("reply");
+        if (reply.equals("Success")) {
+            Employee employee = liesEmployeeVomServer();
+            return employee;
+        } else {
+            // Error: Exception (re-)konstruieren
+            String message = readStringInput("message");
+            throw new LoginException(message);
         }
     }
 
-    private Employee liesEmployeeVomServer() throws IOException {
-
-        // Attribute des loggedinUser einzeln empfangen
-        int id = Integer.parseInt(sin.readLine());
-        String name = sin.readLine();
-        String lastName = sin.readLine();
-        String username = sin.readLine();
-        String password = sin.readLine();
+    /**
+     * Method that reads an employee from server + Creates new employee to...
+     *
+     * @return employee to loginEmployee() Methode
+     */
+    private Employee liesEmployeeVomServer() {
+        // Attribute des loggedinUser empfangen
+        int id = readIntInput("id");
+        String name = readStringInput("name");
+        String lastName = readStringInput("lastName");
+        String username = readStringInput("username");
+        String password = readStringInput("password");
 
         // Neues Employee-Objekt erzeugen und zurückgeben
         Employee employee = new Employee(id, name, lastName, username, password);
         return employee;
+    }
+
+
+
+    /**
+     Methods for reading input/reply from Server
+     */
+    private String readStringInput(String field) {
+        String input = null;
+
+        try {
+            input = sin.readLine();
+        } catch (IOException e) {
+            System.out.println("--->Error reading from Server (" + field + "): ");
+            System.out.println(e.getMessage());
+        }
+
+        return input;
+    }
+
+    private int readIntInput(String field) {
+        int input = 0;
+
+        try {
+            input = Integer.parseInt(sin.readLine());
+        } catch (IOException | NumberFormatException e) {
+            System.out.println("--->Error reading from Server (" + field + "): ");
+            System.out.println(e.getMessage());
+        }
+
+        return input;
+    }
+
+    private double readDoubleInput(String field) {
+        double input = 0.0;
+
+        try {
+            String inputValue = sin.readLine();
+            input = Double.parseDouble(inputValue);
+        } catch (IOException | NumberFormatException e) {
+            System.out.println("--->Error reading from Server (" + field + "): ");
+            System.out.println(e.getMessage());
+        }
+
+        return input;
     }
 
 }

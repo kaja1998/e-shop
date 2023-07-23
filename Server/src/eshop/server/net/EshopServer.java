@@ -63,12 +63,17 @@ public class EshopServer {
 
         try {
             while (true) {
+                // Accept a client connection and create a socket for communication
                 Socket clientSocket = serverSocket.accept();
+                // Create a new ClientRequestProcessor to handle the client request
                 ClientRequestProcessor c = new ClientRequestProcessor(clientSocket, eshop);
+                // Create a new thread to run the ClientRequestProcessor
                 Thread t = new Thread(c);
+                // Start the thread to handle the client request
                 t.start();
             }
         } catch (IOException e) {
+            // An exception occurred while listening for connections
             fail(e, "An error occurred while listening for connections");
         }
     }

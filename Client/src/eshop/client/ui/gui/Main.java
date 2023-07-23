@@ -12,6 +12,7 @@ import java.net.InetAddress;
 
 public class Main {
 
+    // Definition der Standardportnummer für den Server
     public static final int DEFAULT_PORT = 6779;
 
     public static void main(String[] args) {
@@ -25,41 +26,49 @@ public class Main {
 
         // Host- und Port-Argument einlesen, wenn angegeben
         if (args.length > 2) {
-            System.out.println("Aufruf: java <Klassenname> [<hostname> [<port>]]");
+            // Wenn mehr als 2 Argumente übergeben wurden, wird eine Fehlermeldung ausgegeben
+            System.out.println("Call: java <classname> [<hostname> [<port>]]");
             System.exit(0);
         }
         switch (args.length) {
             case 0:
                 try {
+                    // Wenn keine Argumente übergeben wurden, wird die lokale IP-Adresse ermittelt
                     ia = InetAddress.getLocalHost();
                 } catch (Exception e) {
-                    System.out.println("XXX InetAdress-Fehler: " + e);
+                    // Bei einem Fehler wird eine Fehlermeldung ausgegeben und das Programm beendet
+                    System.out.println("XXX InetAdress-Error: " + e);
                     System.exit(0);
                 }
+                // Host wird auf die lokale IP-Adresse gesetzt, da kein Argument angegeben wurde
                 hostArg = ia.getHostName(); // host ist lokale Maschine
-                portArg = DEFAULT_PORT;
+                portArg = DEFAULT_PORT; // Standardport wird gesetzt
                 break;
             case 1:
-                portArg = DEFAULT_PORT;
-                hostArg = args[0];
+                // Wenn ein Argument übergeben wurde, wird dieses als Host interpretiert
+                portArg = DEFAULT_PORT; // Standardport wird gesetzt
+                hostArg = args[0]; // Host wird auf das übergebene Argument gesetzt
                 break;
             case 2:
-                hostArg = args[0];
+                // Wenn zwei Argumente übergeben wurden, wird das erste als Host und das zweite als Port interpretiert
+                hostArg = args[0]; // Host wird auf das erste Argument gesetzt
                 try {
+                    // Der übergebene Port wird als Integer-Wert interpretiert und gesetzt
                     portArg = Integer.parseInt(args[1]);
                 } catch (NumberFormatException e) {
-                    System.out.println("Aufruf: java BibClientGUI [<hostname> [<port>]]");
+                    // Bei einem Fehler (z. B. ungültiger Port) wird eine Fehlermeldung ausgegeben und das Programm beendet
+                    System.out.println("Call: java EshopClientGUI [<hostname> [<port>]]");
                     System.exit(0);
                 }
         }
 
         // Swing-UI auf dem GUI-Thread initialisieren
-        // (host und port müssen für Verwendung in inner class final sein)
-        final String host = hostArg;
-        final int port = portArg;
+        final String host = hostArg; // Der Host wird final gesetzt, um ihn in der inneren Klasse verwenden zu können
+        final int port = portArg; // Der Port wird final gesetzt, um ihn in der inneren Klasse verwenden zu können
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 try {
+                    // Ein neues L_LoginStart-Objekt wird erstellt und sichtbar gemacht
                     L_LoginStart loginStart = new L_LoginStart(host, port);
                     loginStart.setVisible(true);
                 } catch (IOException e) {
@@ -68,7 +77,8 @@ public class Main {
                     e.printStackTrace();
 
                     // Benutzer informieren
-                    JOptionPane.showMessageDialog(null, "There has been occurred an error. Please try again or contact support.");
+                    // Eine Fehlermeldung wird dem Benutzer über ein Dialogfenster angezeigt
+                    JOptionPane.showMessageDialog(null, "There has been occurred an error.");
                 }
             }
         });

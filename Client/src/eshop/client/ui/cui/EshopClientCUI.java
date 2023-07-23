@@ -26,24 +26,6 @@ public class EshopClientCUI {
 	private static BufferedReader in;
 	private User loggedinUser = null;
 
-	//dieser BufferedReader kann eigentlich auch gelöscht werden...
-//	public static BufferedReader getIn() {
-//		return in;
-//	}
-
-//	public EshopClientCUI(String file) {
-//		// the shop administration handles the tasks that have nothing to do with
-//		// input/output
-//		//Datei existiert nicht exception
-//		try {
-//			eshop = new Shop(file);
-//			// Create Stream object for text input via console window
-//			in = new BufferedReader(new InputStreamReader(System.in));
-//		} catch (Exception e) {
-//			System.out.println("File doesn't exist or could not be found.");
-//		}
-//	}
-
 	public EshopClientCUI(String host, int port) {
 		// the shop administration handles the tasks that have nothing to do with
 		// input/output
@@ -57,7 +39,8 @@ public class EshopClientCUI {
 		}
 	}
 
-	/*
+
+	/**
 	 * Methods for outputting the menus.
 	 */
 	private void printEntryMenu() {
@@ -73,12 +56,12 @@ public class EshopClientCUI {
 
 	private void printEmployeeMenu() {
 		System.out.print("Commands: \n  Output articles:  'a'"); // \n ist ein Absatz
-		System.out.print("          \n  Delete article: 'b'");
-		System.out.print("          \n  Insert article: 'c'");
-		System.out.print("          \n  Search article:  'd'");
-		System.out.print("          \n  Manage an article's inventory:  'e'");
-		System.out.print("          \n  Create new employee:  'f'");
-		System.out.print("          \n  Show history:  'g'");
+//		System.out.print("          \n  Delete article: 'b'");
+//		System.out.print("          \n  Insert article: 'c'");
+//		System.out.print("          \n  Search article:  'd'");
+//		System.out.print("          \n  Manage an article's inventory:  'e'");
+//		System.out.print("          \n  Create new employee:  'f'");
+//		System.out.print("          \n  Show history:  'g'");
 		System.out.print("          \n  Logout:  'l'");
 		System.out.print("          \n  ---------------------");
 		System.out.println("        \n  Quit:        'q'");
@@ -88,12 +71,12 @@ public class EshopClientCUI {
 
 	private void printCustomerMenu() {
 		System.out.print("Commands: \n  Output articles:  'a'"); // \n ist ein Absatz
-		System.out.print("          \n  Add article into shopping cart:  'b'");
-		System.out.print("          \n  Change quantity of an item in the shopping cart:  'c'");
-		System.out.print("          \n  Remove article from shopping cart:  'd'");
-		System.out.print("          \n  View shopping cart:  'e'");
-		System.out.print("          \n  Buy articles:  'f'");
-		System.out.print("          \n  clear complete cart:  'g'");
+//		System.out.print("          \n  Add article into shopping cart:  'b'");
+//		System.out.print("          \n  Change quantity of an item in the shopping cart:  'c'");
+//		System.out.print("          \n  Remove article from shopping cart:  'd'");
+//		System.out.print("          \n  View shopping cart:  'e'");
+//		System.out.print("          \n  Buy articles:  'f'");
+//		System.out.print("          \n  clear complete cart:  'g'");
 		System.out.print("          \n  Logout:  'l'");
 		System.out.print("          \n  ---------------------");
 		System.out.println("        \n  Quit:        'q'");
@@ -101,7 +84,8 @@ public class EshopClientCUI {
 		System.out.flush(); // ohne NL ausgeben
 	}
 
-	/*
+
+	/**
 	 * Methods for processing the menu selections
 	 */
 	private boolean processInputFromEntryMenu(String line) {
@@ -198,6 +182,10 @@ public class EshopClientCUI {
 		}
 	}
 
+
+	/**
+	Methods for reading input
+	*/
 	private String readInput() throws IOException {
 		// einlesen von Konsole
 		return in.readLine();
@@ -263,7 +251,8 @@ public class EshopClientCUI {
 		return string;
 	}
 
-	/*
+
+	/**
 	 * Methods for registering and logging in employees / customers, as well as
 	 * logging out
 	 */
@@ -355,7 +344,8 @@ public class EshopClientCUI {
 		System.out.println("You got logged out successfully.");
 	}
 
-	/*
+
+	/**
 	 * methods for the employee
 	 */
 //	private void deleteArticle() {
@@ -478,9 +468,6 @@ public class EshopClientCUI {
 //		}
 //	}
 //
-//	/*
-//	 * Methods for employee to output all swaps in and outs to console
-//	 */
 //	public void showHistory() {
 //		try {
 //			//TODO wenn funktioniert, exceptions einbauen und die untere Zeile einblenden.
@@ -507,10 +494,10 @@ public class EshopClientCUI {
 //		}
 //	}
 
-	/*
+
+	/**
 	 * methods for the customer
 	 */
-
 	private void printArticleList(ArrayList<Article> list) {
 		for (Article article : list)
 			System.out.println(article);
@@ -651,36 +638,36 @@ public class EshopClientCUI {
 //			e.printStackTrace();
 //		}
 //	}
-
-	public void articlesCouldntPurchase(Invoice invoice) {
-		if (invoice.getUnavailableItems() != null && invoice.getUnavailableItems().size() > 0) {
-			System.out.println("Unfortunately some of the items you wished to purchase became unavailable:");
-			// If this is the case, a loop is used to iterate over each unavailable item in
-			// the list invoice.getUnavailableItems()
-			for (ShoppingCartItem item : invoice.getUnavailableItems()) {
-				// The unavailable articles are printed on the console
-				System.out.println(item.toString());
-			}
-		}
-	}
-
-	public void articlePurchaseSuccessfully(Invoice invoice) {
-		if (invoice.getPositions() != null && invoice.getPositions().size() > 0) {
-			System.out.println("You successfully purchased:");
-			// With a loop, iterates over each successfully purchased item.
-			for (ShoppingCartItem item : invoice.getPositions()) {
-				// Articles are displayed on the console
-				System.out.println(item.toString());
-			}
-			// print date and total
-			System.out.println("\nTotal: " + invoice.getTotal() + " EUR\n");
-			System.out.println("Date: " + invoice.getFormattedDate() + " Uhr" + "\n");
-			invoice.setCustomer((Customer) loggedinUser);
-			System.out.println("Your delivery address: \n" + invoice.getCustomerAddress() + "\n");
-			System.out.println("Please transfer the full amount to the following bank account: \nSpice Shop \nDE35 1511 0000 1998 1997 29 \nBIC: SCFBDE33 \n");
-		}
-	}
-
+//
+//	public void articlesCouldntPurchase(Invoice invoice) {
+//		if (invoice.getUnavailableItems() != null && invoice.getUnavailableItems().size() > 0) {
+//			System.out.println("Unfortunately some of the items you wished to purchase became unavailable:");
+//			// If this is the case, a loop is used to iterate over each unavailable item in
+//			// the list invoice.getUnavailableItems()
+//			for (ShoppingCartItem item : invoice.getUnavailableItems()) {
+//				// The unavailable articles are printed on the console
+//				System.out.println(item.toString());
+//			}
+//		}
+//	}
+//
+//	public void articlePurchaseSuccessfully(Invoice invoice) {
+//		if (invoice.getPositions() != null && invoice.getPositions().size() > 0) {
+//			System.out.println("You successfully purchased:");
+//			// With a loop, iterates over each successfully purchased item.
+//			for (ShoppingCartItem item : invoice.getPositions()) {
+//				// Articles are displayed on the console
+//				System.out.println(item.toString());
+//			}
+//			// print date and total
+//			System.out.println("\nTotal: " + invoice.getTotal() + " EUR\n");
+//			System.out.println("Date: " + invoice.getFormattedDate() + " Uhr" + "\n");
+//			invoice.setCustomer((Customer) loggedinUser);
+//			System.out.println("Your delivery address: \n" + invoice.getCustomerAddress() + "\n");
+//			System.out.println("Please transfer the full amount to the following bank account: \nSpice Shop \nDE35 1511 0000 1998 1997 29 \nBIC: SCFBDE33 \n");
+//		}
+//	}
+//
 //	private void deleteAllArticlesInCart() {
 //		if (loggedinUser instanceof Customer) {
 //			Customer customer = (Customer) loggedinUser;
@@ -692,7 +679,8 @@ public class EshopClientCUI {
 //		}
 //	}
 
-	/*
+
+	/**
 	 * Methods of running the program
 	 */
 	public void run() {
@@ -737,23 +725,12 @@ public class EshopClientCUI {
 		}
 	}
 
-//	public static void main(String[] args) {
-//		// Variable of type "EshopClientCUI" is declared but not yet initialized!
-//		EshopClientCUI cui;
-//		// A new object of "EshopClientCUI" is created. The file and the string "ESHOP"
-//		// are passed as parameters or only the file named "ESHOP" is passed
-//		cui = new EshopClientCUI("ESHOP");
-//		// The "run" method is called on the "cui" object to run the program
-//		cui.run();
-//		// If an error occurs during this, an "IOException" is thrown
-//	}
-
 	public static void main(String[] args) {
 		int port = 0;
 		String host = null;
 		InetAddress ia = null;
 
-		// Host- und Port-Argumente einlesen, wenn angegeben
+		// Read host and port arguments if given
 		if (args.length > 2) {
 			System.out.println("Aufruf: java BibClientGUI [<hostname> [<port>]]");
 			System.exit(0);
@@ -763,10 +740,10 @@ public class EshopClientCUI {
 				try {
 					ia = InetAddress.getLocalHost();
 				} catch (Exception e) {
-					System.out.println("XXX InetAdress-Fehler: " + e);
+					System.out.println("XXX InetAdress-Error: " + e);
 					System.exit(0);
 				}
-				host = ia.getHostName(); // host ist lokale Maschine
+				host = ia.getHostName(); // host is local machine
 				port = DEFAULT_PORT;
 				break;
 			case 1:
@@ -778,13 +755,12 @@ public class EshopClientCUI {
 				try {
 					port = Integer.parseInt(args[1]);
 				} catch (NumberFormatException e) {
-					System.out
-							.println("Aufruf: java BibClientGUI [<hostname> [<port>]]");
+					System.out.println("Call: java EshopClientGUI [<hostname> [<port>]]");
 					System.exit(0);
 				}
 		}
 
-		// CUI auf Starten und mit Server auf Host und Port verbinden
+		// CUI on Start and connect to server on host and port
 		EshopClientCUI cui;
 		cui = new EshopClientCUI(host, port);
 		cui.run();

@@ -1,6 +1,7 @@
 package eshop.server.net;
 
 import eshop.common.entities.Article;
+import eshop.common.entities.BulkArticle;
 import eshop.common.entities.Customer;
 import eshop.common.entities.Employee;
 import eshop.common.exceptions.LoginException;
@@ -52,10 +53,9 @@ public class ClientRequestProcessor implements Runnable {
                 + ":" + clientSocket.getPort());
     }
 
-
     /**
-     * Methode zur Abwicklung der Kommunikation mit dem Client gemäß dem
-     * vorgebenen Kommunikationsprotokoll.
+     * Method of handling communication with the client according to the
+     * specified communication protocol.
      */
     public void run() {
 
@@ -68,13 +68,7 @@ public class ClientRequestProcessor implements Runnable {
         do {
             // Beginn der Benutzerinteraktion:
             // Aktion vom Client einlesen [dann ggf. weitere Daten einlesen ...]
-            try {
-                input = in.readLine();
-            } catch (Exception e) {
-                System.out.println("--->Error reading from client (action): ");
-                System.out.println(e.getMessage());
-                continue;
-            }
+            input = readStringInput("action");
 
             // Eingabe bearbeiten:
             if (input == null) {
@@ -101,19 +95,45 @@ public class ClientRequestProcessor implements Runnable {
         disconnect();
     }
 
+    private void disconnect() {
+        try {
+            out.println("Bye!");
+            clientSocket.close();
+
+            System.out.println("Connection to " + clientSocket.getInetAddress()
+                    + ":" + clientSocket.getPort() + " lost because of client quit");
+        } catch (Exception e) {
+            System.out.println("---> Error while quit of connection: ");
+            System.out.println(e.getMessage());
+            out.println("Error");
+        }
+    }
+
+
+
+    /**
+     * Method that sends all items to the client that are in the shop.
+     *
+     */
     private void getAllArticles() {
         // Die Arbeit soll wieder das Bibliotheksverwaltungsobjekt machen:
         ArrayList<Article> articles = null;
         articles = eshop.getAllArticles();
 
-        sentArticlesToClient(articles);
+        sendArticlesToClient(articles);
     }
 
-    private void sentArticlesToClient(ArrayList<Article> articles) {
+    private void sendArticlesToClient(ArrayList<Article> articles) {
         // Anzahl der gefundenen Artikel senden
         out.println(articles.size());
-        for (Article article: articles) {
-            sentArticleToClient(article);
+        for (Article article : articles) {
+            if (article instanceof BulkArticle) {
+                out.println("BulkArticle"); // Artikeltyp senden
+                sentBulkArticleToClient((BulkArticle) article);
+            } else {
+                out.println("Article"); // Artikeltyp senden
+                sentArticleToClient(article);
+            }
         }
     }
 
@@ -128,81 +148,35 @@ public class ClientRequestProcessor implements Runnable {
         out.println(article.getQuantityInStock());
     }
 
+    private void sentBulkArticleToClient(BulkArticle bulkArticle) {
+        // Nummer des Artikels senden
+        out.println(bulkArticle.getNumber());
+        // Titel des Artikels senden
+        out.println(bulkArticle.getArticleTitle());
+        // Preis des Artikels senden
+        out.println(bulkArticle.getPrice());
+        // Quantity des Artikels senden
+        out.println(bulkArticle.getQuantityInStock());
+        // PackSize des Artikels senden
+        out.println(bulkArticle.getPackSize());
+    }
+
+
+
+    /**
+     * Method that sends the success message or error message to the client when a new customer wants to get registered..
+     *
+     */
     private void registerCustomer(){
-        String input = null;
-
-        // Article name
-        try {
-            input = in.readLine();
-        } catch (Exception e) {
-            System.out.println("--->Error reading from client (name): ");
-            System.out.println(e.getMessage());
-        }
-        String name = new String(input);
-
-        try {
-            input = in.readLine();
-        } catch (Exception e) {
-            System.out.println("--->Error reading from client (lastname): ");
-            System.out.println(e.getMessage());
-        }
-        String lastName = new String(input);
-
-        try {
-            input = in.readLine();
-        } catch (Exception e) {
-            System.out.println("--->Error reading from client (street): ");
-            System.out.println(e.getMessage());
-        }
-        String street = new String(input);
-
-        try {
-            input = in.readLine();
-        } catch (Exception e) {
-            System.out.println("--->Error reading from client (postalCode): ");
-            System.out.println(e.getMessage());
-        }
-        int postalCode = Integer.parseInt(input);
-
-        try {
-            input = in.readLine();
-        } catch (Exception e) {
-            System.out.println("--->Error reading from client (city): ");
-            System.out.println(e.getMessage());
-        }
-        String city = new String(input);
-
-        try {
-            input = in.readLine();
-        } catch (Exception e) {
-            System.out.println("--->Error reading from client (mail): ");
-            System.out.println(e.getMessage());
-        }
-        String mail = new String(input);
-
-        try {
-            input = in.readLine();
-        } catch (Exception e) {
-            System.out.println("--->Error reading from client (username): ");
-            System.out.println(e.getMessage());
-        }
-        String username = new String(input);
-
-        try {
-            input = in.readLine();
-        } catch (Exception e) {
-            System.out.println("--->Error reading from client (password): ");
-            System.out.println(e.getMessage());
-        }
-        String password = new String(input);
-
-        try {
-            input = in.readLine();
-        } catch (Exception e) {
-            System.out.println("--->Error reading from client (registerNow): ");
-            System.out.println(e.getMessage());
-        }
-        String registerNow = new String(input);
+        String name = readStringInput("name");
+        String lastName = readStringInput("lastname");
+        String street = readStringInput("street");
+        int postalCode = readIntInput("postalCode");
+        String city = readStringInput("city");
+        String mail = readStringInput("mail");
+        String username = readStringInput("username");
+        String password = readStringInput("password");
+        String registerNow = readStringInput("registerNow");
 
         try {
             String message = eshop.registerCustomer(name, lastName, street, postalCode, city, mail, username, password, registerNow);
@@ -214,17 +188,15 @@ public class ClientRequestProcessor implements Runnable {
         }
     }
 
-    private void loginCustomer(){
-        String username = null;
-        String password = null;
 
-        try {
-            username = in.readLine();
-            password = in.readLine();
-        } catch (IOException e) {
-            System.out.println("--->Error reading from client (username or password): ");
-            System.out.println(e.getMessage());
-        }
+
+    /**
+     * Method that sends the loggedinuser (customer) to the client. If an error occurs an error message gets send.
+     *
+     */
+    private void loginCustomer() {
+        String username = readStringInput("username");
+        String password = readStringInput("password");
 
         try {
             Customer loggedinUser = eshop.loginCustomer(username, password);
@@ -244,24 +216,15 @@ public class ClientRequestProcessor implements Runnable {
         }
     }
 
+
+
+    /**
+     * Method that sends the loggedinuser (employee) to the client. If an error occurs an error message gets send.
+     *
+     */
     private void loginEmployee(){
-        String input = null;
-
-        try {
-            input = in.readLine();
-        } catch (Exception e) {
-            System.out.println("--->Error reading from client (username): ");
-            System.out.println(e.getMessage());
-        }
-        String username = new String(input);
-
-        try {
-            input = in.readLine();
-        } catch (Exception e) {
-            System.out.println("--->Error reading from client (password): ");
-            System.out.println(e.getMessage());
-        }
-        String password = new String(input);
+        String username = readStringInput("username");
+        String password = readStringInput("password");
 
         try {
             Employee loggedinUser = eshop.loginEmployee(username, password);
@@ -279,18 +242,32 @@ public class ClientRequestProcessor implements Runnable {
 
 
 
-    private void disconnect() {
-        try {
-            //out.println("Bye!");
-            clientSocket.close();
+    /**
+     Methods for reading input from client
+     */
+    private String readStringInput(String field) {
+        String input = null;
 
-            System.out.println("Connection to " + clientSocket.getInetAddress()
-                    + ":" + clientSocket.getPort() + " lost because of client quit");
-        } catch (Exception e) {
-            System.out.println("---> Error while quit of connection: ");
+        try {
+            input = in.readLine();
+        } catch (IOException e) {
+            System.out.println("--->Error reading from client (" + field + "): ");
             System.out.println(e.getMessage());
-            out.println("Error");
         }
+
+        return input;
     }
 
+    private int readIntInput(String field) {
+        int input = 0;
+
+        try {
+            input = Integer.parseInt(in.readLine());
+        } catch (IOException | NumberFormatException e) {
+            System.out.println("--->Error reading from client (" + field + "): ");
+            System.out.println(e.getMessage());
+        }
+
+        return input;
+    }
 }
