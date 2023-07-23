@@ -92,6 +92,9 @@ public class C_CustomerFrontEnd extends JFrame implements E_SearchArticlesPanel.
         JMenu ShoppingCartMenu = new C_CustomerFrontEnd.ShoppingCartMenu();
         mBar.add(ShoppingCartMenu);
 
+        JMenu sortArticlesMenu = new C_CustomerFrontEnd.SortArticlesMenu();
+        mBar.add(sortArticlesMenu);
+
         // ... und beim Fenster anmelden
         this.setJMenuBar(mBar);
     }
@@ -178,6 +181,38 @@ public class C_CustomerFrontEnd extends JFrame implements E_SearchArticlesPanel.
                     // Aktion für den "Cart" Menüpunkt
 
                     customersCartPanel = new C_CustomersCart(C_CustomerFrontEnd.this, eshop, user);
+            }
+        }
+    }
+
+    class SortArticlesMenu extends JMenu implements ActionListener {
+
+        public SortArticlesMenu() {
+            super("Sort Articles");
+
+            JMenuItem sortByNumberItem = new JMenuItem("Sort by Number");
+            JMenuItem sortByTitleItem = new JMenuItem("Sort by Title");
+            sortByNumberItem.addActionListener(this);
+            sortByTitleItem.addActionListener(this);
+
+            add(sortByNumberItem);
+            add(sortByTitleItem);
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            ArrayList<Article> articles = eshop.getAllArticles();
+
+            switch (e.getActionCommand()) {
+                case "Sort by Number":
+                    ArticlesPanel.toggleSortOrderByNumber();
+                    ArticlesPanel.updateArticlesList(articles);
+                    break;
+                case "Sort by Title":
+                    ArticlesPanel.toggleSortOrderByTitle();
+                    ArticlesPanel.updateArticlesList(articles);
+                    break;
             }
         }
     }

@@ -6,6 +6,7 @@ import shop.local.ui.gui.models.C_ArticleTableModel;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * This class represents a panel that displays a table of articles for customers.
@@ -15,6 +16,9 @@ import java.util.Collections;
  */
 
 public class C_ArticlesTablePanel extends JTable {
+
+    private boolean sortByArticleNumber = true; // Variablen zur Steuerung der Sortierreihenfolge
+    private boolean sortByArticleTitle = false;
 
     public C_ArticlesTablePanel(ArrayList<Article> articles) {
         super();
@@ -28,14 +32,27 @@ public class C_ArticlesTablePanel extends JTable {
     }
 
     public void updateArticlesList(ArrayList<Article> articles) {
-
-        // Sortierung (mit Lambda-Expression)
-//		Collections.sort(articles, (a1, a2) -> a1.getTitel().compareTo(a2.getTitel()));	// Sortierung nach Titel
-        Collections.sort(articles, (a1, a2) -> a1.getNumber() - a2.getNumber());	// Sortierung nach Nummer
+        // Sortierung (kurz-Schreibweise)
+        if (sortByArticleTitle) {
+            Collections.sort(articles, Comparator.comparing(Article::getArticleTitle)); // Sortierung nach Artikelbezeichnung
+        } else if (sortByArticleNumber) {
+            Collections.sort(articles, Comparator.comparingInt(Article::getNumber)); // Sortierung nach Artikelnummer
+        }
 
         // TableModel von JTable holen und ...
         C_ArticleTableModel tableModel = (C_ArticleTableModel) getModel();
         // Inhalt aktualisieren
         tableModel.setArticles(articles);
+    }
+
+    // Methode zum Ändern der Sortierreihenfolge
+    public void toggleSortOrderByNumber() {
+        sortByArticleNumber = true;
+        sortByArticleTitle = false;
+    }
+
+    public void toggleSortOrderByTitle() {
+        sortByArticleNumber = false;
+        sortByArticleTitle = true;
     }
 }
