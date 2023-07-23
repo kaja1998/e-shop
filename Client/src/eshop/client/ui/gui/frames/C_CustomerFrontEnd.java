@@ -2,7 +2,7 @@ package eshop.client.ui.gui.frames;
 
 import eshop.client.ui.gui.panels.C_AddArticleToCartPanel;
 import eshop.client.ui.gui.panels.C_ArticlesTablePanel;
-import eshop.client.ui.gui.panels.E_SearchArticlesPanel;
+import eshop.client.ui.gui.panels.C_SearchArticlesPanel;
 import eshop.client.ui.gui.WindowCloser;
 import eshop.common.entities.Article;
 import eshop.common.entities.User;
@@ -17,12 +17,12 @@ import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class C_CustomerFrontEnd extends JFrame implements E_SearchArticlesPanel.SearchResultListener {
+public class C_CustomerFrontEnd extends JFrame implements C_SearchArticlesPanel.SearchResultListener {
     private ShopInterface eshop;
     private User user;
     private String host;
     private int port;
-    private E_SearchArticlesPanel searchPanel;
+    private C_SearchArticlesPanel searchPanel;
     private C_AddArticleToCartPanel addToCartPanel;
     private C_ArticlesTablePanel ArticlesPanel;
     private C_CustomersCart customersCartPanel;
@@ -51,7 +51,7 @@ public class C_CustomerFrontEnd extends JFrame implements E_SearchArticlesPanel.
         this.setLayout(new BorderLayout());
 
         // North
-        searchPanel = new E_SearchArticlesPanel(eshop, this);
+        searchPanel = new C_SearchArticlesPanel(eshop, this);
 
         // West
         addToCartPanel = new C_AddArticleToCartPanel(eshop, user);
@@ -77,9 +77,9 @@ public class C_CustomerFrontEnd extends JFrame implements E_SearchArticlesPanel.
     /*
      * (non-Javadoc)
      *
-     * Listener, der Benachrichtungen erhält, wenn das E_SearchArticlesPanel ein Suchergebnis bereitstellen möchte.
+     * Listener, der Benachrichtungen erhält, wenn das C_SearchArticlesPanel ein Suchergebnis bereitstellen möchte.
      * (Als Reaktion soll die Articleliste aktualisiert werden.)
-     * @see shop.local.ui.gui.swing.panels.E_SearchArticlesPanel.SearchResultListener#onSearchResult(java.util.List)
+     * @see shop.local.ui.gui.swing.panels.C_SearchArticlesPanel.SearchResultListener#onSearchResult(java.util.List)
      */
     @Override
     public void onSearchResult(ArrayList<Article> articles) {
