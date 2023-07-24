@@ -29,7 +29,7 @@ public class L_LoginStart extends JFrame {
 
         private void initialize() {
             setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-            this.addWindowListener(new WindowCloser());
+            this.addWindowListener(new WindowCloser(eshop));
 
             JTabbedPane tabbedPane = new JTabbedPane();
 

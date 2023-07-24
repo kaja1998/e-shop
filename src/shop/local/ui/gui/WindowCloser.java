@@ -1,5 +1,7 @@
 package shop.local.ui.gui;
 
+import shop.local.domain.Shop;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -13,6 +15,12 @@ import java.awt.event.WindowEvent;
  */
 
 public class WindowCloser extends WindowAdapter {
+    private Shop eshop;
+
+    public WindowCloser(Shop eshop) {
+        this.eshop =eshop;
+    }
+
     @Override
     public void windowClosing(WindowEvent e) {
         Window window = e.getWindow();                              // Das Fenster, das geschlossen wird
@@ -29,6 +37,7 @@ public class WindowCloser extends WindowAdapter {
         if (result == JOptionPane.YES_OPTION) {                     // Wenn der Benutzer "Yes" auswählt
             window.setVisible(false);                               // Das Fenster unsichtbar machen
             window.dispose();                                       // Das Fenster freigeben
+            eshop.disconnect();
             System.exit(0);                                   // Die Anwendung beenden
         }
     }

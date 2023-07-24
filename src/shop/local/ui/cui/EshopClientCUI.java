@@ -718,6 +718,7 @@ public class EshopClientCUI {
 					processInputFromEntryMenu(input);
 				}
 			}
+			System.out.println(eshop.disconnect());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

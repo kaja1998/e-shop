@@ -252,4 +252,8 @@ public class Shop {
 		}
 		return null;
 	}
+
+	public String disconnect(){
+		return "Goodbye and hope to see you again!";
+	}
 }
