@@ -2,7 +2,6 @@ package eshop.server.domain;
 
 import eshop.common.entities.*;
 import eshop.common.exceptions.*;
-import eshop.common.interfaces.ShopInterface;
 
 import java.io.IOException;
 import java.util.*;
@@ -15,7 +14,7 @@ import java.util.*;
  * @author Sund
  */
 
-public class Shop implements ShopInterface {
+public class Shop {
 	// Prefix for names of files in which shop data is stored
 	private String file = "";
 	private ArticleAdministration articleAdministration;

@@ -6,7 +6,7 @@ import eshop.common.entities.Customer;
 import eshop.common.entities.Employee;
 import eshop.common.exceptions.LoginException;
 import eshop.common.exceptions.RegisterException;
-import eshop.common.interfaces.ShopInterface;
+import eshop.server.domain.Shop;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,7 +24,7 @@ import java.util.ArrayList;
 public class ClientRequestProcessor implements Runnable {
 
     // Shopverwaltungsobjekt
-    private ShopInterface eshop;
+    private Shop eshop;
 
     // Datenstrukturen für die Kommunikation
     private Socket clientSocket;
@@ -35,7 +35,7 @@ public class ClientRequestProcessor implements Runnable {
      * Constructor for the ClientRequestProcessor
      * Takes a Socket and a ShopInterface instance as parameters
      */
-    public ClientRequestProcessor(Socket socket, ShopInterface eshop) {
+    public ClientRequestProcessor(Socket socket, Shop eshop) {
         this.eshop = eshop; // Die ShopInterface-Instanz speichern, um später auf die Shop-Logik zugreifen zu können
         clientSocket = socket; // Den Socket des Clients speichern
 

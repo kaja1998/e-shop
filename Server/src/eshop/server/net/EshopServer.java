@@ -1,6 +1,5 @@
 package eshop.server.net;
 
-import eshop.common.interfaces.ShopInterface;
 import eshop.server.domain.Shop;
 
 import java.io.IOException;
@@ -24,7 +23,7 @@ public class EshopServer {
     public final static int DEFAULT_PORT = 6779;
     protected int port;
     protected ServerSocket serverSocket;
-    private ShopInterface eshop;
+    private Shop eshop;
 
     /**
      * Constructor for creating the E-shop server.
