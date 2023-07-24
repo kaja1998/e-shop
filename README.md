@@ -1,6 +1,6 @@
 # eShop
 Dieser eShop wurde im Rahmen der Vorlesung "Programmierung 2" an der Hochschule Bremen erstellt.
-Über das Shop-System können Kunden vorhandene Artikel kaufen und weitere Aktionen durchführen. Außerdem können Mitarbeiter den Shop mit neuen Artikel befüllen, diese anpassen und mehr.
+Über das Shop-System können Kunden vorhandene Artikel kaufen und weitere Aktionen durchführen. Außerdem können Mitarbeiter den Shop mit neuen Artikeln befüllen, diese anpassen und mehr.
 
 ## Organisatorisches
 Zu dem Projekt wird es insgesamt vier Übungsblätter geben, die abhängig vom Fortschreiten der Vorlesung ausgegeben werden und der Steuerung Ihrer Entwicklungsaktivitäten dienen sollen.
@@ -22,7 +22,7 @@ Die Inhalte der einzelnen Übungsblätter sind jeweils als einzelne [Meilenstein
 1. Im Server-Modul einmal den Server starten. Die Klasse in dem die Main drin ist heißt „EshopServer“.
 2. Danach den Client starten (GUI oder CUI). Die Klasse in dem die Main für die GUI drin ist heißt „Main“. Die Klasse in dem die Main für die CUI drin ist heißt “EshopClientCUI“.
 
-## Installation IntelliJ (Nur Relevant bei der Client/Server-Version)
+## Installation IntelliJ (Nur relevant bei der Client/Server-Version)
 Das Projekt ist ein IntelliJ-Projekt, das aus drei Modulen besteht:
 Client, Common und Server
 Damit die Module "Client" und "Server" in IntelliJ richtig übersetzt werden können, müssen sie Zugriff auf die Klassen und Interfaces im Modul "Common" erhalten.
