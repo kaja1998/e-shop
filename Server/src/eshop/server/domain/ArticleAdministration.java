@@ -205,16 +205,4 @@ public class ArticleAdministration {
 		return result;
 	}
 
-//	public void addArticle(Article article, String articleTitle, String articleType, int initialQuantity, double price,
-//			int packSize) throws IOException {
-//		if (articleType.equalsIgnoreCase("bulk")) {
-//			// Lese Packungsgröße
-//			// Erstelle Massengutartikel
-//			article = new BulkArticle(articleTitle, initialQuantity, price, packSize);
-//		} else {
-//			// Erstelle Einzelartikel
-//			article = new Article(articleTitle, initialQuantity, price);
-//		}
-//	}
-
 }

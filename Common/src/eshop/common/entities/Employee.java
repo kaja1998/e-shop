@@ -3,8 +3,6 @@ import java.util.Objects;
 
 /**
  * Class to represent individual employees.
- * The class is currently not used because the shop
- * Application so far only manages articles.
  *
  * @author Sund
  */
