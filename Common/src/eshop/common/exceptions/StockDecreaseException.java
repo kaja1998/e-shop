@@ -1,6 +1,9 @@
 package eshop.common.exceptions;
 
-
+/**
+ * Exception when an Employee wants to change an article's quantity but the quantity can't be retrieved
+ * @author Sund
+ */
 public class StockDecreaseException extends Exception{
 
     public StockDecreaseException(String additionalMessage) {

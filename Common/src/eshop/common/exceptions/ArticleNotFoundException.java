@@ -1,17 +1,16 @@
 package eshop.common.exceptions;
 
+/**
+ * Exception when an article doesn't exist in the shop.
+ * @author Sund
+ */
 @SuppressWarnings("serial")
 public class ArticleNotFoundException extends Exception {
 
     private String title;
     private int articleNumber;
 
-    /**
-     * Constructor
-     *
-     * @param title           the article that was not found
-     * @param additionalMessage additional text for the error message
-     */
+
     public ArticleNotFoundException(String title, String additionalMessage) {
         super(buildErrorMessage(title, additionalMessage));
         this.title = title;
@@ -26,12 +25,6 @@ public class ArticleNotFoundException extends Exception {
         return errorMessage.toString();
     }
 
-    /**
-     * Constructor
-     *
-     * @param articleNumber the article that was not found
-     * @param additionalMessage additional text for the error message
-     */
     public ArticleNotFoundException(int articleNumber, String additionalMessage) {
         super(buildErrorMessage(articleNumber, additionalMessage));
         this.articleNumber = articleNumber;

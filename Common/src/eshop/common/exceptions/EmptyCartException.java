@@ -1,5 +1,9 @@
 package eshop.common.exceptions;
 
+/**
+ * Exception when a customer wants to clear the cart but the cart has no cart items in it.
+ * @author Sund
+ */
 public class EmptyCartException extends Exception {
 
     public EmptyCartException(String additionalMessage) {

@@ -1,17 +1,14 @@
 package eshop.common.exceptions;
 import eshop.common.entities.User;
 
-
+/**
+ * Exception when a User wants to registrate himself, but the user already exists.
+ * @author Sund
+ */
 @SuppressWarnings("serial")
 public class RegisterException extends Exception {
     private User user;
 
-    /**
-     * Constructor
-     *
-     * @param user           the user that was not found
-     * @param additionalMessage additional text for the error message
-     */
     public RegisterException(User user, String additionalMessage) {
         super(buildErrorMessage(user, additionalMessage));
         this.user = user;

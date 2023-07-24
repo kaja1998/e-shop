@@ -2,6 +2,10 @@ package eshop.common.exceptions;
 
 import eshop.common.entities.Article;
 
+/**
+ * Exception when an article is not in the shopping cart
+ * @author Sund
+ */
 public class ArticleInCartNotFoundException extends Exception {
 
     private Article article;

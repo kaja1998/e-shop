@@ -1,13 +1,12 @@
 package eshop.common.exceptions;
 
+/**
+ * Exception when a User wants to loggin but the username or password is incorrect.
+ * @author Sund
+ */
 @SuppressWarnings("serial")
 public class LoginException extends Exception {
 
-    /**
-     * Constructor
-     *
-     * @param additionalMessage additional text for the error message
-     */
     public LoginException(String additionalMessage) {
         super(buildErrorMessage(additionalMessage));
     }
