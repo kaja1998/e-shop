@@ -136,7 +136,7 @@ public class Shop {
 	 * Hier kam es bei den Events manchmal zu einer NUllPointerException und ich konnte den Fehler nicht finden, weshalb ich den Code für Events auskommentiert habe.
 	 * Ich habe mich erst eingeloggt. Dann einen Artikel gelöscht und mich dann wieder ausgeloggt.
 	 * Beim zweiten Mal einloggen habe ich dann einen anderen Artikel gelöscht und dann trat die Exception auf.
-	 * Debugger hat mir bis zu Zeile 156 angezeigt dass er den Artikel findet...
+	 * Debugger hat mir bis zu Zeile 146 angezeigt dass er den Artikel findet...
 	 */
 	public void deleteArticle(int number, User user) throws IOException, ArticleNotFoundException {
 		Article article = articleAdministration.searchByArticleNumber(number);

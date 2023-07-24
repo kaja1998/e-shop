@@ -43,7 +43,9 @@ public class EshopClientCUI {
 		}
 	}
 
-	/*
+
+
+	/**
 	 * Methods for outputting the menus.
 	 */
 	private void printEntryMenu() {
@@ -87,7 +89,9 @@ public class EshopClientCUI {
 		System.out.flush(); // ohne NL ausgeben
 	}
 
-	/*
+
+
+	/**
 	 * Methods for processing the menu selections
 	 */
 	private boolean processInputFromEntryMenu(String line) {
@@ -184,6 +188,11 @@ public class EshopClientCUI {
 		}
 	}
 
+
+
+	/**
+	 * Methods for reading the inputs of the user
+	 */
 	private String readInput() throws IOException {
 		// einlesen von Konsole
 		return in.readLine();
@@ -249,7 +258,9 @@ public class EshopClientCUI {
 		return string;
 	}
 
-	/*
+
+
+	/**
 	 * Methods for registering and logging in employees / customers, as well as
 	 * logging out
 	 */
@@ -341,7 +352,9 @@ public class EshopClientCUI {
 		System.out.println("You got logged out successfully.");
 	}
 
-	/*
+
+
+	/**
 	 * methods for the employee
 	 */
 	private void deleteArticle() {
@@ -464,9 +477,7 @@ public class EshopClientCUI {
 		}
 	}
 
-	/*
-	 * Methods for employee to output all swaps in and outs to console
-	 */
+	//Methode funktioniert nicht korrekt.
 	public void showHistory() {
 		try {
 			//TODO wenn funktioniert, exceptions einbauen und die untere Zeile einblenden.
@@ -493,10 +504,11 @@ public class EshopClientCUI {
 		}
 	}
 
-	/*
+
+
+	/**
 	 * methods for the customer
 	 */
-
 	private void printArticleList(ArrayList<Article> list) {
 		for (Article article : list)
 			System.out.println(article);
@@ -678,7 +690,9 @@ public class EshopClientCUI {
 		}
 	}
 
-	/*
+
+
+	/**
 	 * Methods of running the program
 	 */
 	public void run() {
