@@ -45,7 +45,7 @@ public class C_CustomerFrontEnd extends JFrame implements C_SearchArticlesPanel.
         // setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         // B) Mittels WindowAdapter (für Sicherheitsabfrage)
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-        this.addWindowListener(new WindowCloser());
+        this.addWindowListener(new WindowCloser(eshop));
 
         // Layout des Frames: BorderLayout
         this.setLayout(new BorderLayout());

@@ -31,17 +31,23 @@ public class ClientRequestProcessor implements Runnable {
     private BufferedReader in;
     private PrintStream out;
 
-    public ClientRequestProcessor(Socket socket, ShopInterface eshop){
+    /**
+     * Constructor for the ClientRequestProcessor
+     * Takes a Socket and a ShopInterface instance as parameters
+     */
+    public ClientRequestProcessor(Socket socket, ShopInterface eshop) {
+        this.eshop = eshop; // Die ShopInterface-Instanz speichern, um später auf die Shop-Logik zugreifen zu können
+        clientSocket = socket; // Den Socket des Clients speichern
 
-        this.eshop = eshop;
-        clientSocket = socket;
-
-        // I/O-Streams initialisieren und ClientRequestProcessor-Objekt als Thread starten:
         try {
+            // Initialisieren der I/O-Streams, um mit dem Client zu kommunizieren
+            // BufferedReader wird verwendet, um Eingaben vom Client zu lesen
+            // PrintStream wird verwendet, um Ausgaben an den Client zu senden
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             out = new PrintStream(clientSocket.getOutputStream());
         } catch (IOException e) {
             try {
+                // Falls ein Fehler bei der Initialisierung der Streams auftritt, wird der Socket geschlossen
                 clientSocket.close();
             } catch (IOException e2) {
             }
@@ -49,6 +55,7 @@ public class ClientRequestProcessor implements Runnable {
             return;
         }
 
+        // Ausgabe der Meldung, dass eine Verbindung mit dem Client hergestellt wurde
         System.out.println("Connected with " + clientSocket.getInetAddress()
                 + ":" + clientSocket.getPort());
     }
@@ -71,10 +78,8 @@ public class ClientRequestProcessor implements Runnable {
             input = readStringInput("action");
 
             // Eingabe bearbeiten:
-            if (input == null) {
-                // input wird von readLine() auf null gesetzt, wenn Client Verbindung abbricht
-                // Einfach behandeln wie ein "quit"
-                input = "q";
+            if (input == null || input.equals("q")) {
+                disconnect();
             } else if (input.equals("a")) {
                 // Aktion "Artikel ausgeben" gewählt
                 getAllArticles();
@@ -95,17 +100,21 @@ public class ClientRequestProcessor implements Runnable {
         disconnect();
     }
 
+    /**
+     * Method handles the disconnection process with a client
+     */
     private void disconnect() {
         try {
-            out.println("Bye!");
+            String message = eshop.disconnect();
+            out.println(message);
             clientSocket.close();
 
             System.out.println("Connection to " + clientSocket.getInetAddress()
-                    + ":" + clientSocket.getPort() + " lost because of client quit");
+                    + ":" + clientSocket.getPort() + " lost because of client quit.");
         } catch (Exception e) {
+            out.println("Error while quit of connection.");
             System.out.println("---> Error while quit of connection: ");
             System.out.println(e.getMessage());
-            out.println("Error");
         }
     }
 
@@ -116,7 +125,6 @@ public class ClientRequestProcessor implements Runnable {
      *
      */
     private void getAllArticles() {
-        // Die Arbeit soll wieder das Bibliotheksverwaltungsobjekt machen:
         ArrayList<Article> articles = null;
         articles = eshop.getAllArticles();
 

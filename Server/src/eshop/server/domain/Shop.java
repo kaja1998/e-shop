@@ -254,4 +254,8 @@ public class Shop implements ShopInterface {
 		}
 		return null;
 	}
+
+	public String disconnect(){
+		return "Goodbye and hope to see you again!";
+	}
 }

@@ -12,6 +12,14 @@ import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 
+
+/**
+ * The class ShopFassade is a client-side implementation responsible for processing communication between the client and the server.
+ * It establishes a connection to the server using sockets and sends and receives messages to/from the server.
+ *
+ * @author: sund
+ */
+
 public class ShopFassade implements ShopInterface {
 
     // Datenstrukturen für die Kommunikation
@@ -22,9 +30,7 @@ public class ShopFassade implements ShopInterface {
 
     /**
      * Creates a new instance of ShopFassade that connects to the specified host and port.
-     *
      * @throws IOException If an I/O error occurs while establishing the connection.
-     * @author: sund
      */
     public ShopFassade(String host, int port) throws IOException {
         try {
@@ -57,7 +63,6 @@ public class ShopFassade implements ShopInterface {
 
     /**
      * Method that returns a list of all items in inventory.
-     *
      * @return List of all items in stock of the shop
      */
     public ArrayList<Article> getAllArticles() {
@@ -91,7 +96,6 @@ public class ShopFassade implements ShopInterface {
 
     /**
      * Method that reads articles from server
-     *
      * @return normal article to getAllArticles() methode
      */
     private Article readArticleFromServer() {
@@ -114,7 +118,6 @@ public class ShopFassade implements ShopInterface {
 
     /**
      * Method that reads Bulkarticles from server
-     *
      * @return Bulkarticle to getAllArticles() methode
      */
     private Article readBulkArticleFromServer() {
@@ -254,7 +257,22 @@ public class ShopFassade implements ShopInterface {
 
 
     /**
-     Methods for reading input/reply from Server
+     * Method when leaving the Shop
+     * @return a bye message, but only in the cui. In the GUI I didn't liked the implementation
+     * In the GUI you find the methode in the windowCloser class
+     */
+    public String disconnect() {
+        // Kennzeichen für gewählte Aktion senden
+        sout.println("q");
+
+        String reply = readStringInput("reply");
+        return reply;
+    }
+
+
+
+    /**
+     * Methods for reading input/reply from Server
      */
     private String readStringInput(String field) {
         String input = null;

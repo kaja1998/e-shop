@@ -720,6 +720,7 @@ public class EshopClientCUI {
 					processInputFromEntryMenu(input);
 				}
 			}
+			System.out.println(eshop.disconnect());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -732,7 +733,7 @@ public class EshopClientCUI {
 
 		// Read host and port arguments if given
 		if (args.length > 2) {
-			System.out.println("Aufruf: java BibClientGUI [<hostname> [<port>]]");
+			System.out.println("Call: java <classname> [<hostname> [<port>]]");
 			System.exit(0);
 		}
 		switch (args.length) {

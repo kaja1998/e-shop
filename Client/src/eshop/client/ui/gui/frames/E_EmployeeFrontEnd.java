@@ -40,7 +40,7 @@ public class E_EmployeeFrontEnd extends JFrame implements E_AddArticlePanel.AddA
 		// setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		// B) Mittels WindowAdapter (für Sicherheitsabfrage)
 		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-		this.addWindowListener(new WindowCloser());
+		this.addWindowListener(new WindowCloser(eshop));
 
 		// Layout des Frames: BorderLayout
 		this.setLayout(new BorderLayout());
