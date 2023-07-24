@@ -1,12 +1,12 @@
 package shop.local.domain.exceptions;
 
+/**
+ * Exception when all articles in the shopping cart are no longer available and can't be purchased.
+ * @author Sund
+ */
 @SuppressWarnings("serial")
 public class ArticleBuyingException extends Exception {
 
-    /**
-     * Constructor
-     * @param additionalMessage additional text for the error message
-     */
     public ArticleBuyingException(String additionalMessage) {
         super(buildErrorMessage(additionalMessage));
     }

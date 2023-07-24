@@ -1,5 +1,9 @@
 package shop.local.domain.exceptions;
 
+/**
+ * Exception when a customer wants to add an article to his shoppingCart in an insufficient quantity or wants to change the quanity in his cart
+ * @author Sund
+ */
 public class InsufficientStockException extends Throwable {
 
     private int availableQuantity;

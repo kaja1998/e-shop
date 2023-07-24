@@ -2,6 +2,10 @@ package shop.local.domain.exceptions;
 
 import shop.local.entities.Article;
 
+/**
+ * Exception when an article is not in the shopping cart
+ * @author Sund
+ */
 public class ArticleInCartNotFoundException extends Exception {
 
     private Article article;

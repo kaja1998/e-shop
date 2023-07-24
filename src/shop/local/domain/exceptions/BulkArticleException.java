@@ -2,6 +2,11 @@ package shop.local.domain.exceptions;
 
 import shop.local.entities.Article;
 
+/**
+ * Exception when an article gets added to the shopping cart in an inappropriate quantity because it is a bulkArticle
+ * Or when a customer wants to chance the quantity of an BulkArticle and doesn't remember the packSize etc.
+ * @author Sund
+ */
 public class BulkArticleException extends Throwable {
 
     private Article article;

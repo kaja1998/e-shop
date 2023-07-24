@@ -10,13 +10,7 @@ import shop.local.entities.Article;
 public class ArticleAlreadyExistsException extends Exception {
 
 	private Article article;
-	
-	/**
-	 * Konstruktor
-	 * 
-	 * @param article the already existing article
-	 * @param additionalMessage additional text for the error message
-	 */
+
 	public ArticleAlreadyExistsException(Article article, String additionalMessage) {
 		super(buildErrorMessage(article, additionalMessage));
 		this.article = article;
@@ -30,9 +24,6 @@ public class ArticleAlreadyExistsException extends Exception {
 		}
 		return errorMessage.toString();
 	}
-
-
-
 
 	public Article getArticle() {
 		return article;
