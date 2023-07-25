@@ -141,15 +141,9 @@ public class ShopFassade implements ShopInterface {
         // quanity vom Artikel i einlesen
         int quantityInStock = readIntInput("quantityInStock");
 
+        // articleStatus vom Artikel i einlesen
         String articleStatusString = readStringInput("articleStatusString");
-
-        // Convert the string to ArticleStatus using a simple check
-        ArticleStatus articleStatus = null;
-        if (articleStatusString.equalsIgnoreCase("ACTIVE")) {
-            articleStatus = ArticleStatus.ACTIVE;
-        } else if (articleStatusString.equalsIgnoreCase("INACTIVE")) {
-            articleStatus = ArticleStatus.INACTIVE;
-        } 
+        ArticleStatus articleStatus = ArticleStatus.fromString(articleStatusString);
 
         // Neues Article-Objekt erzeugen und zurückgeben
         Article article = new Article(number, articleTitle, quantityInStock, price, articleStatus);
