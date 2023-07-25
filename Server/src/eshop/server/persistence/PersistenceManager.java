@@ -26,7 +26,7 @@ public interface PersistenceManager {
 	public void openForReading(String dataSource) throws IOException;
 
 	public void openForWriting(String dataSource) throws IOException;
-	
+
 	public boolean close();
 
 
@@ -38,8 +38,6 @@ public interface PersistenceManager {
 	public Article readArticle() throws IOException;
 
 	public boolean writeArticles(ArrayList<Article> existingArticles) throws IOException;
-
-	public boolean deleteArticle(Article articleToDelete, ArrayList<Article> existingArticles) throws IOException;
 
 
 	/**

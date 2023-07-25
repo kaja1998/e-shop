@@ -11,14 +11,14 @@ public class ArticleAlreadyExistsException extends Exception {
 
 	private Article article;
 
-	public ArticleAlreadyExistsException(Article article, String additionalMessage) {
-		super(buildErrorMessage(article, additionalMessage));
-		this.article = article;
+	public ArticleAlreadyExistsException(Article newArticle, Article conflictingArticle, String additionalMessage) {
+		super(buildErrorMessage(newArticle, conflictingArticle, additionalMessage));
+		this.article = newArticle;
 	}
 
-	private static String buildErrorMessage(Article article, String additionalMessage) {
+	private static String buildErrorMessage(Article article,  Article conflictingArticle, String additionalMessage) {
 		StringBuilder errorMessage = new StringBuilder();
-		errorMessage.append("Article with the name " + article.getArticleTitle() + " and number " +article.getNumber() + " already exists. ");
+		errorMessage.append("Article " + article.getArticleTitle() + " conflicts with article number " + conflictingArticle.getNumber() + " .");
 		if (additionalMessage != null) {
 			errorMessage.append(additionalMessage);
 		}

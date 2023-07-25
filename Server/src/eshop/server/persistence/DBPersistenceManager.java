@@ -50,12 +50,6 @@ public class DBPersistenceManager implements PersistenceManager {
 		return false;
 	}
 
-	@Override
-	public boolean deleteArticle(Article article, ArrayList<Article> existingArticles) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 
 
 	@Override

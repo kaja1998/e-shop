@@ -51,9 +51,12 @@ public class ArticleAdministration {
 	}
 
 	public void insertArticle(Article article) throws ArticleAlreadyExistsException {
-		if (articles.contains(article)) {
-			// Wenn der Artikel bereits existiert, wird eine ArticleAlreadyExistsException ausgelöst
-			throw new ArticleAlreadyExistsException(article, null);
+		Article conflictingArticle;
+		for (Article articleInList : articles) {
+			if(articleInList.equals(article)) {
+				conflictingArticle = articleInList;
+				throw new ArticleAlreadyExistsException(article, conflictingArticle, null);
+			}
 		}
 		// Wenn der Artikel nicht im Artikelbestand vorhanden ist, wird er der ArrayList hinzugefügt
 		articles.add(article);
@@ -68,17 +71,17 @@ public class ArticleAdministration {
 		persistenceManager.close();
 	}
 
-	public void writeDataToRemoveArticle(String file, Article article) throws IOException {
-		// Open persistence manager for writes
-		persistenceManager.openForWriting(file);
-		persistenceManager.deleteArticle(article, this.articles);
-
-		// Close the persistence interface again
-		persistenceManager.close();
-	}
-
 	public void delete(Article article) {
-		articles.remove(article);
+		int index = 0;
+		for (Article articleInList : articles) {
+			if(articleInList.getNumber() == article.getNumber()) {
+				articleInList.setQuantityInStock(0);
+				articleInList.setStatus(ArticleStatus.INACTIVE);
+				articleInList.setInStock(false);
+				articles.set(index, articleInList);
+			}
+			index++;
+		}
 	}
 
 	public ArrayList<Article> searchArticle(String title) throws ArticleNotFoundException {
@@ -125,6 +128,9 @@ public class ArticleAdministration {
 
 	public void increaseArticleStock(Article article, int quantityToAdd, String file) throws IOException {
 		article.increaseStock(quantityToAdd);
+		if (quantityToAdd > 0){
+			article.setStatus(ArticleStatus.valueOf("ACTIVE"));
+		}
 		writeData(file);
 	}
 

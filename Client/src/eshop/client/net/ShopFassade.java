@@ -1,9 +1,6 @@
 package eshop.client.net;
 
-import eshop.common.entities.Article;
-import eshop.common.entities.BulkArticle;
-import eshop.common.entities.Customer;
-import eshop.common.entities.Employee;
+import eshop.common.entities.*;
 import eshop.common.exceptions.LoginException;
 import eshop.common.exceptions.RegisterException;
 import eshop.common.interfaces.ShopInterface;
@@ -95,6 +92,39 @@ public class ShopFassade implements ShopInterface {
     }
 
     /**
+     * Method that returns a list of all items in inventory without the ones who are INACTIVE
+     * @return List of all items in stock of the shop
+     */
+    public ArrayList<Article> getAllArticlesWithoutInactive() {
+        // Kennzeichen für gewählte Aktion senden
+        sout.println("awi");
+
+        ArrayList<Article> list = new ArrayList<>();
+
+        // Antwort vom Server lesen:
+        // Anzahl gefundener Artikel einlesen
+        String reply = readStringInput("reply");
+        int anzahl = Integer.parseInt(reply);
+
+        for (int i = 0; i < anzahl; i++) {
+            // Artikeltyp vom Server einlesen (BulkArticle oder Article)
+            String articleType = readStringInput("articleType");
+            if (articleType.equals("BulkArticle")) {
+                BulkArticle bulkArticle = (BulkArticle) readBulkArticleFromServer();
+                // in Liste eintragen
+                list.add(bulkArticle);
+            } else if (articleType.equals("Article")) {
+                Article article = readArticleFromServer();
+                // in Liste eintragen
+                list.add(article);
+            } else {
+                System.err.println("Got Unknown ArticleType: " + articleType);
+            }
+        }
+        return list;
+    }
+
+    /**
      * Method that reads articles from server
      * @return normal article to getAllArticles() methode
      */
@@ -111,8 +141,18 @@ public class ShopFassade implements ShopInterface {
         // quanity vom Artikel i einlesen
         int quantityInStock = readIntInput("quantityInStock");
 
+        String articleStatusString = readStringInput("articleStatusString");
+
+        // Convert the string to ArticleStatus using a simple check
+        ArticleStatus articleStatus = null;
+        if (articleStatusString.equalsIgnoreCase("ACTIVE")) {
+            articleStatus = ArticleStatus.ACTIVE;
+        } else if (articleStatusString.equalsIgnoreCase("INACTIVE")) {
+            articleStatus = ArticleStatus.INACTIVE;
+        } 
+
         // Neues Article-Objekt erzeugen und zurückgeben
-        Article article = new Article(number, articleTitle, quantityInStock, price);
+        Article article = new Article(number, articleTitle, quantityInStock, price, articleStatus);
         return article;
     }
 
@@ -128,11 +168,12 @@ public class ShopFassade implements ShopInterface {
         int packSize = readIntInput("packSize");
 
         // Neues BulkArticle-Objekt erzeugen und zurückgeben
-        BulkArticle bulkArticle = new BulkArticle(article.getNumber(), article.getArticleTitle(), article.getQuantityInStock(), article.getPrice(), packSize);
+        BulkArticle bulkArticle = new BulkArticle(article.getNumber(), article.getArticleTitle(), article.getQuantityInStock(), article.getPrice(), packSize, article.getStatus());
         return bulkArticle;
     }
 
 
+    
 
     /**
      * Method that Sends flag for selected action (registerCustomer) and parameters of the new customer to the Server

@@ -10,15 +10,15 @@ import java.util.List;
 public class E_ArticleTableModel extends AbstractTableModel  {
 
     private List<Article> articles;
-    private String[] spaltenNamen = { "Number", "Title", "Price", "Quantity", "Pack size"};
+    private String[] spaltenNamen = { "Number", "Title", "Price", "Quantity", "Pack size", "Status"};
 
-    
+
     public E_ArticleTableModel(List<Article> aktuelleArticles) {
-    	super(); 
-    	// Ich erstelle eine Kopie der Artikelliste,
-    	// damit beim Aktualisieren (siehe Methode setArticles())
-    	// keine unerwarteten Seiteneffekte entstehen.
-    	articles = new ArrayList<>();
+        super();
+        // Ich erstelle eine Kopie der Artikelliste,
+        // damit beim Aktualisieren (siehe Methode setArticles())
+        // keine unerwarteten Seiteneffekte entstehen.
+        articles = new ArrayList<>();
         articles.addAll(aktuelleArticles);
     }
 
@@ -29,14 +29,14 @@ public class E_ArticleTableModel extends AbstractTableModel  {
     }
 
     /*
-     * Ab hier überschriebene Methoden mit Informationen, 
+     * Ab hier überschriebene Methoden mit Informationen,
      * die eine JTable von jedem TableModel erwartet:
      * - Anzahl der Zeilen
      * - Anzahl der Spalten
      * - Benennung der Spalten
      * - Wert einer Zelle in Zeile / Spalte
      */
-    
+
     @Override
     public int getRowCount() {
         return articles.size();
@@ -51,7 +51,7 @@ public class E_ArticleTableModel extends AbstractTableModel  {
     public String getColumnName(int col) {
         return spaltenNamen[col];
     }
-    
+
     @Override
     public Object getValueAt(int row, int col) {
         Article chosenArticle = articles.get(row);
@@ -71,6 +71,8 @@ public class E_ArticleTableModel extends AbstractTableModel  {
                 } else {
                     return null;
                 }
+            case 5:
+                return chosenArticle.getStatus();
             default:
                 return null;
         }

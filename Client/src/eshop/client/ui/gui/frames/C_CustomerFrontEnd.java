@@ -57,7 +57,8 @@ public class C_CustomerFrontEnd extends JFrame implements C_SearchArticlesPanel.
         addToCartPanel = new C_AddArticleToCartPanel(eshop, user);
 
         // Center
-        ArrayList<Article> articles = eshop.getAllArticles();
+        ArrayList<Article> articles = eshop.getAllArticlesWithoutInactive();
+
         // (wahlweise Anzeige als Liste oder Tabelle)
         ArticlesPanel = new C_ArticlesTablePanel(articles);
         JScrollPane scrollPane = new JScrollPane(ArticlesPanel);
@@ -217,7 +218,7 @@ public class C_CustomerFrontEnd extends JFrame implements C_SearchArticlesPanel.
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            ArrayList<Article> articles = eshop.getAllArticles();
+            ArrayList<Article> articles = eshop.getAllArticlesWithoutInactive();
 
             switch (e.getActionCommand()) {
                 case "Sort by Number":

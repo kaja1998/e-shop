@@ -83,6 +83,9 @@ public class ClientRequestProcessor implements Runnable {
             } else if (input.equals("a")) {
                 // Aktion "Artikel ausgeben" gewählt
                 getAllArticles();
+            } else if (input.equals("awi")) {
+                // Aktion "Artikel ausgeben" gewählt
+                getAllArticlesWithoutInactive();
             } else if (input.equals("rc")) {
                 // Aktion "Register Customer" gewählt
                 registerCustomer();
@@ -131,6 +134,18 @@ public class ClientRequestProcessor implements Runnable {
         sendArticlesToClient(articles);
     }
 
+    /**
+     * Method that sends all items to the customer client that are visible in the shop.
+     * WITHOUT Inactive
+     *
+     */
+    private void getAllArticlesWithoutInactive() {
+        ArrayList<Article> articles = null;
+        articles = eshop.getAllArticlesWithoutInactive();
+
+        sendArticlesToClient(articles);
+    }
+
     private void sendArticlesToClient(ArrayList<Article> articles) {
         // Anzahl der gefundenen Artikel senden
         out.println(articles.size());
@@ -154,6 +169,8 @@ public class ClientRequestProcessor implements Runnable {
         out.println(article.getPrice());
         // Quantity des Artikels senden
         out.println(article.getQuantityInStock());
+        // Status des Artikels senden
+        out.println(article.getStatus());
     }
 
     private void sentBulkArticleToClient(BulkArticle bulkArticle) {
@@ -165,6 +182,8 @@ public class ClientRequestProcessor implements Runnable {
         out.println(bulkArticle.getPrice());
         // Quantity des Artikels senden
         out.println(bulkArticle.getQuantityInStock());
+        // Status des Artikels senden
+        out.println(bulkArticle.getStatus());
         // PackSize des Artikels senden
         out.println(bulkArticle.getPackSize());
     }

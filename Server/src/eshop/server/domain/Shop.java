@@ -138,6 +138,17 @@ public class Shop {
 		return articleAdministration.getArticleStock();
 	}
 
+	/**
+	 * Method that gets all stock articles which are active.
+	 * @return List of all active items in the shop stock
+	 */
+	public ArrayList<Article> getAllArticlesWithoutInactive() {
+		//Copy/clone of ArrayList "articles" without reference
+		ArrayList<Article> articles = new ArrayList<Article>(articleAdministration.getArticleStock());
+		articles.removeIf(article -> article.getStatus().equals(ArticleStatus.INACTIVE));
+		return articles;
+	}
+
 
 	/**
 	 * Method to search items by item name. There will be a list of items returned,
@@ -190,7 +201,7 @@ public class Shop {
 			article = new Article(articleTitle, quantityInStock, price);
 		}
 		articleAdministration.insertArticle(article);
-		writeArticleDataToAddArticle();
+		writeArticleDataToInsertArticle();
 		// Ereignis für die Einlagerung in ArrayList schreiben
 		Event event = new Event(Event.EventType.NEU, article, quantityInStock, user);
 		eventAdministration.addEvent(event);
@@ -199,43 +210,26 @@ public class Shop {
 		return article;
 	}
 
-	public void writeArticleDataToAddArticle() throws IOException {
+	public void writeArticleDataToInsertArticle() throws IOException {
 		articleAdministration.writeData("ESHOP_Article.txt");
 	}
 
 
 	/**
-	 * Method of deleting an item from inventory. Only the first occurrence of the article will be deleted.
+	 * Method of deleting or better deactivating an item from inventory.
 	 *
-	 * @param number of the Article which should be deleted
+	 * @param number of the Article which should be deactivated
 	 * @param user for writing him into the event file
-	 *
-	 * Info @Teschke:
-	 * Hier kam es bei den Events manchmal zu einer NUllPointerException und ich konnte den Fehler nicht finden, weshalb ich den Code für Events auskommentiert habe.
-	 * Ich habe mich erst eingeloggt. Dann einen Artikel gelöscht und mich dann wieder ausgeloggt.
-	 * Beim zweiten Mal einloggen habe ich dann einen anderen Artikel gelöscht und dann trat die Exception auf.
-	 * Debugger hat mir bis zu Zeile 146 angezeigt dass er den Artikel findet...
 	 */
 	public void deleteArticle(int number, User user) throws IOException, ArticleNotFoundException {
 		Article article = articleAdministration.searchByArticleNumber(number);
 		articleAdministration.delete(article);
-		writeArticleDataToRemoveArticle("ESHOP_Article.txt", article);
-//		// Ereignis für die Einlagerung in ArrayList schreiben
-//		Event event = new Event(Event.EventType.AUSLAGERUNG, article, 0, user);
-//		eventAdministration.addEvent(event);
-//		// Ereignis für die Einlagerung in File schreiben
-//		eventAdministration.writeData("ESHOP_Events.txt");
-	}
-
-	/**
-	 * Method that deletes an article from stock
-	 *
-	 * @param file ESHOP_Article.txt
-	 * @param articleToRemove article to remove from stock
-	 * @throws IOException
-	 */
-	public void writeArticleDataToRemoveArticle(String file, Article articleToRemove) throws IOException {
-		articleAdministration.writeDataToRemoveArticle(file, articleToRemove);
+		articleAdministration.writeData("ESHOP_Article.txt");
+		// Ereignis für die Einlagerung in ArrayList schreiben
+		Event event = new Event(Event.EventType.AUSLAGERUNG, article, 0, user);
+		eventAdministration.addEvent(event);
+		// Ereignis für die Einlagerung in File schreiben
+		eventAdministration.writeData("ESHOP_Events.txt");
 	}
 
 
@@ -377,14 +371,14 @@ public class Shop {
 		List<ShoppingCartItem> shoppingCartItems = customerAdministration.getUsersShoppingCart(customer);
 
 		if (shoppingCartItems != null && shoppingCartItems.size() > 0) {
+			StringBuilder sb = new StringBuilder("In your shopping cart are the following items:\n");
 			for (ShoppingCartItem item : shoppingCartItems) {
-				//Artikel auf der Konsole ausgegeben.
-				return "In your shopping cart are the following items: \n" + item.toString();
+				sb.append(item.toString()).append("\n");
 			}
+			return sb.toString();
 		} else {
 			throw new EmptyCartException(null);
 		}
-		return null;
 	}
 
 

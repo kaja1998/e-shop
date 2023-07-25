@@ -18,6 +18,13 @@ public interface ShopInterface {
 
 
     /**
+     * Method that returns a list of all items in inventory without showing the ones which are INACTIVE
+     * @return List of all items in the shop stock without showing the ones which are INACTIVE
+     */
+    ArrayList<Article> getAllArticlesWithoutInactive();
+
+
+    /**
      * Method to register a new customer
      * @param name etc. of the Customer
      * @throws RegisterException

@@ -148,7 +148,7 @@ public class EshopClientCUI {
 		switch (line) {
 		// Output articles
 		case "a":
-			articleList = eshop.getAllArticles();
+			articleList = eshop.getAllArticlesWithoutInactive();
 			printArticleList(articleList);
 			break;
 		// Add to SC
@@ -453,11 +453,11 @@ public class EshopClientCUI {
 //				boolean success = true;
 //				try {
 //					success = eshop.decreaseArticleStock(article, (-1) * stockChange, loggedinUser);
+// 					if (success) {
+//						System.out.println("Successfully decreased article's stock.");
+//					}
 //				} catch (StockDecreaseException s){
 //					System.out.println("\n" + s.getMessage() + "\n");
-//				}
-//				if (success) {
-//					System.out.println("Successfully decreased article's stock.");
 //				}
 //			} else {
 //				eshop.increaseArticleStock(article, stockChange, loggedinUser);
