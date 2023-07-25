@@ -35,8 +35,6 @@ public interface PersistenceManager {
 
 	public boolean writeArticles(ArrayList<Article> existingArticles) throws IOException;
 
-	public boolean deleteArticle(Article articleToDelete, ArrayList<Article> existingArticles) throws IOException;
-
 
 	/**
 	 * Method for reading in the customer data from an external data source.

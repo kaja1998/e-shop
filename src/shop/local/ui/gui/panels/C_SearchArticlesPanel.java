@@ -80,7 +80,7 @@ public class C_SearchArticlesPanel extends JPanel {
         // Überprüfen, ob das Suchfeld leer ist
         if (suchbegriff.isEmpty()) {
             // Wenn das Suchfeld leer ist, alle Artikel abrufen
-            suchErgebnis = eshop.getAllArticles();
+            suchErgebnis = eshop.getAllArticlesWithoutInactive();
         } else {
             // Wenn ein Suchbegriff eingegeben wurde
             try {

@@ -83,14 +83,15 @@ public class FilePersistenceManager implements PersistenceManager {
 			String title = splitted[1];
 			int quantityInStockNumber = Integer.parseInt(splitted[2]);
 			double price = Double.parseDouble(splitted[3]);
+			ArticleStatus status = ArticleStatus.fromString(splitted[4]);
 
-			if (splitted.length > 4) {
+			if (splitted.length > 5) {
 				// It's a BulkArticle, read the pack size
-				int packSize = Integer.parseInt(splitted[4]);
-				return new BulkArticle(id, title, quantityInStockNumber, price, packSize);
+				int packSize = Integer.parseInt(splitted[5]);
+				return new BulkArticle(id, title, quantityInStockNumber, price, packSize, status);
 			} else {
 				// It's a regular Article
-				return new Article(id, title, quantityInStockNumber, price);
+				return new Article(id, title, quantityInStockNumber, price, status);
 			}
 		}
 	}
@@ -108,37 +109,14 @@ public class FilePersistenceManager implements PersistenceManager {
 		return true;
 	}
 
-	/**
-	 * Method for writing item data to an external data source.
-	 *
-	 * @return true if write is successful, false otherwise
-	 */
-	public boolean deleteArticle(Article articleToDelete, ArrayList<Article> existingArticles) {
-		//Erstelle eine neue ArrayList für die Artikel die behalten werden sollen
-		ArrayList<Article> articlesToKeep = new ArrayList<>();
-
-		// check all existing articles in List
-		for (Article currentArticle : existingArticles) {
-			// check if the article who should be deleted is in list
-			if (currentArticle.getNumber() != articleToDelete.getNumber()) {
-				articlesToKeep.add(currentArticle);
-			}
-		}
-		//weite articles to keep in file
-		for(Article article : articlesToKeep) {
-			this.writeArticleToFile(article);
-		}
-		return true;
-	}
-
 
 	public boolean writeArticleToFile(Article article) {
 		if (article instanceof BulkArticle){
-			String bulkArticleString = article.getNumber() + ";" + article.getArticleTitle() + ";" + article.getQuantityInStock() + ";" + article.getPrice()  + ";" + ((BulkArticle) article).getPackSize();
+			String bulkArticleString = article.getNumber() + ";" + article.getArticleTitle() + ";" + article.getQuantityInStock() + ";" + article.getPrice() + ";" + article.getStatus() + ";" + ((BulkArticle) article).getPackSize();
 			writeLine(bulkArticleString);
 			return true;
 		} else {
-			String articleString = article.getNumber() + ";" + article.getArticleTitle() + ";" + article.getQuantityInStock() + ";" + article.getPrice();
+			String articleString = article.getNumber() + ";" + article.getArticleTitle() + ";" + article.getQuantityInStock() + ";" + article.getPrice() + ";" + article.getStatus();
 			writeLine(articleString);
 			return true;
 		}

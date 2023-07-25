@@ -15,6 +15,7 @@ public class Article {
 	private boolean inStock;
 	private double price;
 	private static int idCounter = 0;
+	private ArticleStatus status;
 
 	//Konstruktor, wenn ich den Artikel anlege
 	public Article(String articleTitle, int quantityInStock, double price) {
@@ -24,16 +25,18 @@ public class Article {
 		this.quantityInStock = quantityInStock;
 		this.inStock = quantityInStock > 0;
 		this.price = price;
+		this.status = ArticleStatus.fromString("Active");
 	}
 
 	//Konstruktor, wenn Artikel aus Datei auslesen wird
-	public Article(int number, String articleTitle, int quantityInStock, double price) {
+	public Article(int number, String articleTitle, int quantityInStock, double price, ArticleStatus status) {
 		this.idCounter = number;
 		this.number = idCounter;
 		this.articleTitle = articleTitle;
 		this.quantityInStock = quantityInStock;
 		this.inStock = quantityInStock > 0;
 		this.price = price;
+		this.status = status;
 	}
 
 	// --- Dienste der Artikel-Objekte ---
@@ -97,6 +100,16 @@ public class Article {
 		return price;
 	}
 
+	public ArticleStatus getStatus() {
+		return status;
+	}
+	public void setInStock(boolean inStock) {
+		this.inStock = inStock;
+	}
+	public void setStatus(ArticleStatus status) {
+		this.status = status;
+	}
+
 
 	public void increaseStock(int quantityToAdd) {
 		// stock up
@@ -119,7 +132,7 @@ public class Article {
 		this.quantityInStock -= quantityToRetrieve;
 
 		// check if article is out of stock now
-		if(this.quantityInStock < 0) {
+		if(this.quantityInStock <= 0) {
 			this.inStock = false;
 		}
 
@@ -138,7 +151,7 @@ public class Article {
 		this.quantityInStock -= quantityToRetrieve;
 
 		// check if article is out of stock now
-		if(this.quantityInStock < 0) {
+		if(this.quantityInStock <= 0) {
 			this.inStock = false;
 		}
 

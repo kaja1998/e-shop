@@ -10,7 +10,7 @@ import java.util.List;
 public class E_ArticleTableModel extends AbstractTableModel  {
 
     private List<Article> articles;
-    private String[] spaltenNamen = { "Number", "Title", "Price", "Quantity", "Pack size"};
+    private String[] spaltenNamen = { "Number", "Title", "Price", "Quantity", "Pack size", "Status"};
 
     
     public E_ArticleTableModel(List<Article> aktuelleArticles) {
@@ -71,6 +71,8 @@ public class E_ArticleTableModel extends AbstractTableModel  {
                 } else {
                     return null;
                 }
+            case 5:
+                return chosenArticle.getStatus();
             default:
                 return null;
         }
