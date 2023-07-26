@@ -40,13 +40,9 @@ public class C_CardLayoutPanel extends JPanel {
 
         // Ansicht "Change CartItem Quantity"
         C_ChangeArticleQuantityInCartPanel changeArticleQuantityPanel = new C_ChangeArticleQuantityInCartPanel(eshop, user, changeCartItemQuantityListener);
-        cardPanel.add(changeArticleQuantityPanel, "change");
-        cardLayout.addLayoutComponent(changeArticleQuantityPanel, "change");
 
         // Ansicht "Remove Article from Cart"
         C_RemoveArticleFromCartPanel removeArticleFromCartPanel = new C_RemoveArticleFromCartPanel(eshop, user, removeCartItemFromCartListener);
-        cardPanel.add(removeArticleFromCartPanel, "remove");
-        cardLayout.addLayoutComponent(removeArticleFromCartPanel, "remove");
 
         // Hinzufügen der Ansichten zum Karten-Panel
         cardPanel.add(changeArticleQuantityPanel, "change");

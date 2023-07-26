@@ -15,7 +15,7 @@ public class C_CartItemsTableModel extends AbstractTableModel {
     public C_CartItemsTableModel(List<ShoppingCartItem> currentCartItems) {
         super();
         // Ich erstelle eine Kopie der CartItemsliste,
-        // damit beim Aktualisieren (siehe Methode setArticles())
+        // damit beim Aktualisieren (siehe Methode setCartItems())
         // keine unerwarteten Seiteneffekte entstehen.
         cartItems = new ArrayList<>();
         cartItems.addAll(currentCartItems);

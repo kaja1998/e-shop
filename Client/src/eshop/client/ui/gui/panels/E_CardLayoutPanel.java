@@ -46,23 +46,15 @@ public class E_CardLayoutPanel extends JPanel{
 
         // Ansicht "Delete Article"
         E_DeleteArticlePanel deleteArticlePanelEmployee = new E_DeleteArticlePanel(eshop, deleteArticleListener, user);
-        cardPanel.add(deleteArticlePanelEmployee, "delete");
-        cardLayout.addLayoutComponent(deleteArticlePanelEmployee, "delete");
 
         // Ansicht "Manage Stock of an Article"
         E_ManageArticleStockPanel manageArticleStockPanelEmployee = new E_ManageArticleStockPanel(eshop, manageArticleListener, user);
-        cardPanel.add(manageArticleStockPanelEmployee, "manage");
-        cardLayout.addLayoutComponent(manageArticleStockPanelEmployee, "manage");
 
         // Ansicht "Add Article"
         E_AddArticlePanel addArticlePanelEmployee = new E_AddArticlePanel(eshop, addArticleListener, user);
-        cardPanel.add(addArticlePanelEmployee, "add");
-        cardLayout.addLayoutComponent(addArticlePanelEmployee, "add");
 
         // Ansicht "Register new Employee"
         E_RegisterNewEmployeePanel registerNewEmployeePanelEmployee = new E_RegisterNewEmployeePanel(eshop);
-        cardPanel.add(registerNewEmployeePanelEmployee, "new");
-        cardLayout.addLayoutComponent(registerNewEmployeePanelEmployee, "new");
 
         // Hinzufügen der Ansichten zum Karten-Panel
         cardPanel.add(deleteArticlePanelEmployee, "delete");
