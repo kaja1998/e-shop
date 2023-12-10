@@ -7,6 +7,10 @@ import shop.local.domain.CustomerAdministration;
 import shop.local.domain.EmployeeAdministration;
 import shop.local.entities.*;
 
+/**
+ * @author Sund
+ */
+
 public class DBPersistenceManager implements PersistenceManager {
 
 
@@ -38,22 +42,9 @@ public class DBPersistenceManager implements PersistenceManager {
 	}
 
 	@Override
-	public boolean addArticles(Article articleToAdd, ArrayList<Article> existingArticles) throws IOException {
+	public boolean writeArticles(ArrayList<Article> existingArticles) throws IOException {
 		return false;
 	}
-
-
-
-	@Override
-	public boolean deleteArticle(Article article, ArrayList<Article> existingArticles) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-//	public boolean deleteArticle(ArticleList existingArticles) throws IOException {
-//		// TODO Auto-generated method stub
-//		return false;
-//	}
 
 
 
@@ -61,6 +52,7 @@ public class DBPersistenceManager implements PersistenceManager {
 	public boolean saveCustomer(Customer customer, List<Customer> existingCustomers) {
 		return false;
 	}
+
 
 	@Override
 	public Customer loadCustomer() {

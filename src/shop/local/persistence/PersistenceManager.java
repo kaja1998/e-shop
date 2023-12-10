@@ -33,9 +33,7 @@ public interface PersistenceManager {
 	 */
 	public Article readArticle() throws IOException;
 
-	public boolean addArticles(Article articleToAdd, ArrayList<Article> existingArticles) throws IOException;
-
-	public boolean deleteArticle(Article articleToDelete, ArrayList<Article> existingArticles) throws IOException;
+	public boolean writeArticles(ArrayList<Article> existingArticles) throws IOException;
 
 
 	/**

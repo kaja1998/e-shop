@@ -1,8 +1,9 @@
 package shop.local.entities;
 
+import shop.local.domain.exceptions.StockDecreaseException;
+
 /**
  * Class for representing individual articles.
- * 
  * @author Sund
  */
 public class Article {
@@ -14,6 +15,7 @@ public class Article {
 	private boolean inStock;
 	private double price;
 	private static int idCounter = 0;
+	private ArticleStatus status;
 
 	//Konstruktor, wenn ich den Artikel anlege
 	public Article(String articleTitle, int quantityInStock, double price) {
@@ -23,16 +25,18 @@ public class Article {
 		this.quantityInStock = quantityInStock;
 		this.inStock = quantityInStock > 0;
 		this.price = price;
+		this.status = ArticleStatus.fromString("Active");
 	}
 
 	//Konstruktor, wenn Artikel aus Datei auslesen wird
-	public Article(int number, String articleTitle, int quantityInStock, double price) {
+	public Article(int number, String articleTitle, int quantityInStock, double price, ArticleStatus status) {
 		this.idCounter = number;
 		this.number = idCounter;
 		this.articleTitle = articleTitle;
 		this.quantityInStock = quantityInStock;
 		this.inStock = quantityInStock > 0;
 		this.price = price;
+		this.status = status;
 	}
 
 	// --- Dienste der Artikel-Objekte ---
@@ -50,6 +54,10 @@ public class Article {
 		return ("Number: " + number + " / Price EUR " + price + " / Article title: " + articleTitle + " / Quantity " + quantityInStock + " (" + availability + ")");
 	}
 
+	public String articleString(){
+		return number + "," + price + "," + articleTitle + "," + quantityInStock;
+	}
+
 	/**
 	 * Overridden Object's default method.
 	 * Method is used to compare two item objects based on their values,
@@ -59,14 +67,14 @@ public class Article {
 	 */
 	@Override
 	public boolean equals(Object otherArticle) {
-		if (otherArticle instanceof Article)
-			return ((this.number == ((Article) otherArticle).number));
-		else if (otherArticle instanceof ShoppingCartItem)
-			return ((this.number == ((ShoppingCartItem) otherArticle).getArticle().getNumber()));
-		else
+		if (otherArticle instanceof Article) {
+			return this.articleTitle.equals(((Article) otherArticle).articleTitle);
+		} else if (otherArticle instanceof ShoppingCartItem) {
+			return this.articleTitle.equals(((ShoppingCartItem) otherArticle).getArticle().getArticleTitle());
+		} else {
 			return false;
+		}
 	}
-
 
 	/*
 	 * From here Accessor-Methoden
@@ -79,9 +87,6 @@ public class Article {
 		return articleTitle;
 	}
 
-	public boolean isInStock() {
-		return inStock;
-	}
 
 	public int getQuantityInStock() {
 		return quantityInStock;
@@ -95,9 +100,16 @@ public class Article {
 		return price;
 	}
 
-	public void setPrice(double price) {
-		this.price = price;
+	public ArticleStatus getStatus() {
+		return status;
 	}
+	public void setInStock(boolean inStock) {
+		this.inStock = inStock;
+	}
+	public void setStatus(ArticleStatus status) {
+		this.status = status;
+	}
+
 
 	public void increaseStock(int quantityToAdd) {
 		// stock up
@@ -109,7 +121,26 @@ public class Article {
 		}
 	}
 
-	public boolean decreaseStock(int quantityToRetrieve) {
+	public boolean decreaseStock(int quantityToRetrieve) throws StockDecreaseException {
+		// check if quantity can be retrieved
+		if(quantityToRetrieve > this.quantityInStock) {
+			throw new StockDecreaseException("Insufficient quantity in stock.");
+		}
+
+		// retrieve stock
+		//Wenn die angegebene Menge kleiner oder gleich dem Lagerbestand ist, wird die Menge vom Lagerbestand abgezogen, um die Entnahme zu simulieren.
+		this.quantityInStock -= quantityToRetrieve;
+
+		// check if article is out of stock now
+		if(this.quantityInStock <= 0) {
+			this.inStock = false;
+		}
+
+		// if we came until here, stock was decreased successfully
+		return true;
+	}
+
+	public boolean decreaseStockWhileBuy(int quantityToRetrieve) {
 		// check if quantity can be retrieved
 		if(quantityToRetrieve > this.quantityInStock) {
 			return false;
@@ -120,21 +151,11 @@ public class Article {
 		this.quantityInStock -= quantityToRetrieve;
 
 		// check if article is out of stock now
-		if(this.quantityInStock < 0) {
+		if(this.quantityInStock <= 0) {
 			this.inStock = false;
 		}
 
 		// if we came until here, stock was decreased successfully
 		return true;
 	}
-
-	public void setNumber(int number) {
-		this.number = number;
-	}
-
-	public String articleString(){
-		return number + "," + price + "," + articleTitle + "," + quantityInStock;
-	}
-
-
 }

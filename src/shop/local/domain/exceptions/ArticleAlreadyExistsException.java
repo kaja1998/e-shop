@@ -4,22 +4,25 @@ import shop.local.entities.Article;
 
 /**
  * Exception to show that an article already exists
- * 
- * @author teschke
+ * @author Sund
  */
+@SuppressWarnings("serial")
 public class ArticleAlreadyExistsException extends Exception {
 
 	private Article article;
-	
-	/**
-	 * Konstruktor
-	 * 
-	 * @param article the already existing article
-	 * @param additionalMessage additional text for the error message
-	 */
-	public ArticleAlreadyExistsException(Article article, String additionalMessage) {
-		super("Article with the name " + article.getArticleTitle() + " and number " + " already exists" + additionalMessage);
-		this.article = article;
+
+	public ArticleAlreadyExistsException(Article newArticle, Article conflictingArticle, String additionalMessage) {
+		super(buildErrorMessage(newArticle, conflictingArticle, additionalMessage));
+		this.article = newArticle;
+	}
+
+	private static String buildErrorMessage(Article article,  Article conflictingArticle, String additionalMessage) {
+		StringBuilder errorMessage = new StringBuilder();
+		errorMessage.append("Article " + article.getArticleTitle() + " conflicts with article number " + conflictingArticle.getNumber() + " .");
+		if (additionalMessage != null) {
+			errorMessage.append(additionalMessage);
+		}
+		return errorMessage.toString();
 	}
 
 	public Article getArticle() {

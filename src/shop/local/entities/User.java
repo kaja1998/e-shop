@@ -1,6 +1,11 @@
 package shop.local.entities;
 import java.util.Random;
 
+/**
+ * Class to represent users.
+ * @author Sund
+ */
+
 public abstract class User {
 
         private String name = null;
@@ -33,10 +38,6 @@ public abstract class User {
 
         public String getLastName() { return lastName; }
 
-        public void setLastName(String lastName) {
-                this.lastName = lastName;
-        }
-
         public String getUsername() {
                 return userName;
         }
@@ -48,8 +49,6 @@ public abstract class User {
         public String getPassword() {
                 return password;
         }
-
-        public void setPassword(String password) { this.password = password;  }
 
         public int getId() {
                 return Id;

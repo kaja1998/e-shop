@@ -3,10 +3,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Event class
+ * @author Sund
+ */
+
 public class Event {
 
     public enum EventType { NEU, KAUF, AUSLAGERUNG, EINLAGERUNG };
-
 
     private EventType eventType;
     private Date date;
@@ -28,6 +32,12 @@ public class Event {
         this.article = article;
         this.quantity = quantity;
         this.user = user;
+    }
+
+    //Konstruktor für showHistory
+    public Event(Date eventDate, int stock) {
+        this.date = eventDate;
+        this.quantity = stock;
     }
 
     //Konstruktor zum Lesen aus der Datei
@@ -59,6 +69,10 @@ public class Event {
         return dateFormat.format(date);
     }
 
+    public Date getDate(){
+        return this.date;
+    }
+
     public Article getArticle() {
         return article;
     }
@@ -67,10 +81,6 @@ public class Event {
         return quantity;
     }
 
-//    public User getUser() {
-//        return user;
-//    }
-
     @Override
     public String toString() {
        return "Typ: " + eventType.ordinal() + "\n" + "Date: " + getFormattedDate() + "\n" + "Article: " + getArticle() + "\n" +  "quantity-change: " + getQuantity()  + "\n" + "User " + getUser()  + "\n" + "-----------------------------";
@@ -78,6 +88,12 @@ public class Event {
 
     public String toFileString(){
         return user.getId() + ";" + article.getNumber() + ";" + quantity + ";" + getFormattedDate() + ";" + eventType.ordinal();
+    }
+
+    public String toStringHistory() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = dateFormat.format(date);
+        return "Date: " + formattedDate + ", Stock quantity: " + quantity;
     }
 
 

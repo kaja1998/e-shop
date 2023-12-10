@@ -1,15 +1,24 @@
 //Definiert eine neue Java-Package mit dem Namen "bib.local.domain".
 //Eine Package in Java ist eine Möglichkeit, Klassen logisch zu organisieren und zu strukturieren.
 package shop.local.domain;
+import shop.local.domain.exceptions.LoginException;
+import shop.local.domain.exceptions.RegisterException;
 import shop.local.entities.Customer;
 import shop.local.entities.ShoppingCartItem;
 import shop.local.persistence.FilePersistenceManager;
 import shop.local.persistence.PersistenceManager;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class for customer administration
+ * @author Sund
+ */
+
 public class CustomerAdministration {
+	
 
         // Es wird eine private Instanzvariable (Variablen des Objekts) namens kunden deklariert. Die Instanzvariable ist vom Typ ArrayList<Kunde>.
         // Das bedeutet, dass sie eine ArrayList von Kunde-Objekten enthält. Der Liste können Elemente hinzugefügt oder entfernt werden.
@@ -55,7 +64,7 @@ public class CustomerAdministration {
                 persistenceManager.close();
         }
 
-        public Customer login (String userName, String password) {
+        public Customer login (String userName, String password) throws LoginException {
                 //Die Methode durchläuft eine Schleife über eine Liste von Kundenobjekten.
                 //In jeder Iteration wird überprüft, ob der Benutzername (userName) und das Passwort (password)
                 //mit den entsprechenden Werten des aktuellen Kundenobjekts übereinstimmen.
@@ -64,8 +73,7 @@ public class CustomerAdministration {
                                 return user;
                         }
                 }
-                // TODO: Exception werfen
-                return null;
+                throw new LoginException(null);
         }
 
         // Adds customer objects from file to ArrayList
@@ -82,10 +90,6 @@ public class CustomerAdministration {
                 return customers;
         }
 
-        public void setCustomers(ArrayList<Customer> customers) {
-                this.customers = customers;
-        }
-
         public Customer getUserByID(int id){
                 for (Customer customer : customers) {
                         if(id == customer.getId()){
@@ -94,6 +98,34 @@ public class CustomerAdministration {
                 }
                 return null;
         }
+        
+        public String registerCustomer(String name, String lastName, String street, int postalCode, String city, String mail, String username, String password, String registerNow) throws RegisterException {
+        	String message = "";
+        	
+    		//Check if registration wants to do
+    		if (registerNow.equals("yes")) {
+    			//Erstelle Variable vom Typ Kunde und übergebe die Eingaben des Kunden an den Konstruktor
+    			Customer customer = new Customer(name, lastName, street, postalCode, city, mail, username, password);
 
+                boolean customerAlreadyExists = false;
+                for (Customer currentCustomer : customers) {
+                    if (customer.equals(currentCustomer)) {
+                        customerAlreadyExists = true;
+                    }
+                }
 
+    			if (!customerAlreadyExists) {
+    				try {
+                        writeData("ESHOP_Customer.txt", customer);
+    				} catch (IOException e) {
+    					e.printStackTrace();
+    				}
+                    addCustomer(customer);
+                    message = "Registration successful.";
+    			} else {
+    				throw new RegisterException(customer, "A User with this Name already exist. Please choose another one.");
+    			}
+    		}
+                return message;
+        }
 }
